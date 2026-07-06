@@ -27,13 +27,25 @@ export default function Home() {
           justifyContent: 'space-between',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontSize: '28px' }}>🌾</span>
+            {/* Logo placeholder — reemplazar con imagen generada */}
+            <div style={{
+              width: '36px', height: '36px',
+              backgroundColor: '#1a5c2a',
+              borderRadius: '8px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '20px'
+            }}>🌾</div>
             <div>
-              <h1 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', margin: 0 }}>
-                Monitor Agrícola Perú
-              </h1>
-              <p style={{ fontSize: '12px', color: '#9ca3af', margin: 0 }}>
-                Riesgo de mala cosecha por región y cultivo
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#1a5c2a', margin: 0, letterSpacing: '-0.5px' }}>
+                  Agro
+                </h1>
+                <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#d4a017', margin: 0, letterSpacing: '-0.5px' }}>
+                  Signal
+                </h1>
+              </div>
+              <p style={{ fontSize: '11px', color: '#9ca3af', margin: 0, letterSpacing: '0.02em' }}>
+                Anticipa la cosecha, asegura tu negocio
               </p>
             </div>
           </div>
@@ -53,6 +65,29 @@ export default function Home() {
         flexDirection: 'column',
         gap: '24px',
       }}>
+
+        {/* Tagline */}
+        <div style={{
+          backgroundColor: '#1a5c2a',
+          borderRadius: '16px',
+          padding: '24px 32px',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+          <div>
+            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#fff', margin: '0 0 4px 0' }}>
+              Monitor de Riesgo Agrícola — Perú {new Date().getFullYear()}
+            </h2>
+            <p style={{ fontSize: '13px', color: '#86efac', margin: 0 }}>
+              Detecta años con riesgo de mala cosecha antes de que ocurran · 25 regiones · 28 cultivos
+            </p>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: '12px', color: '#86efac' }}>Modelo</div>
+            <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Random Forest · NASA POWER · FAOSTAT</div>
+          </div>
+        </div>
 
         <StatsCards data={riesgo} />
 
@@ -106,14 +141,15 @@ export default function Home() {
           color: '#9ca3af',
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span>Fuentes:</span>
-            <span style={{ fontWeight: 600, color: '#6b7280' }}>NASA POWER</span>
+            <span style={{ fontWeight: 700, color: '#1a5c2a' }}>AgroSignal</span>
             <span>·</span>
-            <span style={{ fontWeight: 600, color: '#6b7280' }}>FAOSTAT</span>
+            <span>NASA POWER</span>
             <span>·</span>
-            <span style={{ fontWeight: 600, color: '#6b7280' }}>MINAGRI Perú</span>
+            <span>FAOSTAT</span>
+            <span>·</span>
+            <span>MINAGRI Perú</span>
           </div>
-          <div>Actualizado mensualmente · Modelo Random Forest</div>
+          <div>Actualizado mensualmente · © {new Date().getFullYear()} AgroSignal</div>
         </div>
       </footer>
 

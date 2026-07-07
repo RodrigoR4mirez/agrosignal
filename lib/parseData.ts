@@ -6,7 +6,7 @@ export interface RiesgoData {
   Cultivo: string
   Region: string
   'Riesgo_%': number
-  Nivel: 'ALTO' | 'MEDIO' | 'BAJO'
+  Nivel: 'ALTO' | 'MEDIO' | 'BAJO' | 'N/D'
   Media_historica_ton: number
 }
 

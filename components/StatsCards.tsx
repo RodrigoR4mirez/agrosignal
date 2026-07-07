@@ -4,7 +4,7 @@ export default function StatsCards({ data }: { data: RiesgoData[] }) {
   const alto = data.filter(d => d.Nivel === 'ALTO').length
   const medio = data.filter(d => d.Nivel === 'MEDIO').length
   const bajo = data.filter(d => d.Nivel === 'BAJO').length
-  const total = data.length
+  const total = data.filter(d => d.Nivel !== 'N/D').length
 
   const cards = [
     {

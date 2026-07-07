@@ -80,7 +80,7 @@ export default function Home() {
               Monitor de Riesgo Agrícola — Perú {new Date().getFullYear()}
             </h2>
             <p style={{ fontSize: '13px', color: '#86efac', margin: 0 }}>
-              Detecta años con riesgo de mala cosecha antes de que ocurran · 25 regiones · 28 cultivos
+              Detecta años con riesgo de mala cosecha antes de que ocurran · 25 regiones · 30 cultivos
             </p>
           </div>
           <div style={{ textAlign: 'right' }}>

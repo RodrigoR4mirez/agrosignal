@@ -83,6 +83,13 @@ Abre `http://localhost:3000`
 
 ## 🗓️ Historial de versiones
 
+### v1.2.0 — Fixes y tabla completa _(julio 2026)_
+
+- Dashboard muestra los **30 cultivos** en la tabla: 16 con predicción ML activa y 14 con badge N/D
+- Corregidos 3 bugs en `detector_riesgo.py`: Papaya sin región asignada, año de clima hardcodeado en 2024, nombre de columna incorrecto
+- `actualizar.py` sincronizado con todos los cambios del pipeline
+- Banner actualizado a 30 cultivos; entorno virtual corregido en CLAUDE.md
+
 ### v1.1.0 — Expansión de cultivos _(julio 2026)_
 
 - Investigación sistemática de 22 cultivos andinos y amazónicos adicionales contra FAOSTAT y MINAGRI

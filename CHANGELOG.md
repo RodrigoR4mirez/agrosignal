@@ -1,5 +1,21 @@
 # Changelog
 
+## [1.2.0] — 2026-07-07
+
+### Agregado
+- Dashboard muestra los 30 cultivos en la tabla: 16 con predicción ML y 14 con badge **N/D** (datos insuficientes para entrenar el modelo)
+- `data/fuentes.md`: trazabilidad de fuentes de datos, URLs y estado de consulta
+
+### Corregido
+- `detector_riesgo.py`: `Papaya → Loreto` faltaba en el dict de regiones — Papaya no aparecía en el dashboard aunque tenía modelo entrenado
+- `detector_riesgo.py`: predicción usaba clima hardcodeado de 2024 en vez del año actual (`date.today().year`) — causaba porcentajes incorrectos para Papaya y Palma aceitera
+- `detector_riesgo.py`: columna de salida `Produccion_media_ton` renombrada a `Media_historica_ton` para coincidir con la interfaz TypeScript
+- `actualizar.py`: sincronizado con todos los cambios de `detector_riesgo.py` (nuevos cultivos, región Papaya, clima año actual)
+- Banner del dashboard actualizado de 28 → 30 cultivos
+- Entorno virtual corregido: `~/agronomia-env` → `~/proyectos/agronomia`
+
+---
+
 ## [1.1.0] — 2026-07-07
 
 ### Agregado

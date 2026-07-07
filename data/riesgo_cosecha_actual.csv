@@ -1,16 +1,17 @@
 Cultivo,Region,Riesgo_%,Nivel,Media_historica_ton
-Mango,Piura,62.0,ALTO,407461
-Uva,Ica,25.0,BAJO,754542
-Palta,LaLibertad,24.0,BAJO,640507
-Arandano,LaLibertad,24.0,BAJO,161161
-Palma aceitera,Loreto,22.0,BAJO,1060689
-Mandarina,Junin,16.0,BAJO,521555
-Jengibre,Junin,11.0,BAJO,43648
-Pina,Junin,9.0,BAJO,544886
-Alcachofa,Ica,9.0,BAJO,116083
-Aceituna,Tacna,8.0,BAJO,22618
-Aji Rocoto,Arequipa,6.0,BAJO,177900
-Cafe,SanMartin,2.0,BAJO,340045
-Cacao,SanMartin,2.0,BAJO,141514
+Papaya,Loreto,68.0,ALTO,467
+Palma aceitera,Loreto,62.0,ALTO,1060689
+Mango,Piura,60.0,MEDIO,407461
+Mandarina,Junin,48.0,MEDIO,521555
+Jengibre,Junin,30.0,BAJO,43648
+Alcachofa,Ica,23.0,BAJO,116083
+Pina,Junin,21.0,BAJO,544886
+Cafe,SanMartin,20.0,BAJO,340045
+Cacao,SanMartin,20.0,BAJO,141514
+Palta,LaLibertad,17.0,BAJO,640507
+Arandano,LaLibertad,17.0,BAJO,161161
+Aceituna,Tacna,7.0,BAJO,22618
+Aji Rocoto,Arequipa,7.0,BAJO,177900
+Uva,Ica,6.0,BAJO,754542
 Cebolla,Arequipa,0.0,BAJO,632338
 Limon,Piura,0.0,BAJO,305705

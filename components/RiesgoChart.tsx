@@ -3,7 +3,9 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import { RiesgoData } from '@/lib/parseData'
 
 export default function RiesgoChart({ data }: { data: RiesgoData[] }) {
-  const sorted = [...data].sort((a, b) => b['Riesgo_%'] - a['Riesgo_%'])
+  const sorted = [...data]
+    .filter(d => d['Riesgo_%'] > 0)
+    .sort((a, b) => b['Riesgo_%'] - a['Riesgo_%'])
 
   const getColor = (nivel: string) => {
     if (nivel === 'ALTO') return '#EF4444'

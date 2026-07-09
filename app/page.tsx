@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { getRiesgoData } from '@/lib/parseData'
 import StatsCards from '@/components/StatsCards'
 import RiesgoChart from '@/components/RiesgoChart'
@@ -88,6 +89,33 @@ export default function Home() {
             <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Random Forest · NASA POWER · FAOSTAT</div>
           </div>
         </div>
+
+        {/* Banner: El Niño 2026-2027 */}
+        <Link href="/fenomeno-nino" style={{ textDecoration: 'none' }}>
+          <div style={{
+            backgroundColor: '#7c2d12',
+            borderRadius: '16px',
+            padding: '18px 32px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            flexWrap: 'wrap',
+            gap: '12px',
+            cursor: 'pointer',
+          }}>
+            <div>
+              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 2px 0' }}>
+                🌊 Alerta: El Niño 2026–2027 se perfila fuerte
+              </h3>
+              <p style={{ fontSize: '12.5px', color: '#fed7aa', margin: 0 }}>
+                63% de probabilidad de un evento "muy fuerte" (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa peruana
+              </p>
+            </div>
+            <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap' }}>
+              Ver pronóstico climático →
+            </span>
+          </div>
+        </Link>
 
         {/* Descargo de responsabilidad */}
         <div style={{

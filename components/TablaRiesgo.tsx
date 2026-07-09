@@ -2,7 +2,7 @@
 import { RiesgoData } from '@/lib/parseData'
 
 export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
-  const sorted = [...data].sort((a, b) => b['Riesgo_%'] - a['Riesgo_%'])
+  const sorted = [...data].sort((a, b) => (b['Riesgo_%'] ?? -1) - (a['Riesgo_%'] ?? -1))
 
   const badge = (nivel: string) => {
     if (nivel === 'ALTO') return 'bg-red-100 text-red-700 border border-red-200'
@@ -22,7 +22,7 @@ export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
               <th className="text-left py-2 px-3 text-gray-500 font-medium">Región</th>
               <th className="text-right py-2 px-3 text-gray-500 font-medium">Riesgo</th>
               <th className="text-center py-2 px-3 text-gray-500 font-medium">Nivel</th>
-              <th className="text-right py-2 px-3 text-gray-500 font-medium">Prod. media (ton)</th>
+              <th className="text-right py-2 px-3 text-gray-500 font-medium">Prod. media 2015–2024 (ton)</th>
             </tr>
           </thead>
           <tbody>
@@ -39,7 +39,7 @@ export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
                   </span>
                 </td>
                 <td className="py-2 px-3 text-right text-gray-600">
-                  {row.Media_historica_ton?.toLocaleString("en-US")}
+                  {row.Media_historica_ton ? row.Media_historica_ton.toLocaleString('en-US') : <span className="text-gray-300">—</span>}
                 </td>
               </tr>
             ))}

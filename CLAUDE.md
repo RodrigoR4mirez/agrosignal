@@ -26,7 +26,7 @@ actualizar.py  →  copiar_datos.sh  →  git push  →  Vercel redespliega
   - `descargar_todas_regiones.py` — descarga clima NASA POWER, 25 regiones
   - `descargar_produccion_historica.py` — descarga FAOSTAT
   - `cruzar_clima_produccion.py` — cruza clima + producción
-  - `detector_riesgo.py` — entrena Random Forest y calcula riesgo
+  - `detector_riesgo.py` — entrena Random Forest y calcula riesgo (v1.3.0: año dinámico; el pipeline valida el mapeo FAOSTAT antes de guardar)
   - `visualizar.py` — genera 4 gráficos PNG con matplotlib/seaborn, guardados
     directo en la carpeta de iCloud (mismo lugar que los CSVs, sin subcarpeta):
     - `grafico_temperatura_regiones.png` — barras horizontales, temp. media

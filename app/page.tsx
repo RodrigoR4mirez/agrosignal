@@ -89,6 +89,24 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Descargo de responsabilidad */}
+        <div style={{
+          backgroundColor: '#fffbeb',
+          border: '1px solid #fde68a',
+          borderRadius: '12px',
+          padding: '14px 20px',
+          fontSize: '12px',
+          color: '#92400e',
+          lineHeight: 1.6,
+        }}>
+          <strong>Aviso:</strong> AgroSignal es una herramienta experimental de código abierto.
+          Los niveles de riesgo son estimaciones estadísticas basadas en modelos entrenados con
+          datos anuales de FAOSTAT (2015 en adelante) y clima satelital NASA POWER de un punto
+          representativo por región. No constituyen asesoría comercial, financiera ni agronómica;
+          verifica siempre con fuentes oficiales (MIDAGRI/SENAMHI) antes de tomar decisiones.
+          Los cultivos marcados N/D no cuentan con predicción activa.
+        </div>
+
         <StatsCards data={riesgo} />
 
         <div style={{
@@ -102,7 +120,7 @@ export default function Home() {
             Riesgo de mala cosecha por cultivo
           </h2>
           <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0 0 20px 0' }}>
-            Basado en datos climáticos NASA POWER 2015–2025 y producción histórica FAOSTAT
+            Modelo entrenado con clima NASA POWER y producción FAOSTAT 2015–2024 · riesgo del año en curso calculado con los últimos 12 meses de clima
           </p>
           <RiesgoChart data={riesgo} />
         </div>

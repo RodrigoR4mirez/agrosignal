@@ -1,3 +1,22 @@
+## [1.3.0] — 2026-07-08
+
+### Corregido
+- **CRÍTICO — Papaya:** código FAOSTAT 526 correspondía a Apricots (albaricoques), no a papaya. Corregido a 600 (Papayas). Se retiró del dashboard la alerta ALTO 68% generada con datos del cultivo equivocado; queda N/D hasta regenerar el pipeline.
+- **CRÍTICO — Aceituna:** código FAOSTAT 568 correspondía a "Cantaloupes and other melons". Corregido a 260 (Olives). Se retiró la señal BAJO 7%, que contradecía la caída real del olivo peruano en 2024 (El Niño); queda N/D hasta regenerar.
+- `actualizar.py`: diccionario CULTIVOS sincronizado con el dashboard (agrega Jengibre 720 y Aji_Rocoto 401; retira Quinua/Cebada). El cron mensual ya no eliminará cultivos publicados.
+- `detector_riesgo.py`: año de predicción dinámico (estaba hardcodeado en 2024) y regiones de Papaya/Jengibre/Aji_Rocoto agregadas.
+- Sesgo de medio año: el riesgo del año en curso se calculaba sumando la lluvia de enero a la fecha contra modelos entrenados con totales anuales. Ahora usa los últimos 12 meses (ventana móvil, precipitación normalizada a 365 días).
+- Columna Media_historica_ton unificada a la ventana 2015–2024 para los 30 cultivos (antes mezclaba medias de 10 y 64 años en la misma tabla).
+
+### Agregado
+- Validación automática de mapeo cultivo↔ítem FAOSTAT en `actualizar.py` y `descargar_produccion_historica.py`: aborta la actualización si un código apunta a otro cultivo.
+- Descargo de responsabilidad visible en el dashboard (herramienta experimental, no asesoría).
+- Etiquetas de metodología precisas en la UI (ventana de entrenamiento, clima de últimos 12 meses).
+
+### Cambiado
+- Carpeta `svgs/` renombrada a `pipeline/`.
+- Filas con datos del cultivo equivocado retiradas de `produccion_peru_30cultivos_historico.csv` y `clima_vs_produccion.csv` hasta regenerar con los códigos correctos.
+
 # Changelog
 
 ## [1.2.0] — 2026-07-07

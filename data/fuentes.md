@@ -14,7 +14,7 @@
 - **URL bulk:** `https://bulks-faostat.fao.org/production/Production_Crops_Livestock_E_Americas.zip`
 - **Script:** `descargar_produccion_historica.py`
 - **Output:** `produccion_peru_30cultivos_historico.csv`
-- **Item codes usados:** ver script
+- **Item codes usados:** ver script. ⚠️ Corregidos en v1.3.0: Papaya 526→600, Aceituna 568→260; agregados Jengibre 720 y Aji_Rocoto 401. El pipeline valida ahora que cada código corresponda al cultivo esperado antes de guardar.
 
 ## Fuentes consultadas sin resultado
 

@@ -1,31 +1,31 @@
 Cultivo,Region,Riesgo_%,Nivel,Media_historica_ton
-Papaya,Loreto,68.0,ALTO,467
-Palma aceitera,Loreto,62.0,ALTO,1060689
-Mango,Piura,60.0,MEDIO,407461
-Mandarina,Junin,48.0,MEDIO,521555
-Jengibre,Junin,30.0,BAJO,43648
-Alcachofa,Ica,23.0,BAJO,116083
-Pina,Junin,21.0,BAJO,544886
-Cafe,SanMartin,20.0,BAJO,340045
-Cacao,SanMartin,20.0,BAJO,141514
-Palta,LaLibertad,17.0,BAJO,640507
-Arandano,LaLibertad,17.0,BAJO,161161
-Aceituna,Tacna,7.0,BAJO,22618
-Aji Rocoto,Arequipa,7.0,BAJO,177900
-Uva,Ica,6.0,BAJO,754542
-Cebolla,Arequipa,0.0,BAJO,632338
-Limon,Piura,0.0,BAJO,305705
-Arroz,SanMartin,,N/D,1573443
-Camote,Lima,,N/D,197081
-Cana azucar,LaLibertad,,N/D,8760250
-Esparrago,LaLibertad,,N/D,143567
-Frijol,Cajamarca,,N/D,66624
-Haba,Junin,,N/D,41921
-Maiz,LaLibertad,,N/D,990785
-Maiz choclo,Lima,,N/D,249057
-Naranja,Junin,,N/D,275499
-Papa,Puno,,N/D,2749419
-Platano,Loreto,,N/D,2186076
-Tomate,Lima,,N/D,136202
-Trigo,Junin,,N/D,153725
-Yuca,Loreto,,N/D,753980
+Palma aceitera,Loreto,65.0,ALTO,1060689.0
+Palta,LaLibertad,60.0,MEDIO,640507.0
+Arandano,LaLibertad,60.0,MEDIO,161161.0
+Cafe,SanMartin,50.0,MEDIO,340045.0
+Cacao,SanMartin,50.0,MEDIO,141514.0
+Mandarina,Junin,47.0,MEDIO,521555.0
+Uva,Ica,40.0,MEDIO,754542.0
+Mango,Piura,35.0,BAJO,407461.0
+Jengibre,Junin,33.0,BAJO,43648.0
+Alcachofa,Ica,18.0,BAJO,116083.0
+Pina,Junin,15.0,BAJO,544886.0
+Aji Rocoto,Arequipa,8.0,BAJO,177900.0
+Cebolla,Arequipa,0.0,BAJO,632338.0
+Limon,Piura,0.0,BAJO,305705.0
+Papa,Puno,,N/D,5469470.0
+Arroz,SanMartin,,N/D,3356992.0
+Maiz,LaLibertad,,N/D,1597029.0
+Maiz choclo,Lima,,N/D,433556.0
+Esparrago,LaLibertad,,N/D,365341.0
+Tomate,Lima,,N/D,229480.0
+Aceituna,Tacna,,N/D,
+Cana azucar,LaLibertad,,N/D,11952423.0
+Platano,Loreto,,N/D,2249303.0
+Yuca,Loreto,,N/D,1315569.0
+Naranja,Junin,,N/D,530933.0
+Camote,Lima,,N/D,281575.0
+Trigo,Junin,,N/D,197897.0
+Haba,Junin,,N/D,82530.0
+Frijol,Cajamarca,,N/D,87359.0
+Papaya,Loreto,,N/D,

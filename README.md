@@ -16,7 +16,7 @@ AgroSignal es una plataforma de inteligencia agrícola para el Perú. Combina da
 
 - 🔴 Detecta cultivos en **riesgo de mala cosecha** para el año en curso
 - 🌡️ Analiza **temperatura, lluvia y humedad** por región
-- 📈 Cruza datos climáticos con **63 años de producción histórica**
+- 📈 Serie histórica FAOSTAT 1961–2024 como referencia; el modelo de riesgo se entrena con la ventana **2015–2024** (datos anuales)
 - 🗺️ Cubre las **25 regiones del Perú** y **30 cultivos** principales
 - 🔄 Se actualiza automáticamente **cada mes**
 
@@ -82,6 +82,24 @@ Abre `http://localhost:3000`
 ---
 
 ## 🗓️ Historial de versiones
+
+### v1.3.0 — Corrección crítica de datos y auditoría _(julio 2026)_
+
+**⚠️ Corrección de datos erróneos publicados.** Una auditoría contra las fuentes
+originales detectó que dos cultivos usaban códigos de ítem FAOSTAT equivocados:
+
+- **Papaya** usaba el código 526 (**Apricots/albaricoques**) → corregido a **600 (Papayas)**. La alerta de riesgo ALTO 68% que mostraba el dashboard estaba calculada sobre datos de albaricoques y fue retirada (N/D hasta regenerar con datos reales).
+- **Aceituna** usaba el código 568 (**melones**) → corregido a **260 (Olives)**. La señal de riesgo BAJO publicada contradecía la caída real del olivo en 2024; fue retirada (N/D hasta regenerar).
+
+Otros cambios:
+
+- Validación automática de mapeo cultivo↔ítem en el pipeline: si un código FAOSTAT no corresponde al cultivo esperado, la actualización aborta en lugar de publicar datos incorrectos
+- `actualizar.py` sincronizado de verdad: agrega Jengibre (720) y Ají/Rocoto (401), retira Quinua/Cebada que no están en el dashboard
+- El riesgo del año en curso ahora se calcula con los **últimos 12 meses de clima** (ventana móvil normalizada a 365 días) en lugar del año calendario parcial, que sesgaba las predicciones
+- Columna "Prod. media" unificada: una sola ventana (2015–2024) para los 30 cultivos (antes mezclaba medias de 10 y de 64 años en la misma tabla)
+- `detector_riesgo.py`: año de predicción dinámico y regiones de Papaya/Jengibre/Ají agregadas (fixes que v1.2.0 declaraba pero no estaban en el repo)
+- Descargo de responsabilidad visible en el dashboard
+- Carpeta `svgs/` renombrada a `pipeline/` (contiene los scripts Python y datasets, no SVGs)
 
 ### v1.2.0 — Fixes y tabla completa _(julio 2026)_
 

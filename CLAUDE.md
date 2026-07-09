@@ -55,11 +55,46 @@ actualizar.py  →  copiar_datos.sh  →  git push  →  Vercel redespliega
 ## Dashboard (este repo Next.js)
 
 - `StatsCards.tsx` — tarjetas KPI riesgo alto/medio/bajo
-- `RiesgoChart.tsx` — gráfico de barras horizontal con Recharts
+- `RiesgoChart.tsx` — gráfico de barras horizontal con Recharts (dominio del eje X dinámico: máximo real +5%, no fijo a 100%)
 - `TablaRiesgo.tsx` — tabla detallada por cultivo
-- `lib/parseData.ts` — parser de CSVs en TypeScript
-- Paleta: verde `#1a5c2a`, dorado `#d4a017`
-- Stack: Next.js 16, TypeScript, Tailwind CSS, Recharts, Node.js v22.14
+- `lib/parseData.ts` — parser de CSVs en TypeScript (incluye `getImpactoNinoData()`, ver sección El Niño abajo)
+- `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription reutilizables (padding 24px, título 24px)
+- `components/Aviso.tsx` — disclaimer colapsable ("Ver metodología") reutilizado en ambas páginas
+- Paleta: verde `#1a5c2a`, dorado `#d4a017`, degradados vía `bg-linear-to-*` (Tailwind v4 — **no** `bg-gradient-to-*`, esa clase no existe en v4 y no genera ningún `background-image`)
+- Contenedor centrado: clase `.app-container` en `globals.css` (max-width 1440px), no usar `max-w-[...]` arbitrario suelto
+- Stack: Next.js 16, TypeScript, Tailwind CSS v4, Recharts, Node.js v22.14
+
+## Pronóstico El Niño 2026–2027 (página `/fenomeno-nino`)
+
+Sección aparte del modelo de riesgo por cultivo — no usa el pipeline mensual,
+son datos externos escritos a mano en los componentes. **Hay que refrescarlos
+manualmente** si se quiere una versión más reciente (no se actualizan solos).
+
+- **Componentes de datos:** `ProbabilidadNinoChart.tsx`, `AnomaliaSSTChart.tsx`,
+  `MagnitudNinoChart.tsx` — cada uno tiene su constante `data` con la fuente y
+  fecha de emisión en un comentario arriba.
+- **Fuentes y fecha de la snapshot actual (julio 2026):**
+  - NOAA Climate Prediction Center, ENSO Diagnostic Discussion — emitido 11 jun 2026
+    (anomalías SST Niño 1+2/3.4/4; 63% prob. de evento "muy fuerte" nov26–ene27)
+  - IRI Columbia University / NOAA CPC, consenso de 24 modelos ENSO — emitido 22 jun 2026
+    (probabilidad de El Niño por trimestre, JJA26–FMA27)
+  - ENFEN (SENAMHI/IMARPE), Comunicado Oficial N.º 11-2026 — emitido 16 jun 2026
+    (magnitud de El Niño Costero para Perú, verano 2026–27: 48% fuerte / 46% moderado)
+- **Impacto estimado por cultivo** (`getImpactoNinoData()` en `lib/parseData.ts`,
+  renderizado por `ImpactoNinoChart.tsx` / `ImpactoNinoTabla.tsx`): NO es un
+  pronóstico ni sale del modelo Random Forest — compara, con los datos que ya
+  existen en `produccion_peru_30cultivos_historico.csv`, cuánto se desvió el
+  crecimiento de cada cultivo en los años con El Niño documentado en Perú
+  (2015, 2016, 2017, 2023) frente a su crecimiento normal en años neutros
+  dentro de la ventana 2010–2024. Solo se marca "confianza alta" si los 4 años
+  análogos coinciden en el signo del efecto; si no, "confianza baja" (no
+  significa que el cultivo esté a salvo, solo que no hay patrón repetido).
+  - ⚠️ **Trampa de nombres:** `riesgo_cosecha_actual.csv` usa espacios en
+    `Cultivo` ("Palma aceitera", "Aji Rocoto") y `produccion_peru_30cultivos_historico.csv`
+    usa guion bajo ("Palma_aceitera", "Aji_Rocoto"). Si se cruzan por nombre
+    exacto, esos cultivos quedan silenciosamente excluidos. `getImpactoNinoData()`
+    normaliza (`replace(/[\s_]+/g,'').toLowerCase()`) antes de unir — cualquier
+    función nueva que cruce estos dos CSVs por `Cultivo` debe hacer lo mismo.
 
 ## Cultivos con datos FAOSTAT (30)
 

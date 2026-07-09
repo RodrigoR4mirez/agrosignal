@@ -1,3 +1,42 @@
+## [1.4.0] — 2026-07-09
+
+### Agregado
+- Página `/fenomeno-nino`: pronóstico del fenómeno El Niño 2026–2027 con datos
+  de NOAA CPC (emitido 11 jun 2026), IRI Columbia University (22 jun 2026) y
+  ENFEN/SENAMHI Perú (Comunicado N.º 11-2026, 16 jun 2026). Es una snapshot
+  externa fija, fuera del pipeline mensual — ver `data/fuentes.md` para el
+  detalle y cómo refrescarla.
+- "Impacto estimado por cultivo" dentro de esa página: análogo histórico que
+  compara, con el CSV `produccion_peru_30cultivos_historico.csv` que ya existía,
+  el crecimiento de cada cultivo en los años con El Niño documentado en Perú
+  (2015, 2016, 2017, 2023) contra su crecimiento normal. No es un pronóstico
+  ni sale del modelo Random Forest — cada cultivo queda etiquetado con
+  confianza alta/media/baja según si los 4 años análogos coinciden en el
+  signo del efecto (`getImpactoNinoData()` en `lib/parseData.ts`).
+- Banner en la página principal enlazando a `/fenomeno-nino`.
+
+### Corregido
+- **Bug de cruce de datos:** `getImpactoNinoData()` comparaba `Cultivo` entre
+  `riesgo_cosecha_actual.csv` (usa espacios: "Palma aceitera") y
+  `produccion_peru_30cultivos_historico.csv` (usa guion bajo: "Palma_aceitera").
+  Sin normalizar el nombre, Palma aceitera, Ají Rocoto, Caña de azúcar y Maíz
+  choclo quedaban silenciosamente excluidos del análisis de impacto aunque sí
+  tenían datos. Corregido normalizando ambos nombres antes de cruzar.
+- Gráfico de riesgo (`RiesgoChart.tsx`): el eje X estaba fijo a 100% aunque el
+  riesgo máximo real ronda 60–65%, dejando ~35% del gráfico vacío. Ahora el
+  dominio se calcula dinámicamente (máximo real + 5%).
+- Degradados de la interfaz no se pintaban: se usaba la clase de Tailwind v3
+  `bg-gradient-to-*`, que no existe en Tailwind v4 (este proyecto corre v4) —
+  la utilidad correcta es `bg-linear-to-*`. Corregido en todos los componentes.
+
+### Cambiado
+- Rediseño visual completo del dashboard (contenedor centrado 1440px,
+  tipografía y espaciado consistentes, componente `Card` reutilizable,
+  tarjetas KPI con altura/padding uniformes). Solo presentación, sin cambios
+  de datos ni de lógica del modelo.
+
+---
+
 ## [1.3.0] — 2026-07-08
 
 ### Corregido

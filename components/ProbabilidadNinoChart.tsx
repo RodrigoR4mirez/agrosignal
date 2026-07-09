@@ -24,7 +24,7 @@ export default function ProbabilidadNinoChart() {
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
         <XAxis dataKey="periodo" tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={false} />
         <YAxis domain={[0, 100]} tickFormatter={v => `${v}%`} tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={false} tickLine={false} width={44} />
-        <Tooltip formatter={(v) => [`${v}%`, 'Probabilidad de El Niño']} contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px' }} />
+        <Tooltip formatter={(v) => [`${v}%`, 'Probabilidad de El Niño']} contentStyle={{ borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }} />
         <Area type="monotone" dataKey="probabilidad" stroke="#d4a017" strokeWidth={2} fill="url(#probNino)" dot={{ r: 3, fill: '#d4a017', strokeWidth: 0 }} activeDot={{ r: 5 }} />
       </AreaChart>
     </ResponsiveContainer>

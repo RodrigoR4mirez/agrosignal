@@ -1,13 +1,81 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+:root {
+  --brand-green-900: #0f2e17;
+  --brand-green-700: #14532d;
+  --brand-green-600: #1a5c2a;
+  --brand-green-500: #2f7d3f;
+  --brand-green-400: #4ade80;
+  --brand-gold-600: #b8860f;
+  --brand-gold-500: #d4a017;
+  --brand-gold-400: #f0c14b;
+  --surface: #f6f7f2;
+  --border-soft: #e7e9e2;
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
-  background-color: #f5f7f2;
   color: #111827;
   min-height: 100vh;
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(720px circle at 6% -8%, rgba(26, 92, 42, 0.08), transparent 60%),
+    radial-gradient(640px circle at 102% -4%, rgba(212, 160, 23, 0.09), transparent 55%),
+    radial-gradient(900px circle at 50% 115%, rgba(26, 92, 42, 0.05), transparent 60%);
+  background-attachment: fixed;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Contenedor central blindado: no depende de una clase arbitraria de Tailwind.
+   1440px máx, padding lateral 32/24/16 (desktop/tablet/móvil) aplicado en cada página. */
+.app-container {
+  width: 100%;
+  max-width: 1440px;
+  margin-inline: auto;
+}
+
+.section-gap {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+::selection {
+  background: rgba(26, 92, 42, 0.18);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #d5d9cd;
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #b9beac;
+}
+
+.text-gradient-brand {
+  background-image: linear-gradient(135deg, var(--brand-green-600), var(--brand-green-500) 55%, var(--brand-gold-500));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }

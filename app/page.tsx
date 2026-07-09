@@ -3,6 +3,8 @@ import { getRiesgoData } from '@/lib/parseData'
 import StatsCards from '@/components/StatsCards'
 import RiesgoChart from '@/components/RiesgoChart'
 import TablaRiesgo from '@/components/TablaRiesgo'
+import Aviso from '@/components/Aviso'
+import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Card'
 
 export default function Home() {
   const riesgo = getRiesgoData()
@@ -11,183 +13,109 @@ export default function Home() {
   })
 
   return (
-    <div style={{ minHeight: '100vh', backgroundColor: '#f5f7f2' }}>
+    <div className="min-h-screen">
 
-      {/* Header */}
-      <header style={{
-        backgroundColor: '#fff',
-        borderBottom: '1px solid #e5e7eb',
-        width: '100%',
-      }}>
-        <div style={{
-          maxWidth: '1400px',
-          margin: '0 auto',
-          padding: '16px 40px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            {/* Logo placeholder — reemplazar con imagen generada */}
-            <div style={{
-              width: '36px', height: '36px',
-              backgroundColor: '#1a5c2a',
-              borderRadius: '8px',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              fontSize: '20px'
-            }}>🌾</div>
+      {/* Header — compacto, la protagonista es la tarjeta verde de abajo */}
+      <header className="sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-gray-100">
+        <div className="app-container px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+          <div className="flex items-center gap-3.5">
+            <div className="w-8 h-8 rounded-lg bg-linear-to-br from-[var(--brand-green-500)] to-[var(--brand-green-700)] shadow-sm flex items-center justify-center text-sm shrink-0">
+              🌾
+            </div>
             <div>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
-                <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#1a5c2a', margin: 0, letterSpacing: '-0.5px' }}>
-                  Agro
-                </h1>
-                <h1 style={{ fontSize: '20px', fontWeight: 800, color: '#d4a017', margin: 0, letterSpacing: '-0.5px' }}>
-                  Signal
-                </h1>
-              </div>
-              <p style={{ fontSize: '11px', color: '#9ca3af', margin: 0, letterSpacing: '0.02em' }}>
+              <h1 className="text-base font-extrabold tracking-tight text-gradient-brand leading-none">
+                AgroSignal
+              </h1>
+              <p className="text-[11px] text-gray-400 tracking-wide hidden sm:block mt-0.5">
                 Anticipa la cosecha, asegura tu negocio
               </p>
             </div>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '11px', color: '#9ca3af' }}>Última actualización</div>
-            <div style={{ fontSize: '14px', fontWeight: 600, color: '#374151' }}>{ahora}</div>
+          <div className="text-right shrink-0">
+            <div className="text-[10px] text-gray-400 font-normal">Última actualización</div>
+            <div className="text-xs text-gray-500 font-medium">{ahora}</div>
           </div>
         </div>
       </header>
 
       {/* Main */}
-      <main style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        padding: '32px 40px',
-        display: 'flex',
-        flexDirection: 'column',
-        gap: '24px',
-      }}>
+      <main className="app-container px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
 
-        {/* Tagline */}
-        <div style={{
-          backgroundColor: '#1a5c2a',
-          borderRadius: '16px',
-          padding: '24px 32px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-        }}>
-          <div>
-            <h2 style={{ fontSize: '22px', fontWeight: 700, color: '#fff', margin: '0 0 4px 0' }}>
+        {/* Tagline — foco visual principal de la página */}
+        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[var(--brand-green-900)] to-[var(--brand-green-600)] px-8 sm:px-10 py-9 sm:py-11 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-green-900/15">
+          <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[var(--brand-gold-400)]/20 blur-3xl pointer-events-none" />
+          <div className="relative">
+            <h2 className="text-[32px] sm:text-4xl font-bold text-white mb-3 leading-tight">
               Monitor de Riesgo Agrícola — Perú {new Date().getFullYear()}
             </h2>
-            <p style={{ fontSize: '13px', color: '#86efac', margin: 0 }}>
+            <p className="text-base text-emerald-100/85">
               Detecta años con riesgo de mala cosecha antes de que ocurran · 25 regiones · 30 cultivos
             </p>
           </div>
-          <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: '12px', color: '#86efac' }}>Modelo</div>
-            <div style={{ fontSize: '14px', fontWeight: 600, color: '#fff' }}>Random Forest · NASA POWER · FAOSTAT</div>
+          <div className="relative text-left md:text-right shrink-0">
+            <div className="text-xs text-emerald-100/70 mb-1">Modelo</div>
+            <div className="text-sm font-semibold text-white">Random Forest · NASA POWER · FAOSTAT</div>
           </div>
         </div>
 
-        {/* Banner: El Niño 2026-2027 */}
-        <Link href="/fenomeno-nino" style={{ textDecoration: 'none' }}>
-          <div style={{
-            backgroundColor: '#7c2d12',
-            borderRadius: '16px',
-            padding: '18px 32px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: '12px',
-            cursor: 'pointer',
-          }}>
-            <div>
-              <h3 style={{ fontSize: '15px', fontWeight: 700, color: '#fff', margin: '0 0 2px 0' }}>
-                🌊 Alerta: El Niño 2026–2027 se perfila fuerte
-              </h3>
-              <p style={{ fontSize: '12.5px', color: '#fed7aa', margin: 0 }}>
-                63% de probabilidad de un evento "muy fuerte" (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa peruana
-              </p>
+        {/* Banner: El Niño 2026-2027 — más compacto y menos saturado que el hero */}
+        <Link href="/fenomeno-nino" className="group block">
+          <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex items-center justify-between gap-4 shadow-md shadow-orange-900/10 transition-all duration-200 group-hover:shadow-lg group-hover:-translate-y-0.5">
+            <div className="relative flex items-center gap-4 min-w-0">
+              <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0">
+                🌊
+              </div>
+              <div className="min-w-0">
+                <h3 className="text-sm font-bold text-white mb-0.5 truncate">
+                  Alerta: El Niño 2026–2027 se perfila fuerte
+                </h3>
+                <p className="text-[13px] text-orange-100/80 truncate">
+                  63% prob. de evento &quot;muy fuerte&quot; (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa
+                </p>
+              </div>
             </div>
-            <span style={{ fontSize: '13px', fontWeight: 700, color: '#fff', whiteSpace: 'nowrap' }}>
-              Ver pronóstico climático →
+            <span className="relative text-sm font-bold text-white whitespace-nowrap flex items-center gap-1.5 shrink-0">
+              Ver pronóstico
+              <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </span>
           </div>
         </Link>
 
         {/* Descargo de responsabilidad */}
-        <div style={{
-          backgroundColor: '#fffbeb',
-          border: '1px solid #fde68a',
-          borderRadius: '12px',
-          padding: '14px 20px',
-          fontSize: '12px',
-          color: '#92400e',
-          lineHeight: 1.6,
-        }}>
-          <strong>Aviso:</strong> AgroSignal es una herramienta experimental de código abierto.
-          Los niveles de riesgo son estimaciones estadísticas basadas en modelos entrenados con
-          datos anuales de FAOSTAT (2015 en adelante) y clima satelital NASA POWER de un punto
-          representativo por región. No constituyen asesoría comercial, financiera ni agronómica;
-          verifica siempre con fuentes oficiales (MIDAGRI/SENAMHI) antes de tomar decisiones.
-          Los cultivos marcados N/D no cuentan con predicción activa.
-        </div>
+        <Aviso
+          resumen="AgroSignal es una herramienta experimental de código abierto; los niveles de riesgo son estimaciones estadísticas, no asesoría comercial ni agronómica."
+          detalle="Los modelos se entrenan con datos anuales de FAOSTAT (2015 en adelante) y clima satelital NASA POWER de un punto representativo por región. Verifica siempre con fuentes oficiales (MIDAGRI/SENAMHI) antes de tomar decisiones. Los cultivos marcados N/D no cuentan con predicción activa."
+        />
 
         <StatsCards data={riesgo} />
 
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '16px',
-          border: '1px solid #e5e7eb',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-          padding: '28px 32px',
-        }}>
-          <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', margin: '0 0 4px 0' }}>
-            Riesgo de mala cosecha por cultivo
-          </h2>
-          <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0 0 20px 0' }}>
-            Modelo entrenado con clima NASA POWER y producción FAOSTAT 2015–2024 · riesgo del año en curso calculado con los últimos 12 meses de clima
-          </p>
+        <Card>
+          <CardHeader>
+            <CardTitle>Riesgo de mala cosecha por cultivo</CardTitle>
+            <CardDescription>
+              Modelo entrenado con clima NASA POWER y producción FAOSTAT 2015–2024 · riesgo del año en curso calculado con los últimos 12 meses de clima
+            </CardDescription>
+          </CardHeader>
           <RiesgoChart data={riesgo} />
-        </div>
+        </Card>
 
-        <div style={{
-          backgroundColor: '#fff',
-          borderRadius: '16px',
-          border: '1px solid #e5e7eb',
-          boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
-          padding: '28px 32px',
-        }}>
-          <h2 style={{ fontSize: '15px', fontWeight: 700, color: '#111827', margin: '0 0 4px 0' }}>
-            Detalle por cultivo
-          </h2>
-          <p style={{ fontSize: '12px', color: '#9ca3af', margin: '0 0 20px 0' }}>
-            Región principal de producción y nivel de alerta para el año en curso
-          </p>
+        <Card>
+          <CardHeader>
+            <CardTitle>Detalle por cultivo</CardTitle>
+            <CardDescription>
+              Región principal de producción y nivel de alerta para el año en curso
+            </CardDescription>
+          </CardHeader>
           <TablaRiesgo data={riesgo} />
-        </div>
+        </Card>
 
       </main>
 
       {/* Footer */}
-      <footer style={{
-        maxWidth: '1400px',
-        margin: '0 auto',
-        padding: '0 40px 32px',
-      }}>
-        <div style={{
-          borderTop: '1px solid #e5e7eb',
-          paddingTop: '20px',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          fontSize: '12px',
-          color: '#9ca3af',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <span style={{ fontWeight: 700, color: '#1a5c2a' }}>AgroSignal</span>
+      <footer className="app-container px-4 sm:px-6 lg:px-8 pb-10">
+        <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-gray-400">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="font-bold text-[var(--brand-green-600)]">AgroSignal</span>
             <span>·</span>
             <span>NASA POWER</span>
             <span>·</span>

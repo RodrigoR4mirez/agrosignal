@@ -1,5 +1,12 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
+import { Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
+
+const jakarta = Plus_Jakarta_Sans({
+  subsets: ['latin'],
+  variable: '--font-jakarta',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'AgroSignal — Inteligencia para el campo peruano',
@@ -12,10 +19,16 @@ export const metadata: Metadata = {
   }
 }
 
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  themeColor: '#1a5c2a',
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
-      <body style={{ margin: 0, padding: 0, backgroundColor: '#f5f7f2' }}>
+    <html lang="es" className={jakarta.variable}>
+      <body style={{ margin: 0, padding: 0 }} className="font-sans">
         {children}
       </body>
     </html>

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "defaultMode": "acceptEdits",
+    "allow": [
+      "Bash(source ~/proyectos/agronomia/bin/activate)",
+      "mcp__claude-in-chrome__tabs_context_mcp",
+      "mcp__claude-in-chrome__navigate"
+    ]
+  }
+}

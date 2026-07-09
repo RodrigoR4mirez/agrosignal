@@ -15,7 +15,7 @@ export default function AnomaliaSSTChart() {
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
         <XAxis dataKey="region" tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={false} />
         <YAxis domain={[0, 2.5]} tickFormatter={v => `+${v}°`} tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={false} tickLine={false} width={44} />
-        <Tooltip formatter={(v, _n, item) => [`+${v} °C`, item.payload.nota]} contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px' }} />
+        <Tooltip formatter={(v, _n, item) => [`+${v} °C`, item.payload.nota]} contentStyle={{ borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }} />
         <Bar dataKey="anomalia" radius={[4, 4, 0, 0]} maxBarSize={70}>
           <LabelList dataKey="anomalia" position="top" formatter={(v: number) => `+${v}°C`} style={{ fontSize: 12, fontWeight: 700, fill: '#374151' }} />
           {data.map((entry, i) => (

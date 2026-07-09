@@ -23,7 +23,7 @@ export default function MagnitudNinoChart() {
         <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#e5e7eb" />
         <XAxis type="number" domain={[0, 60]} tickFormatter={v => `${v}%`} tick={{ fontSize: 12, fill: '#6b7280' }} axisLine={{ stroke: '#e5e7eb' }} tickLine={false} />
         <YAxis type="category" dataKey="escenario" width={110} tick={{ fontSize: 13, fill: '#374151' }} axisLine={false} tickLine={false} />
-        <Tooltip formatter={(v) => [`${v}%`, 'Probabilidad']} contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '12px' }} />
+        <Tooltip formatter={(v) => [`${v}%`, 'Probabilidad']} contentStyle={{ borderRadius: '10px', border: '1px solid #e5e7eb', fontSize: '12px', boxShadow: '0 4px 16px rgba(0,0,0,0.08)' }} />
         <Bar dataKey="probabilidad" radius={[0, 4, 4, 0]} maxBarSize={32}>
           <LabelList dataKey="probabilidad" position="right" formatter={(v: number) => `${v}%`} style={{ fontSize: 12, fontWeight: 700, fill: '#374151' }} />
           {data.map((entry, i) => (

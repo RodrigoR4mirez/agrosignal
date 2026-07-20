@@ -1,5 +1,4 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { Ticker } from './Ticker'
 
 export function Hero() {
@@ -8,7 +7,7 @@ export function Hero() {
       <Ticker />
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--ms-surface)] via-[var(--ms-surface)]/80 to-transparent" />
-        <PlaceholderImage icon="landscape" tone="primary" className="h-full w-full" />
+        <img src="/marketplace/hero-valle-sagrado.jpg" alt="Valle Sagrado del Perú al amanecer" className="h-full w-full object-cover" />
       </div>
       <div className="ms-container relative z-20 grid gap-12 px-6 lg:grid-cols-2">
         <div className="max-w-2xl space-y-8">

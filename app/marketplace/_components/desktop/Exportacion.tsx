@@ -1,5 +1,4 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { ProBadge } from '../shared/ProBadge'
 
 export function Exportacion() {
@@ -22,7 +21,11 @@ export function Exportacion() {
         <div className="grid items-start gap-8 lg:grid-cols-12">
           <div className="group relative overflow-hidden rounded-[1.5rem] border border-white/10 shadow-2xl lg:col-span-8">
             <div className="absolute inset-0 z-10 bg-gradient-to-t from-[var(--ms-primary)]/40 to-transparent pointer-events-none" />
-            <PlaceholderImage icon="public" tone="gold" className="h-full min-h-[420px] w-full" />
+            <img
+              src="/marketplace/exportacion-mapa-eeuu.jpg"
+              alt="Hub de importación de Estados Unidos para el agro peruano"
+              className="h-full min-h-[420px] w-full object-cover"
+            />
             <div className="absolute bottom-6 left-6 z-20 flex gap-2">
               <span className="rounded-full bg-[var(--ms-secondary)] px-3 py-1 text-[10px] font-black tracking-widest text-[var(--ms-primary)] uppercase">
                 Visualización en Tiempo Real

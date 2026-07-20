@@ -1,14 +1,13 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 
 export function SelloInocuidad() {
   return (
     <section className="ms-container relative flex flex-col items-center gap-16 px-6 py-24 md:flex-row">
       <div className="md:w-1/2">
-        <PlaceholderImage
-          icon="verified"
-          tone="primary"
-          className="h-[500px] w-full rounded-[1.5rem] border-4 border-white shadow-2xl"
+        <img
+          src="/marketplace/sello-inocuidad-palta.jpg"
+          alt="Palta Hass con sello de verificación de inocuidad"
+          className="h-[500px] w-full rounded-[1.5rem] border-4 border-white object-cover shadow-2xl"
         />
       </div>
       <div className="space-y-6 md:w-1/2">

@@ -1,5 +1,4 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { ProBadge } from '../shared/ProBadge'
 
 export function Transporte() {
@@ -63,7 +62,11 @@ export function Transporte() {
             </button>
           </div>
           <div className="group overflow-hidden rounded-[1.5rem] border border-[var(--ms-outline-variant)] bg-white p-2 shadow-xl">
-            <PlaceholderImage icon="local_shipping" tone="dark" className="mb-4 h-48 w-full rounded-[1rem]" />
+            <img
+              src="/marketplace/transporte-camion.jpg"
+              alt="Camión de logística en carretera costera al atardecer"
+              className="mb-4 h-48 w-full rounded-[1rem] object-cover"
+            />
             <div className="p-4">
               <div className="mb-4 flex items-center justify-between">
                 <div className="flex items-center gap-2">
@@ -81,7 +84,11 @@ export function Transporte() {
                 </div>
               </div>
               <div className="relative h-32 overflow-hidden rounded-[1rem] border border-[var(--ms-outline-variant)]/30 bg-[var(--ms-surface-container)]">
-                <PlaceholderImage icon="near_me" tone="dark" className="h-full w-full" />
+                <img
+                  src="/marketplace/transporte-gps-mapa.jpg"
+                  alt="Mapa de rastreo GPS en tiempo real"
+                  className="h-full w-full object-cover"
+                />
                 <div className="absolute right-2 bottom-2 rounded bg-white px-2 py-1 text-[10px] font-bold shadow-sm">
                   GPS: EN VIVO
                 </div>

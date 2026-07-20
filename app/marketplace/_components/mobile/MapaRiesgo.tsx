@@ -1,5 +1,3 @@
-import { PlaceholderImage } from '../shared/PlaceholderImage'
-
 export function MapaRiesgo() {
   return (
     <section className="px-6 py-8">
@@ -11,7 +9,11 @@ export function MapaRiesgo() {
           </p>
         </div>
         <div className="relative h-[240px] overflow-hidden rounded-[1rem] bg-white shadow-inner">
-          <PlaceholderImage icon="map" tone="primary" className="absolute inset-0 h-full w-full" />
+          <img
+            src="/marketplace/mobile-mapa-riesgo.png"
+            alt="Mapa de riesgo climático de la costa Piura-Ica"
+            className="absolute inset-0 h-full w-full object-cover"
+          />
           <div className="absolute right-4 bottom-4 left-4 flex justify-between rounded-[0.75rem] border border-[var(--ms-outline-variant)]/30 bg-white/90 p-3 backdrop-blur-md">
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 rounded-full bg-[var(--ms-error)]" />

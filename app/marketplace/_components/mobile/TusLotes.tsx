@@ -1,9 +1,8 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 
 const LOTES = [
   {
-    icon: 'nutrition',
+    image: '/marketplace/lote-arandanos-aereo.jpg',
     title: 'Lote Arándanos A1',
     place: 'Ica, Valle Viejo',
     status: 'Óptimo',
@@ -12,7 +11,7 @@ const LOTES = [
     note: 'Cosecha en 12d',
   },
   {
-    icon: 'nutrition',
+    image: '/marketplace/mango-plantacion.jpg',
     title: 'Mango Exportación',
     place: 'Piura, Tambogrande',
     status: 'Riesgo Medio',
@@ -35,7 +34,7 @@ export function TusLotes() {
             key={lote.title}
             className="flex gap-4 rounded-[1rem] border border-[var(--ms-outline-variant)]/30 bg-white p-4 shadow-sm"
           >
-            <PlaceholderImage icon={lote.icon} tone="primary" className="h-20 w-20 shrink-0 rounded-[0.75rem]" />
+            <img src={lote.image} alt={lote.title} className="h-20 w-20 shrink-0 rounded-[0.75rem] object-cover" />
             <div className="flex flex-1 flex-col justify-between">
               <div>
                 <h4 className="text-sm leading-tight font-semibold">{lote.title}</h4>

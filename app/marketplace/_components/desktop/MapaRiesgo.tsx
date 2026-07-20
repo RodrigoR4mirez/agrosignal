@@ -1,5 +1,4 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { ProBadge } from '../shared/ProBadge'
 
 const ALERTS = [
@@ -61,7 +60,7 @@ export function MapaRiesgo() {
         </div>
         <div className="relative min-h-[500px] overflow-hidden rounded-[1.5rem] bg-white p-4 shadow-2xl">
           <div className="absolute inset-4 flex items-center justify-center overflow-hidden rounded-[1rem] border-2 border-[var(--ms-outline-variant)] bg-[var(--ms-surface)]">
-            <PlaceholderImage icon="map" tone="primary" className="h-full w-full" />
+            <img src="/marketplace/mapa-riesgo-topografico.jpg" alt="Mapa topográfico de zonas agrícolas del Perú" className="h-full w-full object-cover" />
             <div className="ms-glass-card absolute top-4 left-4 flex items-center gap-2 rounded-[0.5rem] p-3">
               <MaterialSymbol name="satellite_alt" className="text-[var(--ms-primary)]" />
               <span className="text-xs font-bold uppercase">Vista Satelital Activa</span>

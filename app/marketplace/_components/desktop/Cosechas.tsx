@@ -1,10 +1,9 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { ProBadge } from '../shared/ProBadge'
 
 const LOTES = [
   {
-    icon: 'nutrition',
+    image: '/marketplace/cosecha-papas.jpg',
     status: 'En Cosecha',
     statusClass: 'bg-[var(--ms-primary)] text-white',
     riesgo: 'BAJO',
@@ -16,7 +15,7 @@ const LOTES = [
     cta: 'Contactar',
   },
   {
-    icon: 'nutrition',
+    image: '/marketplace/cosecha-mango.jpg',
     status: 'Próxima Cosecha (15 días)',
     statusClass: 'bg-[var(--ms-secondary-container)] text-[var(--ms-on-secondary-container)]',
     riesgo: 'MEDIO',
@@ -28,7 +27,7 @@ const LOTES = [
     cta: 'Reservar Lote',
   },
   {
-    icon: 'nutrition',
+    image: '/marketplace/cosecha-esparrago.jpg',
     status: 'Disponible',
     statusClass: 'bg-[var(--ms-primary)] text-white',
     riesgo: 'BAJO',
@@ -61,7 +60,7 @@ export function Cosechas() {
               className="group overflow-hidden rounded-[1rem] border border-[var(--ms-outline-variant)] bg-white shadow-sm transition-shadow hover:shadow-xl"
             >
               <div className="relative h-48 overflow-hidden">
-                <PlaceholderImage icon={lote.icon} tone="primary" className="h-full w-full" />
+                <img src={lote.image} alt={lote.title} className="h-full w-full object-cover" />
                 <div className={`absolute top-4 left-4 rounded-full px-3 py-1 text-xs font-bold ${lote.statusClass}`}>
                   {lote.status}
                 </div>

@@ -1,5 +1,4 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 import { ProBadge } from '../shared/ProBadge'
 
 export function AsesoriaComunidad() {
@@ -10,7 +9,11 @@ export function AsesoriaComunidad() {
         <div className="group relative">
           <div className="rounded-[1.5rem] border border-[var(--ms-outline-variant)] bg-white p-8 shadow-lg">
             <div className="mb-8 flex items-center gap-6">
-              <PlaceholderImage icon="person" tone="primary" className="h-24 w-24 rounded-[1rem]" />
+              <img
+                src="/marketplace/asesor-ricardo.jpg"
+                alt="Ing. Ricardo Salas, especialista en frutales de exportación"
+                className="h-24 w-24 rounded-[1rem] object-cover"
+              />
               <div>
                 <h4 className="text-xl font-bold">Ing. Ricardo Salas</h4>
                 <p className="font-medium text-[var(--ms-primary)]">Especialista en Frutales de Exportación</p>

@@ -1,11 +1,14 @@
 import { MaterialSymbol } from '../shared/MaterialSymbol'
-import { PlaceholderImage } from '../shared/PlaceholderImage'
 
 export function Hero() {
   return (
     <section className="relative flex h-[600px] items-center overflow-hidden px-6">
       <div className="absolute inset-0 z-0">
-        <PlaceholderImage icon="landscape" tone="primary" className="h-full w-full" />
+        <img
+          src="/marketplace/mobile-hero-campo.jpg"
+          alt="Campo agrícola peruano durante la hora dorada"
+          className="h-full w-full object-cover"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
       </div>
       <div className="relative z-10 space-y-6">

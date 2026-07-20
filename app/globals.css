@@ -15,6 +15,22 @@
   --brand-gold-400: #f0c14b;
   --surface: #f6f7f2;
   --border-soft: #e7e9e2;
+
+  /* Sistema unificado — un solo radio, una sola sombra, transición estándar */
+  --radius-card: 16px;
+  --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.05);
+  --shadow-card-hover: 0 12px 28px rgba(0, 0, 0, 0.09);
+  --transition-base: all 0.2s ease;
+}
+
+/* Superficie base de tarjeta: mismo radio y misma sombra en TODOS los componentes */
+.card-surface {
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  transition: var(--transition-base);
+}
+.card-surface-hover:hover {
+  box-shadow: var(--shadow-card-hover);
 }
 
 * {

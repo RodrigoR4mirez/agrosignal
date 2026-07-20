@@ -1,0 +1,692 @@
+<!DOCTYPE html><html class="light" lang="es" style="width: 1280px; height: 8547px; overflow: hidden; position: relative;"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=block" rel="stylesheet"><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">try{
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#004317",
+                        "primary-container": "#1a5c2a",
+                        "secondary": "#795900",
+                        "secondary-container": "#ffc641",
+                        "tertiary": "#662035",
+                        "surface": "#f7f9fb",
+                        "surface-container": "#eceef0",
+                        "surface-container-low": "#f2f4f6",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#40493f",
+                        "outline-variant": "#c0c9bc",
+                        "outline": "#717a6f"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "1rem",
+                        "xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    fontSize: {
+                        "headline-lg": ["48px", { "lineHeight": "56px", "fontWeight": "800" }],
+                        "title-md": ["20px", { "lineHeight": "28px", "fontWeight": "600" }],
+                        "body-lg": ["16px", { "lineHeight": "24px", "fontWeight": "400" }],
+                        "label-bold": ["12px", { "lineHeight": "16px", "fontWeight": "700" }]
+                    }
+                }
+            }
+        }
+    }catch(_e){}</script></head><body class="bg-surface text-on-surface selection:bg-primary selection:text-white" style="font-family: &quot;Plus Jakarta Sans&quot;, sans-serif;">
+<!-- 01: Navegación Fija -->
+<nav class="fixed top-0 left-0 w-full z-[100] bg-surface/90 backdrop-blur-md border-b border-outline-variant shadow-sm px-6 py-4 flex justify-between items-center">
+<div class="flex items-center gap-8">
+<span class="font-bold text-primary text-2xl tracking-tighter">AgroSignal</span>
+<div class="hidden lg:flex items-center gap-6 text-body-lg font-medium text-on-surface-variant">
+<a class="hover:text-primary transition-colors" href="#">Vender cosecha</a>
+<a class="hover:text-primary transition-colors" href="#">Comprar</a>
+<a class="hover:text-primary transition-colors" href="#">Transporte</a>
+<a class="hover:text-primary transition-colors" href="#">Exportar</a>
+<a class="hover:text-primary transition-colors" href="#">Asesoría</a>
+<a class="hover:text-primary transition-colors" href="#">Comunidad</a>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-primary font-semibold px-4 py-2 hover:bg-surface-container rounded-lg transition-all">Iniciar sesión</button>
+<button class="bg-primary text-white font-bold px-6 py-2.5 rounded-lg shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all">Crear cuenta gratis</button>
+</div>
+</nav>
+<!-- 02: Hero Section -->
+<header class="relative min-h-[921px] flex items-center pt-24 overflow-hidden"><div class="absolute top-24 left-0 w-full z-30 bg-white/80 backdrop-blur-md border-b border-outline-variant/30 overflow-hidden h-10 flex items-center shadow-sm">
+  <style>
+    @keyframes scroll-ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+    .ticker-content {
+      display: flex;
+      white-space: nowrap;
+      animation: scroll-ticker 30s linear infinite;
+    }
+  </style>
+  <div class="ticker-content flex items-center gap-12 px-6"><div class="flex items-center gap-12"><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">PAPA AMARILLA</span> <span class="font-mono">S/ 3.20</span> <span class="text-primary">▲</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">PALTA HASS</span> <span class="font-mono">S/ 8.50</span> <span class="text-secondary">►</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">CAFÉ ARÁBICA</span> <span class="font-mono">S/ 12.40</span> <span class="text-error">▼</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">MANGO KENT</span> <span class="font-mono">S/ 5.10</span> <span class="text-primary">▲</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">ARÁNDANO</span> <span class="font-mono">S/ 15.00</span> <span class="text-primary">▲</span></span></div><div class="flex items-center gap-12"><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">PAPA AMARILLA</span> <span class="font-mono">S/ 3.20</span> <span class="text-primary">▲</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">PALTA HASS</span> <span class="font-mono">S/ 8.50</span> <span class="text-secondary">►</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">CAFÉ ARÁBICA</span> <span class="font-mono">S/ 12.40</span> <span class="text-error">▼</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">MANGO KENT</span> <span class="font-mono">S/ 5.10</span> <span class="text-primary">▲</span></span><span class="flex items-center gap-2 text-sm font-bold text-on-surface"><span class="text-outline">ARÁNDANO</span> <span class="font-mono">S/ 15.00</span> <span class="text-primary">▲</span></span></div></div>
+</div>
+<span class="section-number top-24 left-10">02</span>
+<div class="absolute inset-0 z-0">
+<div class="absolute inset-0 bg-gradient-to-r from-surface via-surface/80 to-transparent z-10"></div>
+<img class="w-full h-full object-cover" data-alt="A cinematic, wide-angle landscape photograph of the lush Peruvian Sacred Valley during sunrise. Golden sunlight filters through the mountain peaks, illuminating terraced green agricultural fields and a modern farmhouse. The atmosphere is professional, serene, and optimistic, using a rich natural color palette dominated by deep greens and earthy golds in a high-key light mode style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbcLE0BD3qDkeZfb1-WwbbxeqRpajEnHRVxQm8THHdGE5MGOub8u2mbNp6Tqh-9Z0cQ1aIioiiG6rHgMv7G5fGOSQwMEE77ewyDYovqd4mgFbE3abCIpVgpF711wUupBZma_ZluELGx2NPaD0Rr5ZIiqwc5duAKEtQzeELdcp004nfPxfUMcvpO5Kq5KritoojWRhlRteqha-b2c8lK6I05fiv_QHTOnvMDyHjqOd4TZOJpkuo6Mzy">
+</div>
+<div class="container mx-auto px-6 relative z-20 grid lg:grid-cols-2 gap-12">
+<div class="space-y-8 max-w-2xl">
+<div class="inline-flex items-center gap-2 bg-secondary-container/30 text-secondary px-3 py-1 rounded-full border border-secondary/20">
+<span class="material-symbols-outlined text-sm">verified</span>
+<span class="text-sm font-bold uppercase tracking-wider">Liderando el Agro 4.0</span>
+</div>
+<h1 class="text-display-lg text-primary leading-tight">Anticipa la cosecha, <span class="text-secondary">asegura tu negocio.</span></h1>
+<p class="text-xl text-on-surface-variant leading-relaxed">Vende tu producción antes de cosechar, optimiza tu transporte con carga compartida, exporta con datos en tiempo real y aprende de la comunidad agrícola más grande del Perú.</p>
+<div class="bg-white p-2 rounded-xl shadow-xl flex items-center gap-2 border border-outline-variant max-w-lg">
+<span class="material-symbols-outlined text-outline ml-3">search</span>
+<input class="flex-1 border-none focus:ring-0 text-lg py-3" placeholder="¿Qué cultivo te interesa?" type="text">
+<button class="bg-primary text-white px-6 py-3 rounded-lg font-bold"><span class="flex items-center gap-2"><span class="material-symbols-outlined text-sm text-[#d4a017]">lock</span> Explorar</span></button>
+</div>
+<div class="flex flex-wrap gap-4 pt-4">
+<button class="flex items-center gap-2 border-2 border-primary text-primary px-6 py-3 rounded-lg font-bold hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">agriculture</span> Soy agricultor
+                    </button>
+<button class="flex items-center gap-2 border-2 border-primary text-primary px-6 py-3 rounded-lg font-bold hover:bg-primary/5 transition-colors">
+<span class="material-symbols-outlined">payments</span> Soy comprador
+                    </button>
+<a class="flex items-center gap-2 text-on-surface-variant font-medium underline px-4" href="#">Explorar sin cuenta</a>
+</div>
+</div>
+</div>
+</header>
+<!-- 03: Barra de Cred-->
+<section class="bg-primary-container text-white py-12 relative overflow-hidden">
+<span class="section-number top-0 right-10 text-white">03</span>
+<div class="container mx-auto px-6 flex flex-wrap justify-center gap-12 lg:gap-24 items-center relative z-10">
+<div class="text-center group">
+<div class="text-4xl font-extrabold text-secondary-container mb-1 group-hover:scale-110 transition-transform">25</div>
+<div class="text-sm font-medium uppercase tracking-widest opacity-80">Regiones del Perú</div>
+</div>
+<div class="h-12 w-px bg-white/20 hidden lg:block"></div>
+<div class="text-center group">
+<div class="text-4xl font-extrabold text-secondary-container mb-1 group-hover:scale-110 transition-transform">+30</div>
+<div class="text-sm font-medium uppercase tracking-widest opacity-80">Cultivos Monitoreados</div>
+</div>
+<div class="h-12 w-px bg-white/20 hidden lg:block"></div>
+<div class="flex items-center gap-6">
+<span class="text-sm font-medium uppercase tracking-widest opacity-80">Respaldado por:</span>
+<div class="flex items-center gap-4">
+<span class="font-bold text-xl tracking-tighter">NASA</span>
+<span class="font-bold text-xl tracking-tighter">FAO</span>
+<span class="font-bold text-xl tracking-tighter">MIDAGRI</span>
+</div>
+</div>
+</div>
+</section>
+<!-- 04: Grilla "Todo lo que puedes hacer" -->
+<section class="py-24 container mx-auto px-6 relative">
+<span class="section-number top-0 left-0">04</span>
+<div class="text-center mb-16 relative z-10">
+<h2 class="text-4xl font-extrabold text-primary mb-4">Ecosistema Integral</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto">Diseñamos herramientas específicas para cada eslabón de la cadena productiva agrícola.</p>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10 gap-6">
+<!-- Card 1 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">sell</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary">Venta Anticipada</h3>
+<p class="text-on-surface-variant">Asegura contratos antes de la cosecha. Mitiga riesgos de volatilidad de precios en mercado local.</p>
+</div>
+<!-- Card 2 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">local_shipping</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1 inline-flex align-middle mr-2"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span>Transporte Dedicado</h3>
+<p class="text-on-surface-variant">Flota certificada con seguimiento GPS y monitoreo de temperatura para perecederos.</p>
+</div>
+<!-- Card 3 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">share_location</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary">Carga Compartida</h3>
+<p class="text-on-surface-variant">Divide costos de flete con otros productores de tu zona. Ahorra hasta un 40% en logística.</p>
+</div>
+<!-- Card 4 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">public</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1 inline-flex align-middle mr-2"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span>Exportación Directa</h3>
+<p class="text-on-surface-variant">Conectamos tu lote con compradores globales. Gestión documental y aduanera simplificada.</p>
+</div>
+<!-- Card 5 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">psychology</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary">Asesoría Agronómica</h3>
+<p class="text-on-surface-variant">Consultoría técnica vía remota para mejorar el rendimiento de tus cultivos y calidad.</p>
+</div>
+<!-- Card 6 -->
+<div class="bg-white p-8 rounded-2xl shadow-sm border border-outline-variant hover:shadow-xl hover:-translate-y-2 transition-all group">
+<div class="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center text-primary mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+<span class="material-symbols-outlined">groups</span>
+</div>
+<h3 class="text-xl font-bold mb-3 text-primary"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1 inline-flex align-middle mr-2"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span>Comunidad Agro</h3>
+<p class="text-on-surface-variant">Foros de discusión, alertas de plagas comunitarias y red de confianza de agricultores.</p>
+</div>
+</div>
+</section>
+<!-- 05: Vitrina de Riesgo -->
+<section class="py-24 bg-surface-container relative">
+<span class="section-number bottom-0 right-10">05</span>
+<div class="container mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center relative z-10">
+<div>
+<h2 class="text-4xl font-extrabold text-primary mb-6 leading-tight">Mapa de Riesgo Agrometeorológico<span class="material-symbols-outlined align-middle ml-2 text-[#d4a017]">lock</span></h2>
+<p class="text-lg text-on-surface-variant mb-8">Utilizamos imágenes satelitales y modelos predictivos para alertarte sobre heladas, sequías o excesos de lluvia antes de que afecten tu inversión.</p>
+<div class="space-y-4 mb-10"><div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-outline-variant shadow-sm"><span class="material-symbols-outlined text-error" style="font-variation-settings: &quot;FILL&quot; 1;">warning</span><span class="font-bold flex-1">Piura: Riesgo de Lluvia Extrema</span><span class="bg-error text-white px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">Alto</span></div><div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-outline-variant shadow-sm"><span class="material-symbols-outlined text-secondary" style="font-variation-settings: &quot;FILL&quot; 1;">error</span><span class="font-bold flex-1">Ica: Estrés Hídrico Moderado</span><span class="bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-black tracking-wider">MEDIO</span></div><div class="flex items-center gap-4 bg-white p-4 rounded-xl border border-outline-variant shadow-sm"><span class="material-symbols-outlined text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span><span class="font-bold flex-1">Arequipa: Condiciones Óptimas</span><span class="bg-primary-container text-white px-3 py-1 rounded-full text-[10px] font-black tracking-wider uppercase">Bajo</span></div></div>
+<button class="bg-primary text-white px-8 py-4 rounded-xl font-bold flex items-center gap-2 hover:scale-[1.03] transition-all" style="transform: scale(1);"><span class="material-symbols-outlined">distance</span> <span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Ver el riesgo de mi cultivo</button>
+</div>
+<div class="relative bg-white rounded-3xl p-4 shadow-2xl overflow-hidden min-h-[500px]">
+<div class="absolute inset-0 grayscale opacity-20" data-location="Peru"><div class="absolute top-4 right-4 z-30 bg-[#d4a017] px-3 py-1.5 rounded-lg flex items-center gap-2 shadow-lg"><span class="material-symbols-outlined text-white text-sm">lock</span><span class="text-[10px] font-bold text-white tracking-widest">PRO</span></div></div>
+<!-- Simulating a Map UI -->
+<div class="absolute inset-4 rounded-2xl border-2 border-outline-variant flex items-center justify-center bg-surface overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A highly detailed 3D topographic map of Peru highlighting agricultural zones with semi-transparent heat-map overlays in red, yellow, and green. The map is clean, modern, and stylized for a professional data dashboard, featuring minimal UI elements like zoom buttons and legend icons in a sleek glassmorphism style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA1XmofkAZTleHMhpa_dmAIXI1UDV76wEY28NOU89BNGTjetkLN5W71Xh6n-BDd6OoxM5I2EJrPEvutwFsMgu22QxpRvdbEy2XbOgYUY_S7RGeCS4FuSbIGNn9oFMrcvcg7NJIrYM-cLSWXVJFCQz8J9Ymzr2AUdK86gMekK79cUBeEAH9eFjvMooCikqE-WRO1QjpMNoYHRTo40Cjt7VEzq_30EytRN_py6sjJxMaFrcKHLMDd0RJA">
+<div class="absolute top-4 left-4 glass-card p-3 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">satellite_alt</span>
+<span class="text-xs font-bold uppercase">Vista Satelital Activa</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 06: Sección Transporte -->
+<section class="py-24 container mx-auto px-6 relative">
+<span class="section-number top-10 left-10">06</span>
+<div class="flex flex-col lg:flex-row gap-12">
+<div class="lg:w-1/3">
+<h2 class="text-4xl font-extrabold text-primary mb-6">Transporte Inteligente</h2>
+<p class="text-on-surface-variant mb-8">Cotiza fletes de inmediato y rastrea tu mercadería en tiempo real desde que sale del campo hasta su destino.</p>
+<div class="space-y-4">
+<div class="bg-white border border-outline-variant rounded-xl p-4">
+<label class="text-xs font-bold uppercase text-outline block mb-2">Origen / Destino</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">my_location</span>
+<span class="font-medium text-on-surface">Huancayo</span>
+<span class="material-symbols-outlined text-outline">arrow_forward</span>
+<span class="font-medium text-on-surface">Lima (Merca)</span>
+</div>
+</div>
+<div class="bg-white border border-outline-variant rounded-xl p-4">
+<label class="text-xs font-bold uppercase text-outline block mb-2">Tipo de Carga</label>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary">inventory_2</span>
+<span class="font-medium text-on-surface">Papa Yungay - 20 Ton</span>
+</div>
+</div>
+</div>
+</div>
+<div class="lg:w-2/3 grid md:grid-cols-2 gap-8">
+<div class="bg-primary rounded-3xl p-8 text-white relative overflow-hidden flex flex-col justify-between">
+<div class="relative z-10">
+<div class="flex justify-between items-center mb-6">
+<span class="bg-secondary text-primary px-3 py-1 rounded-full text-xs font-black">CARGA COMPARTIDA</span>
+<span class="text-xs">ID: #TRX-9921</span>
+</div>
+<h4 class="text-2xl font-bold mb-4">Ahorra hasta S/ 1,200</h4>
+<p class="text-sm opacity-80 mb-6">Hay un camión disponible regresando de Jauja. Solo queda el 30% de espacio.</p>
+<div class="bg-white/10 p-4 rounded-xl mb-6">
+<div class="flex justify-between text-xs mb-2">
+<span class="">Ocupación actual</span>
+<span class="font-bold">70%</span>
+</div>
+<div class="w-full h-3 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-secondary-container w-[70%]"></div>
+</div>
+</div>
+</div>
+<button class="relative z-10 w-full bg-white text-primary font-bold py-3 rounded-xl hover:bg-secondary-container transition-colors" style="transform: scale(1);"><span class="flex items-center justify-center gap-2"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Solicitar espacio</span></button>
+</div>
+<div class="bg-white border border-outline-variant rounded-3xl p-2 shadow-xl overflow-hidden group">
+<img class="w-full h-48 object-cover rounded-2xl mb-4 group-hover:scale-105 transition-transform duration-700" data-alt="A professional action shot of a modern clean white logistics truck driving through a coastal highway in Peru at dusk. The truck features a subtle AgroSignal logo. The lighting is dramatic with cool blue shadows and warm orange highlights from the sunset. High resolution, commercial photography style with a focus on speed and efficiency." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxxzrNu-_cgFTdz5CqxNlJMUb2nuwzF7mHfp16H7dCiuW5TrpMKFP0ezPbkeham-WLHErDM9enaYZ27BsWNWldbHla3yjwg2eVZMKmNTvm1fV8QtNzckRtNedrwF3YcAaiaBUS3GquH7xAE1dqp-8cpectO2SXPgDmr_LHfsDDjQYdMPHqwKQrbnzQR4Bu7-cPxF-HWlTIBeBVhApv6Li8dKvJ2G_ju-K1HkQXu4onUHyLPLdY0zlD">
+<div class="p-4">
+<div class="flex items-center justify-between mb-4">
+<div class="flex items-center gap-2">
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">person</span>
+</div>
+<div>
+<p class="text-sm font-bold">Jorge Mendoza</p>
+<p class="text-xs text-outline">Conductor Verificado</p>
+</div>
+</div>
+<div class="flex items-center text-secondary">
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="text-xs font-bold">4.9</span>
+</div>
+</div>
+<div class="h-32 rounded-xl bg-surface-container relative overflow-hidden border border-outline-variant/30">
+<img class="w-full h-full object-cover" data-alt="A mini-map UI interface showing a GPS tracking line of a vehicle moving from the central Andes towards the coast of Lima. The map is minimalist with dark mode colors, neon green tracking lines, and a small vehicle icon. It conveys high-tech real-time logistics monitoring." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAV9mNzXo7go-yxgxliSoCfYMVTZs3_P06cAhd9BuTiORslNMO925mgB-yiZdohOpNBUqGu7AVM-nYPS_if9EpEyba6zM-XKXNtT9YO5UKGXarG8wqtTr8bRpFx5szNmb2LE35WoMuOXHla2f-7VCRPvxy5kn7xCc0pW1x1FPaDgx1X62e3-05gVmPnbFaTOvtMfqZW4p9P3__EfmD9rDMdFWv_ElD0PWN5KXLC8SMNLTLqPpoxa607">
+<div class="absolute bottom-2 right-2 bg-white px-2 py-1 rounded text-[10px] font-bold shadow-sm">GPS: EN VIVO</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 07: Mercados del Mundo -->
+<section class="py-24 bg-primary text-white relative overflow-hidden">
+<span class="section-number top-0 left-10 text-white opacity-5">07</span>
+<div class="container mx-auto px-6 relative z-10">
+<div class="flex flex-col lg:flex-row justify-between items-end mb-16 gap-6">
+<div class="max-w-xl">
+<h2 class="text-4xl font-extrabold mb-4">Oportunidades de Exportación</h2>
+<p class="opacity-70">Identificamos los mercados con mayor demanda y mejores precios para tus productos.</p>
+</div>
+<div class="flex gap-4">
+<select class="bg-white/10 border-white/20 rounded-lg px-4 py-2 text-white focus:ring-secondary">
+<option>Arándano</option>
+<option>Palta Hass</option>
+<option>Mango Kent</option>
+</select>
+</div>
+</div>
+<div class="grid lg:grid-cols-12 gap-8 items-start">
+<!-- Left: Featured Map Visualization (65-70% width) -->
+<div class="lg:col-span-8 relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+<div class="absolute inset-0 bg-gradient-to-t from-primary/40 to-transparent z-10 pointer-events-none"></div>
+<img alt="US Import Hub for Peruvian Agriculture" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAL-XhdfcyjLL8p6c_naHuJgWaE6vMvAAi2wMopAFf70YyDx9d-AZDW2KZaC8j2B2PpkorhbIyQ05H1q3N8i-BFsEMQ4q5OazQzNPQGSp9HUq0bxcsg95IowqBPTUo2OjGxRf8yyNScg7qmx-fE510jXqo8Zl7H713xERaNLzbBugnu5aNJPtYryvzLkCkvPYFIzq5lvWYOSB4CqN0kqWn01Etapv9KpNkt5owtpVZnDBWx9qytvoNm">
+<div class="absolute bottom-6 left-6 z-20">
+<div class="flex gap-2">
+<span class="bg-secondary text-primary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest">Visualización en Tiempo Real</span>
+<span class="bg-white/10 backdrop-blur-md text-white px-3 py-1 rounded-full text-[10px] font-bold border border-white/20">Fuente: Aduanas 2023</span>
+</div>
+</div>
+</div>
+<!-- Right: Mercado Seleccionado Side Panel (30-35% width) -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-white/10 backdrop-blur-md p-8 rounded-3xl border border-white/20 shadow-xl">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-2xl font-bold text-white">Mercado Seleccionado</h3>
+<span class="material-symbols-outlined text-[#d4a017]">public</span>
+</div>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-12 h-8 bg-white/10 rounded flex items-center justify-center overflow-hidden border border-white/10">
+<span class="text-xl">🇺🇸</span>
+</div>
+<div>
+<h4 class="text-xl font-bold text-white">Estados Unidos</h4>
+<p class="text-xs text-white/60 uppercase tracking-widest">Principal Socio Comercial</p>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-[10px] text-white/50 uppercase mb-1">TLC</p>
+<span class="text-[#d4a017] font-black text-xs">ACTIVO</span>
+</div>
+<div class="bg-white/5 p-3 rounded-xl border border-white/5">
+<p class="text-[10px] text-white/50 uppercase mb-1">Certificación</p>
+<span class="text-green-400 font-black text-[10px]">AGROSIGNAL</span>
+</div>
+</div>
+<div class="space-y-4 pt-4 border-t border-white/10">
+<div class="flex justify-between items-center">
+<span class="text-sm text-white/70">Precio Promedio</span>
+<span class="text-lg font-bold text-[#d4a017]">$4.50 / kg</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-white/70">Demanda</span>
+<span class="text-green-400 flex items-center gap-1 font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span> +12%
+            </span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-sm text-white/70">Arancel</span>
+<span class="text-white font-bold">0% (Preferencial)</span>
+</div>
+</div>
+<button class="w-full bg-secondary-container text-primary font-bold py-4 rounded-xl hover:bg-white transition-all shadow-lg"><span class="flex items-center justify-center gap-2"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Ver Reporte Detallado</span></button>
+</div>
+</div>
+<!-- Search Field -->
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-white/40 group-focus-within:text-secondary-container transition-colors">search</span><span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-sm text-[#d4a017]">lock</span>
+<input class="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-white placeholder:text-white/30 focus:ring-2 focus:ring-secondary-container focus:border-transparent transition-all" placeholder="Buscar otro país..." type="text">
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 08: Producto Verificado -->
+<section class="py-24 container mx-auto px-6 relative flex flex-col md:flex-row items-center gap-16">
+<span class="section-number top-0 left-0">08</span>
+<div class="md:w-1/2">
+<img class="w-full h-[500px] object-cover rounded-3xl shadow-2xl border-4 border-white" data-alt="A macro studio shot of a perfectly ripe, green Hass avocado with professional studio lighting. Overlaid on the image is a high-tech holographic seal that reads 'VERIFIED: ZERO RESIDUES' with a checkmark. The style is clean, clinical, and high-end corporate, emphasizing food safety and quality control." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCulDvvLd_sTI467N58ZbOWlUxa5QebyN-xE5MC1jb-zJo1V_hiPb8TfSMo5LSERdpkIrn9zA_gYnkgB3x4mdu1i26I0tXdoVMRs2pDrdXUJkEkwz4272Uiz5bw736cj8Csc0nHCUH3ffIV0yBtQZZogoSA9FoHgou-hEO5HJ8GEI06iApaxiNwkOHVWd5K5Xx61jJ_jibHv7Vom6x1Sane1lcrZ4wjlNXF7G4BMcmmGLaRNwx33uNC">
+</div>
+<div class="md:w-1/2 space-y-6">
+<h2 class="text-4xl font-extrabold text-primary">Sello de Inocuidad AgroSignal</h2>
+<p class="text-xl text-on-surface-variant">Cada lote publicado en nuestra plataforma cuenta con una trazabilidad completa. Validamos límites máximos de residuos (LMR) y certificaciones internacionales.</p>
+<div class="grid grid-cols-2 gap-4"><div class="flex justify-between items-start mb-4"><h4 class="font-bold text-lg">China</h4><div class="flex flex-col items-end"><span class="opacity-50 font-black text-xs">PROTOCOLO FITO</span><span class="text-[10px] text-secondary-container font-bold">ARANCEL 5%</span></div></div><div class="space-y-3"><div class="flex justify-between text-sm"><span class="opacity-70">Precio Promedio</span><span class="font-bold">$6.20 / kg</span></div><div class="flex justify-between text-sm"><span class="opacity-70">Demanda Actual</span><span class="text-secondary flex items-center font-bold">MODERADA</span></div><div class="pt-2 flex gap-2"><span class="material-symbols-outlined text-primary text-xs" title="Sello de Inocuidad">verified</span><span class="bg-secondary text-white text-[8px] px-2 py-0.5 rounded-full">RIESGO MEDIO</span></div></div></div>
+<div class="bg-secondary-container/20 border border-secondary-container p-6 rounded-2xl flex items-center gap-6">
+<div class="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-lg border-2 border-secondary-container shrink-0">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: &quot;FILL&quot; 1;">health_and_safety</span>
+</div>
+<div>
+<h4 class="font-bold text-primary">Libre de Residuos</h4>
+<p class="text-sm text-on-surface-variant">Garantizamos que el producto cumple con los estándares más estrictos de Europa y USA.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 09: Lotes Destacados -->
+<section class="py-24 bg-surface-container relative">
+<span class="section-number bottom-0 left-10">09</span>
+<div class="container mx-auto px-6">
+<div class="flex justify-between items-center mb-16">
+<h2 class="text-4xl font-extrabold text-primary">Cosechas Disponibles<span class="material-symbols-outlined align-middle ml-2 text-[#d4a017]">lock</span></h2>
+<a class="text-primary font-bold flex items-center gap-2 hover:underline" href="#">Ver todo el mercado <span class="material-symbols-outlined">arrow_right_alt</span></a>
+</div>
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+<!-- Lot Card 1 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-outline-variant hover:shadow-xl transition-shadow group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Close-up of freshly harvested golden potatoes in a wooden crate, sunlight highlighting their texture. Professional agricultural product photography with vibrant colors and sharp focus. Light mode aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOhhwJL7Q2VpSLYopmLsspcIilMPxpq1NGIG8dX8obDbnmEUe-y-QK3DLAnUEWFJnn8SKazZzGox4WNsEXXiR7Ngyrjh5kYj9J6dsg502AoeXR3A2RkNZI6p5wCe9TktrMCHT5T_nVF3qMPkefOnEwuIN-83fXmqLfF5QE4hD-VyC1BiEqYkwRttJ79pctPZwoSsMYd91f3bFyrBGAr_Dzl6cKVBljusJa1PEYDNFRQoHyjCeR48TJ">
+<div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">En Cosecha</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-[10px] font-bold text-outline">RIESGO</span>
+<span class="text-primary font-black text-xs">BAJO</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-1 mb-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span></div><h4 class="text-xl font-bold text-primary">Papa Yungay Extra</h4>
+<p class="text-sm text-on-surface-variant">Huancayo, Junín</p>
+</div>
+<div class="text-right">
+<p class="text-xl font-black text-secondary">S/ 1.80</p>
+<p class="text-[10px] text-outline">POR KILO</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<span class="text-xs font-bold text-primary">LOTE VERIFICADO LMR</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Contactar</button>
+<button class="w-10 h-10 border border-outline-variant rounded-lg flex items-center justify-center text-outline hover:text-primary"><span class="material-symbols-outlined">favorite</span></button>
+</div>
+</div>
+</div>
+<!-- Lot Card 2 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-outline-variant hover:shadow-xl transition-shadow group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="High-quality close up of organic mangoes hanging from a tree branch, vibrant orange and green colors, warm tropical lighting. Professional agricultural photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA2k4awvH4w2BODcH569PVN85SorVk4K72XAzYUFg_8VPz-mzQ4-UWxzgs8TaeAE3yhgwm-NkeuoTeKoTStggeVIgtnpg6c8O659BvoK9nS7ub4f5mLeOw7JL66enQINnHWsst54zvOmyYbwumYs0YxRNnajGJgyxPJpiIQEmmQixyF_HbyTLBEazE_PHn145IpiUsQ0iv44EO7oNizlXCdxylHIq18vvfSb50QrSmBTl2SRzXgWMF1">
+<div class="absolute top-4 left-4 bg-secondary-container text-on-secondary-container text-xs font-bold px-3 py-1 rounded-full">Próxima Cosecha (15 días)</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-[10px] font-bold text-outline">RIESGO</span>
+<span class="text-secondary font-black text-xs">MEDIO</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-1 mb-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span></div><h4 class="text-xl font-bold text-primary">Mango Kent Export</h4>
+<p class="text-sm text-on-surface-variant">Tambogrande, Piura</p>
+</div>
+<div class="text-right">
+<p class="text-xl font-black text-secondary">S/ 4.50</p>
+<p class="text-[10px] text-outline">POR KILO</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<span class="text-xs font-bold text-primary">EXPORT READY</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Reservar Lote</button>
+<button class="w-10 h-10 border border-outline-variant rounded-lg flex items-center justify-center text-outline hover:text-primary"><span class="material-symbols-outlined">favorite</span></button>
+</div>
+</div>
+</div>
+<!-- Lot Card 3 -->
+<div class="bg-white rounded-2xl overflow-hidden shadow-sm border border-outline-variant hover:shadow-xl transition-shadow group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Top view of open crates of premium green asparagus, fresh and crisp, professional food marketing photography with bright lighting and focus on quality." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDhfrw-TNeh2SfmYSY25FI950_Zl-TSfcnJe3VpFqYldZMtPtebOCzl4T3BuFnDUG0ylyzMPD2eXuJklcdc1Mz-s9I3tgab-RzUIeYC48AjcWRtA5hQCTM-EBJ7i4jt_NLmRXVmAmqwztX3ozBJUc1XS-0T5qpDnc9xFQRQfijAq_fsm8KpCwiojHvcxDmgcyLzf4oitdzUHj7AHCwV183IRAE_yw6suzreJHECsCjg4uvlqmHdx5kQ">
+<div class="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full">Disponible</div>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur p-2 rounded-lg flex flex-col items-center shadow-sm">
+<span class="text-[10px] font-bold text-outline">RIESGO</span>
+<span class="text-primary font-black text-xs">BAJO</span>
+</div>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<div class="flex items-center gap-1 mb-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span></div><h4 class="text-xl font-bold text-primary">Espárrago Verde</h4>
+<p class="text-sm text-on-surface-variant">Chao, La Libertad</p>
+</div>
+<div class="text-right">
+<p class="text-xl font-black text-secondary">S/ 7.20</p>
+<p class="text-[10px] text-outline">POR KILO</p>
+</div>
+</div>
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary text-sm">verified</span>
+<span class="text-xs font-bold text-primary">GLOBAL G.A.P.</span>
+</div>
+<div class="flex gap-2">
+<button class="flex-1 bg-primary text-white py-2 rounded-lg font-bold text-sm flex items-center justify-center gap-1"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Contactar</button>
+<button class="w-10 h-10 border border-outline-variant rounded-lg flex items-center justify-center text-outline hover:text-primary"><span class="material-symbols-outlined">favorite</span></button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 10: Asesoría y Comunidad -->
+<section class="py-24 container mx-auto px-6 grid lg:grid-cols-2 gap-16 relative">
+<span class="section-number top-0 left-0">10</span>
+<!-- Left: Asesores -->
+<div>
+<h2 class="text-3xl font-extrabold text-primary mb-8">Asesoría Profesional</h2>
+<div class="relative group">
+<div class="bg-white rounded-3xl p-8 border border-outline-variant shadow-lg">
+<div class="flex items-center gap-6 mb-8">
+<img class="w-24 h-24 rounded-2xl object-cover" data-alt="Professional headshot of a friendly Latino agronomist in a clean white lab coat or agricultural polo shirt, outdoors in a field setting. He looks confident and approachable. Professional lighting, shallow depth of field." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAMe1AmY2PtnquFAeyYEmvmlU17vZO8erhLCKNQAuMyBueRsH4GtR0i_-EWlHnAxBJiE-sQ9VUcSguMbxHY_83shdAOcWw2jRxLSi5uibLaEoeLFjK_qUYCjW5NhTGPwXvkSF-17c6lXxVamxWFJmBzBRTuruzzoIlVpnywVFoS30YbEZlKgGmFTlaAQAUkxWOw0cAjfOPBz2FW4Wl0ec8bZc-CTN_u2Zffxmww-pR8NEBcM1RNoTzE">
+<div>
+<h4 class="text-xl font-bold">Ing. Ricardo Salas</h4>
+<p class="text-primary font-medium">Especialista en Frutales de Exportación</p>
+<div class="flex text-secondary-container mt-1">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: &quot;FILL&quot; 1;">star</span>
+</div>
+</div>
+</div>
+<p class="text-on-surface-variant mb-6">"He ayudado a más de 50 productores de palta en Moquegua a mejorar su calibre en un 20% mediante fertirriego controlado."</p>
+<button class="w-full bg-surface-container py-3 rounded-xl font-bold text-primary hover:bg-primary hover:text-white transition-all">Agendar Video-Asesoría</button>
+</div>
+<!-- Navigation Dots -->
+<div class="flex justify-center gap-2 mt-6">
+<div class="w-2 h-2 rounded-full bg-primary"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+<div class="w-2 h-2 rounded-full bg-outline-variant"></div>
+</div>
+</div>
+</div>
+<!-- Right: Comunidad Feed -->
+<div>
+<h2 class="text-3xl font-extrabold text-primary mb-8">Voz del Campo</h2>
+<div class="space-y-4">
+<div class="bg-white p-6 rounded-2xl border border-outline-variant hover:border-primary/30 transition-colors cursor-pointer">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-secondary-container/20 text-secondary flex items-center justify-center font-bold">ML</div>
+<div>
+<p class="text-sm font-bold">Marcos López <span class="text-xs text-outline font-normal">hace 2 horas</span></p>
+<p class="text-xs text-primary font-bold">Arequipa • Cebolla</p>
+</div>
+</div>
+<p class="text-sm mb-4">"Alerta: Reportan presencia de mildiu en la zona baja de Majes. ¿Alguien ha probado el tratamiento sistémico que recomendó AgroSignal?"</p>
+<div class="flex gap-6 text-outline">
+<span class="flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-sm">mode_comment</span> 12 comentarios</span>
+<span class="flex items-center gap-1 text-xs"><span class="material-symbols-outlined text-sm">thumb_up</span> 45 útiles</span>
+</div>
+</div>
+<div class="bg-white p-6 rounded-2xl border border-outline-variant hover:border-primary/30 transition-colors cursor-pointer opacity-80">
+<div class="flex items-center gap-3 mb-4">
+<div class="w-10 h-10 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold">EV</div>
+<div>
+<p class="text-sm font-bold">Elena Valdivia <span class="text-xs text-outline font-normal">hace 5 horas</span></p>
+<p class="text-xs text-primary font-bold">Chanchamayo • Café</p>
+</div>
+</div>
+<p class="text-sm">"¡Logré mi primera exportación a Alemania gracias a la plataforma! El proceso de documentación fue mucho más simple de lo esperado."</p>
+</div>
+<button class="text-primary font-bold text-sm w-full py-4 border-2 border-dashed border-outline-variant rounded-2xl hover:border-primary hover:bg-primary/5"><span class="flex items-center justify-center gap-2"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Explorar Comunidad</span></button>
+</div>
+</div>
+</section>
+<!-- 11: Cómo Funciona -->
+<section class="py-24 bg-primary text-white relative">
+<span class="section-number bottom-0 right-10 text-white opacity-5">11</span>
+<div class="container mx-auto px-6 text-center mb-16">
+<h2 class="text-4xl font-extrabold mb-8">Tres pasos para crecer</h2>
+<div class="inline-flex bg-white/10 p-1 rounded-xl mb-12">
+<button class="bg-white text-primary px-8 py-2 rounded-lg font-bold">Soy Productor</button>
+<button class="text-white px-8 py-2 rounded-lg font-bold">Soy Comprador</button>
+</div>
+</div>
+<div class="container mx-auto px-6 grid md:grid-cols-3 gap-12 relative">
+<!-- Connector Line (Desktop Only) -->
+<div class="hidden md:block absolute top-1/2 left-1/4 right-1/4 h-0.5 border-t-2 border-dashed border-white/20 -translate-y-12"></div>
+<div class="relative z-10 space-y-6">
+<div class="w-16 h-16 bg-secondary-container text-primary rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-xl rotate-3">1</div>
+<h4 class="text-xl font-bold">Publica tu Lote</h4>
+<p class="opacity-70 text-sm">Sube fotos y datos de tu cultivo. Nuestro sistema lo analiza y le otorga un sello de confianza preliminar.</p>
+</div>
+<div class="relative z-10 space-y-6">
+<div class="w-16 h-16 bg-secondary-container text-primary rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-xl -rotate-2">2</div>
+<h4 class="text-xl font-bold">Organiza el Flete</h4>
+<p class="opacity-70 text-sm">Usa nuestra red de transportistas verificados o únete a una carga compartida para reducir costos.</p>
+</div>
+<div class="relative z-10 space-y-6">
+<div class="w-16 h-16 bg-secondary-container text-primary rounded-2xl flex items-center justify-center text-2xl font-black mx-auto shadow-xl rotate-1">3</div>
+<h4 class="text-xl font-bold">Cobra Seguro <span class="material-symbols-outlined text-sm align-middle text-[#d4a017]">lock</span></h4>
+<p class="opacity-70 text-sm">Recibe el pago mediante nuestra pasarela segura una vez que el comprador confirma la recepción.</p>
+</div>
+</div>
+</section>
+<!-- 12: Testimonios -->
+<section class="py-24 container mx-auto px-6 relative">
+<span class="section-number top-0 left-0">12</span>
+<h2 class="text-4xl font-extrabold text-primary text-center mb-16">Ellos ya confían en AgroSignal</h2>
+<div class="grid md:grid-cols-3 gap-8 gap-6">
+<div class="bg-white p-8 rounded-3xl border border-outline-variant relative">
+<span class="material-symbols-outlined text-6xl text-primary/5 absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="A portrait of a hardworking middle-aged Peruvian farmer wearing a traditional hat, smiling warmly against a background of mountains. Authentic, professional, and heartfelt documentary-style photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlWj8T6NNJtZZIl1BEL0MQS4nFNFAl8JiZDDJnNS3RZ90RWOGtOACu9QftX1bDC5UL-x7WqAbgj8ZQ5KZXu4f64CRFiVTflGXdSOvSjNre5IMIhRhALDy-2V_CQK_3AxYkTCWj_Dh-dlxUulqVsTwNhbn9oYhyeVM48Bcrfv3pBtaE86dBHoNJO6bTLy124zzReZESvn7L_SdclK8etEKQGbicsBOMjb1udsJE3aRN4z4RkblzVoGa">
+<div>
+<p class="font-bold">Eusebio Quispe</p>
+<p class="text-xs text-outline">Productor de Quinua • Puno</p>
+</div>
+</div>
+<p class="text-on-surface-variant italic">"Antes vendía a lo que me ofrecían en la chacra. Con AgroSignal logré contactar a un exportador y me pagaron el doble."</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant relative">
+<span class="material-symbols-outlined text-6xl text-primary/5 absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Portrait of a young professional woman in a business casual outfit, standing in a modern grocery distribution center. She looks smart and efficient. High-end commercial photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAuvDpXlScjafb0O8TTi-oi5iINcRm8EjRqAVuU4eKd4w6PtndoyrEEQy7zRKrNLnlrO-HT_JkReDZsfISKKcPH0KF2uFlhjbCCMSMEDAUOujv1OjXlBk5xgdhgg_DqLTJMnMfN-2QcnQBNCkZOSwz5VUPw57-9gi9OOpVQHF9yS4--2C0-_GmSbyWmRqyjKKUb48lF5RHuRqYzg8nafvb3hiZWzHcklg_xD7C6MbttdYYmZiX_9UDc">
+<div>
+<p class="font-bold">Ana Maria Torres</p>
+<p class="text-xs text-outline">Compradora Mayorista • Lima</p>
+</div>
+</div>
+<p class="text-on-surface-variant italic">"La trazabilidad es clave. Saber que el producto viene verificado me da la seguridad para vender a mis clientes premium."</p>
+</div>
+<div class="bg-white p-8 rounded-3xl border border-outline-variant relative">
+<span class="material-symbols-outlined text-6xl text-primary/5 absolute top-4 right-4">format_quote</span>
+<div class="flex items-center gap-4 mb-6">
+<img class="w-14 h-14 rounded-full object-cover" data-alt="Portrait of a friendly truck driver leaning against his modern white truck, wearing a safety vest and a cap. Daylight, industrial logistic setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-DJ0Qt2V0SCm-21-PasUrBcyMzJBHchXNlw-5IDYCGAkCSQuROVE7aWNEQamaE8Pn_jW9rzkUIFLVXBPCexZF62ol7hIuVj4hLBtYgqHxRtnE4CHzaIEFIIDjhKMq24wDW5MtWCxVB_gEiwstG9DzveZ7Wv2TUlKrykpFI8oXY5dk9g-x2hfsYTUCSOgaTkOtVw3HFBx3UzqcUK3SlTKHywAzDpBSV1pLL7wSYuJYXYZ_8EYtwixt">
+<div>
+<p class="font-bold">Raúl Sanchez</p>
+<p class="text-xs text-outline">Transportista • Ica</p>
+</div>
+</div>
+<p class="text-on-surface-variant italic">"Nunca más volví con el camión vacío. Las cargas compartidas me han permitido optimizar mis rutas y ganar más por viaje."</p>
+</div>
+</div>
+</section>
+<!-- 13:-->
+<section class="py-24 bg-surface-container relative overflow-hidden">
+<span class="section-number bottom-0 right-10">13</span>
+<div class="container mx-auto px-6 text-center relative z-10">
+<h2 class="text-5xl font-extrabold text-primary mb-6">¿Listo para transformar tu futuro agrícola?<span class="material-symbols-outlined align-middle ml-2 text-[#d4a017]">lock</span></h2>
+<p class="text-xl text-on-surface-variant mb-12 max-w-3xl mx-auto">Únete hoy a la comunidad AgroSignal y empieza a gestionar tu negocio con datos, seguridad y eficiencia.</p>
+<div class="flex flex-col md:flex-row justify-center gap-6">
+<div class="bg-white p-8 rounded-3xl shadow-xl border border-outline-variant hover:border-primary transition-all group flex-1 max-w-sm">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: &quot;FILL&quot; 1;">agriculture</span>
+<h4 class="text-xl font-bold mb-2">Soy Agricultor</h4>
+<p class="text-sm text-outline mb-6">Publica tus lotes y accede a asesoría técnica.</p>
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold group-hover:bg-secondary-container group-hover:text-primary transition-colors">Empezar Gratis</button>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-xl border border-outline-variant hover:border-primary transition-all group flex-1 max-w-sm">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: &quot;FILL&quot; 1;">shopping_cart</span>
+<h4 class="text-xl font-bold mb-2">Soy Comprador</h4>
+<p class="text-sm text-outline mb-6">Accede a productos verificados con trazabilidad.</p>
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold group-hover:bg-secondary-container group-hover:text-primary transition-colors">Registrarme</button>
+</div>
+<div class="bg-white p-8 rounded-3xl shadow-xl border border-outline-variant hover:border-primary transition-all group flex-1 max-w-sm">
+<span class="material-symbols-outlined text-4xl text-primary mb-4" style="font-variation-settings: &quot;FILL&quot; 1;">local_shipping</span>
+<h4 class="text-xl font-bold mb-2">Soy Transportista</h4>
+<p class="text-sm text-outline mb-6">Optimiza tus rutas y encuentra nuevas cargas.</p>
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold group-hover:bg-secondary-container group-hover:text-primary transition-colors"><span class="flex items-center justify-center gap-2"><span class="bg-[#d4a017] text-white text-[10px] px-2 py-0.5 rounded flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">lock</span> PRO</span> Afiliar mi Flota</span></button>
+</div>
+</div>
+</div>
+</section>
+<!-- 14: Footer -->
+<footer class="bg-primary-container text-white py-20 relative">
+<span class="section-number top-10 left-10 text-white opacity-5">14</span>
+<div class="container mx-auto px-6">
+<div class="grid md:grid-cols-4 gap-12 mb-16">
+<div class="space-y-6">
+<span class="font-bold text-3xl tracking-tighter">AgroSignal</span>
+<p class="opacity-60 text-sm leading-relaxed">Conectando el campo peruano con el mundo a través de datos y tecnología financiera avanzada.</p>
+<div class="flex gap-4">
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary-container hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">face_nod</span></a>
+<a class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center hover:bg-secondary-container hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">alternate_email</span></a>
+</div>
+</div>
+<div>
+<h5 class="font-bold text-lg mb-6 text-secondary-container">Plataforma</h5>
+<ul class="space-y-4 opacity-70 text-sm">
+<li class=""><a class="hover:text-secondary-container" href="#">Mercado de Cosechas</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Red de Transporte</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Exportación Inteligente</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Mapas de Riesgo</a></li>
+</ul>
+</div>
+<div class="">
+<h5 class="font-bold text-lg mb-6 text-secondary-container">Soporte</h5>
+<ul class="space-y-4 opacity-70 text-sm">
+<li class=""><a class="hover:text-secondary-container" href="#">Preguntas Frecuentes</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Centro de Ayuda</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Contactar Asesor</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Reportar Incidente</a></li>
+</ul>
+</div>
+<div class="">
+<h5 class="font-bold text-lg mb-6 text-secondary-container">Legal</h5>
+<ul class="space-y-4 opacity-70 text-sm">
+<li class=""><a class="hover:text-secondary-container" href="#">Términos y Condiciones</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Política de Privacidad</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Cookies</a></li>
+<li class=""><a class="hover:text-secondary-container" href="#">Libro de Reclamaciones</a></li>
+</ul>
+</div>
+</div>
+</div></footer></body></html>

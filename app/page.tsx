@@ -17,64 +17,67 @@ export default function Home() {
 
       {/* Header — compacto, la protagonista es la tarjeta verde de abajo */}
       <header className="sticky top-0 z-20 bg-white/85 backdrop-blur-md border-b border-gray-100">
-        <div className="app-container px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between gap-4">
+        <div className="app-container px-4 sm:px-6 lg:px-8 py-2 flex items-center justify-between gap-4">
           <div className="flex items-center gap-3.5">
             <div className="w-8 h-8 rounded-lg bg-linear-to-br from-[var(--brand-green-500)] to-[var(--brand-green-700)] shadow-sm flex items-center justify-center text-sm shrink-0">
               🌾
             </div>
             <div>
-              <h1 className="text-base font-extrabold tracking-tight text-gradient-brand leading-none">
+              <h1 className="text-base font-bold tracking-tight text-gradient-brand leading-none">
                 AgroSignal
               </h1>
-              <p className="text-[11px] text-gray-400 tracking-wide hidden sm:block mt-0.5">
+              <p className="text-[11px] text-gray-400 tracking-wide hidden sm:block mt-1">
                 Anticipa la cosecha, asegura tu negocio
               </p>
             </div>
           </div>
-          <div className="text-right shrink-0">
-            <div className="text-[10px] text-gray-400 font-normal">Última actualización</div>
-            <div className="text-xs text-gray-500 font-medium">{ahora}</div>
+          <div className="text-right shrink-0 leading-tight">
+            <div className="text-xs text-gray-400 font-normal">Última actualización</div>
+            <div className="text-xs text-gray-600 font-medium mt-0.5">{ahora}</div>
           </div>
         </div>
       </header>
 
       {/* Main */}
-      <main className="app-container px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
+      <main className="app-container px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
 
         {/* Tagline — foco visual principal de la página */}
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[var(--brand-green-900)] to-[var(--brand-green-600)] px-8 sm:px-10 py-9 sm:py-11 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-green-900/15">
+        <div className="card-surface relative overflow-hidden bg-linear-to-br from-[var(--brand-green-900)] to-[var(--brand-green-600)] px-8 sm:px-10 py-8 sm:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[var(--brand-gold-400)]/20 blur-3xl pointer-events-none" />
           <div className="relative">
-            <h2 className="text-[32px] sm:text-4xl font-bold text-white mb-3 leading-tight">
+            <h2 className="text-[32px] sm:text-4xl font-bold text-white mb-2 leading-tight">
               Monitor de Riesgo Agrícola — Perú {new Date().getFullYear()}
             </h2>
-            <p className="text-base text-emerald-100/85">
+            <p className="text-base font-medium text-emerald-100/85">
               Detecta años con riesgo de mala cosecha antes de que ocurran · 25 regiones · 30 cultivos
             </p>
           </div>
           <div className="relative text-left md:text-right shrink-0">
-            <div className="text-xs text-emerald-100/70 mb-1">Modelo</div>
-            <div className="text-sm font-semibold text-white">Random Forest · NASA POWER · FAOSTAT</div>
+            <div className="text-xs font-normal text-emerald-100/70 mb-1">Modelo</div>
+            <div className="text-sm font-medium text-white">Random Forest · NASA POWER · FAOSTAT</div>
           </div>
         </div>
 
         {/* Banner: El Niño 2026-2027 — más compacto y menos saturado que el hero */}
         <Link href="/fenomeno-nino" className="group block">
-          <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex items-center justify-between gap-4 shadow-md shadow-orange-900/10 transition-all duration-200 group-hover:shadow-lg group-hover:-translate-y-0.5">
+          <div className="card-surface relative overflow-hidden bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex items-center justify-between gap-4 group-hover:shadow-[var(--shadow-card-hover)] group-hover:-translate-y-0.5">
             <div className="relative flex items-center gap-4 min-w-0">
               <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0">
                 🌊
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-bold text-white mb-0.5 truncate">
+                <h3 className="text-sm font-bold text-white mb-1 truncate">
                   Alerta: El Niño 2026–2027 se perfila fuerte
                 </h3>
-                <p className="text-[13px] text-orange-100/80 truncate">
+                <p className="text-sm font-normal text-orange-100/80 truncate">
                   63% prob. de evento &quot;muy fuerte&quot; (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa
                 </p>
               </div>
             </div>
-            <span className="relative text-sm font-bold text-white whitespace-nowrap flex items-center gap-1.5 shrink-0">
+            <span
+              className="relative self-center text-sm font-medium text-white whitespace-nowrap flex items-center gap-1.5 shrink-0 rounded-lg bg-white/10 border border-white/15 pl-4 pr-5 py-2 group-hover:bg-white/15"
+              style={{ transition: 'var(--transition-base)' }}
+            >
               Ver pronóstico
               <span className="transition-transform duration-200 group-hover:translate-x-1">→</span>
             </span>
@@ -115,7 +118,7 @@ export default function Home() {
       <footer className="app-container px-4 sm:px-6 lg:px-8 pb-10">
         <div className="border-t border-gray-100 pt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-xs text-gray-400">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="font-bold text-[var(--brand-green-600)]">AgroSignal</span>
+            <span className="font-medium text-[var(--brand-green-600)]">AgroSignal</span>
             <span>·</span>
             <span>NASA POWER</span>
             <span>·</span>

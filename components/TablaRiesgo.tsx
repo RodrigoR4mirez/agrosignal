@@ -26,7 +26,7 @@ export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
         <tbody>
           {sorted.map((row, i) => (
             <tr key={i} className="border-b border-gray-50 hover:bg-[var(--surface)] transition-colors">
-              <td className="py-3 px-4 font-semibold text-gray-800">{row.Cultivo}</td>
+              <td className="py-3 px-4 font-medium text-gray-800">{row.Cultivo}</td>
               <td className="py-3 px-4 text-gray-500">{row.Region}</td>
               <td className="py-3 px-4 text-right font-mono font-semibold tabular-nums">
                 {row.Nivel === 'N/D' ? <span className="text-gray-300">—</span> : `${row['Riesgo_%']}%`}

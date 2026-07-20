@@ -1,0 +1,488 @@
+<!DOCTYPE html><html class="light" lang="es"><head>
+<meta charset="utf-8">
+<meta content="width=390, initial-scale=1.0" name="viewport">
+<title>AgroSignal - Gestión Agrícola Profesional</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#ffdfa0",
+                    "on-surface-variant": "#40493f",
+                    "on-primary": "#ffffff",
+                    "inverse-primary": "#93d697",
+                    "error-container": "#ffdad6",
+                    "on-secondary-fixed-variant": "#5c4300",
+                    "tertiary": "#662035",
+                    "secondary-fixed-dim": "#f6be39",
+                    "primary": "#004317",
+                    "secondary-container": "#ffc641",
+                    "background": "#f7f9fb",
+                    "surface-dim": "#d8dadc",
+                    "inverse-surface": "#2d3133",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "on-background": "#191c1e",
+                    "surface-container-highest": "#e0e3e5",
+                    "on-tertiary-fixed-variant": "#772e42",
+                    "on-tertiary-fixed": "#3e0117",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed-variant": "#0c5221",
+                    "primary-container": "#1a5c2a",
+                    "surface-variant": "#e0e3e5",
+                    "primary-fixed-dim": "#93d697",
+                    "surface-container-high": "#e6e8ea",
+                    "on-tertiary-container": "#ffacbd",
+                    "surface": "#f7f9fb",
+                    "surface-bright": "#f7f9fb",
+                    "on-secondary-container": "#715300",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#eff1f3",
+                    "on-secondary": "#ffffff",
+                    "on-surface": "#191c1e",
+                    "on-secondary-fixed": "#261a00",
+                    "on-primary-container": "#8fd394",
+                    "surface-tint": "#2a6b37",
+                    "tertiary-container": "#83374b",
+                    "tertiary-fixed": "#ffd9df",
+                    "on-error-container": "#93000a",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#aef3b1",
+                    "tertiary-fixed-dim": "#ffb1c1",
+                    "surface-container-low": "#f2f4f6",
+                    "on-primary-fixed": "#002108",
+                    "secondary": "#795900",
+                    "outline-variant": "#c0c9bc",
+                    "outline": "#717a6f"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "gutter": "16px",
+                    "container-margin": "24px",
+                    "unit": "8px",
+                    "card-padding": "20px",
+                    "touch-target": "48px"
+            },
+            "fontSize": {
+                    "headline-lg": ["32px", {"lineHeight": "40px", "fontWeight": "700"}],
+                    "headline-lg-mobile": ["24px", {"lineHeight": "32px", "fontWeight": "700"}],
+                    "body-sm": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "56px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "title-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "label-bold": ["12px", {"lineHeight": "16px", "fontWeight": "700"}]
+            }
+          }
+        }
+      }
+    </script>
+<style>
+        body {
+            background-color: #f7f9fb;
+            color: #191c1e;
+            width: 390px;
+            margin: 0 auto;
+            overflow-x: hidden;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- 01. TopAppBar (JSON Mapping) -->
+<header class="bg-surface sticky top-0 z-[60] shadow-sm border-b border-outline-variant flex justify-between items-center w-full px-6 py-4">
+<h1 class="font-bold text-primary text-headline-lg-mobile tracking-tight">AgroSignal</h1>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-primary text-[28px]" id="menu-toggle">menu</button>
+</div>
+</header>
+<!-- Mobile Menu Overlay -->
+<div class="fixed inset-0 bg-primary z-[70] translate-x-full transition-transform duration-300 flex flex-col p-8" id="mobile-menu">
+<div class="flex justify-end mb-12">
+<button class="material-symbols-outlined text-on-primary text-[32px]" id="menu-close">close</button>
+</div>
+<nav class="flex flex-col gap-8">
+<a class="text-on-primary font-headline-lg-mobile" href="#">Mercados</a>
+<a class="text-on-primary font-headline-lg-mobile" href="#">Riesgo</a>
+<a class="text-on-primary font-headline-lg-mobile" href="#">Transporte</a>
+<a class="text-on-primary font-headline-lg-mobile" href="#">Comunidad</a>
+</nav>
+<div class="mt-auto">
+<button class="w-full bg-secondary-container text-on-secondary-container py-4 rounded-xl font-bold">Iniciar Sesión</button>
+</div>
+</div>
+<main>
+<!-- 02. Hero Section -->
+<section class="relative h-[600px] flex items-center px-6 overflow-hidden">
+<div class="absolute inset-0 z-0">
+<img class="w-full h-full object-cover" data-alt="Wide cinematic shot of a lush Peruvian agricultural field during golden hour, with sunlight reflecting off irrigation systems and deep green foliage. The style is professional architectural photography, using a corporate color palette of deep greens and earthy tones to convey growth and stability." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDC0vibsFTby5cWmX8b0RL70Hacd9XEea_wlyU_iKCskbklw3EfMjHseRneQp93vae8-TU7OOHPadBTnSd2b_nIs32j7CmYAaysy4MFggTOV7cy0sQyD9Xd3zuk2UwTmMCzAmqGjGIhxzycRBdsVw-kHeK9EvNcM9L5DukOs-RfG0w-NFyQ_u0E1ImW9gJTCaAfOz2O5VKQpArk4l3JHhNsJ5yUKDpZ3AFMckBfP3tSX6rdMG-Lm2Tr">
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+</div>
+<div class="relative z-10 space-y-6">
+<div class="inline-flex items-center gap-2 bg-secondary/20 backdrop-blur-md px-3 py-1 rounded-full border border-secondary-fixed/30">
+<span class="material-symbols-outlined text-secondary-fixed text-sm" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span class="text-secondary-fixed font-label-bold uppercase tracking-widest text-[10px]">Nueva Era Agrícola</span>
+</div>
+<h2 class="text-white font-display-lg leading-tight">Decisiones Datos, <br>Cosechas Éxito.</h2>
+<p class="text-white/80 font-body-lg max-w-[280px]">Gestión inteligente de riesgos y mercados para el productor peruano moderno.</p>
+<div class="flex flex-col gap-3 pt-4">
+<button class="h-touch-target bg-primary text-on-primary rounded-xl font-title-md shadow-lg shadow-primary/20">Empezar Ahora</button>
+<button class="h-touch-target glass-card text-white rounded-xl font-title-md border border-white/20">Ver Mercados</button>
+</div>
+</div>
+</section>
+<!-- 03. KPI Mini Dashboard (Bento Lite) -->
+<section class="px-6 -mt-16 relative z-20 grid grid-cols-2 gap-3">
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-1">
+<span class="text-on-surface-variant font-label-bold">Dólar (S/)</span>
+<span class="text-primary font-headline-lg-mobile">3.74</span>
+<div class="flex items-center gap-1 text-green-600">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span class="text-[10px] font-bold">+0.12%</span>
+</div>
+</div>
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex flex-col gap-1">
+<span class="text-on-surface-variant font-label-bold">Urea (TN)</span>
+<span class="text-primary font-headline-lg-mobile">S/ 2450</span>
+<div class="flex items-center gap-1 text-error">
+<span class="material-symbols-outlined text-sm">trending_down</span>
+<span class="text-[10px] font-bold">-2.4%</span>
+</div>
+</div>
+</section>
+<!-- 04. Grid de 6 Tarjetas (Services) -->
+<section class="px-6 py-12 space-y-6">
+<div class="text-center">
+<h3 class="text-primary font-headline-lg-mobile">Nuestras Herramientas</h3>
+<p class="text-on-surface-variant font-body-sm mt-2">Tecnología de punta al servicio del campo.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Card 1 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">monitoring</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Precios en Tiempo Real</h4>
+</div>
+<!-- Card 2 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">wb_sunny</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Clima Geo-localizado</h4>
+</div>
+<!-- Card 3 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-tertiary-container/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">warning</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Alertas de Riesgo</h4>
+</div>
+<!-- Card 4 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">local_shipping</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Fletes y Logística</h4>
+</div>
+<!-- Card 5 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-secondary-container/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary">description</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Créditos Agrarios</h4>
+</div>
+<!-- Card 6 -->
+<div class="bg-surface-container-low p-5 rounded-2xl border border-outline-variant/20 space-y-3">
+<div class="w-10 h-10 bg-tertiary-container/20 rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary">groups</span>
+</div>
+<h4 class="font-title-md text-sm leading-tight">Comunidad Pro</h4>
+</div>
+</div>
+</section>
+<!-- 05. Mapa de Riesgo Simplificado -->
+<section class="px-6 py-8">
+<div class="bg-surface-container p-6 rounded-3xl space-y-6">
+<div>
+<h3 class="text-primary font-headline-lg-mobile">Mapa de Riesgos</h3>
+<p class="text-on-surface-variant font-body-sm">Pronóstico de heladas y sequías (Piura - Ica)</p>
+</div>
+<div class="relative h-[240px] bg-white rounded-2xl overflow-hidden shadow-inner">
+<div class="absolute inset-0" data-alt="A stylized digital map of the Peruvian coastline, specifically the Piura and Ica regions, rendered in a professional satellite-view style. Heatmap overlays in soft oranges and reds indicate areas of high climate risk, with small interactive pinpoint markers and a clean, high-contrast legend. Modern UI aesthetic with soft shadows." data-location="Peru Coast" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBUoHAIRL9qZc7O4B3i_nzi1U5QVeA4IX_n9_iBp655daME7xs2IVGmhqDgkWBnupHnHcFaqL9euTE5t4JfedYEpWmL8glRBpDUBbRXKmpj3pwXaIq8L0USMq86YDQzhnEITQ1lAboG4SXiknccTcJpSpamxPhMHvj6iBnEee8Z5I9k4NvoTS0wsYmeOHDwgvuM_1gjegP5q4UX7iNeJgckC864sO9IOOaHj2B1cPWCUWb1xiEJkemu')"></div>
+<!-- Legend -->
+<div class="absolute bottom-4 left-4 right-4 bg-white/90 backdrop-blur-md p-3 rounded-xl border border-outline-variant/30 flex justify-between">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<span class="text-[10px] font-bold">Crítico</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-secondary"></div>
+<span class="text-[10px] font-bold">Moderado</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-[10px] font-bold">Seguro</span>
+</div>
+</div>
+</div>
+<button class="w-full py-4 text-primary font-bold border-2 border-primary rounded-xl">Analizar mi zona</button>
+</div>
+</section>
+<!-- 06. Lotes Destacados (Lista Vertical) -->
+<section class="px-6 py-8 space-y-6">
+<div class="flex justify-between items-end">
+<h3 class="text-on-surface font-headline-lg-mobile">Tus Lotes</h3>
+<span class="text-primary font-label-bold">Ver todos</span>
+</div>
+<div class="space-y-4">
+<!-- Lote 1 -->
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex gap-4">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Aerial drone photography of an organized citrus orchard in Ica, Peru. The trees are perfectly aligned in rows, showing healthy dark green foliage. The morning light creates soft shadows, emphasizing the agricultural precision and professional management of the plantation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCyEkUcZAwYKmOVqx2Ycnt_g33vjsit-xCaDEKqnLD-rrVwhr-73oLHtzzMlaYVdn-P7ffG3QrgzsUnnS7jkfoLe5Xg_AjzUexHzemETURJM9DTpt8YLd6FGdAAs872nyLut-eBBHiZG42qR5MA-trVBw5dmvrHSRXFR58fngtw-BQImkqPjICiIxqmm9TECQM0dEQOlTEUVSPsUdSW_D8xbVdV2-uVWHwziFv2zIECNsVN1zeN29Ae">
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-title-md text-sm">Lote Arándanos A1</h4>
+<p class="text-on-surface-variant text-[11px]">Ica, Valle Viejo</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-primary/10 text-primary rounded-full text-[10px] font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                                Óptimo
+                            </span>
+<span class="text-on-surface-variant text-[10px]">Cosecha en 12d</span>
+</div>
+</div>
+</div>
+<!-- Lote 2 -->
+<div class="bg-white p-4 rounded-2xl shadow-sm border border-outline-variant/30 flex gap-4">
+<div class="w-20 h-20 rounded-xl overflow-hidden shrink-0">
+<img class="w-full h-full object-cover" data-alt="Vibrant green mango plantation in northern Peru, captured with high-resolution agricultural detail. The leaves show varying stages of growth, and the irrigation lines are visible on the ground. Professional field-survey aesthetic with bright, natural lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEWDFksWgR4pNXE5dJ9hk5jzVd9qxAYbuoo_KGkE3THrUCDEsFZ6Kbh3rwdMV9JOaQVIFHrUIDtEYMQTlLvgW_2LELRMgfQ0FO_W5fqpNzHpVcL8JpeZ3_NWYk2ThsL2jd0mSkwN7O6UPY3QOMMT8B3O28Ef2TK-FZ0WWjAwSODwmCoLJuksn3r7ckeAILhZticlZZN1wsXHjk-4uz1QnjBa3Mx7S_orNNCDGN_JEd7-SaAjp7m2LZ">
+</div>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-title-md text-sm">Mango Exportación</h4>
+<p class="text-on-surface-variant text-[11px]">Piura, Tambogrande</p>
+</div>
+<div class="flex items-center gap-2">
+<span class="px-2 py-0.5 bg-secondary-container/30 text-secondary rounded-full text-[10px] font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">info</span>
+                                Riesgo Medio
+                            </span>
+<span class="text-on-surface-variant text-[10px]">Suelo seco</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 07. Cotizador de Mercados (Fila de chips) -->
+<section class="bg-primary py-12">
+<div class="px-6 space-y-8">
+<div class="text-center space-y-2">
+<h3 class="text-white font-headline-lg-mobile">Precios de Referencia</h3>
+<p class="text-on-primary-container font-body-sm">Mercados mayoristas actualizados hoy.</p>
+</div>
+<div class="flex gap-2 overflow-x-auto hide-scrollbar pb-4">
+<button class="shrink-0 px-4 py-2 bg-secondary-container text-on-secondary-container rounded-full font-bold text-sm">Frutas</button>
+<button class="shrink-0 px-4 py-2 bg-white/10 text-white rounded-full font-bold text-sm">Granos</button>
+<button class="shrink-0 px-4 py-2 bg-white/10 text-white rounded-full font-bold text-sm">Hortalizas</button>
+<button class="shrink-0 px-4 py-2 bg-white/10 text-white rounded-full font-bold text-sm">Café/Cacao</button>
+</div>
+<div class="bg-white/10 rounded-2xl border border-white/10 p-6 space-y-4">
+<div class="flex justify-between items-center text-white border-b border-white/10 pb-3">
+<span class="font-body-sm">Uva Red Globe (Kg)</span>
+<div class="text-right">
+<span class="font-title-md block">S/ 4.80</span>
+<span class="text-secondary-fixed text-[10px] font-bold">+2.1%</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-white border-b border-white/10 pb-3">
+<span class="font-body-sm">Arándano Biloxi (Kg)</span>
+<div class="text-right">
+<span class="font-title-md block">S/ 12.50</span>
+<span class="text-red-400 text-[10px] font-bold">-0.5%</span>
+</div>
+</div>
+<div class="flex justify-between items-center text-white">
+<span class="font-body-sm">Palta Hass (Kg)</span>
+<div class="text-right">
+<span class="font-title-md block">S/ 7.20</span>
+<span class="text-secondary-fixed text-[10px] font-bold">+1.4%</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 08. CTA - Inversión & Crédito -->
+<section class="px-6 py-12">
+<div class="relative rounded-3xl overflow-hidden p-8 flex flex-col gap-6">
+<div class="absolute inset-0 bg-secondary-fixed">
+
+</div>
+<div class="relative z-10 space-y-4">
+<h3 class="text-on-secondary-fixed font-headline-lg-mobile">¿Necesitas capital para la campaña?</h3>
+<p class="text-on-secondary-fixed-variant font-body-sm">Créditos rápidos con tasas preferenciales para productores AgroSignal.</p>
+<button class="bg-primary text-on-primary w-full py-4 rounded-xl font-bold text-title-md mt-4">Simular Crédito</button>
+</div>
+</div>
+</section>
+<!-- 09. Blog / Noticias del Sector -->
+<section class="px-6 py-8 space-y-6">
+<h3 class="text-primary font-headline-lg-mobile text-center">Últimas Noticias</h3>
+<div class="flex gap-4 overflow-x-auto hide-scrollbar">
+<div class="shrink-0 w-64 space-y-3">
+<div class="h-40 rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="A group of smiling Peruvian farmers in traditional and modern field attire standing together in a sun-drenched cornfield. They are looking at a tablet device, symbolizing the integration of technology in traditional farming. The photography is bright, authentic, and heartwarming with professional focus." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJ8EAbHH362d8g0lAkY29OxNMh6--MbpEWixVQG53daBDxlTpFkrint0s4qXUlpbitmJd6Y4W4RyNlMGAuc-pqLzHSBcBn68oqbOtlS1cMlMk2S2jkzYwlHR1OnqVIwybUogXJF50kbNt2zmMtJVIxqySnLhoRqX7vY28_cA4_YpOuXycnbAf4TyQpHiuGiSkM0NDkdlLF_YWMzwOkJ4gV_-kwh52cJ3VH-eB-XGs7ElQ92fko7Ib_">
+</div>
+<span class="text-tertiary font-label-bold">MERCADOS</span>
+<h4 class="font-title-md text-base leading-tight">Proyecciones de exportación para la campaña 2024.</h4>
+</div>
+<div class="shrink-0 w-64 space-y-3">
+<div class="h-40 rounded-2xl overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Close up of a modern irrigation controller with an LCD screen showing water usage metrics, installed in a sophisticated greenhouse. The background is a soft blur of vibrant vegetable rows. High-tech agricultural technology aesthetic, clean and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsG2J2D-OmX1CFIuhxfP9EeezfR7wGPXIPyoc44L00YYvEK9RfPdT7FW7QBNMXL0YZdcV3AyAJWOOzCrEYbzXb2AqtNndzVbu8RtVKzh0mGGS7RtJT8tnyFoIMmTFTZ_0RxhLVTpQQj6Gkt34HUGAw0wyCv7mtp6zDFlDlWYb-l7w4rWF4qzHXBB3-8O49dASKqXQkFZuNM1S-vSGLxO0wXrys4JiT4lqM8WlEKHfuY2GT3FfS6Q1Q">
+</div>
+<span class="text-tertiary font-label-bold">TECNOLOGÍA</span>
+<h4 class="font-title-md text-base leading-tight">Nuevos sensores de humedad para suelos áridos.</h4>
+</div>
+</div>
+</section>
+<!-- 10. Testimonios -->
+<section class="bg-surface-container py-12 px-6">
+<div class="text-center mb-8">
+<span class="material-symbols-outlined text-secondary text-4xl">format_quote</span>
+<p class="text-on-surface italic font-body-lg mt-4">"Con AgroSignal reduje mis pérdidas por heladas en un 30% en mi primera campaña. La data es el mejor fertilizante."</p>
+<div class="mt-6">
+<p class="font-bold text-primary">Jorge Santisteban</p>
+<p class="text-on-surface-variant text-sm">Productor de Uva - Piura</p>
+</div>
+</div>
+</section>
+<!-- 11. FAQ Simple -->
+<section class="px-6 py-12 space-y-6">
+<h3 class="text-on-surface font-headline-lg-mobile text-center">Preguntas Frecuentes</h3>
+<div class="space-y-3">
+<details class="bg-white p-4 rounded-2xl border border-outline-variant/30">
+<summary class="font-bold text-primary flex justify-between items-center list-none cursor-pointer">
+                        ¿Cómo se obtienen los precios?
+                        <span class="material-symbols-outlined">expand_more</span>
+</summary>
+<p class="text-on-surface-variant text-sm mt-3">Recopilamos datos de los principales mercados mayoristas del país y agencias internacionales en tiempo real.</p>
+</details>
+<details class="bg-white p-4 rounded-2xl border border-outline-variant/30">
+<summary class="font-bold text-primary flex justify-between items-center list-none cursor-pointer">
+                        ¿Tiene costo la aplicación?
+                        <span class="material-symbols-outlined">expand_more</span>
+</summary>
+<p class="text-on-surface-variant text-sm mt-3">Contamos con una versión gratuita con datos básicos y un plan Pro para gestión avanzada de lotes.</p>
+</details>
+</div>
+</section>
+<!-- 12. Partners -->
+<section class="px-6 py-8 opacity-60">
+<div class="grid grid-cols-3 gap-8 items-center grayscale">
+<div class="text-center font-bold text-sm">MINAGRI</div>
+<div class="text-center font-bold text-sm">SENAMHI</div>
+<div class="text-center font-bold text-sm">AGROBANCO</div>
+</div>
+</section>
+<!-- 13. Comunidad / Redes -->
+<section class="px-6 py-12 text-center bg-white border-y border-outline-variant/20">
+<h3 class="text-on-surface font-headline-lg-mobile">Únete a la Comunidad</h3>
+<p class="text-on-surface-variant font-body-sm mt-2 mb-6">Más de 5,000 productores compartiendo conocimiento.</p>
+<div class="flex justify-center gap-6">
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">share</span>
+</div>
+<div class="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">videocam</span>
+</div>
+</div>
+</section>
+<!-- 14. Footer (JSON Mapping) -->
+<footer class="bg-surface-container-low py-12 px-6 flex flex-col gap-8 text-center">
+<div class="space-y-4">
+<h4 class="font-bold text-tertiary tracking-widest uppercase text-sm">AgroSignal</h4>
+<p class="text-on-surface-variant text-sm leading-relaxed px-4">© 2024 AgroSignal. Datos provistos por NASA &amp; FAO. Transformando el campo peruano.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-6 gap-y-3">
+<a class="text-on-surface-variant text-sm" href="#">Privacidad</a>
+<a class="text-on-surface-variant text-sm" href="#">Términos</a>
+<a class="text-on-surface-variant text-sm" href="#">Contacto</a>
+<a class="text-on-surface-variant text-sm" href="#">Soporte</a>
+</div>
+<div class="pt-6 border-t border-outline-variant/30 flex justify-center gap-4">
+<button class="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">phone_iphone</span>
+<span class="text-left leading-none"><span class="text-[8px] block opacity-60">Download on</span><span class="text-xs font-bold">App Store</span></span>
+</button>
+<button class="bg-black text-white px-4 py-2 rounded-lg flex items-center gap-2">
+<span class="material-symbols-outlined text-xl">play_arrow</span>
+<span class="text-left leading-none"><span class="text-[8px] block opacity-60">GET IT ON</span><span class="text-xs font-bold">Google Play</span></span>
+</button>
+</div>
+</footer>
+</main>
+<!-- BottomNavBar (JSON Mapping) -->
+<nav class="lg:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 px-4 pb-safe bg-surface border-t border-outline-variant z-50 shadow-lg rounded-t-[24px]">
+<a class="flex flex-col items-center justify-center bg-secondary-container text-on-secondary-container rounded-full px-4 py-1" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Inicio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Carga</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">warning</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Riesgo</span>
+</a>
+<a class="flex flex-col items-center justify-center text-on-surface-variant" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="text-[10px] font-bold uppercase tracking-wider">Perfil</span>
+</a>
+</nav>
+<!-- Micro-interactions Script -->
+<script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const menuClose = document.getElementById('menu-close');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuToggle.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        menuClose.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        // Simple scroll parallax for hero
+        window.addEventListener('scroll', () => {
+            const scroll = window.scrollY;
+            const heroImg = document.querySelector('section img');
+            if (heroImg && scroll < 600) {
+                heroImg.style.transform = `translateY(${scroll * 0.3}px)`;
+            }
+        });
+    </script>
+</body></html>

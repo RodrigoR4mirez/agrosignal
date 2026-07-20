@@ -1,0 +1,96 @@
+/*
+ * Tokens escaneados de UX-stitch_agrosignal_marketplace/agrosignal_design_system/DESIGN.md
+ * Alcance: solo dentro de .marketplace-scope, para no afectar el resto del sitio.
+ */
+.marketplace-scope {
+  --ms-surface: #f7f9fb;
+  --ms-surface-dim: #d8dadc;
+  --ms-surface-bright: #f7f9fb;
+  --ms-surface-container-lowest: #ffffff;
+  --ms-surface-container-low: #f2f4f6;
+  --ms-surface-container: #eceef0;
+  --ms-surface-container-high: #e6e8ea;
+  --ms-surface-container-highest: #e0e3e5;
+  --ms-on-surface: #191c1e;
+  --ms-on-surface-variant: #40493f;
+  --ms-inverse-surface: #2d3133;
+  --ms-inverse-on-surface: #eff1f3;
+  --ms-outline: #717a6f;
+  --ms-outline-variant: #c0c9bc;
+  --ms-primary: #004317;
+  --ms-on-primary: #ffffff;
+  --ms-primary-container: #1a5c2a;
+  --ms-on-primary-container: #8fd394;
+  --ms-secondary: #795900;
+  --ms-on-secondary: #ffffff;
+  --ms-secondary-container: #ffc641;
+  --ms-on-secondary-container: #715300;
+  --ms-tertiary: #662035;
+  --ms-on-tertiary: #ffffff;
+  --ms-tertiary-container: #83374b;
+  --ms-on-tertiary-container: #ffacbd;
+  --ms-error: #ba1a1a;
+  --ms-on-error: #ffffff;
+  --ms-error-container: #ffdad6;
+  --ms-on-error-container: #93000a;
+  --ms-secondary-fixed: #ffdfa0;
+  --ms-secondary-fixed-dim: #f6be39;
+  --ms-on-secondary-fixed: #261a00;
+  --ms-on-secondary-fixed-variant: #5c4300;
+  --ms-background: #f7f9fb;
+  --ms-on-background: #191c1e;
+  --ms-gold-accent: #d4a017;
+
+  --ms-shadow-card: 0 4px 20px rgba(0, 0, 0, 0.05);
+  --ms-shadow-card-hover: 0 8px 28px rgba(0, 0, 0, 0.09);
+
+  background-color: var(--ms-background);
+  color: var(--ms-on-background);
+}
+
+.marketplace-scope .material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 24px;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+.marketplace-scope .material-symbols-fill {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.marketplace-scope .ms-glass-card {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.marketplace-scope .ms-hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.marketplace-scope .ms-hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+@keyframes ms-ticker-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+.marketplace-scope .ms-ticker-content {
+  display: flex;
+  white-space: nowrap;
+  animation: ms-ticker-scroll 30s linear infinite;
+}
+
+/* Ancho de lienzo usado por el export de Stitch (1280px) — contenedor propio,
+   independiente de .app-container del resto del sitio. */
+.marketplace-scope .ms-container {
+  width: 100%;
+  max-width: 1280px;
+  margin-inline: auto;
+}

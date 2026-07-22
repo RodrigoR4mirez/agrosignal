@@ -1,6 +1,10 @@
-import { MaterialSymbol } from '../shared/MaterialSymbol'
+'use client'
 
-const STEPS = [
+import { useState } from 'react'
+import { MaterialSymbol } from '../shared/MaterialSymbol'
+import { SegmentedToggle } from '../shared/SegmentedToggle'
+
+const STEPS_PRODUCTOR = [
   {
     n: 1,
     rotate: 'rotate-3',
@@ -22,21 +26,51 @@ const STEPS = [
   },
 ]
 
+const STEPS_COMPRADOR = [
+  {
+    n: 1,
+    rotate: 'rotate-3',
+    title: 'Explora Cosechas Verificadas',
+    desc: 'Filtra por cultivo, región y sello de confianza. Compara precios en tiempo real antes de comprometerte.',
+  },
+  {
+    n: 2,
+    rotate: '-rotate-2',
+    title: 'Coordina el Flete',
+    desc: 'Usa nuestra red de transportistas verificados o súmate a una carga compartida para bajar el costo de traslado.',
+  },
+  {
+    n: 3,
+    rotate: 'rotate-1',
+    title: 'Paga con Garantía',
+    lock: true,
+    desc: 'Tu pago queda retenido en la pasarela segura y se libera al productor solo cuando confirmas que recibiste tu pedido.',
+  },
+]
+
 export function ComoFunciona() {
+  const [perfil, setPerfil] = useState<'productor' | 'comprador'>('productor')
+  const steps = perfil === 'productor' ? STEPS_PRODUCTOR : STEPS_COMPRADOR
+
   return (
     <section className="relative bg-[var(--ms-primary)] py-24 text-white">
       <div className="ms-container px-6 text-center">
         <h2 className="mb-8 text-4xl font-extrabold">Tres pasos para crecer</h2>
-        <div className="mb-12 inline-flex rounded-[1rem] bg-white/10 p-1">
-          <button className="rounded-[0.5rem] bg-white px-8 py-2 font-bold text-[var(--ms-primary)]">
-            Soy Productor
-          </button>
-          <button className="rounded-[0.5rem] px-8 py-2 font-bold text-white">Soy Comprador</button>
+        <div className="mb-12 flex justify-center">
+          <SegmentedToggle
+            variant="dark"
+            value={perfil}
+            onChange={(v) => setPerfil(v as 'productor' | 'comprador')}
+            options={[
+              { value: 'productor', label: 'Soy Productor', icon: 'agriculture' },
+              { value: 'comprador', label: 'Soy Comprador', icon: 'payments' },
+            ]}
+          />
         </div>
       </div>
       <div className="ms-container relative grid gap-12 px-6 md:grid-cols-3">
         <div className="absolute top-1/2 left-1/4 right-1/4 hidden h-0.5 -translate-y-12 border-t-2 border-dashed border-white/20 md:block" />
-        {STEPS.map((step) => (
+        {steps.map((step) => (
           <div key={step.n} className="relative z-10 space-y-6">
             <div
               className={`mx-auto flex h-16 w-16 items-center justify-center rounded-[1rem] bg-[var(--ms-secondary-container)] text-2xl font-black text-[var(--ms-primary)] shadow-xl ${step.rotate}`}

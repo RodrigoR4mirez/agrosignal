@@ -162,6 +162,54 @@ for term in buscar:
 EOF
 ```
 
+## Flujo OBLIGATORIO: imágenes al integrar una pantalla nueva de Stitch
+
+Cada vez que se agregue o actualice una pantalla exportada de Stitch
+(`UX-stitch_agrosignal_marketplace/<pantalla>/code.html`), antes de darla por
+conectada hay que seguir estos pasos — no asumir que ya se hizo, revisar
+siempre el `code.html` de esa pantalla puntual:
+
+1. **Distinguir fotos reales de íconos.** Leer el `code.html` y listar los
+   `<img>` reales. Los íconos (Material Symbols), banderas y emojis NO son
+   imágenes descargables — se renderizan por fuente/unicode, no se tratan
+   como asset.
+2. **Pedir resolución completa, no el thumbnail por defecto.** Las URLs de
+   Stitch (`lh3.googleusercontent.com/aida-public/...`) devuelven por
+   defecto una miniatura pequeña (ej. 512×279, pixelada al usarla como hero).
+   Agregar `=s0` al final de la URL para bajar el tamaño original (en la
+   práctica: 512×279 → 1408×768 con el mismo `curl`). Verificar con `file`
+   que el resultado sea un JPEG válido y de tamaño razonable antes de seguir.
+3. **Avisar que son imágenes generadas por IA, no fotos de stock reales.**
+   El prefijo `aida-public` en la URL confirma que Stitch generó la imagen
+   con IA para el mockup (no es una fotografía real). Para pantallas que
+   vayan a producción, preguntar al usuario si prefiere reemplazarla por una
+   foto real de banco gratuito (Unsplash/Pexels) antes de descargar nada de
+   ahí — no elegir ni descargar un reemplazo sin su confirmación explícita.
+4. **Guardar dos copias con nombre descriptivo (nunca el hash de Google):**
+   - Referencia del diseño: `UX-stitch_agrosignal_marketplace/assets/images/<sección>/<nombre-descriptivo>.jpg`
+   - Copia servida por Next.js: `public/<ruta-de-la-página>/<nombre-descriptivo>.jpg`
+     (Next.js solo sirve archivos bajo `public/`, nunca los de `UX-stitch_agrosignal_marketplace/`)
+5. **Conectar el componente** a la ruta local de `public/`, con `alt`
+   descriptivo, respetando tamaño/posición del diseño original.
+6. **Actualizar el `code.html` de referencia** para que apunte al archivo
+   local relativo (`../assets/images/<sección>/...`) en vez de la URL de
+   Google, que puede caducar.
+7. **Confirmar que la fuente Material Symbols Outlined esté enlazada** en el
+   `layout.tsx` de esa sección (o agregarla si falta) — sin eso los íconos
+   no se ven aunque el resto cargue bien.
+8. **Verificar en el navegador:** Network debe mostrar la imagen cargando
+   desde `localhost` y cero peticiones a `googleusercontent.com`. Revisar
+   mobile (~375px) y desktop (~1440px).
+
+## Flujo OBLIGATORIO: navegación al agregar un landing nuevo
+
+`/marketplace` es el landing principal — cualquier landing nuevo que se
+agregue (como `/pro`) es una sub-página colgando de él. Por eso, cada vez que
+se cree un landing nuevo, el nombre/logo "AgroSignal" de su header debe ser
+un link que regrese a `/marketplace` (ver `app/pro/_components/Nav.tsx` como
+ejemplo: el logo está envuelto en `<Link href="/marketplace">`). No dejarlo
+como texto suelto ni como link a `#` o a sí mismo.
+
 ## Convenciones para cambios en este repo
 
 - Mantener la paleta verde/dorado existente en cualquier componente nuevo

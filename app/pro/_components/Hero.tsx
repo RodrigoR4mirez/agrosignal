@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { MaterialSymbol } from './shared/MaterialSymbol'
 import { WaitlistForm } from './WaitlistForm'
 
@@ -21,11 +22,14 @@ export function Hero() {
       </div>
       <div className="relative w-full lg:w-1/2">
         <div className="pro-floating relative z-10">
-          <div className="aspect-square w-full overflow-hidden rounded-[40px] border-8 border-white shadow-2xl">
-            <img
-              src="/pro/hero-agricultor-tablet.jpg"
-              alt="Agricultor peruano usando tablet con datos de AgroSignal PRO en el campo"
-              className="h-full w-full object-cover"
+          <div className="relative aspect-square w-full overflow-hidden rounded-[40px] border-8 border-white shadow-2xl">
+            <Image
+              src="/pro/hero-agricultor-sembrando.jpg"
+              alt="Agricultor esparciendo semillas a mano en un campo agrícola"
+              fill
+              priority
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
             />
           </div>
           <div className="pro-glass-card absolute -top-6 -right-6 flex items-center gap-3 rounded-2xl border-2 border-[var(--pro-secondary-fixed)] p-4 shadow-lg">

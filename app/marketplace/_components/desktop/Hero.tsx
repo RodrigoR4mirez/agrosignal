@@ -1,5 +1,7 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
+import { SegmentedToggle } from '../shared/SegmentedToggle'
 import { Ticker } from './Ticker'
 
 export function Hero() {
@@ -8,7 +10,14 @@ export function Hero() {
       <Ticker />
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 z-10 bg-gradient-to-r from-[var(--ms-surface)] via-[var(--ms-surface)]/80 to-transparent" />
-        <img src="/marketplace/hero-valle-sagrado.jpg" alt="Valle Sagrado del Perú al amanecer" className="h-full w-full object-cover" />
+        <Image
+          src="/marketplace/hero-valle-sagrado-terrazas.jpg"
+          alt="Terrazas agrícolas incas en el Valle Sagrado del Perú, con una vivienda rural entre los andenes"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover"
+        />
       </div>
       <div className="ms-container relative z-20 grid gap-12 px-6 lg:grid-cols-2">
         <div className="max-w-2xl space-y-8">
@@ -37,13 +46,15 @@ export function Hero() {
               </span>
             </Link>
           </div>
-          <div className="flex flex-wrap gap-4 pt-4">
-            <button className="flex items-center gap-2 rounded-[1rem] border-2 border-[var(--ms-primary)] px-6 py-3 font-bold text-[var(--ms-primary)] transition-colors hover:bg-[var(--ms-primary)]/5">
-              <MaterialSymbol name="agriculture" /> Soy agricultor
-            </button>
-            <button className="flex items-center gap-2 rounded-[1rem] border-2 border-[var(--ms-primary)] px-6 py-3 font-bold text-[var(--ms-primary)] transition-colors hover:bg-[var(--ms-primary)]/5">
-              <MaterialSymbol name="payments" /> Soy comprador
-            </button>
+          <div className="flex flex-wrap items-center gap-4 pt-4">
+            <SegmentedToggle
+              variant="light"
+              defaultValue="agricultor"
+              options={[
+                { value: 'agricultor', label: 'Soy agricultor', icon: 'agriculture' },
+                { value: 'comprador', label: 'Soy comprador', icon: 'payments' },
+              ]}
+            />
             <a className="flex items-center gap-2 px-4 font-medium text-[var(--ms-on-surface-variant)] underline" href="#">
               Explorar sin cuenta
             </a>

@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -49,9 +50,9 @@ export function Cosechas() {
             Cosechas Disponibles
             <MaterialSymbol name="lock" className="ml-2 !text-3xl text-[var(--ms-gold-accent)]" />
           </h2>
-          <a className="flex items-center gap-2 font-bold text-[var(--ms-primary)] hover:underline" href="#">
+          <Link className="flex items-center gap-2 font-bold text-[var(--ms-primary)] hover:underline" href="/pro">
             Ver todo el mercado <MaterialSymbol name="arrow_right_alt" />
-          </a>
+          </Link>
         </div>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {LOTES.map((lote) => (
@@ -88,9 +89,12 @@ export function Cosechas() {
                   <span className="text-xs font-bold text-[var(--ms-primary)]">{lote.verified}</span>
                 </div>
                 <div className="flex gap-2">
-                  <button className="flex flex-1 items-center justify-center gap-1 rounded-[0.5rem] bg-[var(--ms-primary)] py-2 text-sm font-bold text-white">
+                  <Link
+                    href="/pro"
+                    className="flex flex-1 items-center justify-center gap-1 rounded-[0.5rem] bg-[var(--ms-primary)] py-2 text-sm font-bold text-white"
+                  >
                     <ProBadge /> {lote.cta}
-                  </button>
+                  </Link>
                   <button className="flex h-10 w-10 items-center justify-center rounded-[0.5rem] border border-[var(--ms-outline-variant)] text-[var(--ms-outline)] hover:text-[var(--ms-primary)]">
                     <MaterialSymbol name="favorite" />
                   </button>

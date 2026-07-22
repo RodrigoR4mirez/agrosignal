@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -84,11 +85,14 @@ export function AsesoriaComunidad() {
               mucho más simple de lo esperado.&quot;
             </p>
           </div>
-          <button className="w-full rounded-[1.5rem] border-2 border-dashed border-[var(--ms-outline-variant)] py-4 text-sm font-bold text-[var(--ms-primary)] hover:border-[var(--ms-primary)] hover:bg-[var(--ms-primary)]/5">
+          <Link
+            href="/pro"
+            className="block w-full rounded-[1.5rem] border-2 border-dashed border-[var(--ms-outline-variant)] py-4 text-center text-sm font-bold text-[var(--ms-primary)] hover:border-[var(--ms-primary)] hover:bg-[var(--ms-primary)]/5"
+          >
             <span className="flex items-center justify-center gap-2">
               <ProBadge /> Explorar Comunidad
             </span>
-          </button>
+          </Link>
         </div>
       </div>
     </section>

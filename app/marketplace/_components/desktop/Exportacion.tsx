@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -77,11 +78,14 @@ export function Exportacion() {
                     <span className="font-bold text-white">0% (Preferencial)</span>
                   </div>
                 </div>
-                <button className="w-full rounded-[1rem] bg-[var(--ms-secondary-container)] py-4 font-bold text-[var(--ms-primary)] shadow-lg transition-all hover:bg-white">
+                <Link
+                  href="/pro"
+                  className="block w-full rounded-[1rem] bg-[var(--ms-secondary-container)] py-4 text-center font-bold text-[var(--ms-primary)] shadow-lg transition-all hover:bg-white"
+                >
                   <span className="flex items-center justify-center gap-2">
                     <ProBadge /> Ver Reporte Detallado
                   </span>
-                </button>
+                </Link>
               </div>
             </div>
             <div className="group relative">

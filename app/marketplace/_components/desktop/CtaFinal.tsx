@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -45,15 +46,20 @@ export function CtaFinal() {
               <MaterialSymbol name={card.icon} filled className="mb-4 !text-4xl text-[var(--ms-primary)]" />
               <h4 className="mb-2 text-xl font-bold">{card.title}</h4>
               <p className="mb-6 text-sm text-[var(--ms-outline)]">{card.desc}</p>
-              <button className="w-full rounded-[1rem] bg-[var(--ms-primary)] py-3 font-bold text-white transition-colors group-hover:bg-[var(--ms-secondary-container)] group-hover:text-[var(--ms-primary)]">
-                {card.pro ? (
+              {card.pro ? (
+                <Link
+                  href="/pro"
+                  className="block w-full rounded-[1rem] bg-[var(--ms-primary)] py-3 text-center font-bold text-white transition-colors group-hover:bg-[var(--ms-secondary-container)] group-hover:text-[var(--ms-primary)]"
+                >
                   <span className="flex items-center justify-center gap-2">
                     <ProBadge /> {card.cta}
                   </span>
-                ) : (
-                  card.cta
-                )}
-              </button>
+                </Link>
+              ) : (
+                <button className="w-full rounded-[1rem] bg-[var(--ms-primary)] py-3 font-bold text-white transition-colors group-hover:bg-[var(--ms-secondary-container)] group-hover:text-[var(--ms-primary)]">
+                  {card.cta}
+                </button>
+              )}
             </div>
           ))}
         </div>

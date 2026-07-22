@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -55,11 +56,14 @@ export function Transporte() {
                 </div>
               </div>
             </div>
-            <button className="relative z-10 w-full rounded-[1rem] bg-white py-3 font-bold text-[var(--ms-primary)] transition-colors hover:bg-[var(--ms-secondary-container)]">
+            <Link
+              href="/pro"
+              className="relative z-10 block w-full rounded-[1rem] bg-white py-3 text-center font-bold text-[var(--ms-primary)] transition-colors hover:bg-[var(--ms-secondary-container)]"
+            >
               <span className="flex items-center justify-center gap-2">
                 <ProBadge /> Solicitar espacio
               </span>
-            </button>
+            </Link>
           </div>
           <div className="group overflow-hidden rounded-[1.5rem] border border-[var(--ms-outline-variant)] bg-white p-2 shadow-xl">
             <img

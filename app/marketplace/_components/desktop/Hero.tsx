@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { Ticker } from './Ticker'
 
@@ -29,12 +30,12 @@ export function Hero() {
               placeholder="¿Qué cultivo te interesa?"
               type="text"
             />
-            <button className="rounded-[1rem] bg-[var(--ms-primary)] px-6 py-3 font-bold text-white">
+            <Link href="/pro" className="rounded-[1rem] bg-[var(--ms-primary)] px-6 py-3 font-bold text-white">
               <span className="flex items-center gap-2">
                 <MaterialSymbol name="lock" className="!text-sm text-[var(--ms-gold-accent)]" />
                 Explorar
               </span>
-            </button>
+            </Link>
           </div>
           <div className="flex flex-wrap gap-4 pt-4">
             <button className="flex items-center gap-2 rounded-[1rem] border-2 border-[var(--ms-primary)] px-6 py-3 font-bold text-[var(--ms-primary)] transition-colors hover:bg-[var(--ms-primary)]/5">

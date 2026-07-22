@@ -1,0 +1,73 @@
+/*
+ * Tokens escaneados de UX-stitch_agrosignal_marketplace/proximamente-pro/DESIGN.md
+ * Alcance: solo dentro de .pro-scope, para no afectar el resto del sitio.
+ */
+.pro-scope {
+  --pro-surface: #f7f9fb;
+  --pro-surface-container: #eceef0;
+  --pro-surface-container-low: #f2f4f6;
+  --pro-surface-container-high: #e6e8ea;
+  --pro-surface-container-highest: #e0e3e5;
+  --pro-on-surface: #191c1e;
+  --pro-on-surface-variant: #40493f;
+  --pro-outline: #717a6f;
+  --pro-outline-variant: #c0c9bc;
+  --pro-primary: #004317;
+  --pro-on-primary: #ffffff;
+  --pro-primary-container: #1a5c2a;
+  --pro-on-primary-container: #8fd394;
+  --pro-primary-fixed: #aef3b1;
+  --pro-secondary: #795900;
+  --pro-on-secondary: #ffffff;
+  --pro-secondary-container: #ffc641;
+  --pro-on-secondary-container: #715300;
+  --pro-secondary-fixed: #ffdfa0;
+  --pro-secondary-fixed-dim: #f6be39;
+  --pro-on-secondary-fixed: #261a00;
+  --pro-error: #ba1a1a;
+  --pro-error-container: #ffdad6;
+  --pro-on-error-container: #93000a;
+
+  background-color: var(--pro-surface);
+  color: var(--pro-on-surface);
+}
+
+.pro-scope .material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  font-size: 24px;
+  line-height: 1;
+  vertical-align: middle;
+}
+.pro-scope .material-symbols-fill {
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 24;
+}
+
+.pro-scope .pro-glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.pro-scope .pro-gold-shimmer {
+  background: linear-gradient(90deg, #f6be39, #ffdfa0, #f6be39);
+  background-size: 200% auto;
+  animation: pro-shimmer 3s linear infinite;
+}
+@keyframes pro-shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.pro-scope .pro-floating {
+  animation: pro-floating 4s ease-in-out infinite;
+}
+@keyframes pro-floating {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

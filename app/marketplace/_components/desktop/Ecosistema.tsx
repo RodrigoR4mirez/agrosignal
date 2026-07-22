@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -50,21 +51,31 @@ export function Ecosistema() {
         </p>
       </div>
       <div className="relative z-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {ITEMS.map((item) => (
-          <div
-            key={item.title}
-            className="group rounded-[1rem] border border-[var(--ms-outline-variant)] bg-white p-8 shadow-sm transition-all hover:-translate-y-2 hover:shadow-xl"
-          >
-            <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-[0.5rem] bg-[var(--ms-primary)]/10 text-[var(--ms-primary)] transition-colors group-hover:bg-[var(--ms-primary)] group-hover:text-white">
-              <MaterialSymbol name={item.icon} />
+        {ITEMS.map((item) => {
+          const cardContent = (
+            <>
+              <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-[0.5rem] bg-[var(--ms-primary)]/10 text-[var(--ms-primary)] transition-colors group-hover:bg-[var(--ms-primary)] group-hover:text-white">
+                <MaterialSymbol name={item.icon} />
+              </div>
+              <h3 className="mb-3 flex items-center text-xl font-bold text-[var(--ms-primary)]">
+                {item.pro && <span className="mr-2 inline-flex"><ProBadge /></span>}
+                {item.title}
+              </h3>
+              <p className="text-[var(--ms-on-surface-variant)]">{item.desc}</p>
+            </>
+          )
+          const className =
+            'group rounded-[1rem] border border-[var(--ms-outline-variant)] bg-white p-8 shadow-sm transition-all hover:-translate-y-2 hover:shadow-xl'
+          return item.pro ? (
+            <Link key={item.title} href="/pro" className={`block ${className}`}>
+              {cardContent}
+            </Link>
+          ) : (
+            <div key={item.title} className={className}>
+              {cardContent}
             </div>
-            <h3 className="mb-3 flex items-center text-xl font-bold text-[var(--ms-primary)]">
-              {item.pro && <span className="mr-2 inline-flex"><ProBadge /></span>}
-              {item.title}
-            </h3>
-            <p className="text-[var(--ms-on-surface-variant)]">{item.desc}</p>
-          </div>
-        ))}
+          )
+        })}
       </div>
     </section>
   )

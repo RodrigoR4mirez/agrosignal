@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import { MaterialSymbol } from '../shared/MaterialSymbol'
 import { ProBadge } from '../shared/ProBadge'
 
@@ -52,13 +53,19 @@ export function MapaRiesgo() {
               </div>
             ))}
           </div>
-          <button className="flex items-center gap-2 rounded-[1rem] bg-[var(--ms-primary)] px-8 py-4 font-bold text-white transition-all hover:scale-[1.03]">
+          <Link
+            href="/pro"
+            className="flex items-center gap-2 rounded-[1rem] bg-[var(--ms-primary)] px-8 py-4 font-bold text-white transition-all hover:scale-[1.03]"
+          >
             <MaterialSymbol name="distance" />
             <ProBadge />
             Ver el riesgo de mi cultivo
-          </button>
+          </Link>
         </div>
-        <div className="relative min-h-[500px] overflow-hidden rounded-[1.5rem] bg-white p-4 shadow-2xl">
+        <Link
+          href="/pro"
+          className="relative block min-h-[500px] overflow-hidden rounded-[1.5rem] bg-white p-4 shadow-2xl transition-transform hover:scale-[1.01]"
+        >
           <div className="absolute inset-4 flex items-center justify-center overflow-hidden rounded-[1rem] border-2 border-[var(--ms-outline-variant)] bg-[var(--ms-surface)]">
             <img src="/marketplace/mapa-riesgo-topografico.jpg" alt="Mapa topográfico de zonas agrícolas del Perú" className="h-full w-full object-cover" />
             <div className="ms-glass-card absolute top-4 left-4 flex items-center gap-2 rounded-[0.5rem] p-3">
@@ -70,7 +77,7 @@ export function MapaRiesgo() {
             <MaterialSymbol name="lock" className="!text-sm text-white" />
             <span className="text-[10px] font-bold tracking-widest text-white">PRO</span>
           </div>
-        </div>
+        </Link>
       </div>
     </section>
   )

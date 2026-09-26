@@ -27,7 +27,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={jakarta.variable}>
+    <html lang="es" className={jakarta.variable} data-scroll-behavior="smooth">
       <body style={{ margin: 0, padding: 0 }} className="font-sans">
         {children}
       </body>

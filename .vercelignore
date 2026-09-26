@@ -1,0 +1,7 @@
+.env*
+AGENTS-old.md
+docs-preview/
+*.zip
+UX-stitch_agrosignal_marketplace/
+supabase/tests/
+.qa-artifacts/

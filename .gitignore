@@ -37,3 +37,4 @@ pipeline/
 svgs/
 .env*
 !.env.example
+.qa-artifacts/

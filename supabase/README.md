@@ -23,11 +23,12 @@ Solo un administrador mediante una operación validada podrá modificarlo.
 La lectura pública ya excluye lotes sin stock, bloqueados, de productores
 suspendidos/no verificados o con cualquier test `no_pasa`.
 
-## Aplicación pendiente
+## Aplicación remota
 
-No se han aplicado estas migraciones al proyecto Supabase real: faltan sus
-credenciales. Consultar `docs/VARIABLES-DE-ENTORNO.md`.
-No marcar tablas o buckets como creados hasta verificar la ejecución remota.
+Migraciones base aplicadas y verificadas en Supabase el 26 de septiembre de
+2026. El comando `node --env-file=.env.local scripts/supabase-management.mjs migrate`
+aplica únicamente versiones nuevas y rechaza cambios de hash de versiones
+anteriores. Los secretos permanecen en el archivo local ignorado por git.
 
 ## Validación local
 

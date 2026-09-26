@@ -14,10 +14,10 @@ Validaciones: `npm run build` exitoso sin warnings; `npm run test:db` con
 11 pruebas aprobadas sobre PostgreSQL aislado; auditoría de npm sin
 vulnerabilidades tras aplicar actualizaciones compatibles del lockfile.
 
-Paso 1 preparado en `supabase/migrations/`, sin ejecución remota.
-Falta el token de administración de Supabase solicitado al usuario; ver
-[VARIABLES-DE-ENTORNO.md](./VARIABLES-DE-ENTORNO.md). Los cinco módulos,
-su QA de navegador y el nuevo despliegue todavía no están construidos.
+Paso 1 aplicado: Supabase real conectado, siete tablas y cuatro buckets
+verificados y variables de producción configuradas. Los módulos se construyen
+y verifican secuencialmente. El envío de correo público está pendiente del
+proveedor SMTP solicitado; ver [VARIABLES-DE-ENTORNO.md](./VARIABLES-DE-ENTORNO.md).
 `RESUMEN-EJECUCION.md` se generará al terminar el encargo completo.
 
 | Documento | Para qué sirve |

@@ -17,33 +17,39 @@ podría ver esa clave y tendría acceso total a tu base de datos.
 
 ## Estado de configuración — 26 de septiembre de 2026
 
-- Se revisaron los archivos del repositorio y las variables del proceso:
-  no contienen credenciales reales de Supabase.
-- El repo está vinculado al proyecto Vercel existente
-  `rodrigor4mirezs-projects/agrosignal`. `vercel env ls` confirmó que
-  no hay variables configuradas en el proyecto.
-- `.env.local` contiene los nombres de `.env.example`, una URL y una clave
-  pública de ejemplo. `SUPABASE_SERVICE_ROLE_KEY` está vacía. Estos valores
-  solo permiten preparar el proyecto; no habilitan registro, persistencia ni
-  pruebas con usuarios reales. El archivo está ignorado por git.
-- Las migraciones de las siete tablas y los cuatro buckets están preparadas
-  en `supabase/migrations/`; su ejecución remota está pendiente.
-- No se publicaron las variables de ejemplo en Vercel.
+- Credenciales reales recuperadas con el token proporcionado por el usuario.
+- Proyecto Supabase `typzvosvhoqevjijoguq` (único proyecto disponible,
+  esquema público vacío antes del setup).
+- `.env.local` contiene URL, anon, service_role y token de administración.
+  Está ignorado por git y tiene permisos locales restringidos.
+- URL, anon y service_role configuradas en producción Vercel, junto con
+  `NEXT_PUBLIC_SITE_URL=https://agrosignal.vercel.app`.
+- El token personal `SUPABASE_ACCESS_TOKEN` solo se usa para administración
+  local; no se despliega ni se expone al navegador.
+- Siete tablas y cuatro buckets creados y comprobados mediante consultas
+  remotas. Solo `fotos-lotes` es público.
+- Confirmación de correo activa; URLs autorizadas: localhost y producción.
 
-### Acceso que falta para continuar
+## Administración local
 
-Configurar `SUPABASE_ACCESS_TOKEN` en `.env.local` con un token personal
-de [Supabase → Account → Access Tokens](https://supabase.com/dashboard/account/tokens).
-Se usará únicamente como credencial de administración para localizar el
-proyecto, recuperar sus claves y aplicar las migraciones. No debe llevar
-`NEXT_PUBLIC_`, incluirse en el cliente, subirse a git ni desplegarse en Vercel.
-Si hay varios proyectos, se seleccionará el de AgroSignal por nombre;
-si el nombre es distinto, indicar su referencia de proyecto.
+`SUPABASE_PROJECT_REF` identifica el proyecto y `SUPABASE_ACCESS_TOKEN`
+autoriza las migraciones. Ejecutar:
 
-Alternativa: proporcionar la URL, las claves de API y una conexión PostgreSQL
-con permisos de migración mediante variables locales. La clave `service_role`
-por sí sola no ofrece una conexión SQL para crear tablas.
+```sh
+node --env-file=.env.local scripts/supabase-management.mjs migrate
+```
 
-Se solicitó este acceso mediante la excepción explícita de credenciales del
-encargo. La ejecución se detiene antes de aplicar SQL remoto o iniciar los
-módulos que necesitan datos reales; ningún módulo figura como terminado.
+El script registra versiones y hashes en `private.agrosignal_migrations`.
+No editar SQL ya aplicado: agregar otra migración.
+
+## Pendiente: proveedor de correo
+
+Supabase no tiene SMTP personalizado. Su remitente predeterminado restringe
+los destinatarios al equipo del proyecto, por lo que no permite registro
+público con confirmación ni recuperación para usuarios externos.
+Se solicitaron host, puerto, usuario, contraseña y remitente verificado.
+No se desactivó la confirmación de correo para eludir esta limitación.
+
+Referencia: [SMTP de Supabase](https://supabase.com/docs/guides/auth/auth-smtp).
+Las pruebas de sesiones usan cuentas temporales y enlaces generados por la
+API administrativa; no equivalen a verificar entrega de correo real.

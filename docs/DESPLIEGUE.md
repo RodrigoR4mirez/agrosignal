@@ -43,8 +43,9 @@ sigue viviendo fuera de este repo, en iCloud, tal como está documentado en
 
 - Sesión Vercel validada y repo vinculado al proyecto existente `agrosignal`.
 - URL existente: https://agrosignal.vercel.app (todavía corresponde a la app anterior).
-- Migraciones preparadas en `supabase/migrations/`, pendientes de credenciales
-  y ejecución en Supabase. No se han creado tablas ni buckets remotos.
+- Migraciones base aplicadas: siete tablas y cuatro buckets verificados en Supabase.
+- Variables de producción configuradas, incluida la URL pública.
+- Confirmación de correo activa; pendiente proveedor SMTP para destinatarios externos.
 - No se ha hecho un nuevo despliegue ni un push: primero deben completarse
   los módulos y sus verificaciones, como indica el encargo.
 - Ver `VARIABLES-DE-ENTORNO.md` para el acceso solicitado.

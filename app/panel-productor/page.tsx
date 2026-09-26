@@ -1,8 +1,14 @@
+import Link from 'next/link'
 import { requireRole } from '@/lib/supabase/auth'
-import { RolePanel } from '@/components/RolePanel'
-
+import { getOwnLots } from '@/lib/marketplace/data'
+import { AppShell } from '@/components/AppShell'
+import { Card } from '@/components/ui/Card'
 export default async function ProducerPanel({ searchParams }: { searchParams: Promise<{ aviso?: string }> }) {
   const profile = await requireRole('productor')
-  const params = await searchParams
-  return <RolePanel profile={profile} denied={params.aviso === 'sin-permiso'} />
+  const [params, result] = await Promise.all([searchParams, getOwnLots(profile.id)])
+  return <AppShell profile={profile}>
+    {params.aviso === 'sin-permiso' && <p role="alert" className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">No tienes permiso para ver esta página.</p>}
+    <p className="mb-2 text-sm font-semibold uppercase tracking-wide text-[#b8860f]">Mi espacio · Productor</p><h1 className="mb-8 text-3xl font-extrabold text-[#1a5c2a]">Hola, {profile.nombre_completo}</h1>
+    <div className="grid gap-6 md:grid-cols-2"><Card><h2 className="mb-3 text-xl font-bold">Tus cosechas en AgroSignal</h2><p className="mb-5 text-sm text-gray-600">{result.error ? 'No pudimos cargar el resumen. Puedes volver a intentarlo desde Mis lotes.' : `Tienes ${result.lots.length} lotes guardados. Gestiona tus publicaciones, borradores y lotes agotados.`}</p><div className="flex flex-wrap gap-3"><Link href="/panel-productor/publicar" className="rounded-xl bg-[#1a5c2a] px-5 py-3 text-sm font-bold text-white">Publicar lote</Link><Link href="/panel-productor/mis-lotes" className="rounded-xl border border-green-700 px-5 py-3 text-sm font-semibold text-[#1a5c2a]">Mis lotes</Link></div></Card><Card><h2 className="mb-3 text-xl font-bold">Información para tu campo</h2><p className="mb-5 text-sm leading-relaxed text-gray-600">Consulta el riesgo climático y compara las cosechas disponibles de tu región.</p><div className="flex flex-wrap gap-5 text-sm font-semibold text-[#1a5c2a]"><Link href="/" className="underline">Riesgo climático</Link><Link href="/marketplace" className="underline">Ver marketplace</Link><Link href="/actualizar-password" className="underline">Cambiar contraseña</Link></div></Card></div>
+  </AppShell>
 }

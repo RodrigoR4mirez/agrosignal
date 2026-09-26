@@ -1,87 +1,56 @@
 # AgroSignal Marketplace (`/marketplace`)
 
-Landing de marketplace implementada a partir del diseño exportado de Google
-Stitch en `UX-stitch_agrosignal_marketplace/`. Ruta aislada del dashboard de
-riesgo agrícola (`app/page.tsx`) — no comparte componentes ni estilos
-globales más allá de la fuente Plus Jakarta Sans, que ya era global al sitio.
+Catálogo público conectado a Supabase. El dashboard climático de `/` sigue
+usando sus CSV y conserva su funcionamiento independiente.
 
-## Qué es
+## Rutas y componentes activos
 
-Una landing de marketing para un marketplace agrícola (venta anticipada,
-transporte compartido, exportación, mapa de riesgo, comunidad), **distinta**
-del dashboard de riesgo por cultivo que vive en `/`. Es contenido estático:
-no está conectada a ningún backend real ni a los CSVs del pipeline agro. Los
-botones "PRO", formularios y CTAs son visuales, no funcionales (igual que en
-el mockup exportado).
+- `/marketplace`: búsqueda por cultivo, filtros de región/cultivo/precio/
+  destino/nivel de verificación, paginación de 12 lotes y estados vacíos/error.
+- `/marketplace/[id]`: galería, oferta, origen, productor y nivel de verificación.
+- `/panel-productor/publicar`: wizard de tres pasos con fotos en Supabase Storage.
+- `/panel-productor/mis-lotes`: publicaciones, borradores, agotados y bloqueados;
+  edición y eliminación de lotes propios con confirmación.
+- `components/marketplace/`: tarjeta, wizard y confirmación de eliminación.
+- `lib/marketplace/`: tipos, formato y consultas de datos.
 
-## Decisiones de implementación
+Se reutilizan `AppShell`, `components/ui/Card.tsx`, `.app-container` y la paleta
+verde/dorado. La ficha no presenta una compra operativa hasta el módulo 3.
 
-- **Una sola ruta, dos bloques.** El mockup de Stitch trae dos diseños con
-  contenido *distinto* (no el mismo layout en dos anchos): un desktop de
-  marketing público (`agrosignal_landing_con_acceso_pro_premium`) y un móvil
-  tipo "home de app ya logueada" (`agrosignal_landing_nica_m_vil`, con bottom
-  nav y KPIs personalizados). Se implementaron ambos completos y se
-  intercambian por CSS: `<DesktopLanding />` (`hidden lg:block`) +
-  `<MobileHome />` (`lg:hidden`) dentro de `page.tsx`.
-- **Tokens propios, sin tocar el resto del sitio.** `marketplace.css` define
-  las variables de color/sombra del `DESIGN.md` de Stitch bajo
-  `.marketplace-scope`, y un contenedor propio `.ms-container` (1280px, el
-  ancho de lienzo que usó Stitch) en vez de reusar `.app-container` del
-  dashboard.
-- **Material Symbols** se carga solo en `app/marketplace/layout.tsx` (no en
-  el layout raíz).
-- **Estructura de componentes:** `_components/desktop/`, `_components/mobile/`
-  y `_components/shared/` (ícono, badge PRO). El prefijo `_` excluye la
-  carpeta del router de Next.
+## Visibilidad y fotos
 
-## Bug de CSS encontrado y corregido (afecta todo el sitio)
+El catálogo y el detalle consultan exclusivamente `catalogo_lotes`. Esta vista
+aplica `private.lote_publicable` aun cuando el usuario sea dueño o administrador:
+no muestra borradores, agotados, bloqueados, productores suspendidos/sin correo
+verificado ni lotes con un test `no_pasa`. La gestión privada utiliza RLS y
+filtra además por el productor autenticado.
 
-`app/globals.css` tenía `* { margin: 0; padding: 0; box-sizing: border-box }`
-escrito **fuera** de las capas (`@layer`) de Tailwind v4. En cascade layers,
-una regla sin capa le gana a cualquier regla dentro de una capa sin importar
-especificidad — así que esa línea anulaba silenciosamente **todas** las
-utilidades de margen de Tailwind (`mt-*`, `mb-*`, `space-y-*`, etc.) en site
-completo, no solo en `/marketplace`. Se detectó porque `mt-auto` no empujaba
-el botón "Iniciar Sesión" al fondo del menú móvil. Se eliminó la regla
-duplicada (Tailwind ya trae ese mismo reset, correctamente ubicado en su
-propia capa `base`); se verificó que el dashboard en `/` sigue viéndose bien.
+Las fotos son objetos de `fotos-lotes` con rutas
+`productor_uuid/lote_uuid/archivo_uuid.ext`. En `lotes.fotos` se guardan rutas
+permanentes, y la UI deriva la URL pública del bucket. JPG/PNG/WebP, máximo
+5 MB por archivo, de 1 a 6 fotos para publicar. No se usan fotos de Stitch
+como si fueran fotos de productos reales.
 
-## Imágenes
+Antes de subir fotos se crea un borrador con stock 0. Solo se publica después
+de guardar correctamente todas las referencias. Una subida fallida deja un
+borrador recuperable en Mis lotes; al editar un borrador se recuperan las fotos
+ya subidas. Las fotos quitadas de un lote se limpian después de guardar; al
+eliminar un lote se limpian los objetos de su carpeta. Si Storage falla, el
+lote se guarda/elimina y se muestra un aviso de limpieza pendiente. Los objetos
+no referenciados de intentos interrumpidos pueden requerir limpieza posterior;
+no se elimina ninguna evidencia ni ningún objeto todavía referenciado.
 
-Las fotos del export de Stitch apuntaban a URLs temporales de
-`lh3.googleusercontent.com` (no son activos propios). Se descargaron y
-quedan en dos lugares con roles distintos:
+La eliminación de un lote con pedidos o verificaciones es rechazada por sus
+claves foráneas. Se informa al productor que puede poner el stock en 0.
 
-- `UX-stitch_agrosignal_marketplace/assets/images/` — copia de referencia
-  con los nombres de archivo originales (tokens de Google), usada solo para
-  actualizar las rutas `src` de los `code.html` de Stitch (documentación de
-  diseño, no se sirve en la web).
-- `public/marketplace/` — las mismas 19 fotos, renombradas de forma legible
-  y usadas de verdad por los componentes de React vía `<img src="/marketplace/...">`.
+## Diseño anterior
 
-| Archivo | Usado en |
-|---|---|
-| `hero-valle-sagrado.jpg` | Hero desktop (fondo) |
-| `mapa-riesgo-topografico.jpg` | Mapa de Riesgo desktop |
-| `transporte-camion.jpg` | Transporte desktop (camión) |
-| `transporte-gps-mapa.jpg` | Transporte desktop (mini-mapa GPS) |
-| `exportacion-mapa-eeuu.jpg` | Oportunidades de Exportación (mapa EE.UU.) |
-| `sello-inocuidad-palta.jpg` | Sello de Inocuidad |
-| `cosecha-papas.jpg` / `cosecha-mango.jpg` / `cosecha-esparrago.jpg` | Cosechas Disponibles (3 lotes) |
-| `asesor-ricardo.jpg` | Asesoría Profesional |
-| `testimonio-eusebio.jpg` / `testimonio-anamaria.jpg` / `testimonio-raul.jpg` | Testimonios (3) |
-| `mobile-hero-campo.jpg` | Hero móvil (fondo) |
-| `mobile-mapa-riesgo.png` | Mapa de Riesgos móvil |
-| `lote-arandanos-aereo.jpg` / `mango-plantacion.jpg` | Tus Lotes móvil (2) |
-| `noticia-mercados.jpg` / `noticia-tecnologia.jpg` | Últimas Noticias móvil (2) |
+`_components/desktop`, `_components/mobile`, `_components/shared`,
+`marketplace.css` y las imágenes locales de `public/marketplace` conservan
+las referencias del landing original de Stitch. Ya no se renderizan desde
+la página principal del catálogo. `/pro` conserva su landing de marketing.
 
-El componente `shared/PlaceholderImage.tsx` (bloques de color usados antes
-de tener las fotos reales) ya no se usa y fue eliminado.
+El flujo de verificación documental, drones y tests se implementa en el módulo 4;
+por ahora se consulta el mayor nivel ya registrado, sin exponer evidencia privada.
 
-## Pendiente / decisiones abiertas
-
-- Nada wireado a datos reales — es contenido de marketing estático.
-- Si se agregan más imágenes al export de Stitch, el flujo es: descargarlas
-  a `UX-stitch_agrosignal_marketplace/assets/images/`, actualizar los `src`
-  de los `code.html` de referencia, copiar a `public/marketplace/` con un
-  nombre legible, y apuntar el `<img>` del componente correspondiente.
+Estado y validación: `docs/MODULOS/02-marketplace.md`.

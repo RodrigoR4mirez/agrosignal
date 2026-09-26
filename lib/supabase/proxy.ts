@@ -29,14 +29,15 @@ export async function updateSession(request: NextRequest) {
     /^\/admin(?:\/|$)/.test(path) ? 'admin' :
     /^\/panel-productor(?:\/|$)/.test(path) || path === '/marketplace/publicar' || /^\/marketplace\/[^/]+\/editar$/.test(path) ? 'productor' :
     /^\/panel-comprador(?:\/|$)/.test(path) ? 'comprador' : undefined
-  const protectedRoute = Boolean(requiredRole) || ['/mi-cuenta', '/actualizar-password'].includes(path)
+  const verificationRoute = /^\/verificaciones(?:\/|$)/.test(path)
+  const protectedRoute = Boolean(requiredRole) || verificationRoute || ['/mi-cuenta', '/actualizar-password'].includes(path)
   if (!user) return protectedRoute ? redirectTo(`/login?aviso=sesion&next=${encodeURIComponent(path)}`) : response
   if (!protectedRoute) return response
   const { data: profile } = await supabase.from('perfiles').select('rol,suspendido').eq('id', user.id).single()
   if (!profile) return redirectTo('/login?aviso=perfil')
   if (profile.suspendido) return redirectTo('/cuenta-suspendida')
   if (!user.email_confirmed_at) return redirectTo('/verificar-correo')
-  if (requiredRole && requiredRole !== profile.rol) {
+  if ((requiredRole && requiredRole !== profile.rol) || (verificationRoute && !['productor', 'admin'].includes(profile.rol))) {
     return redirectTo(`${ROLE_HOME[profile.rol as UserRole]}?aviso=sin-permiso`)
   }
   return response

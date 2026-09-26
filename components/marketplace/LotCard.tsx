@@ -1,7 +1,8 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { SelloInocuidadBadge } from '@/components/SelloInocuidadBadge'
 import { Card } from '@/components/ui/Card'
-import { COSECHA, SELLOS, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
+import { COSECHA, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
 
 export function LotCard({ lot, eager = false }: { lot: LotePublico; eager?: boolean }) {
   const photo = photoUrl(lot.fotos[0] ?? '')
@@ -16,7 +17,7 @@ export function LotCard({ lot, eager = false }: { lot: LotePublico; eager?: bool
         <h2 className="wrap-anywhere text-xl font-bold text-[#1a5c2a]">{lot.cultivo}</h2>
         <p className="text-sm text-gray-600">{quantity(lot.cantidad_disponible)} {lot.unidad} disponibles · {lot.destino === 'local' ? 'Mercado local' : 'Exportación'}</p>
         <p className="wrap-anywhere text-2xl font-extrabold">{money(lot.precio_unidad)} <span className="text-sm font-normal text-gray-500">/ {lot.unidad}</span></p>
-        <p className={`inline-block rounded-lg px-2.5 py-1.5 text-xs font-semibold ${lot.nivel_sello ? 'bg-amber-50 text-amber-900' : 'bg-gray-100 text-gray-600'}`}>{SELLOS[lot.nivel_sello]}</p>
+        <SelloInocuidadBadge nivel={lot.nivel_sello} />
         <p className="truncate text-xs text-gray-500">Publicado por {lot.productor_nombre}</p>
       </div>
     </Link>

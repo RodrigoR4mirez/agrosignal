@@ -9,6 +9,6 @@ export const config = {
   matcher: [
     '/login', '/registro', '/recuperar-password', '/actualizar-password',
     '/verificar-correo', '/cuenta-suspendida', '/mi-cuenta', '/auth/:path*',
-    '/panel-productor/:path*', '/panel-comprador/:path*', '/admin/:path*', '/marketplace/:path*',
+    '/panel-productor/:path*', '/panel-comprador/:path*', '/admin/:path*', '/marketplace/:path*', '/verificaciones/:path*',
   ],
 }

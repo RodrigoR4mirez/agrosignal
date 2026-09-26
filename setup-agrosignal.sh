@@ -11,7 +11,7 @@ set -e
 #   1. Verifica que estás en la carpeta correcta del repo.
 #   2. Elimina pipeline/ y svgs/ del repo (duplicados/datos que no van en git,
 #      ver justificación abajo).
-#   3. Crea/actualiza AGENTS.md con el mapa de agentes para construir el 
+#   3. Crea/actualiza AGENTS.md con el mapa de agentes para construir el
 #      marketplace funcional (auth, transacciones, sello de inocuidad, admin).
 #   4. Crea la carpeta docs/ con toda la documentación .md del proyecto.
 #   5. Crea .env.example con las variables que vas a necesitar.

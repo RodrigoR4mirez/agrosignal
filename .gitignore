@@ -33,3 +33,7 @@ next-env.d.ts
 
 # JetBrains IDE
 .idea/
+pipeline/
+svgs/
+.env*
+!.env.example

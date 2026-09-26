@@ -54,6 +54,9 @@ export async function saveLot(form: FormData): Promise<SaveResult> {
   const { data: old, error: readError } = await db.from('lotes').select('fotos').eq('id', id).eq('productor_id', profile.id).maybeSingle()
   if (readError || !old) return { error: 'No encontramos este lote entre tus publicaciones.' }
   const { data, error } = await db.from('lotes').update({ ...parsed.fields, fotos: photos, borrador: false }).eq('id', id).eq('productor_id', profile.id).select('id').maybeSingle()
+  if (error?.code === '22023' && error.message === 'No puedes cambiar el cultivo o la unidad mientras haya pedidos en curso.') {
+    return { error: 'Este lote tiene pedidos en curso. Conserva el cultivo y la unidad; puedes actualizar los demás datos.' }
+  }
   if (error || !data) return { error: 'No pudimos guardar el lote. Comprueba las fotos y vuelve a intentarlo.' }
   const removed = (old.fotos as string[]).filter(path => !(photos as string[]).includes(path))
   // Storage policies allow deletion only when the file is no longer referenced.

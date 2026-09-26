@@ -15,7 +15,8 @@ usando sus CSV y conserva su funcionamiento independiente.
 - `lib/marketplace/`: tipos, formato y consultas de datos.
 
 Se reutilizan `AppShell`, `components/ui/Card.tsx`, `.app-container` y la paleta
-verde/dorado. La ficha no presenta una compra operativa hasta el módulo 3.
+verde/dorado. La ficha permite comprar mediante el flujo del módulo 3 a usuarios
+con rol Comprador; el seguimiento aparece en los paneles de ambas partes.
 
 ## Visibilidad y fotos
 

@@ -1,6 +1,7 @@
 'use client'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ReferenceLine } from 'recharts'
 import { RiesgoData } from '@/lib/parseData'
+import { nombreCultivo } from '@/lib/nombres'
 
 export default function RiesgoChart({ data }: { data: RiesgoData[] }) {
   const sorted = [...data]
@@ -41,6 +42,7 @@ export default function RiesgoChart({ data }: { data: RiesgoData[] }) {
           <YAxis
             type="category"
             dataKey="Cultivo"
+            tickFormatter={nombreCultivo}
             width={112}
             tick={{ fontSize: 14, fill: '#374151', fontWeight: 400 }}
             axisLine={false}
@@ -48,6 +50,7 @@ export default function RiesgoChart({ data }: { data: RiesgoData[] }) {
           />
           <Tooltip
             cursor={{ fill: 'rgba(0,0,0,0.03)' }}
+            labelFormatter={l => nombreCultivo(String(l))}
             formatter={(v) => [`${v}%`, 'Riesgo']}
             contentStyle={{ borderRadius: 'var(--radius-card)', border: '1px solid #e5e7eb', fontSize: '13px', boxShadow: 'var(--shadow-card)' }}
           />

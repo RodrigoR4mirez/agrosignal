@@ -1,5 +1,6 @@
 'use client'
 import { RiesgoData } from '@/lib/parseData'
+import { nombreCultivo, nombreRegion } from '@/lib/nombres'
 
 export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
   const sorted = [...data].sort((a, b) => (b['Riesgo_%'] ?? -1) - (a['Riesgo_%'] ?? -1))
@@ -24,10 +25,10 @@ export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
           </tr>
         </thead>
         <tbody>
-          {sorted.map((row, i) => (
-            <tr key={i} className="border-b border-gray-50 hover:bg-[var(--surface)] transition-colors">
-              <td className="py-3 px-4 font-medium text-gray-800">{row.Cultivo}</td>
-              <td className="py-3 px-4 text-gray-500">{row.Region}</td>
+          {sorted.map((row) => (
+            <tr key={row.Cultivo} className="border-b border-gray-50 hover:bg-[var(--surface)] transition-colors">
+              <td className="py-3 px-4 font-medium text-gray-800">{nombreCultivo(row.Cultivo)}</td>
+              <td className="py-3 px-4 text-gray-500">{nombreRegion(row.Region)}</td>
               <td className="py-3 px-4 text-right font-mono font-semibold tabular-nums">
                 {row.Nivel === 'N/D' ? <span className="text-gray-300">—</span> : `${row['Riesgo_%']}%`}
               </td>
@@ -37,7 +38,7 @@ export default function TablaRiesgo({ data }: { data: RiesgoData[] }) {
                 </span>
               </td>
               <td className="py-3 px-4 text-right text-gray-500 tabular-nums hidden sm:table-cell">
-                {row.Media_historica_ton ? row.Media_historica_ton.toLocaleString('en-US') : <span className="text-gray-300">—</span>}
+                {row.Media_historica_ton ? row.Media_historica_ton.toLocaleString('es-PE') : <span className="text-gray-300">—</span>}
               </td>
             </tr>
           ))}

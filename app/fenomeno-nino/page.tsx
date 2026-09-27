@@ -48,9 +48,6 @@ const tones = {
 }
 
 export default function FenomenoNino() {
-  const ahora = new Date().toLocaleDateString('es-PE', {
-    year: 'numeric', month: 'long', day: 'numeric'
-  })
   const impacto = getImpactoNinoData()
   const confiables = impacto.filter(d => d.Confianza !== 'baja').length
 
@@ -78,7 +75,7 @@ export default function FenomenoNino() {
           </Link>
         </div>
       </header>
-      <PublicLinks />
+      <PublicLinks actual="/fenomeno-nino" />
 
       {/* Main */}
       <main className="app-container px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
@@ -95,8 +92,8 @@ export default function FenomenoNino() {
             </p>
           </div>
           <div className="relative text-left md:text-right shrink-0">
-            <div className="text-xs text-orange-100/70 mb-1">Última revisión de fuentes</div>
-            <div className="text-sm font-semibold text-white">{ahora}</div>
+            <div className="text-xs text-orange-100/70 mb-1">Fuente más reciente</div>
+            <div className="text-sm font-semibold text-white">22 de junio de 2026</div>
           </div>
         </div>
 
@@ -270,7 +267,6 @@ export default function FenomenoNino() {
             <div>© {new Date().getFullYear()} AgroSignal</div>
           </div>
         </div>
-        <Link href="/ayuda" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">Ayuda y preguntas frecuentes</Link>
       </footer>
 
     </div>

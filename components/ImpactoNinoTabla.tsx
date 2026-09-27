@@ -1,5 +1,6 @@
 'use client'
 import { ImpactoNinoData } from '@/lib/parseData'
+import { nombreCultivo, nombreRegion } from '@/lib/nombres'
 
 const badgeImpacto = (impacto: ImpactoNinoData['ImpactoEsperado']) => {
   if (impacto === 'ALTO') return 'bg-red-100 text-red-700 border border-red-200'
@@ -33,8 +34,8 @@ export default function ImpactoNinoTabla({ data }: { data: ImpactoNinoData[] }) 
         <tbody>
           {sorted.map((row, i) => (
             <tr key={i} className={`border-b border-gray-50 hover:bg-[var(--surface)] transition-colors ${row.Confianza === 'baja' ? 'opacity-50' : ''}`}>
-              <td className="py-3 px-4 font-medium text-gray-800">{row.Cultivo}</td>
-              <td className="py-3 px-4 text-gray-600">{row.Region}</td>
+              <td className="py-3 px-4 font-medium text-gray-800">{nombreCultivo(row.Cultivo)}</td>
+              <td className="py-3 px-4 text-gray-600">{nombreRegion(row.Region)}</td>
               <td className="py-3 px-4 text-right font-mono font-semibold text-gray-800">
                 {row.Anomalia_pp > 0 ? '+' : ''}{row.Anomalia_pp}pp
               </td>

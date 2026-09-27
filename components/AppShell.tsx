@@ -13,6 +13,7 @@ export async function AppShell({ children, profile: suppliedProfile }: { childre
         <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-semibold">
           <Link href="/marketplace" className="text-gray-700 hover:text-[#1a5c2a]">Marketplace</Link>
           <Link href="/" className="text-gray-700 hover:text-[#1a5c2a]">Riesgo climático</Link>
+          <Link href="/fenomeno-nino" className="text-gray-700 hover:text-[#1a5c2a]">El Niño</Link>
           <Link href="/ayuda" className="text-gray-700 hover:text-[#1a5c2a]">Ayuda</Link>
           {profile ? <>
             <Link href={profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]} className="text-[#1a5c2a]">Mi panel</Link>

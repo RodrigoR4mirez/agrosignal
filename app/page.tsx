@@ -9,9 +9,6 @@ import { Card, CardHeader, CardTitle, CardDescription } from '@/components/ui/Ca
 
 export default function Home() {
   const riesgo = getRiesgoData()
-  const ahora = new Date().toLocaleDateString('es-PE', {
-    year: 'numeric', month: 'long', day: 'numeric'
-  })
 
   return (
     <div className="min-h-screen">
@@ -33,12 +30,12 @@ export default function Home() {
             </div>
           </div>
           <div className="text-right shrink-0 leading-tight">
-            <div className="text-xs text-gray-400 font-normal">Última actualización</div>
-            <div className="text-xs text-gray-600 font-medium mt-0.5">{ahora}</div>
+            <div className="text-xs text-gray-400 font-normal">Actualización</div>
+            <div className="text-xs text-gray-600 font-medium mt-0.5">Mensual · NASA POWER + FAOSTAT</div>
           </div>
         </div>
       </header>
-      <PublicLinks />
+      <PublicLinks actual="/" />
 
       {/* Main */}
       <main className="app-container px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
@@ -108,7 +105,7 @@ export default function Home() {
           <CardHeader>
             <CardTitle>Detalle por cultivo</CardTitle>
             <CardDescription>
-              Región principal de producción y nivel de alerta para el año en curso
+              Región principal de producción y nivel de alerta para el año en curso · {riesgo.filter(d => d.Nivel !== 'N/D').length} de {riesgo.length} cultivos con predicción activa (N/D = sin predicción)
             </CardDescription>
           </CardHeader>
           <TablaRiesgo data={riesgo} />
@@ -130,7 +127,6 @@ export default function Home() {
           </div>
           <div>Actualizado mensualmente · © {new Date().getFullYear()} AgroSignal</div>
         </div>
-        <Link href="/ayuda" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">Ayuda y preguntas frecuentes</Link>
       </footer>
 
     </div>

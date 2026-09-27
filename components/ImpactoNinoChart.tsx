@@ -1,6 +1,7 @@
 'use client'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, ErrorBar, ReferenceLine } from 'recharts'
 import { ImpactoNinoData } from '@/lib/parseData'
+import { nombreCultivo } from '@/lib/nombres'
 
 const colorPorImpacto = (impacto: ImpactoNinoData['ImpactoEsperado']) => {
   if (impacto === 'ALTO') return '#EF4444'
@@ -39,9 +40,10 @@ export default function ImpactoNinoChart({ data }: { data: ImpactoNinoData[] }) 
           axisLine={{ stroke: '#e5e7eb' }}
           tickLine={false}
         />
-        <YAxis type="category" dataKey="Cultivo" width={110} tick={{ fontSize: 13, fill: '#374151' }} axisLine={false} tickLine={false} />
+        <YAxis type="category" dataKey="Cultivo" tickFormatter={nombreCultivo} width={110} tick={{ fontSize: 13, fill: '#374151' }} axisLine={false} tickLine={false} />
         <ReferenceLine x={0} stroke="#9ca3af" />
         <Tooltip
+          labelFormatter={l => nombreCultivo(String(l))}
           formatter={(_v, _n, item) => {
             const d = item.payload as ImpactoNinoData
             const max = d.AnomaliaMax_pp > 0 ? `+${d.AnomaliaMax_pp}` : d.AnomaliaMax_pp

@@ -195,7 +195,7 @@ export default async function Landing() {
             <div className="mt-12"><Link href={profile ? '/marketplace' : '/registro'} className="inline-flex min-h-12 items-center rounded-full bg-[#f4f2ee] px-10 text-[17px] text-[#1a5c2a] hover:bg-white">{profile ? 'Ver productos' : 'Crear mi cuenta'}</Link></div>
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[25rem] overflow-hidden rounded-full shadow-[0_30px_60px_-20px_rgba(0,0,0,0.5)] lg:-my-40">
-            <Image src="/landing/acuerdo-apreton.jpg" alt="Un productor estrecha la mano de un comprador" fill sizes="(max-width: 1024px) 80vw, 25rem" className="object-cover" />
+            <Image src="/landing/pago-productor.jpg" alt="Una compradora paga en efectivo a un productor por una bolsa de verduras frescas" fill sizes="(max-width: 1024px) 80vw, 25rem" className="object-cover object-[44%_50%]" />
           </div>
         </div>
       </section>

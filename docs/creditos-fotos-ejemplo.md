@@ -76,3 +76,47 @@ generada por IA. Reducidas a 2400 px en el lado mayor.
 | cafe-cerezas.jpg | Categoría "Café y cacao de la selva" | Bowl of a Fresh Coffee Fruits | aleinad _0222 | [Pexels](https://www.pexels.com/photo/bowl-of-a-fresh-coffee-fruits-13802103/) |
 | mercado-local-peru.jpg | Categoría "Frescos para el mercado local" | Fruit Market Scene in Rural Peru | Jhoel Rojas | [Pexels](https://www.pexels.com/photo/fruit-market-scene-in-rural-peru-36904519/) |
 | papa-cosecha-andes.jpg | Categoría "Papa nativa y cultivos andinos" | Man Harvesting Potatoes | Shiwa Yachachin | [Pexels](https://www.pexels.com/photo/man-harvesting-potatoes-9912131/) |
+
+## Fotos de perfil y lotes añadidos por `ampliar-ejemplos.mjs`
+
+Retratos **referenciales** de [Pexels](https://www.pexels.com/license/) para los productores de ejemplo: son personas reales fotografiadas por los autores indicados y **no** son los productores ficticios. El perfil lo aclara. Cada foto se usa una sola vez y se recortó al rostro (detección de caras de macOS Vision). Están en el bucket `fotos-perfil`, no en el repositorio.
+
+| Productor de ejemplo | Foto (autor en Pexels) |
+|---|---|
+| Rosa Huamán Quispe | [Zen Chung](https://www.pexels.com/photo/cheerful-ethnic-lady-holding-box-with-harvested-aubergines-in-garden-5529606/) |
+| Julio César Paredes Tello | [Eduardo Vite](https://www.pexels.com/photo/portrait-of-coffee-farmer-in-xicotepec-de-juarez-29799580/) |
+| Elmer Tapullima Sangama | [Belier Baracaldo](https://www.pexels.com/photo/smiling-farmer-amidst-lush-coffee-plantation-31097988/) |
+| Carmen Rojas Salazar | [Irvin David](https://www.pexels.com/photo/female-farmer-harvesting-ripe-coffee-beans-36040318/) |
+| Wilfredo Chunga Yarlequé | [María Regina Díaz](https://www.pexels.com/photo/smiling-elderly-farmer-holding-lime-in-orchard-33365127/) |
+| Nicolasa Mamani Apaza | [Alex Aparicio](https://www.pexels.com/photo/elderly-woman-in-hat-19822273/) |
+| Fidel Ccori Huaynate | [Daniel Delgado](https://www.pexels.com/photo/peasant-man-in-hat-16957832/) |
+| Martha Quispe Hernández | [Christian Correa](https://www.pexels.com/photo/emociones-28278824/) |
+| Teodoro Condori Mayta | [Diego Huamani](https://www.pexels.com/photo/portrait-of-a-man-wearing-traditional-clothing-and-a-hat-17045111/) |
+| Luis Alberto Vásquez Silupú | [Daniel Delgado](https://www.pexels.com/photo/farmer-posing-in-green-cap-and-blue-polo-t-shirt-16957833/) |
+| Gladys Chávez Llerena | [Antonio Partida](https://www.pexels.com/photo/woman-sorting-vegetables-in-guanajuato-warehouse-37759647/) |
+| Hernán Ríos Cárdenas | [Michael Burrows](https://www.pexels.com/photo/content-man-harvesting-coffee-berries-in-verdant-plantation-7125419/) |
+| Yolanda Espinoza Cruz | [Royer Smith](https://www.pexels.com/photo/smiling-woman-in-hat-16895309/) |
+| Rubén Salazar Guzmán | [Daniel Morales](https://www.pexels.com/photo/elderly-man-holding-fruit-in-dark-setting-29892495/) |
+| Doris Pinedo Guevara | [Bill Salazar](https://www.pexels.com/photo/woman-holding-a-basket-with-coffee-at-a-plantation-17836197/) |
+| Eusebia Choque Quispe | [Saraí Carrasco](https://www.pexels.com/photo/portrait-of-an-elderly-woman-in-traditional-clothing-smiling-17060513/) |
+| Abel Huamaní Ccente | [Daniel Delgado](https://www.pexels.com/photo/wrinkled-face-of-farmer-16957837/) |
+| Santos Chuquilín Tasilla | [Daniel Delgado](https://www.pexels.com/photo/man-posing-in-hat-and-scarf-against-rural-landscape-16957834/) |
+| Marleni Gutiérrez Ore | [Irvin David](https://www.pexels.com/photo/woman-harvesting-coffee-cherries-in-sunlit-garden-36040338/) |
+| Segundo Tuanama Sangama | [Daniel Delgado](https://www.pexels.com/photo/man-sitting-on-cropland-16957838/) |
+
+Fotos de los 10 lotes nuevos (bucket `fotos-lotes`), también de Pexels, reducidas a 1600 px:
+
+| Archivo | Lote | Autor y fuente |
+|---|---|---|
+| quinua-1.jpg | Quinua blanca | [Nestorin](https://www.pexels.com/photo/woman-working-in-field-16986795/) |
+| maiz-morado-1.jpg | Maíz morado | [Nano Erdozain](https://www.pexels.com/photo/close-up-of-fresh-purple-corn-on-cutting-board-28490839/) |
+| esparrago-1.jpg | Espárrago verde | [ready made](https://www.pexels.com/photo/green-asparagus-on-marble-table-3987292/) |
+| granada-1.jpg | Granada Wonderful | [Oleksandra Zelena](https://www.pexels.com/photo/pomegranates-on-a-market-18523341/) |
+| limon-1.jpg | Limón sutil | [icon0 com](https://www.pexels.com/photo/selective-focus-photography-of-lemons-479488/) |
+| aguaymanto-1.jpg | Aguaymanto fresco | [Valeria Boltneva](https://www.pexels.com/photo/closeup-photography-of-psysaliss-fruit-965986/) |
+| aji-amarillo-1.jpg | Ají amarillo | [Lumeon Labs](https://www.pexels.com/photo/hand-holding-fresh-yellow-chili-peppers-33475575/) |
+| pina-1.jpg | Piña golden | [Kai-Chieh Chan](https://www.pexels.com/photo/photograph-of-a-pineapple-farm-4858954/) |
+| sacha-inchi-1.jpg | Sacha inchi | [idhaya vendan](https://www.pexels.com/photo/sacha-inchi-seeds-and-oil-on-beige-background-32361131/) |
+| maracuya-1.jpg | Maracuyá amarillo | [Quang Nguyen Vinh](https://www.pexels.com/photo/hanging-green-fruits-2649268/) |
+
+La foto de ají amarillo registra datos de cámara de celular (f/1.6, 5,1 mm, ISO 50). Ninguna de estas fotos está marcada como generada por IA en Pexels.

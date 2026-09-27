@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { Estrellas } from '@/components/calificaciones/Reputacion'
+import { promedioTexto } from '@/lib/calificaciones/types'
 import { Avatar } from '@/components/perfil/Avatar'
 import { COSECHA, descuento, esEjemplo, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
 
@@ -39,7 +40,7 @@ export function LotCard({ lot, eager = false }: { lot: LotePublico; eager?: bool
       </h2>
       <p className="mt-1.5 flex items-center gap-1.5 text-xs text-gray-500">
         {conPromedio ? <Estrellas valor={lot.productor_promedio!} tamano={13} /> : <span aria-hidden="true"><Estrellas valor={0} tamano={13} /></span>}
-        {conPromedio ? <><span className="font-bold tabular-nums text-cacao">{String(lot.productor_promedio).replace('.', ',')}</span><span className="tabular-nums">({lot.productor_calificaciones})</span></> : <span>Productor nuevo</span>}
+        {conPromedio ? <><span className="font-bold tabular-nums text-cacao">{promedioTexto(Number(lot.productor_promedio))}</span><span className="tabular-nums">({lot.productor_calificaciones})</span></> : <span>Productor nuevo</span>}
       </p>
       <div className="min-h-3 flex-1" />
       <div className="flex items-end justify-between gap-2">

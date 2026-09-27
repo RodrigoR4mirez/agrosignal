@@ -20,6 +20,11 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `tipo_comprador` | enum: `natural`, `empresa`, `exportador` (nullable) | Solo si rol = comprador |
 | `destino_exportacion` | boolean (nullable) | Solo si rol = comprador |
 | `foto` | text (nullable) | Ruta `<usuario>/<uuid>.jpg` en el bucket público `fotos-perfil`. Solo el dueño la cambia (grant de columna + política `perfiles_foto_propia`); el archivo debe existir |
+| `finca`, `hectareas`, `anios_experiencia`, `altitud_msnm` | text / numeric / smallint / integer (nullable) | Perfil público del productor (rangos validados en la base) |
+| `latitud`, `longitud` | numeric (nullable) | Ubicación de la finca dentro del Perú; ambas o ninguna. Se muestra en un mapa |
+| `sobre_mi`, `asociacion` | text (nullable) | Texto libre (600) y asociación o cooperativa |
+| `practicas`, `entregas`, `meses_cosecha` | text[] / smallint[] | Listas cerradas: prácticas de cultivo, formas de entrega y meses (1–12) |
+| `capacidad_mensual_kg` | numeric (nullable) | Producción aproximada por mes |
 | `creado_en` | timestamp | Fecha de registro |
 
 ## `lotes`

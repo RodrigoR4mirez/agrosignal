@@ -32,6 +32,7 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `components/AppShell.tsx` — header/footer compartidos con la identidad de la landing (logo → `/`); `anchoCompleto` para páginas con bandas a sangre (catálogo, ayuda)
 - `app/marketplace/page.tsx` — cabecera petróleo con búsqueda y accesos rápidos por cultivo, filtros como opciones visibles (en escritorio se aplican al instante), chips de filtros activos; tarjeta en `components/marketplace/LotCard.tsx`
 - Catálogo al estilo tienda: banners (buscador en vidrio + ofertas), ventajas, pestañas de orden, banner intermedio y categorías; tarjeta con descuento (`precio_anterior`), estrellas y franja de vidrio con la foto del productor (`perfiles.foto`, bucket `fotos-perfil`, se sube desde el panel del productor; `components/perfil/`)
+- Perfil del productor (`app/marketplace/productor/[id]`): finca, hectáreas, experiencia, altitud, ubicación GPS con mapa de OpenStreetMap, prácticas, meses de cosecha, entregas y cifras (ventas completadas, lotes activos, mejor verificación). Se edita en el panel del productor (`components/perfil/PerfilFincaForm.tsx`); columnas en `perfiles` (migración `20260927000300`)
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
@@ -76,11 +77,13 @@ catálogo de productos (búsqueda, filtros y estrellas).
 
 ## Datos de ejemplo en producción
 
-- 15 productores y 20 compradores con correo `*.ejemplo@example.com`, 21 lotes
-  y 17 pedidos. Los lotes llevan `descripcion` con prefijo `[Ejemplo] `
+- 20 productores y 20 compradores con correo `*.ejemplo@example.com`, 31 lotes
+  y unos 90 pedidos (72 con reseñas publicadas de ambas partes). Cada productor tiene
+  perfil de finca completo y una foto referencial de Pexels (el perfil lo aclara). Los lotes llevan `descripcion` con prefijo `[Ejemplo] `
   (`MARCA_EJEMPLO` en `lib/marketplace/types.ts`): la UI los etiqueta
   "Ejemplo", muestra un aviso y no permite comprarlos.
-- Carga: `scripts/cargar-ejemplos.mjs` · Retiro: `scripts/limpiar-ejemplos.sql`
+- Carga: `scripts/cargar-ejemplos.mjs` y luego `scripts/ampliar-ejemplos.mjs`
+  (perfiles, fotos, 10 lotes y reseñas) · Retiro: `scripts/limpiar-ejemplos.sql`
   (SQL Editor de Supabase) · Créditos de fotos: `docs/creditos-fotos-ejemplo.md`
 - Hay además 6 cuentas QA `ag…@example.com` del desarrollo que el script de
   limpieza no borra.

@@ -97,3 +97,31 @@ export async function guardarFotoPerfil(ruta: string | null): Promise<ActionStat
   revalidatePath('/panel-productor'); revalidatePath('/marketplace', 'layout')
   return {}
 }
+
+// Guarda los datos de la finca del perfil público (la base valida rangos y listas permitidas).
+export async function guardarPerfilFinca(_: ActionState, form: FormData): Promise<ActionState> {
+  const profile = await requireRole('productor')
+  const texto = (clave: string) => String(form.get(clave) ?? '').trim()
+  const numeroOpcional = (clave: string, entero = false) => {
+    const valor = texto(clave)
+    if (!valor) return null
+    const n = Number(valor)
+    return Number.isFinite(n) && (!entero || Number.isInteger(n)) ? n : NaN
+  }
+  const datos = {
+    finca: texto('finca') || null, asociacion: texto('asociacion') || null, sobre_mi: texto('sobre_mi') || null,
+    hectareas: numeroOpcional('hectareas'), anios_experiencia: numeroOpcional('anios_experiencia', true), altitud_msnm: numeroOpcional('altitud_msnm', true),
+    capacidad_mensual_kg: numeroOpcional('capacidad_mensual_kg'), latitud: numeroOpcional('latitud'), longitud: numeroOpcional('longitud'),
+    meses_cosecha: [...new Set(form.getAll('meses_cosecha').map(Number))].filter(m => Number.isInteger(m) && m >= 1 && m <= 12).sort((a, b) => a - b),
+    practicas: form.getAll('practicas').map(String), entregas: form.getAll('entregas').map(String),
+  }
+  if (Object.values(datos).some(valor => typeof valor === 'number' && Number.isNaN(valor))) return { error: 'Revisa los números: hectáreas, años, altitud, capacidad y coordenadas.' }
+  if ((datos.latitud === null) !== (datos.longitud === null)) return { error: 'Escribe la latitud y la longitud, o deja ambas vacías.' }
+  if (datos.finca && datos.finca.length < 2) return { error: 'El nombre de la finca debe tener al menos 2 caracteres.' }
+  const db = await createClient()
+  const { data, error } = await db.from('perfiles').update(datos).eq('id', profile.id).select('id').maybeSingle()
+  if (error?.code === '23514') return { error: 'Algún dato está fuera de rango. Las coordenadas deben estar dentro del Perú y la altitud entre 0 y 6000 m.' }
+  if (error || !data) return { error: 'No pudimos guardar tu perfil. Intenta nuevamente.' }
+  revalidatePath('/panel-productor'); revalidatePath(`/marketplace/productor/${profile.id}`)
+  return { success: 'Perfil guardado. Ya se ve en tu página pública.' }
+}

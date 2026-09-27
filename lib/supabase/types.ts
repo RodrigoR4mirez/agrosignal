@@ -1,3 +1,5 @@
+import type { PerfilFinca } from '@/lib/perfil/types'
+
 export type UserRole = 'admin' | 'productor' | 'comprador'
 
 export type Profile = {
@@ -8,6 +10,7 @@ export type Profile = {
   region: string | null
   cultivo_principal: string | null
   foto?: string | null
+} & Partial<PerfilFinca> & {
   tipo_comprador: 'natural' | 'empresa' | 'exportador' | null
   destino_exportacion: boolean | null
   moderacion_motivo?: string | null

@@ -4,6 +4,8 @@ import { useActionState, useState } from 'react'
 import { subirCertificado, solicitarDron, revisarCertificado, completarDron, registrarTest } from '@/app/sello/actions'
 import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
 import { ProofUpload } from './ProofUpload'
+import { useActionFeedback } from '@/components/ActionFeedback'
+import type { SelloActionState } from '@/lib/sello/types'
 
 type Props = { lotId: string; owner: string; today: string }
 export function CertificateForm({ lotId, owner, today }: Props) {
@@ -31,15 +33,25 @@ export function DronRequest({ lotId }: { lotId: string }) {
   return <form action={action} className="space-y-4"><input type="hidden" name="lote_id" value={lotId} /><FormMessage state={state} /><p className="text-sm leading-relaxed text-gray-600">Solicita una inspección de tu lote. La administración coordinará el vuelo y registrará la evidencia cuando se realice.</p>{!state.success && <button disabled={pending} className={buttonClass}>{pending ? 'Solicitando…' : 'Solicitar inspección con dron'}</button>}</form>
 }
 
-export function CertificateReview({ lotId, certificateId }: { lotId: string; certificateId: string }) {
-  const [state, action, pending] = useActionState(revisarCertificado, {})
+export function CertificateReview({ lotId, certificateId, allowApprove = true }: { lotId: string; certificateId: string; allowApprove?: boolean }) {
+  const notify = useActionFeedback()
+  const [state, action, pending] = useActionState(async (previous: SelloActionState, form: FormData) => {
+    const result = await revisarCertificado(previous, form)
+    if (result.success) notify(result.success)
+    return result
+  }, {})
   const [decision, setDecision] = useState<'aprobado' | 'rechazado' | null>(null)
   const [reason, setReason] = useState('')
-  return <div className="space-y-4"><FormMessage state={state} />{!state.success && (decision ? <form action={action} className="space-y-4 rounded-xl border border-gray-200 p-4"><input type="hidden" name="lote_id" value={lotId} /><input type="hidden" name="certificado_id" value={certificateId} /><input type="hidden" name="estado" value={decision} /><p className="text-sm font-semibold">{decision === 'aprobado' ? '¿Confirmas que revisaste y apruebas este documento?' : '¿Confirmas el rechazo del documento?'}</p>{decision === 'rechazado' && <div className="space-y-2"><label htmlFor={`motivo-${certificateId}`} className="block text-sm font-semibold">Motivo del rechazo</label><textarea id={`motivo-${certificateId}`} name="motivo_rechazo" required minLength={3} maxLength={1000} rows={3} className={inputClass} value={reason} onChange={event => setReason(event.target.value)} disabled={pending} /></div>}<div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : decision === 'aprobado' ? 'Sí, aprobar certificado' : 'Sí, rechazar certificado'}</button><button type="button" disabled={pending} onClick={() => setDecision(null)} className="min-h-11 px-3 text-sm font-semibold">Volver</button></div></form> : <div className="flex flex-wrap gap-3"><button onClick={() => setDecision('aprobado')} className={buttonClass}>Aprobar</button><button onClick={() => setDecision('rechazado')} className="min-h-11 rounded-xl border border-red-200 px-4 text-sm font-semibold text-red-700">Rechazar</button></div>)}</div>
+  return <div className="space-y-4"><FormMessage state={state} />{!state.success && (decision ? <form action={action} className="space-y-4 rounded-xl border border-gray-200 p-4"><input type="hidden" name="lote_id" value={lotId} /><input type="hidden" name="certificado_id" value={certificateId} /><input type="hidden" name="estado" value={decision} /><p className="text-sm font-semibold">{decision === 'aprobado' ? '¿Confirmas que revisaste y apruebas este documento?' : '¿Confirmas el rechazo del documento?'}</p>{decision === 'rechazado' && <div className="space-y-2"><label htmlFor={`motivo-${certificateId}`} className="block text-sm font-semibold">Motivo del rechazo</label><textarea id={`motivo-${certificateId}`} name="motivo_rechazo" required minLength={3} maxLength={1000} rows={3} className={inputClass} value={reason} onChange={event => setReason(event.target.value)} disabled={pending} /></div>}<div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : decision === 'aprobado' ? 'Sí, aprobar certificado' : 'Sí, rechazar certificado'}</button><button type="button" disabled={pending} onClick={() => setDecision(null)} className="min-h-11 px-3 text-sm font-semibold">Volver</button></div></form> : <div className="flex flex-wrap gap-3">{allowApprove && <button onClick={() => setDecision('aprobado')} className={buttonClass}>Aprobar</button>}<button onClick={() => setDecision('rechazado')} className="min-h-11 rounded-xl border border-red-200 px-4 text-sm font-semibold text-red-700">Rechazar</button></div>)}</div>
 }
 
 export function DronResultForm({ lotId, owner, today, inspectionId }: Props & { inspectionId: string }) {
-  const [state, action, pending] = useActionState(completarDron, {})
+  const notify = useActionFeedback()
+  const [state, action, pending] = useActionState(async (previous: SelloActionState, form: FormData) => {
+    const result = await completarDron(previous, form)
+    if (result.success) notify(result.success)
+    return result
+  }, {})
   const [step, setStep] = useState(0)
   const [latitude, setLatitude] = useState('')
   const [longitude, setLongitude] = useState('')
@@ -51,7 +63,7 @@ export function DronResultForm({ lotId, owner, today, inspectionId }: Props & { 
   return <form action={step === 1 ? action : undefined} onSubmit={event => { if (step === 0) { event.preventDefault(); setStep(1) } }} className="space-y-5">
     <p className="text-xs font-semibold text-gray-500">Paso {step + 1} de 2 · {step === 0 ? 'Datos del vuelo' : 'Evidencia de la inspección'}</p><FormMessage state={state} />
     <input type="hidden" name="lote_id" value={lotId} /><input type="hidden" name="inspeccion_id" value={inspectionId} />
-    <fieldset disabled={pending || busy} className="space-y-5">{step === 0 ? <><div className="grid gap-4 sm:grid-cols-2"><Field name="latitud" label="Latitud GPS" type="number" min="-90" max="90" step="any" required value={latitude} onChange={event => setLatitude(event.target.value)} /><Field name="longitud" label="Longitud GPS" type="number" min="-180" max="180" step="any" required value={longitude} onChange={event => setLongitude(event.target.value)} /></div><Field name="fecha_vuelo" label="Fecha del vuelo" type="date" max={today} required value={date} onChange={event => setDate(event.target.value)} /><div className="space-y-2"><label htmlFor={`notas-${inspectionId}`} className="block text-sm font-semibold">Notas de la inspección (opcional)</label><textarea id={`notas-${inspectionId}`} name="notas" maxLength={2000} rows={3} value={notes} onChange={event => setNotes(event.target.value)} className={inputClass} /></div></> : <><input type="hidden" name="latitud" value={latitude} /><input type="hidden" name="longitud" value={longitude} /><input type="hidden" name="fecha_vuelo" value={date} /><input type="hidden" name="notas" value={notes} /><ProofUpload bucket="evidencia-drones" owner={owner} lotId={lotId} onReady={setPaths} onBusy={setBusy} disabled={pending} /><p className="text-sm text-gray-600">El resultado quedará registrado como completado con esta evidencia.</p></>}</fieldset>
+    <fieldset disabled={pending || busy} className="space-y-5">{step === 0 ? <><div className="grid gap-4 sm:grid-cols-2"><Field id={`latitud-${inspectionId}`} name="latitud" label="Latitud GPS" type="number" min="-90" max="90" step="any" required value={latitude} onChange={event => setLatitude(event.target.value)} /><Field id={`longitud-${inspectionId}`} name="longitud" label="Longitud GPS" type="number" min="-180" max="180" step="any" required value={longitude} onChange={event => setLongitude(event.target.value)} /></div><Field id={`fecha_vuelo-${inspectionId}`} name="fecha_vuelo" label="Fecha del vuelo" type="date" max={today} required value={date} onChange={event => setDate(event.target.value)} /><div className="space-y-2"><label htmlFor={`notas-${inspectionId}`} className="block text-sm font-semibold">Notas de la inspección (opcional)</label><textarea id={`notas-${inspectionId}`} name="notas" maxLength={2000} rows={3} value={notes} onChange={event => setNotes(event.target.value)} className={inputClass} /></div></> : <><input type="hidden" name="latitud" value={latitude} /><input type="hidden" name="longitud" value={longitude} /><input type="hidden" name="fecha_vuelo" value={date} /><input type="hidden" name="notas" value={notes} /><ProofUpload bucket="evidencia-drones" owner={owner} lotId={lotId} onReady={setPaths} onBusy={setBusy} disabled={pending} /><p className="text-sm text-gray-600">El resultado quedará registrado como completado con esta evidencia.</p></>}</fieldset>
     <input type="hidden" name="evidencia_paths" value={JSON.stringify(paths)} />
     <div className="flex flex-wrap gap-3">{step === 1 && <button type="button" disabled={pending || busy} onClick={() => setStep(0)} className="min-h-11 rounded-xl border border-gray-300 px-4 text-sm font-semibold">Anterior</button>}<button disabled={pending || busy || (step === 1 && !paths.length)} className={buttonClass}>{pending ? 'Guardando…' : step === 0 ? 'Continuar' : 'Completar inspección'}</button></div>
   </form>

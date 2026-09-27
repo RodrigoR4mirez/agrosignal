@@ -81,5 +81,6 @@ export async function marcarNotificacionAction(_previous: PedidoActionState, for
   } catch { return { error: 'No pudimos marcar la notificación. Intenta nuevamente.' } }
   revalidatePath('/panel-comprador')
   revalidatePath('/panel-productor')
+  revalidatePath('/admin')
   return { success: 'Notificación marcada como leída.' }
 }

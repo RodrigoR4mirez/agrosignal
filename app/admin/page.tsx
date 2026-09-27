@@ -1,8 +1,32 @@
+import Link from 'next/link'
+import { Card } from '@/components/ui/Card'
+import { AdminHeading, QueueEmpty, adminLink } from '@/components/admin/AdminUI'
+import { Notifications } from '@/components/transacciones/Notifications'
+import { listNotifications } from '@/lib/transacciones/data'
+import { getAdminMetrics } from '@/lib/admin/data'
 import { requireRole } from '@/lib/supabase/auth'
-import { RolePanel } from '@/components/RolePanel'
 
-export default async function AdminPanel({ searchParams }: { searchParams: Promise<{ aviso?: string }> }) {
-  const profile = await requireRole('admin')
+export default async function AdminPage({ searchParams }: { searchParams: Promise<{ aviso?: string; avisos?: string }> }) {
+  await requireRole('admin')
   const params = await searchParams
-  return <RolePanel profile={profile} denied={params.aviso === 'sin-permiso'} />
+  const [data, notices] = await Promise.all([getAdminMetrics(), listNotifications(Number(params.avisos))])
+  const metrics = data.metrics
+  return <>
+    <AdminHeading title="Administración" description="Revisa las solicitudes, acompaña las transacciones y mantén al día las cuentas de la comunidad." />
+    {params.aviso === 'sin-permiso' && <p role="alert" className="mb-6 rounded-xl bg-amber-50 p-4 text-sm text-amber-950">Esta sección no corresponde a tu tipo de cuenta. Desde aquí puedes gestionar la plataforma.</p>}
+    {data.error || !metrics ? <QueueEmpty error>No hay métricas disponibles.</QueueEmpty> : <>
+      <div className="grid gap-4 sm:grid-cols-3">{[
+        ['Lotes activos', metrics.lotes_activos, 'Disponibles en el catálogo público'],
+        ['Transacciones del mes', metrics.pedidos_mes, 'Pedidos creados, incluidos cancelados'],
+        ['Usuarios nuevos', metrics.usuarios_nuevos, 'Cuentas registradas este mes'],
+      ].map(([label, value, hint]) => <Card key={label} className="min-w-0"><h2 className="text-sm font-semibold text-gray-600">{label}</h2><p className="my-4 text-4xl font-extrabold text-[#1a5c2a]">{value}</p><p className="text-xs leading-relaxed text-gray-500">{hint}</p></Card>)}</div>
+      <p className="mt-3 text-xs text-gray-500">Mes calendario según la hora de Perú. Los importes de los pedidos no representan pagos procesados por AgroSignal.</p>
+      <h2 className="mb-4 mt-8 text-xl font-bold">Requieren seguimiento</h2><div className="grid gap-4 sm:grid-cols-3">{[
+        ['/admin/certificados', 'Certificados pendientes', metrics.certificados_pendientes],
+        ['/admin/drones', 'Inspecciones solicitadas', metrics.drones_pendientes],
+        ['/admin/tests', 'Lotes bloqueados', metrics.lotes_bloqueados],
+      ].map(([href, label, value]) => <Card key={href} className="min-w-0"><p className="mb-2 text-3xl font-bold text-[#b8860f]">{value}</p><h3 className="mb-3 text-sm font-semibold">{label}</h3><Link href={String(href)} className={adminLink}>Revisar</Link></Card>)}</div>
+    </>}
+    <section className="mt-8"><Notifications {...notices} role="admin" /></section>
+  </>
 }

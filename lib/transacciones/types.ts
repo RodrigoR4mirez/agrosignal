@@ -22,6 +22,9 @@ export type Pedido = {
   motivo: string | null
   creado_en: string
   actualizado_en: string
+  resolucion?: string | null
+  resolucion_accion?: 'acuerdo' | 'cancelar' | null
+  resuelto_en?: string | null
 }
 
 export type Notificacion = {

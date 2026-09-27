@@ -14,6 +14,7 @@ function friendlyError(error: { code?: string; message?: string }) {
   return 'No pudimos guardar la verificación. Revisa los datos e intenta nuevamente.'
 }
 function refresh(loteId: string) {
+  revalidatePath('/admin', 'layout')
   for (const path of [`/verificaciones/${loteId}`, `/marketplace/${loteId}`, '/marketplace', '/panel-productor/mis-lotes', '/panel-productor', '/panel-comprador', '/admin']) revalidatePath(path)
 }
 async function mutate(loteId: string, rpc: string, args: Record<string, unknown>, success: string): Promise<SelloActionState> {

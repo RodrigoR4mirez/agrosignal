@@ -7,7 +7,7 @@ import type { Notificacion, Pedido } from './types'
 
 export const PAGE_SIZE = 12
 const pageNumber = (value: number) => Math.max(1, Math.min(10000, Math.floor(Number(value) || 1)))
-const orderColumns = 'id,lote_id,comprador_id,productor_id,comprador_nombre,productor_nombre,comprador_telefono,productor_telefono,cultivo,unidad,precio_unidad,cantidad,total,direccion_entrega,estado,calificacion,comentario,motivo,creado_en,actualizado_en'
+const orderColumns = 'id,lote_id,comprador_id,productor_id,comprador_nombre,productor_nombre,comprador_telefono,productor_telefono,cultivo,unidad,precio_unidad,cantidad,total,direccion_entrega,estado,calificacion,comentario,motivo,creado_en,actualizado_en,resolucion,resolucion_accion,resuelto_en'
 
 export async function listOrders(profile: Profile, pagina = 1) {
   const session = await requireRole(['comprador', 'productor'])

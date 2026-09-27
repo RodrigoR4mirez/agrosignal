@@ -21,6 +21,7 @@ export function OrderDetail({ order, role, created = false }: { order: Pedido; r
     </div>
     {order.motivo && <Card><h2 className="mb-3 text-lg font-bold">Motivo de {order.estado === 'rechazado' ? 'rechazo' : 'cancelación'}</h2><p className="whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.motivo}</p></Card>}
     {order.calificacion !== null && <Card><h2 className="mb-3 text-lg font-bold">Calificación del comprador</h2><p className="mb-3 font-bold text-[#b8860f]">{order.calificacion} de 5 estrellas</p>{order.comentario && <p className="whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.comentario}</p>}</Card>}
+    {order.resolucion && <Card><h2 className="mb-3 text-lg font-bold">Resolución de administración</h2><p className="mb-3 text-sm text-gray-500">{order.resolucion_accion === 'cancelar' ? 'Se acordó cancelar el pedido.' : 'Acuerdo registrado sin cambiar el estado del pedido.'}</p><p className="whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.resolucion}</p></Card>}
     <OrderActions order={order} role={role} />
   </div>
 }

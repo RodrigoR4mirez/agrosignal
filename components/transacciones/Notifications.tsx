@@ -7,10 +7,10 @@ import { FormMessage } from '@/components/auth/FormFields'
 import { Card } from '@/components/ui/Card'
 import type { Notificacion } from '@/lib/transacciones/types'
 
-function NotificationItem({ notification, role }: { notification: Notificacion; role: 'productor' | 'comprador' }) {
+function NotificationItem({ notification, role }: { notification: Notificacion; role: 'productor' | 'comprador' | 'admin' }) {
   const [state, action, pending] = useActionState(marcarNotificacionAction, {})
-  const base = role === 'productor' ? '/panel-productor' : '/panel-comprador'
-  const verification = notification.referencia_tipo === 'sello' && role === 'productor'
+  const base = role === 'admin' ? '/admin' : role === 'productor' ? '/panel-productor' : '/panel-comprador'
+  const verification = notification.referencia_tipo === 'sello' && role !== 'comprador'
   const target = notification.referencia_tipo === 'pedido' ? `${base}/${role === 'productor' ? 'ventas' : 'pedidos'}/${notification.referencia_id}` : verification ? `/verificaciones/${notification.referencia_id}` : base
   return <li className={`space-y-3 rounded-xl border p-4 ${notification.leida ? 'border-gray-100' : 'border-green-200 bg-green-50/50'}`}>
     <p className="text-sm leading-relaxed wrap-anywhere">{notification.mensaje}</p>
@@ -20,9 +20,9 @@ function NotificationItem({ notification, role }: { notification: Notificacion; 
   </li>
 }
 export function Notifications({ notifications, unread, count, page, error, role, ordersPage = 1 }: {
-  notifications: Notificacion[]; unread: number; count: number; page: number; error: boolean; role: 'productor' | 'comprador'; ordersPage?: number
+  notifications: Notificacion[]; unread: number; count: number; page: number; error: boolean; role: 'productor' | 'comprador' | 'admin'; ordersPage?: number
 }) {
-  const base = role === 'productor' ? '/panel-productor' : '/panel-comprador'
+  const base = role === 'admin' ? '/admin' : role === 'productor' ? '/panel-productor' : '/panel-comprador'
   return <Card className="space-y-5">
     <div className="flex flex-wrap items-center justify-between gap-3"><h2 className="text-2xl font-bold text-[#1a5c2a]">Notificaciones</h2><span className="rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-900">{unread} sin leer</span></div>
     {error ? <p role="alert" className="text-sm text-red-800">No pudimos cargar tus notificaciones. Intenta nuevamente.</p> : notifications.length ? <ul className="space-y-3">{notifications.map(notification => <NotificationItem key={notification.id} notification={notification} role={role} />)}</ul> : <p className="text-sm text-gray-600">Aquí aparecerán las novedades de tus pedidos y verificaciones.</p>}

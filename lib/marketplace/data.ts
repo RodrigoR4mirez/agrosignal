@@ -11,6 +11,13 @@ function ordenar<T extends { order: (column: string, options?: { ascending?: boo
 
 export type Filters = { q?: string; region?: string; cultivo?: string; minimo?: string; maximo?: string; destino?: string; sello?: string; calificacion?: string; orden?: string; pagina?: string }
 export const PAGE_SIZE = 12
+// Cultivos con más lotes publicados (agrupados por la primera palabra: "Arándano Biloxi" → Arándano),
+// para los accesos rápidos del catálogo.
+function masPublicados(cultivos: string[], limite = 8) {
+  const conteo = new Map<string, number>()
+  for (const cultivo of cultivos) { const base = cultivo.trim().split(/\s+/)[0]; if (base) conteo.set(base, (conteo.get(base) ?? 0) + 1) }
+  return [...conteo].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'es')).slice(0, limite)
+}
 export async function getCatalog(filters: Filters) {
   const db = await createClient()
   const page = Math.max(1, Math.min(10000, Math.floor(Number(filters.pagina) || 1)))
@@ -28,7 +35,7 @@ export async function getCatalog(filters: Filters) {
     ordenar(query, filters.orden).order('id').range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1),
     db.from('catalogo_lotes').select('cultivo,region').order('cultivo').limit(1000),
   ])
-  return { lots: (data ?? []) as LotePublico[], count: count ?? 0, page, error: Boolean(error || options.error), crops: [...new Set((options.data ?? []).map(x => x.cultivo as string))] }
+  return { lots: (data ?? []) as LotePublico[], count: count ?? 0, page, error: Boolean(error || options.error), crops: [...new Set((options.data ?? []).map(x => x.cultivo as string))], popular: masPublicados((options.data ?? []).map(x => x.cultivo as string)) }
 }
 export async function getPublicLot(id: string) {
   const db = await createClient()

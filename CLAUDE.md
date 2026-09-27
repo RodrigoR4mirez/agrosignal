@@ -29,7 +29,9 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `app/admin` — usuarios, pedidos, certificados, drones, tests
 - `app/verificaciones/[id]` — gestión de la Verificación AgroSignal de un lote
 - `app/(auth)` — registro, login, recuperación y cuenta
-- `components/AppShell.tsx` — header/footer compartidos (logo → `/`)
+- `components/AppShell.tsx` — header/footer compartidos con la identidad de la landing (logo → `/`); `anchoCompleto` para páginas con bandas a sangre (catálogo, ayuda)
+- `app/marketplace/page.tsx` — cabecera petróleo con búsqueda y accesos rápidos por cultivo, filtros como opciones visibles (en escritorio se aplican al instante), chips de filtros activos; tarjeta en `components/marketplace/LotCard.tsx`
+- `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`

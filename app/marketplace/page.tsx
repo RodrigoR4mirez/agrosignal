@@ -1,16 +1,30 @@
 import type { Metadata } from 'next'
+import Form from 'next/form'
 import Link from 'next/link'
 import { AppShell } from '@/components/AppShell'
-import { Card } from '@/components/ui/Card'
 import { LotCard } from '@/components/marketplace/LotCard'
-import { FiltrosPlegables, OrdenSelect } from '@/components/marketplace/FiltrosCatalogo'
+import { EnvioAutomatico, FiltrosPlegables } from '@/components/marketplace/FiltrosCatalogo'
+import { Estrellas } from '@/components/calificaciones/Reputacion'
+import { CurvasNivel } from '@/components/landing/Iconos'
 import { getProfile } from '@/lib/supabase/auth'
 import { getCatalog, PAGE_SIZE, type Filters } from '@/lib/marketplace/data'
 import { CALIFICACION_MINIMA, ORDENES, REGIONES, SELLOS } from '@/lib/marketplace/types'
 
 export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo y filtra por región, precio, destino, verificación y calificación.' }
-const input = 'w-full min-h-11 rounded-xl border border-[#d9dccd] bg-[#fbfaf6] px-3 py-2 text-sm focus:border-bosque focus:outline-2 focus:outline-bosque/20'
+const caja = 'app-container px-4 sm:px-6 lg:px-8'
+const campoTexto = 'w-full min-h-11 rounded-xl border border-[#e2dbc9] bg-white px-3 py-2 text-sm text-gray-900 focus:border-petroleo focus:outline-2 focus:outline-petroleo/20'
 const FILTROS: (keyof Filters)[] = ['region', 'cultivo', 'minimo', 'maximo', 'destino', 'sello', 'calificacion']
+const DESTINOS = [['', 'Todos'], ['local', 'Mercado local'], ['exportacion', 'Exportación']] as const
+
+// Opción de radio con estilo de fila; el estado marcado se ve por color, no solo por el círculo.
+function Opcion({ name, value, actual, children }: { name: string; value: string; actual?: string; children: React.ReactNode }) {
+  return <label className="flex min-h-10 cursor-pointer items-center gap-3 rounded-xl px-3 text-sm text-gray-700 hover:bg-crema has-checked:bg-petroleo/[0.07] has-checked:font-semibold has-checked:text-petroleo">
+    <input type="radio" name={name} value={value} defaultChecked={(actual ?? '') === value} className="size-4 shrink-0 accent-[#133535]" />{children}
+  </label>
+}
+function Grupo({ titulo, children }: { titulo: string; children: React.ReactNode }) {
+  return <div className="border-t border-[#f0ebdf] pt-5 first:border-t-0 first:pt-0"><fieldset><legend className="mb-3 text-[13px] font-bold text-petroleo">{titulo}</legend>{children}</fieldset></div>
+}
 
 export default async function MarketplacePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams
@@ -18,49 +32,118 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
   const [profile, catalog] = await Promise.all([getProfile(), getCatalog(filters)])
   const orden = ORDENES.some(([value]) => value === filters.orden) ? filters.orden! : 'recientes'
   const activos = FILTROS.filter(key => filters[key]).length
-  const pageLink = (page: number) => { const query = new URLSearchParams(filters as Record<string, string>); query.set('pagina', String(page)); return `/marketplace?${query}` }
-  const campo = (id: string, label: string, control: React.ReactNode) => <div className="space-y-2"><label htmlFor={id} className="block text-sm font-semibold text-gray-800">{label}</label>{control}</div>
+  const enlace = (cambios: Partial<Record<keyof Filters, string | null>>) => {
+    const query = new URLSearchParams(Object.entries(filters).filter(([key, value]) => value && !(key === 'orden' && value === 'recientes')))
+    query.delete('pagina')
+    for (const [key, value] of Object.entries(cambios)) { if (value) query.set(key, value); else query.delete(key) }
+    const texto = query.toString()
+    return texto ? `/marketplace?${texto}` : '/marketplace'
+  }
+  const pageLink = (page: number) => enlace({ pagina: String(page) })
+  const chips: [keyof Filters, string][] = [
+    ...(filters.q ? [['q', `“${filters.q}”`] as [keyof Filters, string]] : []),
+    ...FILTROS.filter(key => filters[key]).map(key => [key, {
+      region: filters.region, cultivo: filters.cultivo, minimo: `Desde S/ ${filters.minimo}`, maximo: `Hasta S/ ${filters.maximo}`,
+      destino: filters.destino === 'local' ? 'Mercado local' : 'Exportación', sello: SELLOS[Number(filters.sello)] ?? 'Verificación',
+      calificacion: `${filters.calificacion?.replace('.', ',')} ★ o más`,
+    }[key as string] ?? ''] as [keyof Filters, string]),
+  ]
 
-  return <AppShell profile={profile}>
-    <form key={JSON.stringify(filters)} action="/marketplace">
-      <header className="mb-8">
-        <h1 className="text-4xl font-medium text-bosque sm:text-5xl">Productos</h1>
-        <p className="mt-2 text-gray-600">Cosechas de productores de todo el Perú. Las estrellas son la calificación que cada productor recibió de sus compradores.</p>
-        <div role="search" className="mt-6 flex max-w-3xl flex-wrap gap-2 sm:flex-nowrap">
-          <label htmlFor="q" className="sr-only">Busca un cultivo</label>
-          <input id="q" name="q" type="search" defaultValue={filters.q} maxLength={100} placeholder="Busca un cultivo: palta, mango, café…" className="min-h-12 min-w-0 flex-1 rounded-2xl border border-[#d9dccd] bg-white px-4 text-base shadow-[var(--shadow-card)] focus:border-bosque focus:outline-2 focus:outline-bosque/20" />
-          <button className="min-h-12 w-full rounded-2xl bg-bosque px-7 text-sm font-bold text-white hover:bg-bosque-claro sm:w-auto">Buscar</button>
-        </div>
-      </header>
-
-      <div className="grid gap-8 lg:grid-cols-[16rem_minmax(0,1fr)] lg:items-start">
-        <aside aria-label="Filtros" className="lg:sticky lg:top-24">
-          <FiltrosPlegables activos={activos}>
-            <div className="space-y-5 rounded-[20px] border border-[#e4e0d2] bg-white p-5">
-              {campo('calificacion', 'Calificación mínima', <select id="calificacion" name="calificacion" defaultValue={filters.calificacion ?? ''} className={input}><option value="">Cualquiera</option>{CALIFICACION_MINIMA.map(([value, label]) => <option key={value} value={value}>{label} ★</option>)}</select>)}
-              {campo('sello', 'Verificación AgroSignal', <select id="sello" name="sello" defaultValue={filters.sello ?? ''} className={input}><option value="">Todos los niveles</option>{SELLOS.map((label, i) => <option key={i} value={i}>{label}</option>)}</select>)}
-              {campo('cultivo', 'Cultivo', <select id="cultivo" name="cultivo" defaultValue={filters.cultivo ?? ''} className={input}><option value="">Todos los cultivos</option>{catalog.crops.map(crop => <option key={crop}>{crop}</option>)}</select>)}
-              {campo('region', 'Región', <select id="region" name="region" defaultValue={filters.region ?? ''} className={input}><option value="">Todas las regiones</option>{REGIONES.map(region => <option key={region}>{region}</option>)}</select>)}
-              <fieldset><legend className="mb-2 text-sm font-semibold text-gray-800">Precio por unidad (S/)</legend><div className="grid grid-cols-2 gap-2"><label className="sr-only" htmlFor="minimo">Precio mínimo</label><input id="minimo" name="minimo" type="number" min="0" step="0.01" defaultValue={filters.minimo} className={input} placeholder="Mín." /><label className="sr-only" htmlFor="maximo">Precio máximo</label><input id="maximo" name="maximo" type="number" min="0" step="0.01" defaultValue={filters.maximo} className={input} placeholder="Máx." /></div></fieldset>
-              {campo('destino', 'Destino', <select id="destino" name="destino" defaultValue={filters.destino ?? ''} className={input}><option value="">Todos</option><option value="local">Mercado local</option><option value="exportacion">Exportación</option></select>)}
-              <button className="min-h-11 w-full rounded-xl bg-bosque text-sm font-bold text-white hover:bg-bosque-claro">Aplicar filtros</button>
-              {activos > 0 && <Link href={filters.q ? `/marketplace?q=${encodeURIComponent(filters.q)}` : '/marketplace'} className="block text-center text-sm font-semibold text-bosque underline underline-offset-4">Quitar filtros</Link>}
-              <p className="text-xs leading-relaxed text-gray-500">La calificación mínima deja fuera a productores nuevos, que aún no tienen 3 calificaciones. Los precios son por la unidad de cada lote (kg o tonelada).</p>
+  return <AppShell profile={profile} anchoCompleto>
+    <Form key={JSON.stringify(filters)} action="/marketplace" scroll={false} className="tipo-sans">
+      <EnvioAutomatico />
+      {/* Cabecera: búsqueda protagonista y accesos rápidos a los cultivos más publicados */}
+      <section className="relative overflow-hidden bg-petroleo text-white">
+        <CurvasNivel className="absolute -right-32 -top-24 w-[38rem] opacity-40" />
+        <div className={`${caja} relative py-12 lg:py-16`}>
+          <h1 className="text-4xl font-normal leading-tight text-white sm:text-5xl lg:text-[56px]">Cosechas del Perú</h1>
+          <p className="mt-3 max-w-2xl text-[17px] leading-relaxed text-white/80">Lotes publicados por quienes los cultivan. Cada uno muestra su verificación y la calificación que el productor recibió de sus compradores.</p>
+          <div role="search" className="mt-8 flex max-w-3xl flex-col gap-2 rounded-[28px] bg-white p-2 shadow-[0_20px_40px_-20px_rgba(0,0,0,0.5)] sm:flex-row sm:rounded-full">
+            <label htmlFor="q" className="sr-only">Busca un cultivo</label>
+            <div className="relative flex-1">
+              <svg viewBox="0 0 24 24" aria-hidden="true" className="pointer-events-none absolute left-4 top-1/2 size-5 -translate-y-1/2 text-petroleo/60" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round"><circle cx="11" cy="11" r="7" /><path d="m20 20-3.5-3.5" /></svg>
+              <input id="q" name="q" type="search" defaultValue={filters.q} maxLength={100} placeholder="Busca un cultivo: palta, mango, café…" className="min-h-12 w-full rounded-full bg-transparent pl-12 pr-4 text-base text-gray-900 placeholder:text-gray-500 focus:outline-2 focus:outline-petroleo/25" />
             </div>
-          </FiltrosPlegables>
-        </aside>
-
-        <section aria-labelledby="resultados" className="min-w-0">
-          <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-            <h2 id="resultados" className="text-base font-semibold text-gray-700">{catalog.error ? 'Productos' : `${catalog.count} ${catalog.count === 1 ? 'producto' : 'productos'}${filters.q ? ` para “${filters.q}”` : ''}`}</h2>
-            <div className="flex items-center gap-2"><label htmlFor="orden" className="text-sm text-gray-600">Ordenar por</label><OrdenSelect defaultValue={orden} opciones={ORDENES} /></div>
+            <button className="min-h-12 rounded-full bg-naranja px-8 text-[15px] font-semibold text-petroleo transition-colors hover:bg-[#f29a5e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-petroleo">Buscar</button>
           </div>
-          {catalog.error ? <Card><p role="alert" className="text-sm text-red-800">No pudimos cargar los productos. Intenta nuevamente en unos momentos.</p><Link href="/marketplace" className="mt-4 inline-block font-semibold text-bosque underline">Volver a intentar</Link></Card>
-            : catalog.lots.length ? <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{catalog.lots.map((lot, index) => <LotCard key={lot.id} lot={lot} eager={index < 3} />)}</div>
-            : <Card className="bg-arena-claro py-12 text-center"><h3 className="mb-3 text-xl font-medium text-cacao">No encontramos productos con estos filtros</h3><p className="mb-5 text-sm text-gray-700">Prueba otro cultivo o región, o quita la calificación mínima.</p><Link href="/marketplace" className="font-semibold text-bosque underline">Ver todos los productos</Link></Card>}
-          {!catalog.error && (catalog.page > 1 || catalog.count > PAGE_SIZE) && <nav aria-label="Paginación de productos" className="mt-8 flex items-center justify-center gap-5 text-sm font-semibold">{catalog.page > 1 && <Link href={pageLink(catalog.page - 1)} className="rounded-xl border border-gray-300 bg-white px-4 py-3">Anterior</Link>}<p>Página {catalog.page}</p>{catalog.page * PAGE_SIZE < catalog.count && <Link href={pageLink(catalog.page + 1)} className="rounded-xl border border-gray-300 bg-white px-4 py-3">Siguiente</Link>}</nav>}
-        </section>
+          {catalog.popular.length > 0 && <nav aria-label="Cultivos más publicados" className="-mx-4 mt-6 flex items-center gap-2 overflow-x-auto px-4 pb-1 sm:mx-0 sm:flex-wrap sm:overflow-visible sm:px-0">
+            {catalog.popular.map(([cultivo, total]) => {
+              const activo = filters.q?.toLowerCase() === cultivo.toLowerCase()
+              return <Link key={cultivo} href={enlace({ q: activo ? null : cultivo })} aria-current={activo ? 'true' : undefined}
+                className={`inline-flex shrink-0 items-center gap-2 rounded-full border px-4 py-2 text-sm transition-colors ${activo ? 'border-naranja bg-naranja font-semibold text-petroleo' : 'border-white/25 text-white/90 hover:border-white/60 hover:bg-white/10'}`}>{cultivo}<span className={`text-xs tabular-nums ${activo ? 'text-petroleo/70' : 'text-white/55'}`}>{total}</span></Link>
+            })}
+          </nav>}
+        </div>
+      </section>
+
+      <div className="bg-crema">
+        <div className={`${caja} grid gap-8 py-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:items-start lg:py-12`}>
+          <aside aria-label="Filtros" className="lg:sticky lg:top-24">
+            <FiltrosPlegables activos={activos}>
+              <div className="space-y-5 rounded-[22px] border border-[#ebe4d4] bg-white p-5">
+                <Grupo titulo="Destino">
+                  <div className="flex flex-wrap gap-2">
+                    {DESTINOS.map(([value, label]) => <label key={value} className="relative flex min-h-10 cursor-pointer items-center rounded-full px-4 text-sm text-gray-700 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40 has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo">
+                      <input type="radio" name="destino" value={value} defaultChecked={(filters.destino ?? '') === value} className="sr-only" />{label}
+                    </label>)}
+                  </div>
+                </Grupo>
+                <Grupo titulo="Calificación del productor">
+                  <Opcion name="calificacion" value="" actual={filters.calificacion}>Cualquiera</Opcion>
+                  {CALIFICACION_MINIMA.map(([value, label]) => <Opcion key={value} name="calificacion" value={value} actual={filters.calificacion}><Estrellas valor={Number(value)} tamano={14} /><span>{label}</span></Opcion>)}
+                </Grupo>
+                <Grupo titulo="Verificación AgroSignal">
+                  <Opcion name="sello" value="" actual={filters.sello}>Todos los niveles</Opcion>
+                  {SELLOS.map((label, i) => <Opcion key={i} name="sello" value={String(i)} actual={filters.sello}>{label}</Opcion>)}
+                </Grupo>
+                <Grupo titulo="Cultivo y región">
+                  <div className="space-y-2">
+                    <label htmlFor="cultivo" className="sr-only">Cultivo</label>
+                    <select id="cultivo" name="cultivo" defaultValue={filters.cultivo ?? ''} className={campoTexto}><option value="">Todos los cultivos</option>{catalog.crops.map(crop => <option key={crop}>{crop}</option>)}</select>
+                    <label htmlFor="region" className="sr-only">Región</label>
+                    <select id="region" name="region" defaultValue={filters.region ?? ''} className={campoTexto}><option value="">Todas las regiones</option>{REGIONES.map(region => <option key={region}>{region}</option>)}</select>
+                  </div>
+                </Grupo>
+                <Grupo titulo="Precio por unidad (S/)">
+                  <div className="grid grid-cols-2 gap-2"><label className="sr-only" htmlFor="minimo">Precio mínimo</label><input id="minimo" name="minimo" type="number" min="0" step="0.01" defaultValue={filters.minimo} className={campoTexto} placeholder="Mín." /><label className="sr-only" htmlFor="maximo">Precio máximo</label><input id="maximo" name="maximo" type="number" min="0" step="0.01" defaultValue={filters.maximo} className={campoTexto} placeholder="Máx." /></div>
+                  <p className="mt-2 text-xs leading-relaxed text-gray-500">Por la unidad de cada lote (kg o tonelada).</p>
+                </Grupo>
+                <button className="min-h-11 w-full rounded-full bg-petroleo text-sm font-semibold text-white hover:bg-[#1d4a4a]">Aplicar filtros</button>
+                {activos > 0 && <Link href={filters.q ? `/marketplace?q=${encodeURIComponent(filters.q)}` : '/marketplace'} className="block text-center text-sm font-semibold text-petroleo underline underline-offset-4">Quitar filtros</Link>}
+              </div>
+            </FiltrosPlegables>
+          </aside>
+
+          <section aria-labelledby="resultados" className="min-w-0">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <h2 id="resultados" className="text-lg font-semibold text-petroleo" aria-live="polite">{catalog.error ? 'Productos' : `${catalog.count} ${catalog.count === 1 ? 'producto' : 'productos'}`}</h2>
+              <div className="flex items-center gap-2"><label htmlFor="orden" className="text-sm text-gray-600">Ordenar por</label>
+                <select id="orden" name="orden" defaultValue={orden} className="min-h-11 rounded-full border border-[#e2dbc9] bg-white px-4 text-sm font-semibold text-petroleo focus:outline-2 focus:outline-petroleo/25">{ORDENES.map(([value, label]) => <option key={value} value={value}>{label}</option>)}</select>
+                <noscript><button className="min-h-11 rounded-full border border-petroleo/30 px-4 text-sm font-semibold text-petroleo">Ordenar</button></noscript>
+              </div>
+            </div>
+            {chips.length > 0 && <ul aria-label="Filtros aplicados" className="mt-4 flex flex-wrap gap-2">
+              {chips.map(([key, label]) => <li key={key}><Link href={enlace({ [key]: null })} className="inline-flex min-h-9 items-center gap-2 rounded-full bg-white py-1.5 pl-4 pr-3 text-sm text-petroleo ring-1 ring-[#e2dbc9] hover:ring-petroleo/40">
+                {label}<span aria-hidden="true" className="grid size-5 place-items-center rounded-full bg-crema text-xs">✕</span><span className="sr-only">(quitar filtro)</span></Link></li>)}
+            </ul>}
+
+            <div className="mt-6">
+              {catalog.error ? <div role="alert" className="rounded-[22px] bg-white p-8 text-sm text-red-800">No pudimos cargar los productos. Intenta nuevamente en unos momentos. <Link href="/marketplace" className="ml-2 font-semibold text-petroleo underline">Volver a intentar</Link></div>
+                : catalog.lots.length ? <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">{catalog.lots.map((lot, index) => <LotCard key={lot.id} lot={lot} eager={index < 3} />)}</div>
+                : <div className="rounded-[22px] border border-dashed border-[#d9cfb8] bg-white px-6 py-14 text-center">
+                  <h3 className="text-2xl font-normal text-petroleo">No hay productos con estos filtros</h3>
+                  <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-gray-600">Prueba con otro cultivo o región, o quita la calificación mínima: los productores nuevos aún no tienen 3 calificaciones.</p>
+                  <Link href="/marketplace" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-naranja px-6 text-sm font-semibold text-petroleo hover:bg-[#f29a5e]">Ver todos los productos</Link>
+                </div>}
+            </div>
+            {!catalog.error && (catalog.page > 1 || catalog.count > PAGE_SIZE) && <nav aria-label="Paginación de productos" className="mt-10 flex items-center justify-center gap-4 text-sm font-semibold text-petroleo">
+              {catalog.page > 1 && <Link href={pageLink(catalog.page - 1)} className="min-h-11 rounded-full bg-white px-5 py-3 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40">Anterior</Link>}
+              <p>Página {catalog.page} de {Math.max(1, Math.ceil(catalog.count / PAGE_SIZE))}</p>
+              {catalog.page * PAGE_SIZE < catalog.count && <Link href={pageLink(catalog.page + 1)} className="min-h-11 rounded-full bg-white px-5 py-3 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40">Siguiente</Link>}
+            </nav>}
+          </section>
+        </div>
       </div>
-    </form>
+    </Form>
   </AppShell>
 }

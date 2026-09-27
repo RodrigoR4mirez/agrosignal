@@ -68,6 +68,11 @@ catálogo de productos (búsqueda, filtros y estrellas).
 
 ## Verificación AgroSignal ≠ Sello BPA del SENASA
 
+- En la interfaz el nivel se muestra como **"Verificado N/3"** con escudo (`SELLOS` y
+  `CONTROLES` en `lib/marketplace/types.ts`; `components/SelloInocuidadBadge.tsx`). Los tres
+  controles: Documentos revisados, Campo inspeccionado (dron) y Test de residuos; la ficha
+  los lista con su estado (`components/sello/SelloSummary.tsx`).
+
 - En la interfaz, el antiguo "Sello de Inocuidad" se llama **Verificación
   AgroSignal** (27 set 2026). En código y base de datos siguen los nombres
   `sello`, `nivel_sello`, etc.
@@ -85,8 +90,10 @@ catálogo de productos (búsqueda, filtros y estrellas).
   (`MARCA_EJEMPLO` en `lib/marketplace/types.ts`): la UI los etiqueta
   "Ejemplo", muestra un aviso y no permite comprarlos.
 - Carga: `scripts/cargar-ejemplos.mjs`, luego `scripts/ampliar-ejemplos.mjs`
-  (perfiles, fotos, 10 lotes y reseñas) y `scripts/ejemplos-comunidad.mjs` (perfil de
-  los compradores, favoritos e historial de precios marcado `ejemplo`) · Retiro: `scripts/limpiar-ejemplos.sql`
+  (perfiles, fotos, 10 lotes y reseñas), `scripts/ejemplos-comunidad.mjs` (perfil de
+  los compradores, favoritos e historial de precios marcado `ejemplo`) y
+  `scripts/verificaciones-ejemplo.mjs` (certificado, dron y test con evidencias que dicen
+  "ejemplo": Papa nativa queda en 1/3, Maíz morado en 2/3 y el resto en 3/3) · Retiro: `scripts/limpiar-ejemplos.sql`
   (SQL Editor de Supabase) · Créditos de fotos: `docs/creditos-fotos-ejemplo.md`
 - Hay además 6 cuentas QA `agrosignal.qa.…@example.com` del desarrollo que el script de
   limpieza no borra. El 27 set 2026 se les pusieron nombres y textos realistas

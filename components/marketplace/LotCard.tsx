@@ -3,10 +3,10 @@ import Link from 'next/link'
 import { Estrellas } from '@/components/calificaciones/Reputacion'
 import { promedioTexto } from '@/lib/calificaciones/types'
 import { Avatar } from '@/components/perfil/Avatar'
-import { COSECHA, descuento, esEjemplo, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
+import { EscudoVerificacion } from '@/components/SelloInocuidadBadge'
+import { COSECHA, SELLOS, descuento, esEjemplo, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
 
 const PUNTO_COSECHA = { disponible: 'bg-musgo', en_cosecha: 'bg-naranja', proxima: 'bg-trigo' }
-const NIVEL = ['Sin verificar', 'Nivel 1', 'Nivel 2', 'Nivel 3']
 
 // Tarjeta del catálogo: foto sobre fondo crema con insignias (descuento, estado) y una franja
 // de vidrio con el productor y su verificación; debajo, nombre, estrellas y precio. Toda es enlace.
@@ -27,9 +27,9 @@ export function LotCard({ lot, eager = false }: { lot: LotePublico; eager?: bool
       <div className="absolute inset-x-2.5 bottom-2.5 flex items-center gap-2.5 rounded-2xl bg-white/60 p-2 pr-3 ring-1 ring-white/70 backdrop-blur-xl backdrop-saturate-150">
         <Avatar nombre={lot.productor_nombre} foto={lot.productor_foto} className="size-8 text-[11px]" />
         <p className="min-w-0 flex-1 truncate text-xs font-semibold text-petroleo">{lot.productor_nombre}</p>
-        <span title={`Verificación AgroSignal: ${NIVEL[lot.nivel_sello] ?? NIVEL[0]}`} className="flex shrink-0 items-end gap-0.5" aria-label={`Verificación AgroSignal: ${NIVEL[lot.nivel_sello] ?? NIVEL[0]}`}>
-          {[1, 2, 3].map(barra => <span key={barra} className={`w-1 rounded-full ${barra <= lot.nivel_sello ? 'bg-musgo' : 'bg-petroleo/20'}`} style={{ height: 5 + barra * 2 }} />)}
-        </span>
+        {lot.nivel_sello > 0 && <span title={`Verificación AgroSignal: ${SELLOS[lot.nivel_sello]}`} className="flex shrink-0 items-center gap-1 text-[11px] font-bold tabular-nums text-bosque">
+          <EscudoVerificacion verificado className="size-4 text-musgo" /><span className="sr-only">Verificación AgroSignal: </span>{lot.nivel_sello}/3
+        </span>}
       </div>
     </div>
 

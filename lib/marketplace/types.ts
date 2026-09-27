@@ -24,7 +24,13 @@ export const REGIONES = ['Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacuc
 export const COSECHA = { disponible: 'Disponible', en_cosecha: 'En cosecha', proxima: 'Próxima cosecha' }
 export const ORDENES = [['recientes', 'Más recientes'], ['calificacion', 'Mejor calificados'], ['precio_asc', 'Precio: menor a mayor'], ['precio_desc', 'Precio: mayor a menor']] as const
 export const CALIFICACION_MINIMA = [['4.5', '4,5 o más'], ['4', '4 o más'], ['3', '3 o más']] as const
-export const SELLOS = ['Sin verificación', 'Nivel 1 · Documental', 'Nivel 2 · Inspección con dron', 'Nivel 3 · Test de residuos']
+// Verificación AgroSignal: el nivel (0–3) se muestra como controles cumplidos de tres.
+export const SELLOS = ['Sin verificar', 'Verificado 1/3', 'Verificado 2/3', 'Verificado 3/3']
+export const CONTROLES = [
+  { id: 'documental', titulo: 'Documentos revisados', detalle: 'Certificado vigente del predio (BPA del SENASA, GLOBALG.A.P. u otro) revisado por AgroSignal.' },
+  { id: 'dron', titulo: 'Campo inspeccionado', detalle: 'Vuelo con dron sobre el lote para comprobar el cultivo y su estado.' },
+  { id: 'residuos', titulo: 'Test de residuos', detalle: 'Prueba rápida de plaguicidas en una muestra de la cosecha.' },
+] as const
 // Lotes de ejemplo (datos de demostración): la descripción empieza con este
 // marcador. La UI los etiqueta como "Ejemplo" y no permite comprarlos.
 export const MARCA_EJEMPLO = '[Ejemplo] '

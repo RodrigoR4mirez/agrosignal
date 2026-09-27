@@ -9,15 +9,13 @@ import { Estrellas, ResumenReputacion, TarjetaResena } from '@/components/califi
 import { getPerfilProductor, listResenas } from '@/lib/calificaciones/data'
 import { promedioTexto } from '@/lib/calificaciones/types'
 import { getProducerLots } from '@/lib/marketplace/data'
-import { esEjemplo, uuidPattern } from '@/lib/marketplace/types'
+import { SELLOS, esEjemplo, uuidPattern } from '@/lib/marketplace/types'
 import { ENTREGAS, MESES, PRACTICAS, numero } from '@/lib/perfil/types'
 import { getProfile } from '@/lib/supabase/auth'
 import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
 import { getSiguiendo } from '@/lib/comunidad/data'
 
 const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8'
-const NIVELES = ['Sin verificar', 'Nivel 1 · Documental', 'Nivel 2 · Dron', 'Nivel 3 · Residuos']
-
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
   const productor = uuidPattern.test(id) ? await getPerfilProductor(id).catch(() => null) : null
@@ -74,7 +72,7 @@ export default async function ProductorPage({ params }: { params: Promise<{ id: 
           </div>
         </div>
         <dl className="grid grid-cols-3 gap-2 text-center sm:gap-3">
-          {[[numero(productor.ventas_completadas), productor.ventas_completadas === 1 ? 'venta completada' : 'ventas completadas'], [numero(productor.lotes_activos), productor.lotes_activos === 1 ? 'lote activo' : 'lotes activos'], [NIVELES[productor.nivel_maximo] ?? NIVELES[0], 'mejor verificación']].map(([valor, etiqueta]) =>
+          {[[numero(productor.ventas_completadas), productor.ventas_completadas === 1 ? 'venta completada' : 'ventas completadas'], [numero(productor.lotes_activos), productor.lotes_activos === 1 ? 'lote activo' : 'lotes activos'], [SELLOS[productor.nivel_maximo] ?? SELLOS[0], 'mejor verificación']].map(([valor, etiqueta]) =>
             <div key={etiqueta} className="flex min-w-24 flex-col-reverse rounded-2xl bg-white/10 px-3 py-4 ring-1 ring-white/20 backdrop-blur-md sm:min-w-32"><dt className="mt-1 text-[11px] text-white/70">{etiqueta}</dt><dd className="text-lg font-semibold leading-tight text-white sm:text-xl">{valor}</dd></div>)}
         </dl>
       </div>

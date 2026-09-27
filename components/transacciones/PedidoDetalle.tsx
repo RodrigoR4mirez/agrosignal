@@ -65,13 +65,13 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
 
     {order.propuesta_en && <section className={`${tarjeta} ring-2 ring-trigo`} aria-labelledby="propuesta">
       <h2 id="propuesta" className="text-xl font-normal text-petroleo">Propuesta del productor</h2>
-      <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[26rem] text-sm"><thead><tr className="text-left text-xs text-gray-500"><th className="pb-2 font-medium">Condición</th><th className="pb-2 font-medium">Solicitud</th><th className="pb-2 font-medium">Propuesta</th></tr></thead><tbody className="divide-y divide-[#f0ebdf]">
+      <div className="mt-4"><table className="w-full table-fixed text-sm"><thead><tr className="text-left text-xs text-gray-500"><th className="w-[26%] pb-2 font-medium">Condición</th><th className="pb-2 font-medium">Solicitud</th><th className="pb-2 font-medium">Propuesta</th></tr></thead><tbody className="divide-y divide-[#f0ebdf]">
         {[['Precio', `${money(order.precio_unidad)} / ${order.unidad}`, `${money(Number(order.propuesta_precio))} / ${order.unidad}`],
           ['Cantidad', `${quantity(order.cantidad)} ${order.unidad}`, `${quantity(Number(order.propuesta_cantidad))} ${order.unidad}`],
           ['Total', money(order.total), money(Math.round(Number(order.propuesta_cantidad) * Number(order.propuesta_precio) * 100) / 100)],
           ['Entrega', order.fecha_entrega ? fecha(order.fecha_entrega) : 'Por coordinar', order.propuesta_fecha ? fecha(order.propuesta_fecha) : 'Por coordinar'],
           ['Pago', FORMAS_PAGO[order.forma_pago ?? 'antes_envio'][0], FORMAS_PAGO[order.propuesta_forma_pago ?? 'antes_envio'][0]],
-        ].map(([c, a, b]) => <tr key={c}><td className="py-2.5 text-gray-600">{c}</td><td className="py-2.5">{a}</td><td className={`py-2.5 font-semibold ${a !== b ? 'text-petroleo' : ''}`}>{b}</td></tr>)}
+        ].map(([c, a, b]) => <tr key={c}><td className="py-2.5 pr-2 align-top text-gray-600">{c}</td><td className="py-2.5 pr-2 align-top">{a}</td><td className={`py-2.5 align-top font-semibold ${a !== b ? 'text-petroleo' : ''}`}>{b}</td></tr>)}
       </tbody></table></div>
       {order.propuesta_nota && <p className="mt-4 rounded-xl bg-crema px-4 py-3 text-sm text-cacao">“{order.propuesta_nota}”</p>}
     </section>}
@@ -96,7 +96,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
           <dl className="mt-5 space-y-4">
             <Dato t="Productor"><Link href={`/marketplace/productor/${order.productor_id}`} className="underline-offset-4 hover:underline">{order.productor_nombre}</Link></Dato>
             <Dato t="Comprador">{role === 'productor' ? <Link href={`/compradores/${order.comprador_id}`} className="underline-offset-4 hover:underline">{order.comprador_nombre}</Link> : order.comprador_nombre}</Dato>
-            <Dato t={`Teléfono ${role === 'productor' ? 'del comprador' : 'del productor'}`}>{acordado && telefono ? telefono : <span className="font-normal text-gray-500">Se muestra al confirmar el acuerdo</span>}</Dato>
+            <Dato t={`Teléfono ${role === 'productor' ? 'del comprador' : 'del productor'}`}>{acordado ? telefono || <span className="font-normal text-gray-500">No registró un teléfono</span> : <span className="font-normal text-gray-500">Se muestra al confirmar el acuerdo</span>}</Dato>
           </dl>
         </section>
         <section className={tarjeta} aria-labelledby="documentos">

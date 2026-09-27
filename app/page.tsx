@@ -3,6 +3,8 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME } from '@/lib/supabase/types'
+import { ANCLAS } from '@/components/landing/anclas'
+import { MenuLanding } from '@/components/landing/MenuLanding'
 import {
   CurvasNivel, IconoApreton, IconoBrote, IconoCaja, IconoCertificado, IconoCubiertos, IconoDron, IconoEstrellas,
   IconoFabrica, IconoFinanciamiento, IconoGarantia, IconoGlobo, IconoMercado, IconoPlan,
@@ -18,7 +20,6 @@ export const metadata: Metadata = {
 const caja = 'app-container px-6 sm:px-10 lg:px-32 xl:px-48'
 const pildora = 'inline-flex min-h-13 items-center justify-center gap-2 rounded-full bg-[#1a5c2a] px-10 text-[17px] text-white transition-colors hover:bg-bosque focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-[#1a5c2a]'
 const titulo = 'font-sans font-normal tracking-tight text-[#1a5c2a]'
-const ANCLAS = [['#que-es', 'Qué es AgroSignal'], ['#sello', 'Sello de Inocuidad'], ['#ofrecemos', 'Qué ofrecemos'], ['#como-funciona', 'Cómo funciona']]
 
 export default async function Landing() {
   const profile = await getProfile()
@@ -27,26 +28,14 @@ export default async function Landing() {
   return <div className="tipo-sans bg-white font-sans text-[#2b2118]">
     <a href="#contenido" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Saltar al contenido</a>
 
+    {/* Menú fijo fuera del hero: el hero usa isolate y encerraría su z-index */}
+    <MenuLanding panel={panel} />
+
     {/* Hero: foto a sangre, menú transparente encima */}
     <header className="relative isolate flex min-h-[640px] flex-col text-white lg:h-[860px]">
       <Image src="/marketplace/hero-valle-sagrado-terrazas.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-b from-black/45 via-black/20 to-black/35" />
-      <nav aria-label="Navegación principal" className="flex items-center justify-between gap-6 px-6 py-7 sm:px-10 lg:px-[86px] lg:py-9">
-        <Link href="/" translate="no" className="flex shrink-0 items-center gap-2 text-2xl font-light tracking-[0.06em] text-white sm:text-[34px]"><IconoBrote className="size-8 text-[#b9d99a] sm:size-10" />AGROSIGNAL</Link>
-        <ul className="hidden items-center gap-8 text-[15px] xl:flex">{ANCLAS.map(([href, label]) => <li key={href}><a href={href} className="hover:text-[#cfe8b8]">{label}</a></li>)}</ul>
-        <div className="hidden items-center gap-7 text-[15px] lg:flex">
-          <Link href="/marketplace" className="border-b-2 border-[#6f8f4e] pb-1 hover:border-white">Ver productos</Link>
-          {panel ? <Link href={panel} className="opacity-90 hover:opacity-100">Mi panel</Link> : <Link href="/login" className="opacity-90 hover:opacity-100">Ingresar</Link>}
-        </div>
-        <details className="relative lg:hidden">
-          <summary className="flex min-h-11 cursor-pointer list-none items-center rounded-full border border-white/40 px-5 text-sm [&::-webkit-details-marker]:hidden">Menú</summary>
-          <ul className="absolute right-0 z-20 mt-3 w-64 space-y-1 rounded-2xl bg-white p-3 text-sm text-gray-800 shadow-xl">
-            {ANCLAS.map(([href, label]) => <li key={href}><a href={href} className="block rounded-xl px-3 py-2.5 hover:bg-arena-claro">{label}</a></li>)}
-            <li><Link href="/marketplace" className="block rounded-xl bg-[#1a5c2a] px-3 py-2.5 font-semibold text-white">Ver productos</Link></li>
-            <li>{panel ? <Link href={panel} className="block rounded-xl px-3 py-2.5 hover:bg-arena-claro">Mi panel</Link> : <Link href="/login" className="block rounded-xl px-3 py-2.5 hover:bg-arena-claro">Ingresar</Link>}</li>
-          </ul>
-        </details>
-      </nav>
+      <div aria-hidden="true" className="h-24 shrink-0 lg:h-32" />
       <div className={`${caja} flex flex-1 flex-col justify-center pb-20 pt-6`}>
         <h1 className="max-w-4xl font-sans text-5xl font-normal leading-[1.08] tracking-tight text-white sm:text-6xl lg:text-[72px]">Cosechas del Perú <br className="hidden sm:block" />con confianza verificada.</h1>
         <div className="mt-12 max-w-[46rem] space-y-1 text-[17px] leading-relaxed text-white/95 sm:text-lg">
@@ -60,7 +49,7 @@ export default async function Landing() {
 
     <main id="contenido">
       {/* Qué es AgroSignal */}
-      <section id="que-es" className="relative overflow-hidden scroll-mt-4">
+      <section id="que-es" className="relative overflow-hidden scroll-mt-24">
         <CurvasNivel className="absolute -right-24 top-40 w-[34rem] opacity-80 lg:right-[12%]" />
         <div className={`${caja} relative py-24 lg:py-32`}>
           <p className="max-w-[56rem] text-[26px] leading-[1.35] text-tierra sm:text-[34px]">Con el respaldo de un <span className="text-[#1a5c2a]">Sello de Inocuidad</span> en tres niveles y la <span className="text-[#1a5c2a]">reputación</span> de ambas partes, AgroSignal enfrenta el mayor problema del comercio agrícola: comprar sin saber qué llega ni a quién se le paga.</p>
@@ -71,7 +60,7 @@ export default async function Landing() {
       </section>
 
       {/* ¿Por qué un Sello de Inocuidad? */}
-      <section id="sello" className="scroll-mt-4">
+      <section id="sello" className="scroll-mt-24">
         <div className={`${caja} grid items-center gap-16 pb-24 lg:grid-cols-[1.2fr_1fr] lg:pb-32`}>
           <div>
             <h2 className={`${titulo} text-4xl sm:text-[46px]`}>¿Por qué un Sello de Inocuidad?</h2>
@@ -145,7 +134,7 @@ export default async function Landing() {
       </section>
 
       {/* Lo que ofrece AgroSignal */}
-      <section id="ofrecemos" aria-labelledby="ofrecemos-titulo" className="scroll-mt-4">
+      <section id="ofrecemos" aria-labelledby="ofrecemos-titulo" className="scroll-mt-24">
         <div className={`${caja} pb-32`}>
           <h2 id="ofrecemos-titulo" className={`${titulo} text-4xl sm:text-[46px]`}>Lo que ofrece AgroSignal</h2>
           <ul className="mt-20 grid gap-x-16 gap-y-24 md:grid-cols-2 lg:grid-cols-3">
@@ -185,7 +174,7 @@ export default async function Landing() {
       </section>
 
       {/* Cómo funciona */}
-      <section id="como-funciona" aria-labelledby="como-funciona-titulo" className="relative scroll-mt-4 overflow-hidden">
+      <section id="como-funciona" aria-labelledby="como-funciona-titulo" className="relative scroll-mt-24 overflow-hidden">
         <CurvasNivel className="absolute left-1/2 top-24 w-[72rem] max-w-none -translate-x-1/2 opacity-60" />
         <div className={`${caja} relative py-28`}>
           <h2 id="como-funciona-titulo" className={`${titulo} text-4xl sm:text-[46px]`}>Cómo funciona</h2>

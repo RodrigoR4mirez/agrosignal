@@ -1,0 +1,38 @@
+'use client'
+
+import Link from 'next/link'
+import { useEffect, useState } from 'react'
+import { ANCLAS } from './anclas'
+import { IconoBrote } from './Iconos'
+
+// Menú fijo: transparente sobre la foto del hero y sólido (blanco) al hacer scroll.
+export function MenuLanding({ panel }: { panel: string | null }) {
+  const [solido, setSolido] = useState(false)
+  useEffect(() => {
+    const revisar = () => setSolido(window.scrollY > 24)
+    revisar()
+    window.addEventListener('scroll', revisar, { passive: true })
+    return () => window.removeEventListener('scroll', revisar)
+  }, [])
+  const cuenta = panel ? <Link href={panel}>Mi panel</Link> : <Link href="/login">Ingresar</Link>
+  return <nav aria-label="Navegación principal" className={`fixed inset-x-0 top-0 z-40 transition-[background-color,box-shadow,padding,color] duration-300 motion-reduce:transition-none ${solido ? 'bg-white/95 py-3 text-[#2b2118] shadow-[0_6px_24px_-12px_rgba(0,0,0,0.25)] backdrop-blur-md lg:py-4' : 'bg-transparent py-7 text-white lg:py-9'}`}>
+    <div className="flex items-center justify-between gap-6 px-6 sm:px-10 lg:px-[86px]">
+      <Link href="/" translate="no" className={`flex shrink-0 items-center gap-2 font-light tracking-[0.06em] transition-[font-size] duration-300 ${solido ? 'text-2xl text-[#1a5c2a] sm:text-[28px]' : 'text-2xl sm:text-[34px]'}`}>
+        <IconoBrote className={`sm:size-10 size-8 ${solido ? 'text-musgo' : 'text-[#b9d99a]'}`} />AGROSIGNAL
+      </Link>
+      <ul className="hidden items-center gap-8 text-[15px] xl:flex">{ANCLAS.map(([href, label]) => <li key={href}><a href={href} className={solido ? 'hover:text-[#1a5c2a]' : 'hover:text-[#cfe8b8]'}>{label}</a></li>)}</ul>
+      <div className="hidden items-center gap-7 text-[15px] lg:flex">
+        <Link href="/marketplace" className={`border-b-2 border-[#6f8f4e] pb-1 ${solido ? 'font-semibold text-[#1a5c2a] hover:border-[#1a5c2a]' : 'hover:border-white'}`}>Ver productos</Link>
+        <span className="opacity-90 hover:opacity-100">{cuenta}</span>
+      </div>
+      <details className="relative lg:hidden">
+        <summary className={`flex min-h-11 cursor-pointer list-none items-center rounded-full border px-5 text-sm [&::-webkit-details-marker]:hidden ${solido ? 'border-[#1a5c2a]/30 text-[#1a5c2a]' : 'border-white/40'}`}>Menú</summary>
+        <ul onClick={event => { const menu = event.currentTarget.closest('details'); if (menu) menu.open = false }} className="absolute right-0 z-20 mt-3 w-64 space-y-1 rounded-2xl bg-white p-3 text-sm text-gray-800 shadow-xl">
+          {ANCLAS.map(([href, label]) => <li key={href}><a href={href} className="block rounded-xl px-3 py-2.5 hover:bg-arena-claro">{label}</a></li>)}
+          <li><Link href="/marketplace" className="block rounded-xl bg-[#1a5c2a] px-3 py-2.5 font-semibold text-white">Ver productos</Link></li>
+          <li className="[&>a]:block [&>a]:rounded-xl [&>a]:px-3 [&>a]:py-2.5 [&>a:hover]:bg-arena-claro">{cuenta}</li>
+        </ul>
+      </details>
+    </div>
+  </nav>
+}

@@ -27,8 +27,21 @@ Fotos de dominio público o CC0 obtenidas vía [Openverse](https://openverse.org
 
 ## Fotos de la landing (`public/landing/`)
 
-Copias de seis de las fotos anteriores, para que la landing (`app/page.tsx`) no
-dependa de los datos de ejemplo, que pueden borrarse. Mismos autores y licencias
-que en la tabla: `cafe-1.jpg`, `arandano-1.jpg`, `banano-1.jpg`, `palta-1.jpg`,
-`mango-1.jpg` y `papa-1.jpg`. La landing también usa las dos fotos de Pexels de
-`public/marketplace/` (créditos en `app/marketplace/README.md`).
+Fotografías reales (no generadas por IA), elegidas según el tema de cada
+sección de `app/page.tsx`. Licencias CC0 o dominio público (PDM; las de
+USDAgov son obra del gobierno de EE. UU.), verificadas en la fuente original.
+Se descartó una foto CC0 de Flickr cuyo nombre de archivo delataba que era
+generada por IA.
+
+| Archivo | Título original | Autor | Licencia | Fuente |
+|---|---|---|---|---|
+| sello-dron.jpg | Large Drone | JESHOOTS.com | CC0 | [stocksnap](https://stocksnap.io/photo/large-drone-YRN2VNIFAT) |
+| productora-cafe.jpg | BLUE HARVEST EL SALVADOR | Maren Barbee | CC0 | [flickr](https://www.flickr.com/photos/27781737@N05/25173042692) |
+| compradores-mercado.jpg | 20120601-DM-LSC-0291 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/7154331521) |
+| mercado-san-pedro-cusco.jpg | San Pedro Market in Cusco, Peru | Ashim D’Silva | CC0 | [wikimedia](https://commons.wikimedia.org/w/index.php?curid=151104777) |
+| acuerdo-apreton.jpg | 20191022-OSEC-LSC-0874 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/48950174161) |
+| puesto-verduras.jpg | 20230621-USDA-FNS-UNK-0007 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/53485215933) |
+| agricultor-campo.jpg | 20210812-NRCS-BJOC-067 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/51414328060) |
+
+El hero usa `public/marketplace/hero-valle-sagrado-terrazas.jpg` (Pexels,
+créditos en `app/marketplace/README.md`).

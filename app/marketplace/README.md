@@ -50,9 +50,9 @@ claves foráneas. Se informa al productor que puede poner el stock en 0.
 ## Diseño
 
 La landing (`app/page.tsx`, estructura inspirada en tourba.ma) usa
-`hero-valle-sagrado-terrazas.jpg` en el hero y `hero-agricultor-sembrando.jpg`
-en el círculo del Sello, además de las fotos CC0 de `public/landing/`
-(créditos en `docs/creditos-fotos-ejemplo.md`). Ambas fotos de
+`hero-valle-sagrado-terrazas.jpg` en el hero y fotos reales CC0/dominio público
+de `public/landing/` en cada sección (créditos en `docs/creditos-fotos-ejemplo.md`).
+`hero-agricultor-sembrando.jpg` queda disponible sin uso. Ambas fotos de
 `public/marketplace/` tienen [Pexels License](https://www.pexels.com/license/)
 (uso comercial gratuito, sin atribución obligatoria):
 

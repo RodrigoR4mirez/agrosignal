@@ -73,7 +73,7 @@ export default async function Landing() {
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
             <div className="absolute inset-0 overflow-hidden rounded-full">
-              <Image src="/marketplace/hero-agricultor-sembrando.jpg" alt="Agricultor sembrando a mano en un campo arado" fill sizes="(max-width: 1024px) 80vw, 26rem" className="object-cover grayscale" />
+              <Image src="/landing/sello-dron.jpg" alt="Dron sobrevolando un campo de cultivo" fill sizes="(max-width: 1024px) 80vw, 26rem" className="object-cover object-[50%_30%] grayscale" />
               <svg viewBox="0 0 100 100" aria-hidden="true" className="absolute inset-0" fill="none" stroke="white" strokeWidth="3.2">
                 <path d="M4 72 Q50 50 96 72" /><path d="M10 82 Q50 62 90 82" /><path d="M18 91 Q50 74 82 91" />
               </svg>
@@ -94,8 +94,8 @@ export default async function Landing() {
                 <p className="mt-6 text-[15px] leading-relaxed text-gray-700">Si cultivas frutas, café, cacao, granos andinos o tubérculos, AgroSignal es tu vitrina. Publica tus lotes con fotos, cantidades y precio, y recibe pedidos directos de compradores de todo el país.</p>
                 <p className="text-[15px] leading-relaxed text-gray-700">Suma certificados, inspección con dron y test de residuos para subir el nivel de tu Sello y destacar frente a quienes compran para exportar.</p>
               </article>
-              <div className="relative min-h-64 overflow-hidden rounded-[20px]"><Image src="/landing/cafe-1.jpg" alt="Granos de café maduros y verdes en la rama" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
-              <div className="relative min-h-64 overflow-hidden rounded-[20px] max-md:order-last"><Image src="/landing/arandano-1.jpg" alt="Cajas de arándanos recién cosechados" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
+              <div className="relative min-h-64 overflow-hidden rounded-[20px]"><Image src="/landing/productora-cafe.jpg" alt="Productora de café junto a sus plantones" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
+              <div className="relative min-h-64 overflow-hidden rounded-[20px] max-md:order-last"><Image src="/landing/compradores-mercado.jpg" alt="Cajas de verduras frescas a la venta en un mercado" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
               <article className="rounded-[20px] bg-[#ede5dc] p-10 md:p-12">
                 <h3 className="font-sans text-[28px] font-normal text-musgo">Para compradores</h3>
                 <p className="mt-6 text-[15px] leading-relaxed text-gray-700">Exportadores, agroindustrias, restaurantes y compradores particulares encuentran aquí lotes con origen, cantidad y verificaciones a la vista.</p>
@@ -111,7 +111,7 @@ export default async function Landing() {
         </div>
         <div className={`${caja} relative -mt-60 sm:-mt-64 lg:-mt-80`}>
           <Link href="/marketplace" className="group relative block aspect-video overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.45)]">
-            <Image src="/landing/banano-1.jpg" alt="" fill sizes="(max-width: 1024px) 100vw, 66rem" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            <Image src="/landing/mercado-san-pedro-cusco.jpg" alt="" fill sizes="(max-width: 1024px) 100vw, 66rem" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             <span className="absolute inset-0 bg-black/25" />
             <span className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-center text-white">
               <span className="text-3xl font-light sm:text-5xl">Recorre el catálogo</span>
@@ -168,7 +168,7 @@ export default async function Landing() {
             <div className="mt-12"><Link href={profile ? '/marketplace' : '/registro'} className="inline-flex min-h-12 items-center rounded-full bg-[#f4f2ee] px-10 text-[17px] text-[#1a5c2a] hover:bg-white">{profile ? 'Ver productos' : 'Crear mi cuenta'}</Link></div>
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[25rem] overflow-hidden rounded-full shadow-[0_30px_60px_-20px_rgba(0,0,0,0.5)] lg:-my-40">
-            <Image src="/landing/palta-1.jpg" alt="Paltas colgando del árbol" fill sizes="(max-width: 1024px) 80vw, 25rem" className="object-cover" />
+            <Image src="/landing/acuerdo-apreton.jpg" alt="Un productor estrecha la mano de un comprador" fill sizes="(max-width: 1024px) 80vw, 25rem" className="object-cover" />
           </div>
         </div>
       </section>
@@ -210,10 +210,10 @@ export default async function Landing() {
       <section className="bg-linear-to-b from-white from-[22%] to-tierra to-[22%]">
         <div className={`${caja} grid gap-2 pt-8 md:grid-cols-2`}>
           {[
-            ['/landing/mango-1.jpg', 'Encuentra la cosecha que buscas entre los lotes publicados', '/marketplace', 'Ver productos'],
-            ['/landing/papa-1.jpg', 'Preguntas frecuentes', '/ayuda', 'Consultar ayuda'],
+            ['/landing/puesto-verduras.jpg', 'Encuentra la cosecha que buscas entre los lotes publicados', '/marketplace', 'Ver productos'],
+            ['/landing/agricultor-campo.jpg', 'Preguntas frecuentes', '/ayuda', 'Consultar ayuda'],
           ].map(([foto, texto, href, accion]) => <div key={href} className="relative isolate flex min-h-80 flex-col items-center justify-center gap-10 overflow-hidden rounded-[20px] px-10 py-14 text-center">
-            <Image src={foto} alt="" fill sizes="(max-width: 768px) 100vw, 40vw" className="-z-10 object-cover" />
+            <Image src={foto} alt="" fill sizes="(max-width: 768px) 100vw, 40vw" className="-z-10 object-cover object-[50%_25%]" />
             <span aria-hidden="true" className="absolute inset-0 -z-10 bg-black/45" />
             <p className="max-w-sm text-[28px] leading-tight text-white">{texto}</p>
             <Link href={href} className="inline-flex min-h-11 items-center gap-3 rounded-full bg-[#1a5c2a] px-7 text-[17px] text-white hover:bg-bosque">{accion}</Link>

@@ -44,7 +44,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
   y horario son provisionales, por regularizar
 - `/contacto`: formulario (`components/contacto/`) → RPC `enviar_mensaje_contacto` (tabla
   `mensajes_contacto`, límite anti-spam, aviso a los admin) + copia por correo vía FormSubmit
-  (sin clave; la primera vez pide activar desde agrosignal@gmail.com; destino en `CONTACTO_CORREO`).
+  (sin clave; la primera vez pide activar desde agrosignal@gmail.com; destino en `CONTACTO_CORREO`; en Vercel
+  producción apunta al correo personal del dueño, que no se escribe en el repo público).
   El admin los lee en `/admin/mensajes`
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription

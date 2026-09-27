@@ -58,3 +58,21 @@ El hero usa `hero-pastora-andes.jpg`: "Shepherdess on hillside in Peru",
 atribución obligatoria). Original de 4671×6229 px, reducida a 2999×4000. La
 página de Pexels bloquea la consulta automática, así que el nombre del fotógrafo
 queda por confirmar en el enlace.
+
+## Catálogo (`public/catalogo/`)
+
+Fotos propias del catálogo (`/marketplace`), distintas de las de la landing. Todas
+de [Pexels](https://www.pexels.com/license/) (uso comercial gratuito), elegidas
+por mostrar exactamente lo que dice cada banner. Autor comprobado en su página;
+todas registran datos de exposición de cámara y ninguna está marcada como
+generada por IA. Reducidas a 2400 px en el lado mayor.
+
+| Archivo | Dónde se usa | Título original | Autor | Fuente |
+|---|---|---|---|---|
+| banner-mercado-lima.jpg | Banner principal | Vibrant Fruit Market Display in Lima, Peru | Sofia Feeney | [Pexels](https://www.pexels.com/photo/vibrant-fruit-market-display-in-lima-peru-36719398/) |
+| exportacion-arandanos.jpg | Banner "Cosechas listas para exportar" | Top View of Containers with Blueberries | Mark Stebnicki | [Pexels](https://www.pexels.com/photo/top-view-of-containers-with-blueberries-2478276/) |
+| productora-arvejas-cusco.jpg | Banner lateral "¿Tienes una cosecha?" | Elderly Woman Picking Pea | Alex Aparicio | [Pexels](https://www.pexels.com/photo/elderly-woman-picking-pea-17043025/) |
+| agricultor-canasta.jpg | Tarjeta "Publica tu cosecha" (si no hay ofertas) | Farmer Holding Basket with Fresh Vegetables | RDNE Stock project | [Pexels](https://www.pexels.com/photo/farmer-holding-basket-with-fresh-vegetables-7782941/) |
+| cafe-cerezas.jpg | Categoría "Café y cacao de la selva" | Bowl of a Fresh Coffee Fruits | aleinad _0222 | [Pexels](https://www.pexels.com/photo/bowl-of-a-fresh-coffee-fruits-13802103/) |
+| mercado-local-peru.jpg | Categoría "Frescos para el mercado local" | Fruit Market Scene in Rural Peru | Jhoel Rojas | [Pexels](https://www.pexels.com/photo/fruit-market-scene-in-rural-peru-36904519/) |
+| papa-cosecha-andes.jpg | Categoría "Papa nativa y cultivos andinos" | Man Harvesting Potatoes | Shiwa Yachachin | [Pexels](https://www.pexels.com/photo/man-harvesting-potatoes-9912131/) |

@@ -67,7 +67,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
       <div className={`${caja} pt-6 lg:pt-8`}>
         <div className="grid gap-4 lg:grid-cols-[1.7fr_1fr]">
           <section className="relative isolate overflow-hidden rounded-[28px] text-white">
-            <Image src="/landing/catalogo-puesto-verduras.jpg" alt="" fill priority sizes="(max-width: 1024px) 100vw, 64vw" className="-z-10 object-cover" />
+            <Image src="/catalogo/banner-mercado-lima.jpg" alt="" fill priority sizes="(max-width: 1024px) 100vw, 64vw" className="-z-10 object-cover object-[50%_28%]" />
             <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-r from-petroleo/95 via-petroleo/70 to-petroleo/20" />
             <div className="flex min-h-[22rem] max-w-2xl flex-col justify-center p-6 sm:p-10 lg:min-h-[26rem] lg:p-12">
               <h1 className="text-4xl font-normal leading-[1.1] text-white sm:text-5xl">Cosechas del Perú, directo de quien las cultiva</h1>
@@ -102,7 +102,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
               <p className="text-sm font-semibold">Para productores</p>
               <p className="mt-2 max-w-[14rem] text-3xl font-normal leading-tight">Publica tu cosecha gratis</p>
               <span className="relative z-10 mt-auto inline-flex min-h-11 w-fit items-center rounded-full bg-petroleo px-6 text-sm font-semibold text-white">Empezar</span>
-              <span aria-hidden="true" className="absolute -bottom-10 -right-10 size-56 overflow-hidden rounded-full ring-[10px] ring-white/35"><Image src="/landing/productora-cafe.jpg" alt="" fill sizes="16rem" className="object-cover" /></span>
+              <span aria-hidden="true" className="absolute -bottom-10 -right-10 size-56 overflow-hidden rounded-full ring-[10px] ring-white/35"><Image src="/catalogo/agricultor-canasta.jpg" alt="" fill sizes="16rem" className="object-cover object-[40%_50%]" /></span>
             </Link>}
         </div>
 
@@ -159,9 +159,9 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
           </FiltrosPlegables>
 
           {/* Banner lateral para productores (solo escritorio) */}
-          <Link href={vender} className="group relative isolate hidden min-h-[24rem] flex-col overflow-hidden rounded-[22px] p-6 text-white lg:flex">
-            <Image src="/landing/agricultor-campo.jpg" alt="" fill sizes="17rem" className="-z-10 object-cover object-[50%_30%] transition-transform duration-700 group-hover:scale-105" />
-            <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-b from-petroleo/85 via-petroleo/30 to-transparent" />
+          <Link href={vender} className="group relative isolate hidden min-h-[24rem] flex-col justify-end overflow-hidden rounded-[22px] p-6 text-white lg:flex">
+            <Image src="/catalogo/productora-arvejas-cusco.jpg" alt="" fill sizes="17rem" className="-z-10 object-cover object-[60%_30%] transition-transform duration-700 group-hover:scale-105" />
+            <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-t from-petroleo/90 via-petroleo/35 to-transparent" />
             <span className="text-2xl font-normal leading-tight">¿Tienes una cosecha?</span>
             <span className="mt-2 text-sm text-white/85">Publícala gratis y recibe pedidos de todo el país.</span>
             <span className="mt-5 inline-flex min-h-10 w-fit items-center rounded-full bg-white px-5 text-sm font-semibold text-petroleo">Publicar mi cosecha</span>
@@ -187,7 +187,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
                   <LotCard lot={lot} eager={index < 4} />
                   {/* Banner intermedio, como pausa visual entre filas */}
                   {index === 5 && catalog.lots.length > 8 && filters.destino !== 'exportacion' && <Link href={enlace({ destino: 'exportacion' })} className="group relative isolate col-span-full flex min-h-36 items-center overflow-hidden rounded-[24px] bg-petroleo px-7 py-6 text-white sm:px-10">
-                    <Image src="/landing/compradores-mercado.jpg" alt="" fill sizes="100vw" className="-z-10 object-cover opacity-45 mix-blend-luminosity transition-transform duration-700 group-hover:scale-105" />
+                    <Image src="/catalogo/exportacion-arandanos.jpg" alt="" fill sizes="100vw" className="-z-10 object-cover object-[50%_40%] opacity-60 transition-transform duration-700 group-hover:scale-105" />
                     <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-r from-petroleo via-petroleo/80 to-transparent" />
                     <span className="flex flex-wrap items-center gap-x-8 gap-y-3"><span><span className="block text-2xl font-normal sm:text-3xl">Cosechas listas para exportar</span><span className="mt-1 block text-sm text-white/80">Lotes con destino de exportación, con su origen y verificación a la vista.</span></span>
                       <span className="inline-flex min-h-11 items-center rounded-full bg-naranja px-6 text-sm font-semibold text-petroleo">Ver lotes de exportación</span></span>
@@ -212,9 +212,9 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
       <div className={`${caja} pb-14`}>
         <ul className="grid gap-4 md:grid-cols-3">
           {[
-            ['/landing/productora-cafe.jpg', 'Café y cacao de la selva', 'Cafés especiales y cacao fino', enlace({ q: 'Café' }), 'object-[50%_35%]'],
-            ['/landing/compradores-mercado.jpg', 'Frescos para el mercado local', 'Verduras y frutas del día', enlace({ destino: 'local' }), 'object-center'],
-            ['/landing/hero-pastora-andes.jpg', 'Papa nativa y cultivos andinos', 'De la sierra a tu mesa', enlace({ q: 'Papa' }), 'object-[70%_70%]'],
+            ['/catalogo/cafe-cerezas.jpg', 'Café y cacao de la selva', 'Cafés especiales y cacao fino', enlace({ q: 'Café' }), 'object-[50%_45%]'],
+            ['/catalogo/mercado-local-peru.jpg', 'Frescos para el mercado local', 'Frutas y verduras del día', enlace({ destino: 'local' }), 'object-[45%_60%]'],
+            ['/catalogo/papa-cosecha-andes.jpg', 'Papa nativa y cultivos andinos', 'De la sierra a tu mesa', enlace({ q: 'Papa' }), 'object-[50%_45%]'],
           ].map(([foto, titulo, texto, href, encuadre]) => <li key={titulo}>
             <Link href={href} className="group relative isolate flex min-h-60 items-end overflow-hidden rounded-[24px] p-3">
               <Image src={foto} alt="" fill sizes="(max-width: 768px) 100vw, 33vw" className={`-z-10 object-cover transition-transform duration-700 group-hover:scale-105 ${encuadre}`} />

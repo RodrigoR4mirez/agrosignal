@@ -13,15 +13,18 @@ export async function AppShell({ children, profile: suppliedProfile, anchoComple
     <header className="sticky top-0 z-30 border-b border-[#ebe4d4] bg-white/95 backdrop-blur-md">
       <div className="app-container flex flex-wrap items-center justify-between gap-x-6 gap-y-3 px-4 py-3.5 sm:px-6 lg:px-8">
         <Link href="/" translate="no" className="flex items-center gap-2 text-[22px] font-light tracking-[0.06em] text-petroleo"><IconoBrote className="size-7 text-musgo" />AGROSIGNAL</Link>
-        <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-semibold">
+        <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-3 gap-y-3 text-[13px] font-semibold sm:gap-x-5 sm:text-sm">
+          <Link href="/" aria-label="Inicio" title="Inicio" className="-ml-2 grid size-9 place-items-center rounded-full text-gray-700 sm:ml-0 sm:size-10 transition-colors hover:bg-crema hover:text-petroleo">
+            <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5 12 3l9 7.5" /><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" /></svg>
+          </Link>
           <Link href="/marketplace" className="text-gray-700 hover:text-petroleo">Productos</Link>
           <Link href="/ayuda" className="text-gray-700 hover:text-petroleo">Ayuda</Link>
           {profile ? <>
             <Link href={profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]} className="text-petroleo">Mi panel</Link>
-            <form action={logoutAction}><button className="min-h-10 rounded-full border border-petroleo/25 px-4 text-petroleo hover:bg-crema">Cerrar sesión</button></form>
+            <form action={logoutAction}><button className="min-h-10 rounded-full border border-petroleo/25 px-3 text-petroleo hover:bg-crema sm:px-4">Cerrar sesión</button></form>
           </> : <>
             <Link href="/login" className="text-petroleo">Ingresar</Link>
-            <Link href="/registro" className="rounded-full bg-naranja px-5 py-2.5 text-petroleo transition-colors hover:bg-[#f29a5e]">Crear cuenta</Link>
+            <Link href="/registro" className="rounded-full bg-naranja px-4 py-2.5 text-petroleo sm:px-5 transition-colors hover:bg-[#f29a5e]">Crear cuenta</Link>
           </>}
         </nav>
       </div>

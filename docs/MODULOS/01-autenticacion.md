@@ -131,3 +131,12 @@ tarjetas; en móvil el formulario mide 343 px dentro del viewport de 375 px.
 La entrega SMTP sigue sin validarse. Los enlaces administrativos usados en QA
 no demuestran entrega de correo y nunca se generan desde la aplicación pública.
 Las credenciales de QA se mantienen únicamente en archivos locales ignorados.
+
+### Comprobación en producción
+
+El formulario de registro se envió desde `https://agrosignal.vercel.app` y
+mostró «No pudimos enviar el correo» por la configuración SMTP pendiente.
+Una cuenta exclusiva de QA se confirmó con un enlace administrativo privado
+para completar publicación y compra. Login/logout y restricciones de los tres
+roles pasaron en producción; no se acreditó entrega de correo externo.
+Ver [RESUMEN-EJECUCION.md](../RESUMEN-EJECUCION.md).

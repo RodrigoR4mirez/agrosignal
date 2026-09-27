@@ -27,6 +27,7 @@ se guardan localmente en `.qa-artifacts/`, excluidos de Git y del despliegue.
 
 | Documento | Para qué sirve |
 |---|---|
+| [RESUMEN-EJECUCION.md](./RESUMEN-EJECUCION.md) | Resultado final, producción, verificaciones y pendientes |
 | [ARQUITECTURA.md](./ARQUITECTURA.md) | Cómo está armado técnicamente el proyecto de punta a punta |
 | [MODELO-DE-DATOS.md](./MODELO-DE-DATOS.md) | Todas las tablas de la base de datos y cómo se relacionan |
 | [MODULOS/01-autenticacion.md](./MODULOS/01-autenticacion.md) | Login, registro y roles |

@@ -48,7 +48,7 @@ No editar SQL ya aplicado: agregar otra migración.
 Supabase no tiene SMTP personalizado. Su remitente predeterminado restringe
 los destinatarios al equipo del proyecto, por lo que no permite registro
 público con confirmación ni recuperación para usuarios externos.
-Se solicitaron host, puerto, usuario, contraseña y remitente verificado.
+Para configurarlo faltan host, puerto, usuario, contraseña y remitente verificado.
 No se desactivó la confirmación de correo para eludir esta limitación.
 
 Referencia: [SMTP de Supabase](https://supabase.com/docs/guides/auth/auth-smtp).

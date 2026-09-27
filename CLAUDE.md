@@ -43,6 +43,13 @@ catálogo de productos (búsqueda, filtros y estrellas).
   `tierra #7a4a2e`, `cacao #4a2c1d`, `arena #e6d3b3`, `arena-claro #f3e9d6`,
   fondo salvia `#eef0e6`. Verde marca `#1a5c2a` y dorado `#d4a017` siguen
   presentes en paneles y formularios.
+- Landing: colores adaptados de producepay.com — `petroleo #133535` (bandas
+  oscuras, títulos, pie), `naranja #ee7c32` (botones, con texto petróleo por
+  contraste), `trigo #f3bc48` (línea bajo títulos, "Próximamente") y
+  `crema #fdf9f0` (fondos suaves), junto a la tierra.
+- Landing: animación al hacer scroll con `data-revelar="subir|izquierda|derecha|linea"`
+  y `components/landing/AnimacionesScroll.tsx` (fundido 1.5 s + desplazamiento;
+  sin JS o con movimiento reducido todo se ve normal)
 - Tipografía: Fraunces (títulos h1–h3 y `.font-display`) + Plus Jakarta Sans (texto)
 - `.leaf-texture` para franjas verde bosque con nervaduras de hoja
 - Tailwind v4: degradados con `bg-linear-to-*` (**no** `bg-gradient-to-*`)

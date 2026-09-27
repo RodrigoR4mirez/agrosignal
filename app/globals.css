@@ -13,6 +13,12 @@
   --color-arena: #e6d3b3;
   --color-arena-claro: #f3e9d6;
   --color-salvia: #eef0e6;
+
+  /* Acentos de la landing, tomados de producepay.com y ajustados a la paleta tierra */
+  --color-petroleo: #133535;
+  --color-naranja: #ee7c32;
+  --color-trigo: #f3bc48;
+  --color-crema: #fdf9f0;
 }
 
 :root {
@@ -162,4 +168,23 @@ h1, h2, h3, .font-display {
   font-family: var(--font-sans);
   font-variation-settings: normal;
   letter-spacing: -0.015em;
+}
+
+/* Landing: bloques que entran al hacer scroll (fundido 1.5s + desplazamiento 1s).
+   AnimacionesScroll solo oculta lo que está debajo de la pantalla al cargar,
+   así que sin JavaScript todo se ve normal. */
+[data-revelar] {
+  transition: opacity 1.5s ease, transform 1s cubic-bezier(0.2, 0.7, 0.2, 1), width 1s ease;
+}
+[data-revelar].revelar-oculto { opacity: 0; }
+[data-revelar='subir'].revelar-oculto { transform: translateY(6rem); }
+[data-revelar='izquierda'].revelar-oculto { transform: translateX(-10rem); }
+[data-revelar='derecha'].revelar-oculto { transform: translateX(10rem); }
+[data-revelar='linea'].revelar-oculto { opacity: 1; width: 0; }
+@media (max-width: 767px) {
+  [data-revelar='izquierda'].revelar-oculto { transform: translateX(-4rem); }
+  [data-revelar='derecha'].revelar-oculto { transform: translateX(4rem); }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-revelar] { transition: none; }
 }

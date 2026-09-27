@@ -33,7 +33,7 @@ export default async function Landing() {
 
     {/* Hero: foto a sangre, menú transparente encima */}
     <header className="relative isolate flex min-h-[640px] flex-col text-white lg:h-[860px]">
-      <Image src="/marketplace/hero-valle-sagrado-terrazas.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover" />
+      <Image src="/landing/hero-pastora-andes.jpg" alt="" fill priority sizes="100vw" className="-z-10 object-cover object-[80%_68%] lg:object-[50%_72%]" />
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-b from-black/45 via-black/20 to-black/35" />
       <div aria-hidden="true" className="h-24 shrink-0 lg:h-32" />
       <div className={`${caja} flex flex-1 flex-col justify-center pb-20 pt-6`}>

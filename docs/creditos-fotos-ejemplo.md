@@ -43,5 +43,9 @@ generada por IA.
 | puesto-verduras.jpg | 20230621-USDA-FNS-UNK-0007 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/53485215933) |
 | agricultor-campo.jpg | 20210812-NRCS-BJOC-067 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/51414328060) |
 
-El hero usa `public/marketplace/hero-valle-sagrado-terrazas.jpg` (Pexels,
-créditos en `app/marketplace/README.md`).
+El hero usa `hero-pastora-andes.jpg`: "Shepherdess on hillside in Peru",
+[Pexels](https://www.pexels.com/photo/shepherdess-on-hillside-in-peru-18048235/),
+[licencia Pexels](https://www.pexels.com/license/) (uso comercial gratuito, sin
+atribución obligatoria). Original de 4671×6229 px, reducida a 2999×4000. La
+página de Pexels bloquea la consulta automática, así que el nombre del fotógrafo
+queda por confirmar en el enlace.

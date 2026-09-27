@@ -20,8 +20,8 @@ export function MenuLanding({ panel }: { panel: string | null }) {
       <Link href="/" translate="no" className={`flex shrink-0 items-center gap-2 font-light tracking-[0.06em] transition-[font-size] duration-300 ${solido ? 'text-2xl text-[#1a5c2a] sm:text-[28px]' : 'text-2xl sm:text-[34px]'}`}>
         <IconoBrote className={`sm:size-10 size-8 ${solido ? 'text-musgo' : 'text-[#b9d99a]'}`} />AGROSIGNAL
       </Link>
-      <ul className="hidden items-center gap-8 text-[15px] xl:flex">{ANCLAS.map(([href, label]) => <li key={href}><a href={href} className={solido ? 'hover:text-[#1a5c2a]' : 'hover:text-[#cfe8b8]'}>{label}</a></li>)}</ul>
-      <div className="hidden items-center gap-7 text-[15px] lg:flex">
+      <ul className="hidden items-center gap-6 whitespace-nowrap text-[15px] xl:flex 2xl:gap-8">{ANCLAS.map(([href, label]) => <li key={href}><a href={href} className={solido ? 'hover:text-[#1a5c2a]' : 'hover:text-[#cfe8b8]'}>{label}</a></li>)}</ul>
+      <div className="hidden items-center gap-7 whitespace-nowrap text-[15px] lg:flex">
         <Link href="/marketplace" className={`border-b-2 border-[#6f8f4e] pb-1 ${solido ? 'font-semibold text-[#1a5c2a] hover:border-[#1a5c2a]' : 'hover:border-white'}`}>Ver productos</Link>
         <span className="opacity-90 hover:opacity-100">{cuenta}</span>
       </div>

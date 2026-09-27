@@ -24,7 +24,7 @@ export default async function ProductorPage({ params }: { params: Promise<{ id: 
   const ejemplo = lotes.lots.some(esEjemplo)
   const desde = new Intl.DateTimeFormat('es-PE', { month: 'long', year: 'numeric', timeZone: 'America/Lima' }).format(new Date(productor.creado_en))
   return <AppShell profile={profile}>
-    <Link href="/marketplace" className="mb-6 inline-block text-sm font-semibold text-[#1a5c2a] underline">← Volver al marketplace</Link>
+    <Link href="/marketplace" className="mb-6 inline-block text-sm font-semibold text-[#1a5c2a] underline">← Volver a productos</Link>
     <header className="mb-8 flex flex-wrap items-center gap-5">
       <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-full bg-bosque font-display text-4xl text-arena-claro">{productor.nombre.trim().charAt(0).toUpperCase()}</span>
       <div className="min-w-0">

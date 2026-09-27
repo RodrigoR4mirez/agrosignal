@@ -21,6 +21,7 @@ export type Lote = {
 export type LotePublico = Lote & { productor_nombre: string; nivel_sello: number; productor_calificaciones: number; productor_promedio: number | null }
 export const REGIONES = ['Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca', 'Callao', 'Cusco', 'Huancavelica', 'Huánuco', 'Ica', 'Junín', 'La Libertad', 'Lambayeque', 'Lima', 'Loreto', 'Madre de Dios', 'Moquegua', 'Pasco', 'Piura', 'Puno', 'San Martín', 'Tacna', 'Tumbes', 'Ucayali']
 export const COSECHA = { disponible: 'Disponible', en_cosecha: 'En cosecha', proxima: 'Próxima cosecha' }
+export const ORDENES = [['recientes', 'Más recientes'], ['calificacion', 'Mejor calificados'], ['precio_asc', 'Precio: menor a mayor'], ['precio_desc', 'Precio: mayor a menor']] as const
 export const CALIFICACION_MINIMA = [['4.5', '4,5 o más'], ['4', '4 o más'], ['3', '3 o más']] as const
 export const SELLOS = ['Sin verificación', 'Nivel 1 · Documental', 'Nivel 2 · Inspección con dron', 'Nivel 3 · Test de residuos']
 // Lotes de ejemplo (datos de demostración): la descripción empieza con este

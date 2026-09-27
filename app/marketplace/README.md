@@ -1,11 +1,15 @@
 # AgroSignal Marketplace (`/marketplace`)
 
-Catálogo público conectado a Supabase. Es la página principal: `/` redirige aquí.
+Catálogo público de productos conectado a Supabase. La landing de presentación
+vive en `/` (`app/page.tsx`); esta ruta es para navegar y buscar productos.
 
 ## Rutas y componentes activos
 
-- `/marketplace`: búsqueda por cultivo, filtros de región/cultivo/precio/
-  destino/nivel de verificación, paginación de 12 lotes y estados vacíos/error.
+- `/marketplace`: búsqueda por cultivo, filtros laterales (plegables en móvil)
+  de región/cultivo/precio/destino/Sello/calificación mínima, orden (recientes,
+  mejor calificados, precio), estrellas del productor en cada tarjeta,
+  paginación de 12 lotes y estados vacíos/error.
+- `/marketplace/productor/[id]`: perfil público con reputación y reseñas.
 - `/marketplace/[id]`: galería, oferta, origen, productor y nivel de verificación.
 - `/panel-productor/publicar`: wizard de tres pasos con fotos en Supabase Storage.
 - `/panel-productor/mis-lotes`: publicaciones, borradores, agotados y bloqueados;
@@ -45,8 +49,10 @@ claves foráneas. Se informa al productor que puede poner el stock en 0.
 
 ## Diseño
 
-La portada (`components/marketplace/Portada.tsx`) usa dos fotos de
-`public/marketplace/`, ambas con [Pexels License](https://www.pexels.com/license/)
+La landing (`app/page.tsx`) usa `hero-valle-sagrado-terrazas.jpg`, con los
+andenes del Sello (`components/landing/SelloAndenes.tsx`) como elemento visual
+principal. `hero-agricultor-sembrando.jpg` queda disponible sin uso. Ambas
+fotos de `public/marketplace/` tienen [Pexels License](https://www.pexels.com/license/)
 (uso comercial gratuito, sin atribución obligatoria):
 
 - `hero-valle-sagrado-terrazas.jpg` — Willian Justen de Vasconcellos,

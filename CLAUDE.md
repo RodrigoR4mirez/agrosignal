@@ -2,7 +2,8 @@
 
 Marketplace agrícola para el Perú: productores publican lotes de cosecha y
 compradores hacen pedidos, con un Sello de Inocuidad de tres niveles y panel
-de administración. `/` redirige a `/marketplace`.
+de administración. `/` es la landing de presentación y `/marketplace` el
+catálogo de productos (búsqueda, filtros y estrellas).
 
 > El antiguo dashboard de riesgo climático y la página de El Niño se
 > eliminaron el 26 set 2026 (siguen en el historial de git, commit `6c3b055`).
@@ -22,13 +23,14 @@ de administración. `/` redirige a `/marketplace`.
 
 ## Estructura
 
-- `app/marketplace` — catálogo público y ficha de lote (`[id]`)
+- `app/page.tsx` — landing (hero con buscador, Sello en andenes, reputación, destacados)
+- `app/marketplace` — catálogo de productos, ficha de lote (`[id]`) y perfil de productor (`productor/[id]`)
 - `app/panel-productor`, `app/panel-comprador` — paneles por rol
 - `app/admin` — usuarios, pedidos, certificados, drones, tests
 - `app/verificaciones/[id]` — gestión del Sello de Inocuidad de un lote
 - `app/(auth)` — registro, login, recuperación y cuenta
-- `components/AppShell.tsx` — header/footer compartidos (logo → `/marketplace`)
-- `components/marketplace/Portada.tsx` — hero, "Así funciona" y mosaico de cultivos
+- `components/AppShell.tsx` — header/footer compartidos (logo → `/`; `ancho="completo"` para páginas a sangre)
+- `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`
 - Documentación por módulo en `docs/` (ver `docs/README.md`); reparto de trabajo
@@ -45,7 +47,7 @@ de administración. `/` redirige a `/marketplace`.
 - `.leaf-texture` para franjas verde bosque con nervaduras de hoja
 - Tailwind v4: degradados con `bg-linear-to-*` (**no** `bg-gradient-to-*`)
 - Contenedor centrado: `.app-container` (max-width 1440px), no `max-w-[...]` suelto
-- Íconos de la portada: Material Symbols Outlined, enlazada en `app/marketplace/layout.tsx`
+- Íconos: SVG en línea (no se carga ninguna fuente de íconos)
 - Fotos: solo con licencia libre verificada (Pexels, CC0, dominio público) y
   con créditos documentados; nunca imágenes generadas por IA presentadas como reales
 
@@ -65,7 +67,7 @@ de administración. `/` redirige a `/marketplace`.
 ## Convenciones para cambios en este repo
 
 - Mantener la paleta tierra/verde/dorado en cualquier componente nuevo
-- Cada landing o sub-página nueva: el logo "AgroSignal" enlaza a `/marketplace`
+- Cada landing o sub-página nueva: el logo "AgroSignal" enlaza a `/`
 - Cambios de esquema: nueva migración en `supabase/migrations/` + prueba en
   `supabase/tests/`; nunca editar migraciones ya aplicadas
 - Al terminar un cambio: `npm run lint`, `npm run build`, `npm run test:db`,

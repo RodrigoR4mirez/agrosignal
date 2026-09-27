@@ -26,10 +26,10 @@ export function IconoCandado({ className = 'size-5' }: { className?: string }) {
 // Etiqueta discreta para tarjetas: reputación del productor, subordinada al Sello del lote.
 export function ReputacionCompacta({ promedio, total, className = '' }: { promedio: number | null; total: number; className?: string }) {
   if (promedio === null || !tieneReputacion(total)) return <span className={`inline-flex items-center gap-1 text-xs font-semibold text-musgo ${className}`}><IconoBrote className="size-3.5" />Nuevo en la plataforma</span>
-  return <span className={`inline-flex items-center gap-1 text-xs text-gray-600 ${className}`}>
-    <svg viewBox="0 0 24 24" aria-hidden="true" className="size-3.5 fill-[#d4a017]"><path d={RUTA_ESTRELLA} /></svg>
+  return <span className={`inline-flex items-center gap-1.5 text-xs text-gray-600 ${className}`}>
+    <Estrellas valor={promedio} tamano={13} />
     <span className="font-bold tabular-nums text-cacao">{promedioTexto(promedio)}</span>
-    <span className="tabular-nums">({calificacionesTexto(total)})</span>
+    <span className="tabular-nums">({total})</span>
   </span>
 }
 

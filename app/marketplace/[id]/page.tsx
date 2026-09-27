@@ -21,7 +21,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
   const descripcion = descripcionVisible(lot)
   const photos = lot.fotos.flatMap(path => { const url = photoUrl(path); return url ? [url] : [] })
   return <AppShell profile={profile}>
-    <Link href="/marketplace" className="mb-6 inline-block text-sm font-semibold text-[#1a5c2a] underline">← Volver al marketplace</Link>
+    <Link href="/marketplace" className="mb-6 inline-block text-sm font-semibold text-[#1a5c2a] underline">← Volver a productos</Link>
     <div className="grid gap-8 lg:grid-cols-2">
       <div className="space-y-4">{photos.length ? photos.map((url, index) => <div key={url} className={`relative overflow-hidden rounded-2xl bg-green-50 ${index === 0 ? 'aspect-4/3' : 'aspect-video'}`}><Image src={url} alt={`${lot.cultivo}, foto ${index + 1} de ${photos.length}`} fill unoptimized loading={index === 0 ? 'eager' : 'lazy'} sizes="(max-width: 1024px) 100vw, 50vw" className="object-cover" /></div>) : <Card>Este lote no tiene fotos disponibles.</Card>}</div>
       <div className="min-w-0 space-y-6">

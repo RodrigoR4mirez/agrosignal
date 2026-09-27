@@ -2,7 +2,14 @@ import 'server-only'
 import { createClient } from '@/lib/supabase/server'
 import { CALIFICACION_MINIMA, type Lote, type LotePublico } from './types'
 
-export type Filters = { q?: string; region?: string; cultivo?: string; minimo?: string; maximo?: string; destino?: string; sello?: string; calificacion?: string; pagina?: string }
+function ordenar<T extends { order: (column: string, options?: { ascending?: boolean; nullsFirst?: boolean }) => T }>(query: T, orden?: string) {
+  if (orden === 'calificacion') return query.order('productor_promedio', { ascending: false, nullsFirst: false }).order('productor_calificaciones', { ascending: false }).order('creado_en', { ascending: false })
+  if (orden === 'precio_asc') return query.order('precio_unidad', { ascending: true }).order('creado_en', { ascending: false })
+  if (orden === 'precio_desc') return query.order('precio_unidad', { ascending: false }).order('creado_en', { ascending: false })
+  return query.order('creado_en', { ascending: false })
+}
+
+export type Filters = { q?: string; region?: string; cultivo?: string; minimo?: string; maximo?: string; destino?: string; sello?: string; calificacion?: string; orden?: string; pagina?: string }
 export const PAGE_SIZE = 12
 export async function getCatalog(filters: Filters) {
   const db = await createClient()
@@ -18,7 +25,7 @@ export async function getCatalog(filters: Filters) {
   if (filters.minimo && Number.isFinite(Number(filters.minimo)) && Number(filters.minimo) >= 0) query = query.gte('precio_unidad', Number(filters.minimo))
   if (filters.maximo && Number.isFinite(Number(filters.maximo)) && Number(filters.maximo) >= 0) query = query.lte('precio_unidad', Number(filters.maximo))
   const [{ data, count, error }, options] = await Promise.all([
-    query.order('creado_en', { ascending: false }).order('id').range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1),
+    ordenar(query, filters.orden).order('id').range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1),
     db.from('catalogo_lotes').select('cultivo,region').order('cultivo').limit(1000),
   ])
   return { lots: (data ?? []) as LotePublico[], count: count ?? 0, page, error: Boolean(error || options.error), crops: [...new Set((options.data ?? []).map(x => x.cultivo as string))] }
@@ -37,5 +44,12 @@ export async function getOwnLots(owner: string) {
 export async function getProducerLots(productorId: string) {
   const db = await createClient()
   const { data, error } = await db.from('catalogo_lotes').select('*').eq('productor_id', productorId).order('creado_en', { ascending: false }).limit(24)
+  return { lots: (data ?? []) as LotePublico[], error: Boolean(error) }
+}
+// Para la landing: lotes con foto, primero los de Sello más alto.
+export async function getFeaturedLots(limite = 4) {
+  const db = await createClient()
+  const { data, error } = await db.from('catalogo_lotes').select('*').neq('fotos', '{}')
+    .order('nivel_sello', { ascending: false }).order('creado_en', { ascending: false }).limit(limite)
   return { lots: (data ?? []) as LotePublico[], error: Boolean(error) }
 }

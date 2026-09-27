@@ -11,6 +11,11 @@ export type Profile = {
   cultivo_principal: string | null
   foto?: string | null
 } & Partial<PerfilFinca> & {
+  empresa?: string | null
+  rubro?: string | null
+  cultivos_interes?: string[]
+  volumen_mensual_kg?: number | null
+  mercados_destino?: string[]
   tipo_comprador: 'natural' | 'empresa' | 'exportador' | null
   destino_exportacion: boolean | null
   moderacion_motivo?: string | null

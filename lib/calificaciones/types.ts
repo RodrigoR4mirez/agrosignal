@@ -2,7 +2,7 @@ import type { PerfilFinca } from '@/lib/perfil/types'
 export type RolCalificador = 'comprador' | 'productor'
 export type Distribucion = Record<'1' | '2' | '3' | '4' | '5', number>
 export type Reputacion = { total: number; promedio: number | null; distribucion: Distribucion }
-export type PerfilProductor = PerfilFinca & { id: string; nombre: string; region: string | null; cultivo_principal: string | null; creado_en: string; foto?: string | null; reputacion: Reputacion; ventas_completadas: number; lotes_activos: number; nivel_maximo: number }
+export type PerfilProductor = PerfilFinca & { id: string; nombre: string; region: string | null; cultivo_principal: string | null; creado_en: string; foto?: string | null; reputacion: Reputacion; ventas_completadas: number; lotes_activos: number; nivel_maximo: number; seguidores: number }
 export type Resena = { id: string; productor_id: string; estrellas: number; comentario: string | null; creado_en: string; autor: string }
 export type CalificacionPropia = { estrellas: number; comentario: string | null; creado_en: string; visible: boolean }
 export type EstadoCalificacion = {

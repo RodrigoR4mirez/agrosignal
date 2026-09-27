@@ -23,7 +23,7 @@ export function FotoPerfil({ owner, nombre, foto }: { owner: string; nombre: str
     if (subida.error) { setEstado({ error: 'No pudimos subir la foto. Intenta nuevamente.' }); return }
     const guardado = await guardarFotoPerfil(ruta)
     if (guardado.error) { await db.storage.from('fotos-perfil').remove([ruta]); setEstado({ error: guardado.error }); return }
-    setEstado({ ok: 'Foto actualizada. Ya se ve en tus lotes.' })
+    setEstado({ ok: 'Foto actualizada.' })
     router.refresh()
   }
   async function quitar() {

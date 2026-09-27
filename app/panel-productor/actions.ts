@@ -85,16 +85,16 @@ export async function deleteLot(_state: ActionState, form: FormData): Promise<Ac
   redirect(`/panel-productor/mis-lotes?eliminado=1${cleanupFailed ? '&limpieza=1' : ''}`)
 }
 
-// Guarda (o quita) la foto de perfil ya subida a fotos-perfil y borra la anterior.
+// Guarda (o quita) la foto de perfil (productor o comprador) ya subida a fotos-perfil y borra la anterior.
 export async function guardarFotoPerfil(ruta: string | null): Promise<ActionState> {
-  const profile = await requireRole('productor')
+  const profile = await requireRole(['productor', 'comprador'])
   if (ruta !== null && !new RegExp(`^${profile.id}/[0-9a-f-]{36}\\.(jpg|jpeg|png|webp)$`).test(ruta)) return { error: 'La foto no es válida. Vuelve a subirla.' }
   const db = await createClient()
   const anterior = profile.foto ?? null
   const { data, error } = await db.from('perfiles').update({ foto: ruta }).eq('id', profile.id).select('id').maybeSingle()
   if (error || !data) return { error: 'No pudimos guardar la foto. Intenta nuevamente.' }
   if (anterior && anterior !== ruta) await db.storage.from('fotos-perfil').remove([anterior])
-  revalidatePath('/panel-productor'); revalidatePath('/marketplace', 'layout')
+  revalidatePath('/panel-productor'); revalidatePath('/panel-comprador'); revalidatePath('/marketplace', 'layout')
   return {}
 }
 

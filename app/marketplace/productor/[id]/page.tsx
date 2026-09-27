@@ -12,6 +12,8 @@ import { getProducerLots } from '@/lib/marketplace/data'
 import { esEjemplo, uuidPattern } from '@/lib/marketplace/types'
 import { ENTREGAS, MESES, PRACTICAS, numero } from '@/lib/perfil/types'
 import { getProfile } from '@/lib/supabase/auth'
+import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
+import { getSiguiendo } from '@/lib/comunidad/data'
 
 const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8'
 const NIVELES = ['Sin verificar', 'Nivel 1 · Documental', 'Nivel 2 · Dron', 'Nivel 3 · Residuos']
@@ -27,6 +29,7 @@ export default async function ProductorPage({ params }: { params: Promise<{ id: 
   if (!uuidPattern.test(id)) notFound()
   const [profile, productor, resenas, lotes] = await Promise.all([getProfile(), getPerfilProductor(id), listResenas(id), getProducerLots(id)])
   if (!productor) notFound()
+  const siguiendo = profile?.rol === 'comprador' ? await getSiguiendo(id) : false
   const ejemplo = lotes.lots.some(esEjemplo)
   const desde = new Intl.DateTimeFormat('es-PE', { month: 'long', year: 'numeric', timeZone: 'America/Lima' }).format(new Date(productor.creado_en))
   const { reputacion } = productor
@@ -64,7 +67,9 @@ export default async function ProductorPage({ params }: { params: Promise<{ id: 
                 ? <><Estrellas valor={reputacion.promedio} tamano={16} /><span className="font-semibold text-white">{promedioTexto(reputacion.promedio)}</span><span>· {reputacion.total} calificaciones</span></>
                 : <span>Nuevo en la plataforma</span>}
               <span>· En AgroSignal desde {desde}</span>
+              <span>· {productor.seguidores} {productor.seguidores === 1 ? 'seguidor' : 'seguidores'}</span>
             </p>
+            <div className="mt-4"><BotonSeguir productorId={productor.id} siguiendo={siguiendo} modo={!profile ? 'anonimo' : profile.rol === 'comprador' ? 'comprador' : 'oculto'} tono="oscuro" /></div>
             {insignias.length > 0 && <ul className="mt-4 flex flex-wrap gap-2">{insignias.map(texto => <li key={texto} className="rounded-full bg-white/12 px-3 py-1.5 text-xs font-semibold ring-1 ring-white/25 backdrop-blur-md">{texto}</li>)}</ul>}
           </div>
         </div>

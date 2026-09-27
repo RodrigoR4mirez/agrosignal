@@ -179,3 +179,12 @@ Se conservan las siete tablas de negocio anteriores.
   evidencia. Los campos históricos con sufijo `_url` guardan rutas estables.
 - `private.agrosignal_migrations` registra versiones y hashes técnicos; no
   es una tabla de negocio ni está expuesta a clientes públicos.
+
+## Comunidad (migración 20260927000400)
+
+| Tabla / columnas | Descripción |
+|---|---|
+| `favoritos` (`comprador_id`, `productor_id`, `creado_en`) | Productores que sigue cada comprador. Se escribe solo con el RPC `seguir_productor`; cada comprador ve solo los suyos |
+| `alertas_precio` (`comprador_id`, `cultivo`, `precio_maximo_kg`) | Hasta 10 por comprador, una por cultivo. Coincide por nombre sin tildes ("palta" incluye Palta Hass) |
+| `perfiles.empresa`, `rubro`, `cultivos_interes`, `volumen_mensual_kg`, `mercados_destino` | Perfil de compra. Lo ven el comprador, la administración y los productores con pedidos suyos (`perfil_comprador`) |
+| `historial_precios` (`cultivo_base`, `precio_kg`, `fuente`, `ejemplo`, `registrado_en`) | Precio por kg al publicar o cambiar el precio de un lote (`publicacion`) y al recibir un pedido (`venta`). Solo se lee agregado con `historial_precio_cultivo` y `cultivos_con_precios` |

@@ -33,6 +33,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `app/marketplace/page.tsx` — cabecera petróleo con búsqueda y accesos rápidos por cultivo, filtros como opciones visibles (en escritorio se aplican al instante), chips de filtros activos; tarjeta en `components/marketplace/LotCard.tsx`
 - Catálogo al estilo tienda: banners (buscador en vidrio + ofertas), ventajas, pestañas de orden, banner intermedio y categorías; tarjeta con descuento (`precio_anterior`), estrellas y franja de vidrio con la foto del productor (`perfiles.foto`, bucket `fotos-perfil`, se sube desde el panel del productor; `components/perfil/`)
 - Perfil del productor (`app/marketplace/productor/[id]`): finca, hectáreas, experiencia, altitud, ubicación GPS con mapa de OpenStreetMap, prácticas, meses de cosecha, entregas y cifras (ventas completadas, lotes activos, mejor verificación). Se edita en el panel del productor (`components/perfil/PerfilFincaForm.tsx`); columnas en `perfiles` (migración `20260927000300`)
+- Comunidad (migración `20260927000400`): **favoritos** (el comprador sigue productores; RPC `seguir_productor`) y **alertas de precio** por cultivo; el trigger `avisar_lote` notifica (`referencia_tipo = 'lote'`) cuando un lote se publica o baja de precio. **Perfil del comprador** en `/compradores/[id]` (RPC `perfil_comprador`: solo él, admin o productores con pedidos suyos). **Historial de precios** en `historial_precios` (triggers al publicar/cambiar precio y al recibir un pedido) → `/marketplace/precios` y gráfico en la ficha del lote (`components/comunidad/`)
+- Las pruebas QA (cultivos con "QA") también dejan filas en `historial_precios`; bórralas si aparecen en la lista de cultivos
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
@@ -82,8 +84,9 @@ catálogo de productos (búsqueda, filtros y estrellas).
   perfil de finca completo y una foto referencial de Pexels (el perfil lo aclara). Los lotes llevan `descripcion` con prefijo `[Ejemplo] `
   (`MARCA_EJEMPLO` en `lib/marketplace/types.ts`): la UI los etiqueta
   "Ejemplo", muestra un aviso y no permite comprarlos.
-- Carga: `scripts/cargar-ejemplos.mjs` y luego `scripts/ampliar-ejemplos.mjs`
-  (perfiles, fotos, 10 lotes y reseñas) · Retiro: `scripts/limpiar-ejemplos.sql`
+- Carga: `scripts/cargar-ejemplos.mjs`, luego `scripts/ampliar-ejemplos.mjs`
+  (perfiles, fotos, 10 lotes y reseñas) y `scripts/ejemplos-comunidad.mjs` (perfil de
+  los compradores, favoritos e historial de precios marcado `ejemplo`) · Retiro: `scripts/limpiar-ejemplos.sql`
   (SQL Editor de Supabase) · Créditos de fotos: `docs/creditos-fotos-ejemplo.md`
 - Hay además 6 cuentas QA `ag…@example.com` del desarrollo que el script de
   limpieza no borra.

@@ -170,7 +170,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
 
         <section aria-labelledby="resultados" className="min-w-0">
           <div className="flex flex-wrap items-end justify-between gap-x-6 gap-y-3 border-b border-[#e2dbc9]">
-            <h2 id="resultados" className="pb-3 text-2xl font-normal text-petroleo" aria-live="polite">{catalog.error ? 'Productos' : <>Productos <span className="text-base text-gray-500">· {catalog.count}</span></>}</h2>
+            <div className="flex flex-wrap items-baseline gap-x-4 pb-3"><h2 id="resultados" className="text-2xl font-normal text-petroleo" aria-live="polite">{catalog.error ? 'Productos' : <>Productos <span className="text-base text-gray-500">· {catalog.count}</span></>}</h2><Link href="/marketplace/precios" className="text-sm font-semibold text-petroleo underline underline-offset-4">Ver precios por cultivo</Link></div>
             <nav aria-label="Ordenar productos" className="-mb-px flex gap-5 overflow-x-auto text-sm">
               {ORDENES.map(([value, label]) => <Link key={value} href={enlace({ orden: value })} aria-current={orden === value ? 'true' : undefined} className={`shrink-0 border-b-2 pb-3 transition-colors ${orden === value ? 'border-naranja font-semibold text-petroleo' : 'border-transparent text-gray-500 hover:text-petroleo'}`}>{label}</Link>)}
             </nav>

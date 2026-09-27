@@ -18,6 +18,7 @@ export async function AppShell({ children, profile: suppliedProfile, anchoComple
             <svg viewBox="0 0 24 24" aria-hidden="true" className="size-5" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"><path d="M3 10.5 12 3l9 7.5" /><path d="M5 9.5V20a1 1 0 0 0 1 1h4v-6h4v6h4a1 1 0 0 0 1-1V9.5" /></svg>
           </Link>
           <Link href="/marketplace" className="text-gray-700 hover:text-petroleo">Productos</Link>
+          <Link href="/marketplace/precios" className="hidden text-gray-700 hover:text-petroleo sm:inline">Precios</Link>
           <Link href="/ayuda" className="text-gray-700 hover:text-petroleo">Ayuda</Link>
           {profile ? <>
             <Link href={profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]} className="text-petroleo">Mi panel</Link>

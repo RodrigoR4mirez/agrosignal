@@ -11,6 +11,9 @@ import { ReputacionCompacta, ResumenReputacion } from '@/components/calificacion
 import { getProfile } from '@/lib/supabase/auth'
 import { COSECHA, descripcionVisible, descuento, esEjemplo, money, photoUrl, quantity, uuidPattern } from '@/lib/marketplace/types'
 import { Avatar } from '@/components/perfil/Avatar'
+import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
+import { GraficoPrecios } from '@/components/comunidad/GraficoPrecios'
+import { getHistorialPrecios, getSiguiendo } from '@/lib/comunidad/data'
 
 export default async function LotDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -22,6 +25,12 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
   const descripcion = descripcionVisible(lot)
   const photos = lot.fotos.flatMap(path => { const url = photoUrl(path); return url ? [url] : [] })
   const rebaja = descuento(lot)
+  const base = lot.cultivo.trim().split(/\s+/)[0]
+  const [historial, siguiendo] = await Promise.all([getHistorialPrecios(base, 12), profile?.rol === 'comprador' ? getSiguiendo(lot.productor_id) : Promise.resolve(false)])
+  const precioKg = lot.unidad === 'ton' ? Number(lot.precio_unidad) / 1000 : Number(lot.precio_unidad)
+  const recientes = historial.serie.slice(-3).filter(p => p.publicado !== null)
+  const referencia = recientes.length ? recientes.reduce((s, p) => s + p.publicado!, 0) / recientes.length : null
+  const diferencia = referencia ? Math.round(((precioKg - referencia) / referencia) * 100) : null
   const datos: [string, string][] = [
     ['Disponible', `${quantity(lot.cantidad_disponible)} ${lot.unidad}`], ['Estado', COSECHA[lot.estado_cosecha]],
     ['Destino', lot.destino === 'local' ? 'Mercado local' : 'Exportación'], ['Ubicación', `${lot.distrito}, ${lot.provincia}, ${lot.region}`],
@@ -59,6 +68,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
             <Avatar nombre={lot.productor_nombre} foto={lot.productor_foto} className="size-12 text-sm" />
             <span className="min-w-0"><span className="block text-xs text-gray-500">Publicado por</span><span className="block truncate font-semibold text-gray-900 underline-offset-4 group-hover:underline">{lot.productor_nombre}</span><ReputacionCompacta promedio={lot.productor_promedio} total={lot.productor_calificaciones} /></span>
           </Link>
+          <div className="mt-3"><BotonSeguir productorId={lot.productor_id} siguiendo={siguiendo} modo={!profile ? 'anonimo' : profile.rol === 'comprador' ? 'comprador' : 'oculto'} /></div>
         </div>
       </aside>
     </div>
@@ -70,6 +80,12 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
           <dl className="mt-6 grid gap-x-8 gap-y-5 text-sm sm:grid-cols-2">{datos.map(([label, value]) => <div key={label} className="border-b border-[#f0ebdf] pb-4"><dt className="mb-1 text-gray-500">{label}</dt><dd className="wrap-anywhere font-semibold text-gray-900">{value}</dd></div>)}</dl>
           {descripcion && <div className="mt-6"><h3 className="mb-2 text-base font-semibold text-petroleo">Descripción</h3><p className="max-w-[65ch] wrap-anywhere whitespace-pre-wrap text-[15px] leading-relaxed text-gray-700">{descripcion}</p></div>}
         </section>
+        {historial.serie.length > 0 && <section aria-labelledby="precio-historico" className="rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8">
+          <div className="mb-2 flex flex-wrap items-end justify-between gap-3"><h2 id="precio-historico" className="text-2xl font-normal text-petroleo">Precio de {base.toLowerCase()} en AgroSignal</h2><Link href={`/marketplace/precios?cultivo=${encodeURIComponent(base.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, ''))}`} className="text-sm font-semibold text-petroleo underline underline-offset-4">Ver historial completo</Link></div>
+          {diferencia !== null && <p className="mb-5 text-sm text-gray-700">Este lote está <strong className={`font-semibold ${diferencia <= 0 ? 'text-musgo' : 'text-tierra'}`}>{diferencia === 0 ? 'en el promedio' : `${Math.abs(diferencia)} % ${diferencia < 0 ? 'por debajo' : 'por encima'} del promedio`}</strong> publicado en los últimos 3 meses (S/ {referencia!.toFixed(2)} por kg).</p>}
+          <GraficoPrecios serie={historial.serie} actual={precioKg} titulo={`Precio mensual de ${base.toLowerCase()} por kilo`} />
+          {historial.serie.some(p => p.ejemplo) && <p className="mt-3 text-xs text-gray-500">Incluye datos de ejemplo de la demostración.</p>}
+        </section>}
         <section aria-labelledby="verificacion-lote" className="rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8">
           <h2 id="verificacion-lote" className="mb-5 text-2xl font-normal text-petroleo">Verificación AgroSignal</h2>
           {sello ? <SelloSummary summary={sello} exporting={lot.destino === 'exportacion'} /> : <p className="text-sm text-gray-600">Las verificaciones no están disponibles en este momento.</p>}

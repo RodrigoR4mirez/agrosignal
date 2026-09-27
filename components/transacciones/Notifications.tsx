@@ -11,12 +11,12 @@ function NotificationItem({ notification, role }: { notification: Notificacion; 
   const [state, action, pending] = useActionState(marcarNotificacionAction, {})
   const base = role === 'admin' ? '/admin' : role === 'productor' ? '/panel-productor' : '/panel-comprador'
   const verification = notification.referencia_tipo === 'sello' && role !== 'comprador'
-  const target = notification.referencia_tipo === 'pedido' ? `${base}/${role === 'productor' ? 'ventas' : 'pedidos'}/${notification.referencia_id}` : verification ? `/verificaciones/${notification.referencia_id}` : base
+  const target = notification.referencia_tipo === 'lote' ? `/marketplace/${notification.referencia_id}` : notification.referencia_tipo === 'pedido' ? `${base}/${role === 'productor' ? 'ventas' : 'pedidos'}/${notification.referencia_id}` : verification ? `/verificaciones/${notification.referencia_id}` : base
   return <li className={`space-y-3 rounded-xl border p-4 ${notification.leida ? 'border-gray-100' : 'border-[#e2dbc9] bg-crema'}`}>
     <p className="text-sm leading-relaxed wrap-anywhere">{notification.mensaje}</p>
     <p className="text-xs text-gray-500">{new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Lima' }).format(new Date(notification.creado_en))}</p>
     <FormMessage state={state} />
-    <div className="flex flex-wrap items-center gap-4"><Link href={target} className="py-2 text-sm font-semibold text-petroleo underline">{notification.referencia_tipo === 'pedido' ? 'Ver pedido' : verification ? 'Ver verificaciones' : 'Ir a mi panel'}</Link>{notification.leida ? <span className="text-xs text-gray-500">Leída</span> : <form action={action}><input type="hidden" name="notificacion_id" value={notification.id} /><button disabled={pending} className="min-h-11 rounded-full border border-gray-300 bg-white px-3 text-xs font-semibold">{pending ? 'Guardando…' : 'Marcar como leída'}</button></form>}</div>
+    <div className="flex flex-wrap items-center gap-4"><Link href={target} className="py-2 text-sm font-semibold text-petroleo underline">{notification.referencia_tipo === 'lote' ? 'Ver lote' : notification.referencia_tipo === 'pedido' ? 'Ver pedido' : verification ? 'Ver verificaciones' : 'Ir a mi panel'}</Link>{notification.leida ? <span className="text-xs text-gray-500">Leída</span> : <form action={action}><input type="hidden" name="notificacion_id" value={notification.id} /><button disabled={pending} className="min-h-11 rounded-full border border-gray-300 bg-white px-3 text-xs font-semibold">{pending ? 'Guardando…' : 'Marcar como leída'}</button></form>}</div>
   </li>
 }
 export function Notifications({ notifications, unread, count, page, error, role, ordersPage = 1 }: {

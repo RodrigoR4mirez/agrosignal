@@ -88,8 +88,11 @@ catálogo de productos (búsqueda, filtros y estrellas).
   (perfiles, fotos, 10 lotes y reseñas) y `scripts/ejemplos-comunidad.mjs` (perfil de
   los compradores, favoritos e historial de precios marcado `ejemplo`) · Retiro: `scripts/limpiar-ejemplos.sql`
   (SQL Editor de Supabase) · Créditos de fotos: `docs/creditos-fotos-ejemplo.md`
-- Hay además 6 cuentas QA `ag…@example.com` del desarrollo que el script de
-  limpieza no borra.
+- Hay además 6 cuentas QA `agrosignal.qa.…@example.com` del desarrollo que el script de
+  limpieza no borra. El 27 set 2026 se les pusieron nombres y textos realistas
+  (Wilfredo Quispe, Marleni Condori, Teodoro Salazar, Carmen Rosa Vílchez, Julio
+  César Paredes y "Administración AgroSignal", la única cuenta admin); sus 3 lotes
+  llevan `[Ejemplo] ` como el resto.
 - No crear datos inventados presentados como reales: todo dato de demostración
   debe ir marcado como ejemplo.
 

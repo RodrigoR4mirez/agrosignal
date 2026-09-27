@@ -1,14 +1,17 @@
 'use client'
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts'
 
-// Fuente: IRI (Columbia University) / NOAA CPC — consenso de 24 modelos ENSO, emitido 22 jun 2026
+// Fuente: IRI (Columbia University) / NOAA CPC — consenso de 22 modelos ENSO, emitido 21 set 2026
 const data = [
-  { periodo: 'JJA 2026', probabilidad: 100 },
   { periodo: 'SON 2026', probabilidad: 100 },
-  { periodo: 'OND 2026', probabilidad: 99 },
-  { periodo: 'DEF 2027', probabilidad: 99 },
-  { periodo: 'EFM 2027', probabilidad: 98 },
-  { periodo: 'FMA 2027', probabilidad: 97 },
+  { periodo: 'OND 2026', probabilidad: 100 },
+  { periodo: 'NDE 26–27', probabilidad: 100 },
+  { periodo: 'DEF 2027', probabilidad: 100 },
+  { periodo: 'EFM 2027', probabilidad: 100 },
+  { periodo: 'FMA 2027', probabilidad: 100 },
+  { periodo: 'MAM 2027', probabilidad: 99 },
+  { periodo: 'AMJ 2027', probabilidad: 90 },
+  { periodo: 'MJJ 2027', probabilidad: 61 },
 ]
 
 export default function ProbabilidadNinoChart() {

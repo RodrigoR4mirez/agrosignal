@@ -66,10 +66,10 @@ export default function Home() {
               </div>
               <div className="min-w-0">
                 <h3 className="text-sm font-bold text-white mb-1">
-                  Alerta: El Niño 2026–2027 se perfila fuerte
+                  Alerta: El Niño 2026–2027 podría ser extraordinario
                 </h3>
                 <p className="text-sm font-normal text-orange-100/80">
-                  63% prob. de evento &quot;muy fuerte&quot; (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa
+                  {'>'}90% prob. de evento &quot;muy fuerte&quot; (NOAA CPC) · ENFEN: 48% prob. de magnitud extraordinaria en la costa
                 </p>
               </div>
             </div>

@@ -17,27 +17,27 @@ export const metadata: Metadata = {
 
 const statCards = [
   {
-    label: 'PROBABILIDAD EL NIÑO (JUN–AGO 2026)',
+    label: 'PROBABILIDAD EL NIÑO (SET 2026–MAR 2027)',
     value: '100%',
-    sub: 'Consenso de 24 modelos ENSO — IRI / NOAA CPC',
+    sub: 'Los 22 modelos ENSO coinciden — IRI / NOAA CPC',
     tone: 'amber',
   },
   {
-    label: 'PROB. EVENTO "MUY FUERTE" (NOV 2026–ENE 2027)',
-    value: '63%',
-    sub: 'Podría ubicarse entre los más intensos desde 1950 — NOAA CPC',
+    label: 'PROB. EVENTO "MUY FUERTE" (OCT 2026–FEB 2027)',
+    value: '>90%',
+    sub: '75% de probabilidad de superar a todos los eventos desde 1950 — NOAA CPC',
     tone: 'red',
   },
   {
-    label: 'ANOMALÍA ACTUAL NIÑO 1+2 (COSTA PERÚ)',
-    value: '+2.1 °C',
-    sub: 'Al 11 jun 2026 — la región más cercana a Perú ya muestra calentamiento fuerte',
+    label: 'ANOMALÍA NIÑO 1+2 (COSTA PERÚ)',
+    value: '+3.4 °C',
+    sub: 'Promedio de agosto 2026 — el mar frente a Perú, muy por encima de lo normal',
     tone: 'red',
   },
   {
     label: 'MAGNITUD MÁS PROBABLE EN PERÚ (VERANO 26–27)',
-    value: 'Fuerte',
-    sub: '48% fuerte vs. 46% moderado — ENFEN Comunicado N.º 11-2026',
+    value: 'Extraordinaria',
+    sub: '48% extraordinaria vs. 45% fuerte — ENFEN Comunicado N.º 16-2026',
     tone: 'amber',
   },
 ] as const
@@ -93,7 +93,7 @@ export default function FenomenoNino() {
           </div>
           <div className="relative text-left md:text-right shrink-0">
             <div className="text-xs text-orange-100/70 mb-1">Fuente más reciente</div>
-            <div className="text-sm font-semibold text-white">22 de junio de 2026</div>
+            <div className="text-sm font-semibold text-white">21 de setiembre de 2026</div>
           </div>
         </div>
 
@@ -126,7 +126,7 @@ export default function FenomenoNino() {
           <CardHeader>
             <CardTitle>Evolución de la probabilidad de El Niño (Pacífico central, Niño 3.4)</CardTitle>
             <CardDescription>
-              Consenso de 24 modelos (15 dinámicos, 9 estadísticos) · IRI Columbia University / NOAA CPC, emitido 22 jun 2026
+              Consenso de 22 modelos (13 dinámicos, 9 estadísticos) · IRI Columbia University / NOAA CPC, emitido 21 set 2026
             </CardDescription>
           </CardHeader>
           <ProbabilidadNinoChart />
@@ -138,7 +138,7 @@ export default function FenomenoNino() {
             <CardHeader>
               <CardTitle>Anomalías de temperatura oceánica actuales</CardTitle>
               <CardDescription>
-                Respecto al promedio histórico, por región del Pacífico · NOAA CPC, emitido 11 jun 2026
+                Promedio de agosto 2026 respecto al histórico, por región del Pacífico · NOAA CPC, emitido 10 set 2026
               </CardDescription>
             </CardHeader>
             <AnomaliaSSTChart />
@@ -149,7 +149,7 @@ export default function FenomenoNino() {
             <CardHeader>
               <CardTitle>Magnitud de El Niño Costero en Perú — verano 2026–2027</CardTitle>
               <CardDescription>
-                Región Niño 1+2 (frente a la costa peruana) · ENFEN, Comunicado Oficial N.º 11-2026 (16 jun 2026)
+                Región Niño 1+2 (frente a la costa peruana) · ENFEN, Comunicado Oficial N.º 16-2026 (14 set 2026)
               </CardDescription>
             </CardHeader>
             <MagnitudNinoChart />
@@ -165,13 +165,13 @@ export default function FenomenoNino() {
             {[
               <>
                 El Niño Costero (el que más afecta directamente al Perú) está activo desde marzo de 2026
-                y ENFEN prevé que se extienda hasta el verano de 2027, con mayor probabilidad de magnitud{' '}
-                <strong>fuerte entre junio y septiembre</strong>, bajando a moderada hacia fin de año.
+                y ENFEN prevé que se extienda hasta mediados del otoño de 2027, con alta probabilidad de magnitud{' '}
+                <strong>extraordinaria entre setiembre 2026 y enero 2027</strong>, y entre fuerte y extraordinaria en febrero–marzo.
               </>,
               <>
-                A nivel internacional, NOAA CPC ubica en <strong>63% la probabilidad de un evento &quot;muy fuerte&quot;</strong> entre
-                noviembre 2026 y enero 2027 — de concretarse, estaría entre los más intensos desde 1950,
-                comparable a 1997–98 o 2015–16.
+                A nivel internacional, NOAA CPC ubica en <strong>más de 90% la probabilidad de un evento &quot;muy fuerte&quot;</strong>{' '}
+                este otoño–invierno boreal, y en 75% la de que supere a todos los eventos registrados desde 1950,
+                incluidos 1982–83, 1997–98 y 2015–16.
               </>,
               <>
                 Un El Niño fuerte suele traer lluvias intensas y anomalías cálidas en la costa norte
@@ -231,8 +231,7 @@ export default function FenomenoNino() {
           <ImpactoNinoTabla data={impacto} />
 
           <p className="text-xs text-gray-400 mt-6 leading-relaxed">
-            Sin datos suficientes para estimar (sin serie de producción FAOSTAT comparable):
-            Aceituna, Papaya. Los 16 cultivos con solo perfil climático NASA POWER (Granadilla,
+            Los 16 cultivos con solo perfil climático NASA POWER (Granadilla,
             Maracuyá, Chirimoya, Lúcuma, Tara, Sacha inchi, Kiwicha, Cañihua, Olluco, Mashua,
             Yacón, Cúrcuma, Camu camu, Aguaje, Cocona, Achiote) tampoco tienen serie de producción,
             por lo que no es posible calcular un % de impacto para ellos.
@@ -247,15 +246,15 @@ export default function FenomenoNino() {
           <div className="flex flex-wrap items-center gap-x-2 gap-y-1">
             <strong className="text-gray-600">Fuentes:</strong>
             <a href="https://www.cpc.ncep.noaa.gov/products/analysis_monitoring/enso_advisory/ensodisc.shtml" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green-600)] hover:underline">
-              NOAA CPC — ENSO Diagnostic Discussion (11 jun 2026)
+              NOAA CPC — ENSO Diagnostic Discussion (10 set 2026)
             </a>
             <span>·</span>
             <a href="https://iri.columbia.edu/our-expertise/climate/forecasts/enso/current/" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green-600)] hover:underline">
-              IRI Columbia University — ENSO Forecast (22 jun 2026)
+              IRI Columbia University — ENSO Forecast (21 set 2026)
             </a>
             <span>·</span>
-            <a href="https://enfen.imarpe.gob.pe/comunicados/" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green-600)] hover:underline">
-              ENFEN — Comunicado Oficial N.º 11-2026 (16 jun 2026)
+            <a href="https://enfen.imarpe.gob.pe/download/comunicado-oficial-enfen-n-16-2026" target="_blank" rel="noopener noreferrer" className="text-[var(--brand-green-600)] hover:underline">
+              ENFEN — Comunicado Oficial N.º 16-2026 (14 set 2026)
             </a>
           </div>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-1">

@@ -1,6 +1,6 @@
 #!/bin/bash
 ICLOUD='/Users/s/Library/Mobile Documents/com~apple~CloudDocs/PROYECTOS/agronomia'
-DEST='/Users/s/agro-dashboard/data'
+DEST='/Users/s/Library/Mobile Documents/com~apple~CloudDocs/PROYECTOS/agrosignal/data'
 
 echo "Copiando datos actualizados..."
 cp "$ICLOUD/riesgo_cosecha_actual.csv" "$DEST/"

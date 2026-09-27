@@ -46,11 +46,11 @@ claves foráneas. Se informa al productor que puede poner el stock en 0.
 
 ## Diseño anterior
 
-`_components/desktop`, `_components/mobile`, `_components/shared`,
-`marketplace.css` y las imágenes locales de `public/marketplace` conservan
-las referencias del landing original de Stitch. Ya no se renderizan desde
-la página principal del catálogo. `/pro` redirige a `/marketplace`; las referencias
-visuales anteriores se conservan en el repositorio, sin lista de espera activa.
+Los componentes del landing original de Stitch (`_components/`, `marketplace.css`
+y los de `/pro`) se eliminaron el 26 sep 2026 porque ya no se renderizaban.
+El diseño de referencia sigue en `UX-stitch_agrosignal_marketplace/` y el
+código en el historial de git (commit `89eb187`). Las fotos de
+`public/marketplace` y `public/pro` se conservan. `/pro` redirige a `/marketplace`.
 
 El flujo documental, de drones y de tests está implementado en `/verificaciones/[id]`.
 El catálogo muestra el mayor nivel y la ficha detalla los tres estados, sin

@@ -18,15 +18,25 @@ cultivo y región cruzando datos climáticos con producción histórica.
 actualizar.py  →  copiar_datos.sh  →  git push  →  Vercel redespliega
 ```
 
-- Cron: día 1 de cada mes, 8am, corre `actualizar.py` (pipeline completo:
-  clima + producción + modelo + dashboard)
-- `copiar_datos.sh` copia los CSVs actualizados de iCloud a este proyecto Next.js
+- Cron: día 1 de cada mes, 8am, corre `~/agronomia-cron.sh`, que hace el ciclo
+  completo: `actualizar.py` → copia los 4 CSVs a `data/` de este repo → commit
+  (solo `data/`) + push. Log en `~/agronomia-cron.log`.
+  - ⚠️ `cron` necesita **Acceso total al disco** (Ajustes del Sistema →
+    Privacidad y seguridad → `/usr/sbin/cron`); sin eso macOS bloquea la
+    lectura de iCloud ("Operation not permitted") y el pipeline no corre.
+  - El venv real es `~/proyectos/agronomia` (no `~/agronomia-env`).
+- `scripts/copiar_datos.sh` (manual) copia los CSVs de iCloud a este repo.
+  `~/agro-dashboard` es una copia vieja del repo: no usarla como destino.
 - Scripts (todos en la carpeta de iCloud, no en este repo):
   - `actualizar.py` — orquesta todo el pipeline
   - `descargar_todas_regiones.py` — descarga clima NASA POWER, 25 regiones
   - `descargar_produccion_historica.py` — descarga FAOSTAT
   - `cruzar_clima_produccion.py` — cruza clima + producción
-  - `detector_riesgo.py` — entrena Random Forest y calcula riesgo (v1.3.0: año dinámico; el pipeline valida el mapeo FAOSTAT antes de guardar)
+  - `detector_riesgo.py` — entrena Random Forest y calcula riesgo (v1.3.0: año dinámico)
+  - `actualizar.py` valida que cada código FAOSTAT corresponda al cultivo
+    esperado (`ITEM_ESPERADO`) y aborta antes de guardar si no coincide.
+    Códigos corregidos el 26 set 2026: Aceituna = 260 (Olives), Papaya = 600
+    (Papayas); antes eran 568 (melón) y 526 (albaricoque).
   - `visualizar.py` — genera 4 gráficos PNG con matplotlib/seaborn, guardados
     directo en la carpeta de iCloud (mismo lugar que los CSVs, sin subcarpeta):
     - `grafico_temperatura_regiones.png` — barras horizontales, temp. media
@@ -73,13 +83,14 @@ manualmente** si se quiere una versión más reciente (no se actualizan solos).
 - **Componentes de datos:** `ProbabilidadNinoChart.tsx`, `AnomaliaSSTChart.tsx`,
   `MagnitudNinoChart.tsx` — cada uno tiene su constante `data` con la fuente y
   fecha de emisión en un comentario arriba.
-- **Fuentes y fecha de la snapshot actual (julio 2026):**
-  - NOAA Climate Prediction Center, ENSO Diagnostic Discussion — emitido 11 jun 2026
-    (anomalías SST Niño 1+2/3.4/4; 63% prob. de evento "muy fuerte" nov26–ene27)
-  - IRI Columbia University / NOAA CPC, consenso de 24 modelos ENSO — emitido 22 jun 2026
-    (probabilidad de El Niño por trimestre, JJA26–FMA27)
-  - ENFEN (SENAMHI/IMARPE), Comunicado Oficial N.º 11-2026 — emitido 16 jun 2026
-    (magnitud de El Niño Costero para Perú, verano 2026–27: 48% fuerte / 46% moderado)
+- **Fuentes y fecha de la snapshot actual (setiembre 2026):**
+  - NOAA Climate Prediction Center, ENSO Diagnostic Discussion — emitido 10 set 2026
+    (anomalías SST de agosto: Niño 1+2 +3.4, Niño 3 +2.5, Niño 3.4 +1.8, Niño 4 +0.1 °C;
+    >90% prob. de evento "muy fuerte" y 75% de evento histórico)
+  - IRI Columbia University / NOAA CPC, consenso de 22 modelos ENSO — emitido 21 set 2026
+    (probabilidad de El Niño por trimestre, SON26–MJJ27)
+  - ENFEN (SENAMHI/IMARPE), Comunicado Oficial N.º 16-2026 — emitido 14 set 2026
+    (magnitud de El Niño Costero para Perú, verano 2026–27: 48% extraordinaria / 45% fuerte)
 - **Impacto estimado por cultivo** (`getImpactoNinoData()` en `lib/parseData.ts`,
   renderizado por `ImpactoNinoChart.tsx` / `ImpactoNinoTabla.tsx`): NO es un
   pronóstico ni sale del modelo Random Forest — compara, con los datos que ya

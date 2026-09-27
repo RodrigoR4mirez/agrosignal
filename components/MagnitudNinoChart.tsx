@@ -1,18 +1,18 @@
 'use client'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell, LabelList } from 'recharts'
 
-// Fuente: ENFEN (SENAMHI/IMARPE), Comunicado Oficial N.º 11-2026 (16 jun 2026)
+// Fuente: ENFEN (SENAMHI/IMARPE), Comunicado Oficial N.º 16-2026 (14 set 2026)
 // El Niño Costero (región Niño 1+2), magnitud prevista para el verano 2026-2027.
 // "Otros escenarios" es el complemento a 100% no desglosado en el comunicado.
 const data = [
-  { escenario: 'Fuerte', probabilidad: 48 },
-  { escenario: 'Moderado', probabilidad: 46 },
-  { escenario: 'Otros escenarios', probabilidad: 6 },
+  { escenario: 'Extraordinario', probabilidad: 48 },
+  { escenario: 'Fuerte', probabilidad: 45 },
+  { escenario: 'Otros escenarios', probabilidad: 7 },
 ]
 
 const color = (escenario: string) => {
+  if (escenario === 'Extraordinario') return '#b91c1c'
   if (escenario === 'Fuerte') return '#EF4444'
-  if (escenario === 'Moderado') return '#F59E0B'
   return '#9ca3af'
 }
 

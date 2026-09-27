@@ -38,10 +38,15 @@ generada por IA.
 | sello-dron.jpg | Large Drone | JESHOOTS.com | CC0 | [stocksnap](https://stocksnap.io/photo/large-drone-YRN2VNIFAT) |
 | productora-cafe.jpg | BLUE HARVEST EL SALVADOR | Maren Barbee | CC0 | [flickr](https://www.flickr.com/photos/27781737@N05/25173042692) |
 | compradores-mercado.jpg | 20120601-DM-LSC-0291 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/7154331521) |
-| mercado-san-pedro-cusco.jpg | San Pedro Market in Cusco, Peru | Ashim D’Silva | CC0 | [wikimedia](https://commons.wikimedia.org/w/index.php?curid=151104777) |
 | acuerdo-apreton.jpg | 20191022-OSEC-LSC-0874 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/48950174161) |
 | puesto-verduras.jpg | 20230621-USDA-FNS-UNK-0007 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/53485215933) |
 | agricultor-campo.jpg | 20210812-NRCS-BJOC-067 | USDAgov | PDM | [flickr](https://www.flickr.com/photos/41284017@N08/51414328060) |
+
+La tarjeta "Recorre el catálogo" usa `catalogo-puesto-verduras.jpg`: "Stall of
+fresh produce vegetables on a market",
+[Pexels](https://www.pexels.com/photo/stall-of-fresh-produce-vegetables-on-a-market-8827357/),
+[licencia Pexels](https://www.pexels.com/license/). Original de 5669×3190 px,
+reducida a 2400 px de ancho.
 
 El hero usa `hero-pastora-andes.jpg`: "Shepherdess on hillside in Peru",
 [Pexels](https://www.pexels.com/photo/shepherdess-on-hillside-in-peru-18048235/),

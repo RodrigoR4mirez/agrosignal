@@ -138,7 +138,7 @@ export default async function Landing() {
         </div>
         <div className={`${caja} relative -mt-60 sm:-mt-64 lg:-mt-80`}>
           <Link href="/marketplace" className="group relative block aspect-video overflow-hidden shadow-[0_30px_60px_-20px_rgba(0,0,0,0.45)]">
-            <Image src="/landing/mercado-san-pedro-cusco.jpg" alt="" fill sizes="(max-width: 1024px) 100vw, 66rem" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
+            <Image src="/landing/catalogo-puesto-verduras.jpg" alt="" fill sizes="(max-width: 1024px) 100vw, 66rem" className="object-cover transition-transform duration-700 group-hover:scale-[1.03]" />
             <span className="absolute inset-0 bg-black/25" />
             <span className="absolute inset-0 flex flex-col items-center justify-center gap-5 text-center text-white">
               <span className="text-3xl font-light sm:text-5xl">Recorre el catálogo</span>

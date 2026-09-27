@@ -1,9 +1,9 @@
 import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
+import { SitePie } from '@/components/SitePie'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME } from '@/lib/supabase/types'
-import { ANCLAS } from '@/components/landing/anclas'
 import { MenuLanding } from '@/components/landing/MenuLanding'
 import { AnimacionesScroll } from '@/components/landing/AnimacionesScroll'
 import {
@@ -249,27 +249,6 @@ export default async function Landing() {
       </section>
     </main>
 
-    {/* Pie en tierra */}
-    <footer className="bg-petroleo text-white">
-      <div className={`${caja} grid gap-14 pb-16 pt-20 lg:grid-cols-2`}>
-        <div>
-          <p translate="no" className="flex items-center gap-2 text-[40px] font-light tracking-[0.06em]"><IconoBrote className="size-12 text-[#b9d99a]" />AGROSIGNAL</p>
-          <h2 className="mt-10 font-sans text-[28px] font-normal text-white">Únete a la comunidad</h2>
-          <p className="mt-4 max-w-sm text-[15px] leading-relaxed text-white/90">Crea tu cuenta gratis como productor o comprador y empieza a publicar o pedir cosechas hoy.</p>
-          <div className="mt-8 flex flex-wrap gap-4">
-            {panel ? <Link href={panel} className="rounded-full bg-naranja px-6 py-2.5 text-sm font-semibold text-petroleo hover:bg-[#f29a5e]">Ir a mi panel</Link> : <>
-              <Link href="/registro" className="rounded-full bg-naranja px-6 py-2.5 text-sm font-semibold text-petroleo hover:bg-[#f29a5e]">Crear cuenta</Link>
-              <Link href="/login" className="rounded-full border border-white/50 px-6 py-2.5 text-sm hover:bg-white/10">Ingresar</Link>
-            </>}
-          </div>
-        </div>
-        <nav aria-label="Pie de página" className="lg:pt-24">
-          <ul className="grid gap-x-10 border-t border-white/30 text-lg sm:grid-cols-2">
-            {[['/marketplace', 'Productos'], ...ANCLAS, ['/ayuda', 'Ayuda y preguntas frecuentes']].map(([href, label]) => <li key={href} className="border-b border-white/30"><Link href={href.startsWith('#') ? `/${href}` : href} className="block py-4 text-white/85 hover:text-white">{label}</Link></li>)}
-          </ul>
-        </nav>
-      </div>
-      <p className={`${caja} pb-10 text-sm text-white/85`}>2026 © AgroSignal. Todos los derechos reservados.</p>
-    </footer>
+    <SitePie panel={panel} invitacion contenedor={caja} />
   </div>
 }

@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { logoutAction } from '@/app/(auth)/actions'
 import { IconoBrote } from '@/components/landing/Iconos'
+import { SitePie } from '@/components/SitePie'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME, ROLE_LABEL, type Profile } from '@/lib/supabase/types'
 
@@ -32,11 +33,6 @@ export async function AppShell({ children, profile: suppliedProfile, anchoComple
     </header>
     {profile && <div className="border-b border-[#ebe4d4] bg-crema"><p className="app-container px-4 py-2 text-xs text-petroleo wrap-anywhere sm:px-6 lg:px-8">{profile.nombre_completo} · {ROLE_LABEL[profile.rol]}</p></div>}
     <main id="contenido" className={anchoCompleto ? 'flex-1' : 'app-container flex-1 px-4 py-8 sm:px-6 lg:px-8'}>{children}</main>
-    <footer className={`bg-petroleo text-white ${anchoCompleto ? '' : 'mt-12'}`}>
-      <div className="app-container flex flex-wrap items-end justify-between gap-6 px-4 py-10 sm:px-6 lg:px-8">
-        <div><p translate="no" className="flex items-center gap-2 text-2xl font-light tracking-[0.06em]"><IconoBrote className="size-8 text-[#b9d99a]" />AGROSIGNAL</p><p className="mt-2 text-sm text-white/75">Conectamos el campo peruano con quien compra su cosecha.</p></div>
-        <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold text-white/85"><Link href="/" className="hover:text-white">Inicio</Link><Link href="/marketplace" className="hover:text-white">Productos</Link><Link href="/ayuda" className="hover:text-white">Ayuda y preguntas frecuentes</Link></nav>
-      </div>
-    </footer>
+    <div className={anchoCompleto ? '' : 'mt-12'}><SitePie /></div>
   </div>
 }

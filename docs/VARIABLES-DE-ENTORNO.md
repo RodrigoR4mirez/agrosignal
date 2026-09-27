@@ -43,6 +43,13 @@ node --env-file=.env.local scripts/supabase-management.mjs migrate
 El script registra versiones y hashes en `private.agrosignal_migrations`.
 No editar SQL ya aplicado: agregar otra migración.
 
+## Formulario de contacto
+
+`CONTACTO_CORREO` (opcional): casilla que recibe la copia de cada mensaje de `/contacto`. Por
+defecto `agrosignal@gmail.com`. El envío usa [FormSubmit](https://formsubmit.co) sin clave: el
+primer mensaje dispara un correo de activación a esa casilla y hay que confirmarlo una vez.
+Si el envío falla, el mensaje igual queda en `/admin/mensajes`.
+
 ## Pendiente: proveedor de correo
 
 Supabase no tiene SMTP personalizado. Su remitente predeterminado restringe

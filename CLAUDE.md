@@ -39,6 +39,13 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Galería del lote (`components/marketplace/GaleriaLote.tsx`): hasta 5 fotos (`MAX_FOTOS`,
   check en la base); con varias, pila de tarjetas en abanico + miniaturas; al hacer clic, visor
   glass en `<dialog>` con zoom al punto (doble clic/toque, rueda, pellizco), arrastre, deslizar y teclado
+- Pie del sitio único en `components/SitePie.tsx` (landing con `invitacion`); datos de contacto
+  en `lib/contacto/types.ts` (`CONTACTO`: agrosignal@gmail.com, Lima, horario, 3RConsulting). Ciudad
+  y horario son provisionales, por regularizar
+- `/contacto`: formulario (`components/contacto/`) → RPC `enviar_mensaje_contacto` (tabla
+  `mensajes_contacto`, límite anti-spam, aviso a los admin) + copia por correo vía FormSubmit
+  (sin clave; la primera vez pide activar desde agrosignal@gmail.com; destino en `CONTACTO_CORREO`).
+  El admin los lee en `/admin/mensajes`
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`

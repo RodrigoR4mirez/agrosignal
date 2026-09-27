@@ -98,23 +98,11 @@ export default async function Landing() {
           </div>
         </div>
 
-        <div className={`${caja} pb-24 pt-16 lg:pb-32`}>
-          <aside data-revelar="subir" aria-labelledby="sello-bpa" className="grid gap-8 rounded-[20px] border border-petroleo/15 bg-crema p-8 sm:p-10 lg:grid-cols-[1fr_1.6fr] lg:gap-14">
-            <div>
-              <h3 id="sello-bpa" className="text-[28px] font-normal leading-tight text-petroleo">¿Y el Sello BPA del SENASA?</h3>
-              <p className="mt-4 text-[15px] leading-relaxed text-gray-700">Es otra cosa, y lo aceptamos con gusto.</p>
-            </div>
-            <div className="space-y-4 text-[15px] leading-relaxed text-gray-800">
-              <p>El <strong className="font-semibold">Sello de Buenas Prácticas Agrícolas (BPA)</strong> es un distintivo <strong className="font-semibold">oficial</strong> del SENASA, creado por el MIDAGRI en 2025. Es gratuito y voluntario. Lo reciben los predios que el SENASA certifica en buenas prácticas, trae un código de verificación y dura dos años.</p>
-              <p>La <strong className="font-semibold">Verificación AgroSignal</strong> es un control <strong className="font-semibold">propio</strong> de esta plataforma: no la otorga el SENASA ni la reemplaza.</p>
-              <p><strong className="font-semibold">Si tu predio tiene la certificación BPA</strong>, súbela en tu lote como certificado SENASA y suma el nivel 1 de la Verificación AgroSignal.</p>
-              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
-                <Link href={vender} className="inline-flex min-h-11 items-center rounded-full bg-naranja px-6 text-[15px] font-semibold text-petroleo hover:bg-[#f29a5e]">Publicar mi cosecha</Link>
-                <a href="https://www.gob.pe/institucion/senasa/noticias/1290615-gobierno-fortalece-la-inocuidad-y-calidad-de-alimentos-con-nuevo-sello-del-senasa" target="_blank" rel="noopener noreferrer" className="text-[15px] font-semibold text-petroleo underline underline-offset-4">Leer la nota oficial del SENASA<span className="sr-only"> (se abre en otra pestaña)</span></a>
-              </div>
-              <p className="text-xs text-gray-500">El test de residuos de AgroSignal es un examen preliminar y no reemplaza un análisis de laboratorio.</p>
-            </div>
-          </aside>
+        <div className={`${caja} pb-24 pt-14 lg:pb-32`}>
+          <p data-revelar="subir" className="flex max-w-[56rem] flex-wrap items-baseline gap-x-3 gap-y-2 border-l-[3px] border-trigo py-1 pl-5 text-[17px] leading-relaxed text-gray-700">
+            <span><strong className="font-semibold text-petroleo">¿Y el Sello BPA del SENASA?</strong> Es un distintivo oficial distinto a esta verificación. Si tu predio lo tiene, cuenta como nivel 1.</span>
+            <Link href="/ayuda#bpa" className="font-semibold text-petroleo underline underline-offset-4 hover:text-tierra">Conoce la diferencia</Link>
+          </p>
         </div>
       </section>
 

@@ -1,8 +1,11 @@
 import Link from 'next/link'
 import { AppShell } from '@/components/AppShell'
 import { Card } from '@/components/ui/Card'
+import { AbrirPreguntaEnlazada } from '@/components/ayuda/AbrirPreguntaEnlazada'
 
-const accountQuestions = [
+type Pregunta = [id: string, pregunta: string, respuesta: React.ReactNode]
+
+const accountQuestions: Pregunta[] = [
   ['crear-cuenta', '¿Cómo creo una cuenta?', 'Elige Crear cuenta, indica si eres productor o comprador y completa los tres pasos. Confirma el correo con el enlace que recibirás antes de publicar o comprar.'],
   ['correo', 'No recibí el correo de verificación', 'Revisa spam y comprueba que escribiste bien tu correo. En la pantalla Confirma tu correo puedes pedir otro enlace. Espera unos minutos entre intentos. Si el servicio de correo no está disponible, vuelve a intentarlo más tarde.'],
   ['password', 'Olvidé mi contraseña', 'En Ingresar elige Olvidé mi contraseña. Te enviaremos un enlace para crear una nueva. Por tu seguridad, no indicamos si un correo está registrado.'],
@@ -10,7 +13,7 @@ const accountQuestions = [
   ['cuenta-suspendida', '¿Qué hago si mi cuenta está suspendida?', 'Una cuenta suspendida conserva sus datos y puede navegar el catálogo público, pero no puede publicar ni comprar. La revisión y reactivación corresponden al equipo administrador.'],
   ['seguridad', '¿Cómo protejo mi cuenta?', 'Usa una contraseña de al menos 10 caracteres con letras y números. Evita reutilizarla y cierra sesión en equipos compartidos. Nunca compartas tu contraseña ni tus enlaces de acceso.'],
 ]
-const sections = [
+const sections: { id: string; title: string; questions: Pregunta[] }[] = [
   { id: 'cuenta', title: 'Tu cuenta', questions: accountQuestions },
   { id: 'publicaciones', title: 'Publicar y encontrar cosechas', questions: [
     ['publicar', '¿Cómo publico un lote?', 'Ingresa como productor y abre Mi panel → Publicar lote. Completa los datos de la cosecha, su ubicación y las fotos en tres pasos. Revisa el precio, la unidad y la cantidad antes de publicar.'],
@@ -30,8 +33,14 @@ const sections = [
     ['calificar', '¿Cómo califico una compra?', 'Cuando el comprador confirma que recibió la cosecha, comprador y productor tienen 14 días para calificarse desde el pedido, con 1 a 5 estrellas y un comentario opcional. Ninguno ve la calificación del otro hasta que ambos califican (o hasta que vence el plazo). Revísala antes de enviarla: no se puede cambiar.'],
   ] },
   { id: 'inocuidad', title: 'Verificación AgroSignal', questions: [
-    ['bpa', '¿Es lo mismo que el Sello BPA del SENASA?', 'No. La Verificación AgroSignal es un control propio de la plataforma en tres niveles. El Sello BPA es un distintivo oficial, gratuito y voluntario que otorga el SENASA a predios certificados en Buenas Prácticas Agrícolas, con un código de verificación y una vigencia de dos años. Si tu predio tiene ese certificado, súbelo como certificado SENASA: cuenta como nivel 1 de la Verificación AgroSignal.'],
-    ['niveles', '¿Qué significan los tres niveles?', 'El nivel 1 corresponde a un certificado aprobado y vigente; el 2, a una inspección con dron completada; y el 3, a un test de residuos con resultado Pasa. El distintivo muestra el mayor nivel disponible. Consulta también el estado individual de los tres controles en la ficha.'],
+    ['bpa', '¿Es lo mismo que el Sello BPA del SENASA?', <>
+      <span className="block">No, son cosas distintas, y aceptamos con gusto el sello.</span>
+      <span className="mt-3 block">El <strong className="font-semibold text-gray-800">Sello de Buenas Prácticas Agrícolas (BPA)</strong> es un distintivo <strong className="font-semibold text-gray-800">oficial</strong> del SENASA, creado por el MIDAGRI en 2025. Es gratuito y voluntario. Lo reciben los predios que el SENASA certifica en buenas prácticas, trae un código de verificación y dura dos años.</span>
+      <span className="mt-3 block">La <strong className="font-semibold text-gray-800">Verificación AgroSignal</strong> es un control <strong className="font-semibold text-gray-800">propio</strong> de esta plataforma en tres niveles: no la otorga el SENASA ni la reemplaza.</span>
+      <span className="mt-3 block"><strong className="font-semibold text-gray-800">Si tu predio tiene la certificación BPA</strong>, súbela en tu lote como certificado SENASA y suma el nivel 1 de la Verificación AgroSignal.</span>
+      <a href="https://www.gob.pe/institucion/senasa/noticias/1290615-gobierno-fortalece-la-inocuidad-y-calidad-de-alimentos-con-nuevo-sello-del-senasa" target="_blank" rel="noopener noreferrer" className="mt-3 inline-block font-semibold text-[#1a5c2a] underline underline-offset-4">Leer la nota oficial del SENASA<span className="sr-only"> (se abre en otra pestaña)</span></a>
+    </>],
+    ['niveles', '¿Qué significan los tres niveles?', 'El nivel 1 corresponde a un certificado aprobado y vigente; el 2, a una inspección con dron completada; y el 3, a un test de residuos con resultado Pasa. El distintivo muestra el mayor nivel disponible. Consulta también el estado individual de los tres controles en la ficha. El test de residuos es un examen preliminar y no reemplaza un análisis de laboratorio.'],
     ['documentos', '¿Cómo solicito una verificación?', 'Como productor, abre Mis lotes → Verificaciones. Puedes enviar un certificado con su vigencia y archivo, o solicitar una inspección con dron. La administración revisa los documentos y registra la evidencia de los vuelos y tests realizados.'],
     ['evidencia', '¿Quién puede ver mis documentos y evidencias?', 'Solo el productor dueño y la administración pueden abrir certificados, fotos de tests y evidencias de dron. El público ve el estado de las verificaciones. Si un enlace privado vence, actualiza la página para abrirlo nuevamente.'],
     ['test-fallido', '¿Qué pasa si un test indica No pasa?', 'El lote se bloquea y deja de aparecer en el marketplace. Se avisa al productor y a la administración, y se impiden nuevos pedidos y envíos. Registrar después un resultado Pasa no levanta el bloqueo anterior.'],
@@ -40,9 +49,9 @@ const sections = [
 ]
 
 export default function HelpPage() {
-  return <AppShell><div className="mb-8"><p className="mb-2 text-sm font-semibold text-[#b8860f]">Estamos para orientarte</p><h1 className="text-3xl font-extrabold text-[#1a5c2a]">Ayuda y preguntas frecuentes</h1><p className="mt-3 text-gray-600">Publica, compra y revisa tus verificaciones con información clara.</p></div>
+  return <AppShell><AbrirPreguntaEnlazada /><div className="mb-8"><p className="mb-2 text-sm font-semibold text-[#b8860f]">Estamos para orientarte</p><h1 className="text-3xl font-extrabold text-[#1a5c2a]">Ayuda y preguntas frecuentes</h1><p className="mt-3 text-gray-600">Publica, compra y revisa tus verificaciones con información clara.</p></div>
     <nav aria-label="Temas de ayuda" className="mb-8 flex flex-wrap gap-3">{sections.map(section => <a key={section.id} href={`#${section.id}`} className="rounded-xl border border-green-700 px-4 py-3 text-sm font-semibold text-[#1a5c2a]">{section.title}</a>)}</nav>
-    <div className="space-y-10">{sections.map(section => <section id={section.id} key={section.id} className="scroll-mt-6" aria-labelledby={`${section.id}-title`}><h2 id={`${section.id}-title`} className="mb-5 text-2xl font-bold text-[#1a5c2a]">{section.title}</h2><div className="grid items-start gap-4 md:grid-cols-2">{section.questions.map(([id, question, answer]) => <Card key={id}><details id={id} className="scroll-mt-6"><summary className="min-h-11 cursor-pointer py-2 font-bold text-gray-900">{question}</summary><p className="mt-4 text-sm leading-relaxed text-gray-600">{answer}</p></details></Card>)}</div></section>)}</div>
+    <div className="space-y-10">{sections.map(section => <section id={section.id} key={section.id} className="scroll-mt-6" aria-labelledby={`${section.id}-title`}><h2 id={`${section.id}-title`} className="mb-5 text-2xl font-bold text-[#1a5c2a]">{section.title}</h2><div className="grid items-start gap-4 md:grid-cols-2">{section.questions.map(([id, question, answer]) => <Card key={id}><details id={id} className="scroll-mt-28"><summary className="min-h-11 cursor-pointer py-2 font-bold text-gray-900">{question}</summary><p className="mt-4 text-sm leading-relaxed text-gray-600">{answer}</p></details></Card>)}</div></section>)}</div>
     <div className="mt-8 flex flex-wrap gap-5 text-sm font-semibold text-[#1a5c2a]"><Link href="/registro" className="underline">Crear cuenta</Link><Link href="/recuperar-password" className="underline">Recuperar contraseña</Link><Link href="/verificar-correo" className="underline">Confirmar correo</Link></div>
   </AppShell>
 }

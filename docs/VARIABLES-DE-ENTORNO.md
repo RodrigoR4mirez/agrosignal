@@ -50,6 +50,10 @@ defecto `agrosignal@gmail.com`. El envío usa [FormSubmit](https://formsubmit.co
 primer mensaje dispara un correo de activación a esa casilla y hay que confirmarlo una vez.
 Si el envío falla, el mensaje igual queda en `/admin/mensajes`.
 
+Opción recomendada: `RESEND_API_KEY` (y opcional `RESEND_FROM`). Con la clave, el aviso sale por
+[Resend](https://resend.com) en lugar de FormSubmit. Sin dominio verificado, Resend solo entrega
+al correo con el que se creó la cuenta, así que crea la cuenta con el mismo correo de `CONTACTO_CORREO`.
+
 ## Pendiente: proveedor de correo
 
 Supabase no tiene SMTP personalizado. Su remitente predeterminado restringe

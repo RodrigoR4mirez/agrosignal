@@ -9,19 +9,37 @@ import type { ActionState } from '@/lib/supabase/types'
 
 const texto = (form: FormData, clave: string) => String(form.get(clave) ?? '').trim()
 
-// Aviso por correo a través de FormSubmit (sin cuenta ni clave; la primera vez envía un correo de
-// activación a la casilla de destino). Si falla, el mensaje igual queda guardado para el admin.
+const esc = (t: string) => t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+// Copia por correo del mensaje. Con RESEND_API_KEY usa Resend (confiable; sin dominio propio solo
+// entrega al correo con el que se creó la cuenta de Resend). Sin clave usa FormSubmit, que pide
+// activar una vez desde la casilla de destino. Si falla, el mensaje igual queda para el admin.
 async function avisarPorCorreo(datos: Record<string, string>) {
   const destino = process.env.CONTACTO_CORREO || CONTACTO.correo
-  const origen = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agrosignal.vercel.app').origin
+  const asunto = `AgroSignal · ${datos.Asunto} · ${datos.Nombre}`
   try {
+    if (process.env.RESEND_API_KEY) {
+      const filas = Object.entries(datos).map(([k, v]) => `<tr><td style="padding:8px 12px;color:#6b7280;vertical-align:top">${esc(k)}</td><td style="padding:8px 12px;color:#133535;white-space:pre-wrap">${esc(v)}</td></tr>`).join('')
+      const r = await fetch('https://api.resend.com/emails', {
+        method: 'POST', signal: AbortSignal.timeout(8000),
+        headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ from: process.env.RESEND_FROM || 'AgroSignal <onboarding@resend.dev>', to: [destino], reply_to: datos.Correo, subject: asunto,
+          html: `<div style="font-family:Arial,sans-serif"><h2 style="color:#133535;font-weight:normal">Nuevo mensaje desde Contáctanos</h2><table style="border-collapse:collapse;font-size:14px">${filas}</table></div>`,
+          text: Object.entries(datos).map(([k, v]) => `${k}: ${v}`).join('\n') }),
+      })
+      if (!r.ok) console.error('Resend', r.status, await r.text())
+      return r.ok
+    }
+    const origen = new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://agrosignal.vercel.app').origin
     const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(destino)}`, {
       method: 'POST', signal: AbortSignal.timeout(8000),
       headers: { 'Content-Type': 'application/json', Accept: 'application/json', Origin: origen, Referer: `${origen}/contacto` },
-      body: JSON.stringify({ _subject: `AgroSignal · ${datos.Asunto} · ${datos.Nombre}`, _template: 'table', _captcha: 'false', _replyto: datos.Correo, ...datos }),
+      body: JSON.stringify({ _subject: asunto, _template: 'table', _captcha: 'false', _replyto: datos.Correo, ...datos }),
     })
-    return r.ok
-  } catch { return false }
+    const cuerpo = await r.json().catch(() => null) as { success?: string; message?: string } | null
+    if (cuerpo?.success !== 'true') console.error('FormSubmit', cuerpo?.message ?? r.status)
+    return cuerpo?.success === 'true'
+  } catch (e) { console.error('Correo de contacto', e); return false }
 }
 
 export async function enviarContactoAction(_: ContactoState, form: FormData): Promise<ContactoState> {

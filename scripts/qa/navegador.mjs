@@ -25,6 +25,13 @@ export async function abrirNavegador({ ancho = 1440, alto = 900 } = {}) {
   return {
     ir: async (url, ms = 5000) => { await cmd('Page.navigate', { url }); await esperar(ms) },
     js: async expr => (await cmd('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true })).result?.result?.value,
+    // Elige un archivo local en un <input type="file"> (dispara los eventos como una persona).
+    subirArchivo: async (selector, ruta) => {
+      const r = await cmd('Runtime.evaluate', { expression: `document.querySelector(${JSON.stringify(selector)})` })
+      const objectId = r.result?.result?.objectId
+      if (!objectId) throw new Error(`No existe ${selector}`)
+      await cmd('DOM.setFileInputFiles', { files: [ruta], objectId })
+    },
     captura: async archivo => { const r = await cmd('Page.captureScreenshot', { format: 'png' }); fs.writeFileSync(archivo, Buffer.from(r.result.data, 'base64')) },
     cerrar: async () => {
       ws.close()

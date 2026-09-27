@@ -62,7 +62,7 @@ export default function FenomenoNino() {
               🌾
             </div>
             <div>
-              <h1 className="text-base font-extrabold tracking-tight text-gradient-brand leading-none">
+              <h1 translate="no" className="text-xl font-semibold text-bosque leading-none">
                 AgroSignal
               </h1>
               <p className="text-[11px] text-gray-400 tracking-wide hidden sm:block mt-0.5">
@@ -81,10 +81,10 @@ export default function FenomenoNino() {
       <main className="app-container px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
 
         {/* Tagline */}
-        <div className="relative overflow-hidden rounded-3xl bg-linear-to-br from-[#4a1d10] to-[#c2410c] px-8 sm:px-10 py-9 sm:py-11 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-orange-900/15">
+        <div className="relative overflow-hidden rounded-[28px] bg-linear-to-br from-cacao to-tierra px-8 sm:px-10 py-9 sm:py-11 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 shadow-lg shadow-orange-900/15">
           <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-sky-400/15 blur-3xl pointer-events-none" />
           <div className="relative">
-            <h2 className="text-[32px] sm:text-4xl font-bold text-white mb-3 leading-tight">
+            <h2 className="text-[32px] sm:text-5xl font-medium text-arena-claro mb-3 leading-tight">
               🌊 El Niño 2026–2027: pronóstico climático internacional
             </h2>
             <p className="text-base text-orange-100/85">

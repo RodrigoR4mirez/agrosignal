@@ -21,7 +21,7 @@ export default function Home() {
               🌾
             </div>
             <div>
-              <h1 className="text-base font-bold tracking-tight text-gradient-brand leading-none">
+              <h1 translate="no" className="text-xl font-semibold text-bosque leading-none">
                 AgroSignal
               </h1>
               <p className="text-[11px] text-gray-400 tracking-wide hidden sm:block mt-1">
@@ -29,7 +29,7 @@ export default function Home() {
               </p>
             </div>
           </div>
-          <div className="text-right shrink-0 leading-tight">
+          <div className="hidden sm:block text-right shrink-0 leading-tight">
             <div className="text-xs text-gray-400 font-normal">Actualización</div>
             <div className="text-xs text-gray-600 font-medium mt-0.5">Mensual · NASA POWER + FAOSTAT</div>
           </div>
@@ -41,10 +41,9 @@ export default function Home() {
       <main className="app-container px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
 
         {/* Tagline — foco visual principal de la página */}
-        <div className="card-surface relative overflow-hidden bg-linear-to-br from-[var(--brand-green-900)] to-[var(--brand-green-600)] px-8 sm:px-10 py-8 sm:py-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-          <div className="absolute -top-24 -right-16 w-72 h-72 rounded-full bg-[var(--brand-gold-400)]/20 blur-3xl pointer-events-none" />
+        <div className="leaf-texture relative overflow-hidden rounded-[28px] px-8 sm:px-12 py-10 sm:py-12 flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div className="relative">
-            <h2 className="text-[32px] sm:text-4xl font-bold text-white mb-2 leading-tight">
+            <h2 className="text-[32px] sm:text-5xl font-medium text-arena-claro mb-3 leading-tight">
               Monitor de Riesgo Agrícola — Perú {new Date().getFullYear()}
             </h2>
             <p className="text-base font-medium text-emerald-100/85">
@@ -59,7 +58,7 @@ export default function Home() {
 
         {/* Banner: El Niño 2026-2027 — más compacto y menos saturado que el hero */}
         <Link href="/fenomeno-nino" className="group block">
-          <div className="card-surface relative overflow-hidden bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center group-hover:shadow-[var(--shadow-card-hover)] group-hover:-translate-y-0.5">
+          <div className="card-surface relative overflow-hidden rounded-[22px] bg-linear-to-r from-cacao to-tierra px-6 sm:px-8 py-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center group-hover:shadow-[var(--shadow-card-hover)] group-hover:-translate-y-0.5">
             <div className="relative flex items-center gap-4 min-w-0">
               <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0">
                 🌊

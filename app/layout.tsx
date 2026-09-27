@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from 'next'
-import { Plus_Jakarta_Sans } from 'next/font/google'
+import { Fraunces, Plus_Jakarta_Sans } from 'next/font/google'
 import './globals.css'
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   variable: '--font-jakarta',
   display: 'swap',
+})
+
+// Serif orgánica para títulos; el texto corrido sigue en Plus Jakarta Sans.
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  variable: '--font-fraunces',
+  display: 'swap',
+  axes: ['SOFT', 'opsz'],
 })
 
 export const metadata: Metadata = {
@@ -27,7 +35,7 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className={jakarta.variable} data-scroll-behavior="smooth">
+    <html lang="es" className={`${jakarta.variable} ${fraunces.variable}`} data-scroll-behavior="smooth">
       <body style={{ margin: 0, padding: 0 }} className="font-sans">
         {children}
       </body>

@@ -14,11 +14,12 @@ This block is written and re-added by `next dev` — verify at `node_modules/nex
 
 Este archivo define cómo debe organizarse el trabajo de construcción del
 **marketplace funcional** de AgroSignal (login por roles, transacciones,
-Sello de Inocuidad, panel admin) sobre el dashboard de riesgo climático que
-ya existe en este repo. Léelo antes de empezar cualquier módulo nuevo.
+Sello de Inocuidad, panel admin). AgroSignal es solo el marketplace: el
+antiguo dashboard climático se retiró. Léelo antes de empezar cualquier
+módulo nuevo.
 
-Para contexto del proyecto (paleta, convenciones de Tailwind, pipeline de
-datos climáticos, flujo de imágenes de Stitch), ver `CLAUDE.md` — ese
+Para contexto del proyecto (paleta, convenciones de Tailwind, datos de
+ejemplo), ver `CLAUDE.md` — ese
 archivo NO se toca desde acá, es la fuente de verdad de convenciones
 existentes. Este archivo (`AGENTS.md`) es la fuente de verdad de **cómo
 dividir el trabajo en agentes** para las funcionalidades nuevas.
@@ -50,9 +51,8 @@ inocuidad, panel admin — solo quién es el usuario y qué puede ver.
 ## Agente: `marketplace`
 
 **Responsabilidad:** publicación de lotes, edición, búsqueda, filtros, vista
-pública del marketplace (reemplaza gradualmente el mock actual bloqueado
-"PRO" en `app/marketplace` y `app/pro`), subida de imágenes a Supabase
-Storage.
+pública del marketplace (`app/marketplace`; `app/pro` solo redirige),
+subida de imágenes a Supabase Storage.
 
 **Puede tocar:** `app/marketplace/*`, tabla `lotes`, componentes de tarjetas
 de producto.

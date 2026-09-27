@@ -57,7 +57,7 @@ export function Portada({ publicarHref }: { publicarHref: string | null }) {
       <div className="grid grid-cols-2 gap-4 sm:gap-5 lg:grid-cols-3">
         {CULTIVOS.slice(0, 3).map(c => <Mosaico key={c.nombre} {...c} />)}
         <div className="relative min-h-44 overflow-hidden rounded-[22px] shadow-[var(--shadow-card)]">
-          <Image src="/pro/hero-agricultor-sembrando.jpg" alt="Agricultor sembrando a mano en un campo arado" fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-cover" />
+          <Image src="/marketplace/hero-agricultor-sembrando.jpg" alt="Agricultor sembrando a mano en un campo arado" fill sizes="(max-width: 1024px) 50vw, 33vw" className="object-cover" />
         </div>
         {CULTIVOS.slice(3).map(c => <Mosaico key={c.nombre} {...c} />)}
       </div>

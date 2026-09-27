@@ -17,12 +17,12 @@ const fraunces = Fraunces({
 })
 
 export const metadata: Metadata = {
-  title: 'AgroSignal — Inteligencia para el campo peruano',
-  description: 'Anticipa la cosecha, asegura tu negocio. Datos climáticos y predictivos para agricultores y compradores del Perú.',
-  keywords: 'agricultura, cosecha, Perú, datos, clima, riesgo agrícola',
+  title: 'AgroSignal — Marketplace de cosechas del Perú',
+  description: 'Compra cosechas directo de productores peruanos. Compara lotes, revisa su Sello de Inocuidad y haz tu pedido sin intermediarios.',
+  keywords: 'marketplace agrícola, cosechas, productores, Perú, palta, café, cacao, arándano',
   openGraph: {
     title: 'AgroSignal',
-    description: 'Anticipa la cosecha, asegura tu negocio.',
+    description: 'Cosechas peruanas, directo de quien las cultiva.',
     type: 'website',
   }
 }

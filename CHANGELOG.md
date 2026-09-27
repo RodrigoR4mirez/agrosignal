@@ -1,3 +1,24 @@
+## [2.0.0] — 2026-09-26
+
+AgroSignal pasa a ser solo el marketplace.
+
+### Eliminado
+- Dashboard de riesgo climático (`/`), página `/fenomeno-nino` y sus 10
+  componentes, `lib/parseData.ts`, `lib/nombres.ts` y los CSVs de `data/`.
+- Dependencias `recharts` y `papaparse`.
+- Diseños de referencia de Stitch (`UX-stitch_agrosignal_marketplace/`),
+  imágenes sin uso de `public/`, `setup-agrosignal.sh` y `scripts/copiar_datos.sh`.
+- Cron mensual que publicaba los datos climáticos en el repo.
+
+### Cambiado
+- `/` redirige a `/marketplace`; header, footer, ayuda y panel de productor
+  sin enlaces al monitor climático.
+- README, CLAUDE.md, AGENTS.md y `docs/` describen solo el marketplace.
+
+### Agregado (misma fecha, antes de la limpieza)
+- Rediseño con estética tierra (Fraunces, bosque/musgo/tierra/cacao/arena).
+- Datos de ejemplo etiquetados y no comprables, con scripts de carga y retiro.
+
 ## [1.4.0] — 2026-07-09
 
 ### Agregado

@@ -27,9 +27,8 @@ cuatro buckets solicitados. Solo las fotos de lotes son públicas. La app usa
 sesiones, RLS y operaciones de base de datos que validan permisos; no utiliza
 la clave de servicio para ejecutar acciones de usuarios.
 
-El dashboard climático conserva sus datos, su lógica y su generación estática.
-Se añadieron accesos al marketplace y a Ayuda. `CLAUDE.md` y los archivos previos
-ajenos al encargo se conservaron.
+En esta ejecución el dashboard climático se conservó intacto; se retiró
+después, el 26 set 2026, para dejar AgroSignal enfocado en el marketplace.
 
 ## Verificaciones realizadas
 
@@ -69,8 +68,7 @@ Git y del despliegue.
    confirmación de correo permanece activa; no se debilitó para eludir el problema.
    Instrucciones en [VARIABLES-DE-ENTORNO.md](./VARIABLES-DE-ENTORNO.md).
 2. **Avisos no bloqueantes de herramientas:** `npm run lint` termina sin errores
-   y conserva 12 avisos de imágenes en componentes antiguos de Stitch que ya
-   no se renderizan. Vercel advierte sobre el `postinstall` no autorizado de
+   y sin avisos (los componentes antiguos de Stitch se eliminaron). Vercel advierte sobre el `postinstall` no autorizado de
    `unrs-resolver`, dependencia de desarrollo; el build termina correctamente.
    No se habilitaron scripts adicionales para ocultar ese aviso.
 

@@ -16,14 +16,6 @@
 }
 
 :root {
-  --brand-green-900: #0f2e17;
-  --brand-green-700: #14532d;
-  --brand-green-600: #1a5c2a;
-  --brand-green-500: #2f7d3f;
-  --brand-green-400: #4ade80;
-  --brand-gold-600: #b8860f;
-  --brand-gold-500: #d4a017;
-  --brand-gold-400: #f0c14b;
   --surface: #eef0e6;
   --border-soft: #dfe3d4;
 
@@ -68,12 +60,6 @@ html, body {
   margin-inline: auto;
 }
 
-.section-gap {
-  display: flex;
-  flex-direction: column;
-  gap: 32px;
-}
-
 ::selection {
   background: rgba(26, 92, 42, 0.18);
 }
@@ -91,13 +77,6 @@ html, body {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #b9beac;
-}
-
-.text-gradient-brand {
-  background-image: linear-gradient(135deg, var(--brand-green-600), var(--brand-green-500) 55%, var(--brand-gold-500));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
 }
 
 h1, h2, h3, .font-display {

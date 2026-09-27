@@ -12,8 +12,6 @@ export async function AppShell({ children, profile: suppliedProfile }: { childre
         <Link href="/marketplace" translate="no" className="font-display text-2xl font-semibold text-bosque">Agro<span className="text-tierra">Signal</span></Link>
         <nav aria-label="Navegación principal" className="flex flex-wrap items-center gap-x-5 gap-y-3 text-sm font-semibold">
           <Link href="/marketplace" className="text-gray-700 hover:text-bosque">Marketplace</Link>
-          <Link href="/" className="text-gray-700 hover:text-bosque">Riesgo climático</Link>
-          <Link href="/fenomeno-nino" className="text-gray-700 hover:text-bosque">El Niño</Link>
           <Link href="/ayuda" className="text-gray-700 hover:text-bosque">Ayuda</Link>
           {profile ? <>
             <Link href={profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]} className="text-bosque">Mi panel</Link>
@@ -30,7 +28,7 @@ export async function AppShell({ children, profile: suppliedProfile }: { childre
     <footer className="leaf-texture mt-12 text-arena-claro">
       <div className="app-container flex flex-wrap items-end justify-between gap-6 px-4 py-10 sm:px-6 lg:px-8">
         <div><p translate="no" className="font-display text-2xl text-white">AgroSignal</p><p className="mt-1 text-sm text-arena-claro/80">Conectamos el campo peruano con quien compra su cosecha.</p></div>
-        <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold"><Link href="/marketplace" className="hover:text-white">Marketplace</Link><Link href="/" className="hover:text-white">Riesgo climático</Link><Link href="/fenomeno-nino" className="hover:text-white">El Niño</Link><Link href="/ayuda" className="underline underline-offset-4 hover:text-white">Ayuda y preguntas frecuentes</Link></nav>
+        <nav aria-label="Pie de página" className="flex flex-wrap gap-x-6 gap-y-2 text-sm font-semibold"><Link href="/marketplace" className="hover:text-white">Marketplace</Link><Link href="/ayuda" className="underline underline-offset-4 hover:text-white">Ayuda y preguntas frecuentes</Link></nav>
       </div>
     </footer>
   </div>

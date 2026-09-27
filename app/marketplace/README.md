@@ -1,7 +1,6 @@
 # AgroSignal Marketplace (`/marketplace`)
 
-Catálogo público conectado a Supabase. El dashboard climático de `/` sigue
-usando sus CSV y conserva su funcionamiento independiente.
+Catálogo público conectado a Supabase. Es la página principal: `/` redirige aquí.
 
 ## Rutas y componentes activos
 
@@ -44,13 +43,18 @@ no se elimina ninguna evidencia ni ningún objeto todavía referenciado.
 La eliminación de un lote con pedidos o verificaciones es rechazada por sus
 claves foráneas. Se informa al productor que puede poner el stock en 0.
 
-## Diseño anterior
+## Diseño
 
-Los componentes del landing original de Stitch (`_components/`, `marketplace.css`
-y los de `/pro`) se eliminaron el 26 sep 2026 porque ya no se renderizaban.
-El diseño de referencia sigue en `UX-stitch_agrosignal_marketplace/` y el
-código en el historial de git (commit `89eb187`). Las fotos de
-`public/marketplace` y `public/pro` se conservan. `/pro` redirige a `/marketplace`.
+La portada (`components/marketplace/Portada.tsx`) usa dos fotos de
+`public/marketplace/`, ambas con [Pexels License](https://www.pexels.com/license/)
+(uso comercial gratuito, sin atribución obligatoria):
+
+- `hero-valle-sagrado-terrazas.jpg` — Willian Justen de Vasconcellos,
+  [Pexels](https://pexels.com/photo/view-of-steps-of-machu-picchu-and-a-green-valley-22484296/)
+- `hero-agricultor-sembrando.jpg` — Beyza Yalçın,
+  [Pexels](https://pexels.com/photo/man-scattering-seeds-in-a-field-19136500/)
+
+`/pro` redirige a `/marketplace`.
 
 El flujo documental, de drones y de tests está implementado en `/verificaciones/[id]`.
 El catálogo muestra el mayor nivel y la ficha detalla los tres estados, sin

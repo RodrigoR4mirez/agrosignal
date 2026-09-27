@@ -35,7 +35,6 @@ const sections = [
     ['evidencia', '¿Quién puede ver mis documentos y evidencias?', 'Solo el productor dueño y la administración pueden abrir certificados, fotos de tests y evidencias de dron. El público ve el estado de las verificaciones. Si un enlace privado vence, actualiza la página para abrirlo nuevamente.'],
     ['test-fallido', '¿Qué pasa si un test indica No pasa?', 'El lote se bloquea y deja de aparecer en el marketplace. Se avisa al productor y a la administración, y se impiden nuevos pedidos y envíos. Registrar después un resultado Pasa no levanta el bloqueo anterior.'],
     ['exportacion', '¿El sello garantiza que puedo exportar?', 'La plataforma recomienda contar con los tres controles para lotes destinados a exportación. El distintivo describe las verificaciones registradas: no reemplaza los requisitos del destino ni un análisis de laboratorio.'],
-    ['clima', '¿Cómo se relaciona con el riesgo climático?', 'El monitor climático ofrece estimaciones de riesgo a partir de sus fuentes de datos. Las publicaciones y verificaciones del marketplace se gestionan por separado. Consulta el detalle del monitor para conocer sus alcances.'],
   ] },
 ]
 

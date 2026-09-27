@@ -33,11 +33,11 @@ funcione en producción.
 - `evidencia-drones` (privado)
 - `evidencia-tests` (privado)
 
-## Nota sobre el pipeline climático existente
+## Nota sobre el antiguo pipeline climático
 
-El pipeline de datos climáticos (`actualizar.py`, NASA POWER, FAOSTAT)
-sigue viviendo fuera de este repo, en iCloud, tal como está documentado en
-`CLAUDE.md`. El despliegue del marketplace no afecta ese flujo.
+El dashboard climático y su pipeline mensual (`actualizar.py`, NASA POWER,
+FAOSTAT) se retiraron del proyecto el 26 set 2026. El repo ya no contiene
+CSVs de `data/` y el cron que los publicaba quedó desactivado.
 
 ## Despliegue verificado — 26 de septiembre de 2026
 
@@ -80,8 +80,8 @@ no utiliza la clave de servicio para operar como usuarios.
 
 ### Comprobaciones de infraestructura
 
-- HTTP 200 en inicio climático, fenómeno El Niño, marketplace, ayuda,
-  registro, login y recuperación de contraseña.
+- HTTP 200 en marketplace, ayuda, registro, login y recuperación de
+  contraseña (en ese momento también en las páginas climáticas, hoy retiradas).
 - `/pro` redirige al marketplace; una ruta inexistente devuelve la página
   404 en español.
 - Los tres paneles redirigen a login sin sesión. Con las cuentas QA de

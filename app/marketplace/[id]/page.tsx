@@ -9,7 +9,8 @@ import { getPublicLot } from '@/lib/marketplace/data'
 import { getPerfilProductor } from '@/lib/calificaciones/data'
 import { ReputacionCompacta, ResumenReputacion } from '@/components/calificaciones/Reputacion'
 import { getProfile } from '@/lib/supabase/auth'
-import { COSECHA, descripcionVisible, esEjemplo, money, photoUrl, quantity, uuidPattern } from '@/lib/marketplace/types'
+import { COSECHA, descripcionVisible, descuento, esEjemplo, money, photoUrl, quantity, uuidPattern } from '@/lib/marketplace/types'
+import { Avatar } from '@/components/perfil/Avatar'
 
 export default async function LotDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
@@ -20,7 +21,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
   const ejemplo = esEjemplo(lot)
   const descripcion = descripcionVisible(lot)
   const photos = lot.fotos.flatMap(path => { const url = photoUrl(path); return url ? [url] : [] })
-  const iniciales = lot.productor_nombre.split(/\s+/).filter(Boolean).slice(0, 2).map(parte => parte[0]).join('').toUpperCase()
+  const rebaja = descuento(lot)
   const datos: [string, string][] = [
     ['Disponible', `${quantity(lot.cantidad_disponible)} ${lot.unidad}`], ['Estado', COSECHA[lot.estado_cosecha]],
     ['Destino', lot.destino === 'local' ? 'Mercado local' : 'Exportación'], ['Ubicación', `${lot.distrito}, ${lot.provincia}, ${lot.region}`],
@@ -46,7 +47,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
         <div className="rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8">
           <p className="flex items-center gap-1.5 text-sm font-semibold text-tierra"><svg viewBox="0 0 24 24" aria-hidden="true" className="size-4 shrink-0" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z" /><circle cx="12" cy="9.5" r="2.5" /></svg>{lot.provincia}, {lot.region}</p>
           <h1 className="mt-2 wrap-anywhere text-4xl font-normal leading-tight text-petroleo sm:text-5xl">{lot.cultivo}</h1>
-          <p className="mt-5 wrap-anywhere text-4xl font-bold tabular-nums text-petroleo">{money(lot.precio_unidad)}<span className="ml-2 text-base font-normal text-gray-500">por {lot.unidad}</span></p>
+          <div className="mt-5 flex flex-wrap items-baseline gap-x-3 gap-y-1"><p className="wrap-anywhere text-4xl font-bold tabular-nums text-petroleo">{money(lot.precio_unidad)}<span className="ml-2 text-base font-normal text-gray-500">por {lot.unidad}</span></p>{rebaja && <><p className="text-lg tabular-nums text-gray-400 line-through"><span className="sr-only">Antes </span>{money(Number(lot.precio_anterior))}</p><span className="rounded-full bg-naranja px-3 py-1 text-sm font-bold text-petroleo">−{rebaja}%</span></>}</div>
           <ul className="mt-5 flex flex-wrap gap-2 text-sm">
             <li className="rounded-full bg-crema px-3 py-1.5 font-semibold text-petroleo">{quantity(lot.cantidad_disponible)} {lot.unidad} disponibles</li>
             <li className="rounded-full bg-crema px-3 py-1.5 text-petroleo">{COSECHA[lot.estado_cosecha]}</li>
@@ -55,7 +56,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
           <div className="mt-5"><SelloInocuidadBadge nivel={lot.nivel_sello} /></div>
           {accion && <div className="mt-7">{accion}</div>}
           <Link href={`/marketplace/productor/${lot.productor_id}`} className="group mt-7 flex items-center gap-3 border-t border-[#f0ebdf] pt-6">
-            <span aria-hidden="true" className="grid size-11 shrink-0 place-items-center rounded-full bg-crema text-sm font-bold text-petroleo ring-1 ring-[#ebe4d4]">{iniciales}</span>
+            <Avatar nombre={lot.productor_nombre} foto={lot.productor_foto} className="size-12 text-sm" />
             <span className="min-w-0"><span className="block text-xs text-gray-500">Publicado por</span><span className="block truncate font-semibold text-gray-900 underline-offset-4 group-hover:underline">{lot.productor_nombre}</span><ReputacionCompacta promedio={lot.productor_promedio} total={lot.productor_calificaciones} /></span>
           </Link>
         </div>

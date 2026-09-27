@@ -13,6 +13,7 @@ function parseFields(form: FormData) {
   const fields = {
     cultivo: text('cultivo'), region: text('region'), provincia: text('provincia'), distrito: text('distrito'),
     cantidad_disponible: Number(text('cantidad_disponible')), precio_unidad: Number(text('precio_unidad')),
+    precio_anterior: text('precio_anterior') ? Number(text('precio_anterior')) : null,
     unidad: text('unidad'), estado_cosecha: text('estado_cosecha'), nivel_riesgo: text('nivel_riesgo'), destino: text('destino'), descripcion: text('descripcion'),
   }
   if (fields.cultivo.length < 2 || fields.cultivo.length > 100) return { error: 'Escribe un cultivo de 2 a 100 caracteres.' }
@@ -20,6 +21,7 @@ function parseFields(form: FormData) {
   if ([fields.provincia, fields.distrito].some(x => x.length < 2 || x.length > 80)) return { error: 'Indica la provincia y el distrito, de 2 a 80 caracteres.' }
   if (!/^\d{1,11}(\.\d{1,3})?$/.test(text('cantidad_disponible')) || !Number.isFinite(fields.cantidad_disponible)) return { error: 'Indica una cantidad válida, con hasta 3 decimales.' }
   if (!/^\d{1,12}(\.\d{1,2})?$/.test(text('precio_unidad')) || fields.precio_unidad <= 0 || !Number.isFinite(fields.precio_unidad)) return { error: 'Indica un precio mayor a cero, con hasta 2 decimales.' }
+  if (fields.precio_anterior !== null && (!/^\d{1,12}(\.\d{1,2})?$/.test(text('precio_anterior')) || !(fields.precio_anterior > fields.precio_unidad) || fields.precio_anterior > fields.precio_unidad * 20)) return { error: 'El precio antes del descuento debe ser mayor que el precio actual (hasta 20 veces), o déjalo vacío.' }
   if (!['kg', 'ton'].includes(fields.unidad) || !['disponible', 'en_cosecha', 'proxima'].includes(fields.estado_cosecha) || !['bajo', 'medio', 'alto'].includes(fields.nivel_riesgo) || !['local', 'exportacion'].includes(fields.destino)) return { error: 'Revisa la unidad, el estado de cosecha, el riesgo y el destino.' }
   if (fields.descripcion.length > 300) return { error: 'La descripción puede tener hasta 300 caracteres.' }
   return { fields }
@@ -81,4 +83,17 @@ export async function deleteLot(_state: ActionState, form: FormData): Promise<Ac
   }
   for (const path of ['/marketplace', `/marketplace/${id}`, '/panel-productor', '/panel-productor/mis-lotes']) revalidatePath(path)
   redirect(`/panel-productor/mis-lotes?eliminado=1${cleanupFailed ? '&limpieza=1' : ''}`)
+}
+
+// Guarda (o quita) la foto de perfil ya subida a fotos-perfil y borra la anterior.
+export async function guardarFotoPerfil(ruta: string | null): Promise<ActionState> {
+  const profile = await requireRole('productor')
+  if (ruta !== null && !new RegExp(`^${profile.id}/[0-9a-f-]{36}\\.(jpg|jpeg|png|webp)$`).test(ruta)) return { error: 'La foto no es válida. Vuelve a subirla.' }
+  const db = await createClient()
+  const anterior = profile.foto ?? null
+  const { data, error } = await db.from('perfiles').update({ foto: ruta }).eq('id', profile.id).select('id').maybeSingle()
+  if (error || !data) return { error: 'No pudimos guardar la foto. Intenta nuevamente.' }
+  if (anterior && anterior !== ruta) await db.storage.from('fotos-perfil').remove([anterior])
+  revalidatePath('/panel-productor'); revalidatePath('/marketplace', 'layout')
+  return {}
 }

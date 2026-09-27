@@ -21,7 +21,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
   const [progress, setProgress] = useState('')
   const [values, setValues] = useState<Record<string, string>>({
     cultivo: initial?.cultivo ?? '', region: initial?.region ?? '', provincia: initial?.provincia ?? '', distrito: initial?.distrito ?? '',
-    cantidad_disponible: initial ? String(initial.cantidad_disponible) : '', precio_unidad: initial ? String(initial.precio_unidad) : '',
+    cantidad_disponible: initial ? String(initial.cantidad_disponible) : '', precio_unidad: initial ? String(initial.precio_unidad) : '', precio_anterior: initial?.precio_anterior ? String(initial.precio_anterior) : '',
     unidad: initial?.unidad ?? 'kg', estado_cosecha: initial?.estado_cosecha ?? 'disponible', nivel_riesgo: initial?.nivel_riesgo ?? 'medio', destino: initial?.destino ?? 'local', descripcion: initial?.descripcion ?? '',
   })
   const [photos, setPhotos] = useState<Photo[]>(() => [...new Set([...(initial?.fotos ?? []), ...recoveredPhotos])].slice(0, 6).flatMap(path => {
@@ -45,6 +45,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (pending) return
+    if (step === 1 && values.precio_anterior && !(Number(values.precio_anterior) > Number(values.precio_unidad))) { setState({ error: 'El precio antes del descuento debe ser mayor que el precio actual, o déjalo vacío.' }); return }
     if (step < 2) { setState({}); setStep(step + 1); return }
     if (!photos.length) { setState({ error: 'Agrega al menos una foto de tu lote.' }); return }
     setPending(true); setState({}); setProgress('Guardando borrador…')
@@ -90,13 +91,13 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
         </>}
         {step === 1 && <>
           <div className="grid gap-5 sm:grid-cols-2"><Field {...field('cantidad_disponible')} label="Cantidad disponible" type="number" min="0" max="99999999999.999" step="0.001" required hint="Con cantidad 0, el lote queda agotado y fuera del catálogo." />{select('unidad', 'Unidad', { kg: 'Kilogramos (kg)', ton: 'Toneladas (ton)' })}</div>
-          <Field {...field('precio_unidad')} label={`Precio por ${values.unidad} (S/)`} type="number" min="0.01" max="999999999999.99" step="0.01" required />
+          <div className="grid gap-5 sm:grid-cols-2"><Field {...field('precio_unidad')} label={`Precio por ${values.unidad} (S/)`} type="number" min="0.01" max="999999999999.99" step="0.01" required /><Field {...field('precio_anterior')} label="Precio antes del descuento (opcional)" type="number" min="0.01" max="999999999999.99" step="0.01" hint="Si rebajaste el precio, escribe el anterior: el catálogo mostrará el porcentaje de descuento." /></div>
           <div className="grid gap-5 sm:grid-cols-2">{select('estado_cosecha', 'Estado de cosecha', COSECHA)}{select('destino', 'Destino de venta', { local: 'Mercado local', exportacion: 'Exportación' })}</div>
           {select('nivel_riesgo', 'Riesgo declarado por el productor', { bajo: 'Bajo', medio: 'Medio', alto: 'Alto' })}
           <div className="space-y-2"><label htmlFor="descripcion" className="block text-sm font-semibold">Descripción (opcional)</label><textarea id="descripcion" name="descripcion" value={values.descripcion} onChange={event => update('descripcion', event.target.value)} maxLength={300} rows={4} className={inputClass} /><p className="text-xs text-gray-500">{values.descripcion.length}/300 caracteres</p></div>
         </>}
         {step === 2 && <>
-          <div className="rounded-xl bg-crema p-4 text-sm leading-relaxed text-petroleo"><p className="wrap-anywhere font-bold">{values.cultivo} · {values.region}</p><p>{values.cantidad_disponible} {values.unidad} · S/ {values.precio_unidad} por {values.unidad}</p><p>{values.provincia}, {values.distrito}</p></div>
+          <div className="rounded-xl bg-crema p-4 text-sm leading-relaxed text-petroleo"><p className="wrap-anywhere font-bold">{values.cultivo} · {values.region}</p><p>{values.cantidad_disponible} {values.unidad} · S/ {values.precio_unidad} por {values.unidad}{values.precio_anterior && ` (antes S/ ${values.precio_anterior})`}</p><p>{values.provincia}, {values.distrito}</p></div>
           <div className="space-y-2"><label htmlFor="fotos" className="block text-sm font-semibold">Fotos del lote ({photos.length}/6)</label><input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={pending || photos.length >= 6} onChange={event => { void addPhotos(event.target.files); event.target.value = '' }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-crema file:px-3 file:py-2 file:font-semibold file:text-petroleo`} /><p className="text-xs text-gray-600">De 1 a 6 fotos propias, JPG, PNG o WebP. Hasta 5 MB por foto. La primera será la portada.</p></div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{photos.map((photo, index) => <div key={photo.preview} className="overflow-hidden rounded-xl border border-gray-200"><div className="relative aspect-square"><Image unoptimized fill src={photo.preview} alt={`Foto ${index + 1} del lote`} className="object-cover" sizes="200px" /></div><button type="button" disabled={pending} onClick={() => { if (photo.preview.startsWith('blob:')) URL.revokeObjectURL(photo.preview); setPhotos(previous => previous.filter((_, i) => i !== index)) }} className="min-h-11 w-full px-2 text-sm font-semibold text-red-700">Quitar foto {index + 1}</button></div>)}</div>
           <p className="text-sm leading-relaxed text-gray-600">Al publicar, la información y las fotos serán visibles en el marketplace. Un lote agotado o bloqueado permanece visible solo en tu gestión.</p>

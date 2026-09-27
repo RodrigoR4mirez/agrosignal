@@ -8,6 +8,7 @@ export type Lote = {
   cantidad_disponible: number
   unidad: 'kg' | 'ton'
   precio_unidad: number
+  precio_anterior: number | null
   estado_cosecha: 'en_cosecha' | 'proxima' | 'disponible'
   nivel_riesgo: 'bajo' | 'medio' | 'alto'
   destino: 'local' | 'exportacion'
@@ -18,7 +19,7 @@ export type Lote = {
   creado_en: string
 }
 // productor_promedio es null con menos de 3 calificaciones visibles ("Nuevo en la plataforma").
-export type LotePublico = Lote & { productor_nombre: string; nivel_sello: number; productor_calificaciones: number; productor_promedio: number | null }
+export type LotePublico = Lote & { productor_nombre: string; nivel_sello: number; productor_calificaciones: number; productor_promedio: number | null; productor_foto: string | null }
 export const REGIONES = ['Amazonas', 'Áncash', 'Apurímac', 'Arequipa', 'Ayacucho', 'Cajamarca', 'Callao', 'Cusco', 'Huancavelica', 'Huánuco', 'Ica', 'Junín', 'La Libertad', 'Lambayeque', 'Lima', 'Loreto', 'Madre de Dios', 'Moquegua', 'Pasco', 'Piura', 'Puno', 'San Martín', 'Tacna', 'Tumbes', 'Ucayali']
 export const COSECHA = { disponible: 'Disponible', en_cosecha: 'En cosecha', proxima: 'Próxima cosecha' }
 export const ORDENES = [['recientes', 'Más recientes'], ['calificacion', 'Mejor calificados'], ['precio_asc', 'Precio: menor a mayor'], ['precio_desc', 'Precio: mayor a menor']] as const
@@ -32,6 +33,15 @@ export const descripcionVisible = (lote: Pick<Lote, 'descripcion'>) => esEjemplo
 export const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 export const money = (value: number) => new Intl.NumberFormat('es-PE', { style: 'currency', currency: 'PEN', maximumFractionDigits: 2 }).format(value)
 export const quantity = (value: number) => new Intl.NumberFormat('es-PE', { maximumFractionDigits: 3 }).format(value)
+// Porcentaje de descuento (entero) si el lote tiene precio anterior mayor al actual.
+export function descuento(lote: Pick<Lote, 'precio_unidad' | 'precio_anterior'>) {
+  const antes = Number(lote.precio_anterior), ahora = Number(lote.precio_unidad)
+  return antes > ahora && ahora > 0 ? Math.round((1 - ahora / antes) * 100) : null
+}
+export function fotoPerfilUrl(path: string | null | undefined) {
+  if (!path || !/^[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|jpeg|png|webp)$/.test(path)) return null
+  return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/fotos-perfil/${path}`
+}
 export function photoUrl(path: string) {
   if (!/^[0-9a-f-]{36}\/[0-9a-f-]{36}\/[0-9a-f-]{36}\.(jpg|jpeg|png|webp)$/.test(path)) return null
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/fotos-lotes/${path}`

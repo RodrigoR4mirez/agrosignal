@@ -43,24 +43,24 @@ const PRODUCTORES = [
 // i = índice de productor
 const LOTES = [
   { i: 0, cultivo: 'Palta Hass', cant: 18000, precio: 6.5, est: 'en_cosecha', riesgo: 'bajo', dest: 'exportacion', foto: 'palta-1.jpg', desc: 'Calibre 16 a 20, materia seca sobre 23 %. Empaque en jabas de 10 kg, cosecha escalonada hasta octubre.' },
-  { i: 0, cultivo: 'Palta Fuerte', cant: 6000, precio: 3.2, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'palta-2.jpg', desc: 'Fruta de descarte de exportación en buen estado, ideal para mercados mayoristas de Trujillo y Lima.' },
+  { i: 0, cultivo: 'Palta Fuerte', cant: 6000, precio: 3.2, antes: 3.8, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'palta-2.jpg', desc: 'Fruta de descarte de exportación en buen estado, ideal para mercados mayoristas de Trujillo y Lima.' },
   { i: 1, cultivo: 'Café arábica pergamino', cant: 4600, precio: 17.8, est: 'disponible', riesgo: 'medio', dest: 'exportacion', foto: 'cafe-1.jpg', desc: 'Variedades catimor y caturra a 1 350 m s. n. m. Humedad 11 %, taza 83 puntos en catación local.' },
-  { i: 2, cultivo: 'Cacao fino de aroma', cant: 3200, precio: 27.5, est: 'disponible', riesgo: 'bajo', dest: 'exportacion', foto: 'cacao-1.jpg', desc: 'Grano seco fermentado 6 días, prueba de corte con 80 % bien fermentado. Sacos de yute de 60 kg.' },
+  { i: 2, cultivo: 'Cacao fino de aroma', cant: 3200, precio: 27.5, antes: 31, est: 'disponible', riesgo: 'bajo', dest: 'exportacion', foto: 'cacao-1.jpg', desc: 'Grano seco fermentado 6 días, prueba de corte con 80 % bien fermentado. Sacos de yute de 60 kg.' },
   { i: 3, cultivo: 'Arándano Biloxi', cant: 7500, precio: 12.5, est: 'en_cosecha', riesgo: 'bajo', dest: 'exportacion', foto: 'arandano-1.jpg', desc: 'Calibre 14 mm+, clamshell de 125 g. Cadena de frío desde campo, campaña septiembre a diciembre.' },
-  { i: 3, cultivo: 'Arándano Ventura', cant: 3000, precio: 10.9, est: 'proxima', riesgo: 'medio', dest: 'exportacion', foto: 'arandano-2.jpg', desc: 'Segunda parcela con cosecha prevista para noviembre. Se aceptan reservas.' },
+  { i: 3, cultivo: 'Arándano Ventura', cant: 3000, precio: 10.9, antes: 13.5, est: 'proxima', riesgo: 'medio', dest: 'exportacion', foto: 'arandano-2.jpg', desc: 'Segunda parcela con cosecha prevista para noviembre. Se aceptan reservas.' },
   { i: 4, cultivo: 'Mango Kent', cant: 30000, precio: 2.4, est: 'proxima', riesgo: 'medio', dest: 'exportacion', foto: 'mango-1.jpg', desc: 'Inicio de cosecha estimado para noviembre. Riesgo medio por las anomalías cálidas de El Niño en la costa norte.' },
-  { i: 4, cultivo: 'Mango Edward', cant: 8000, precio: 1.8, est: 'proxima', riesgo: 'medio', dest: 'local', foto: 'mango-2.jpg', desc: 'Para mercado nacional y procesadoras de pulpa. Cosecha desde fines de noviembre.' },
+  { i: 4, cultivo: 'Mango Edward', cant: 8000, precio: 1.8, antes: 2.2, est: 'proxima', riesgo: 'medio', dest: 'local', foto: 'mango-2.jpg', desc: 'Para mercado nacional y procesadoras de pulpa. Cosecha desde fines de noviembre.' },
   { i: 5, cultivo: 'Papa nativa', cant: 5000, precio: 2.8, est: 'disponible', riesgo: 'medio', dest: 'local', foto: 'papa-1.jpg', desc: 'Mezcla de variedades nativas de altura (qompis, imilla negra). Seleccionada en sacos de 50 kg.' },
-  { i: 6, cultivo: 'Papa amarilla tumbay', cant: 12000, precio: 1.9, est: 'disponible', riesgo: 'medio', dest: 'local', foto: 'papa-2.jpg', desc: 'Papa amarilla de primera, calibre uniforme. Entrega en el Mercado Mayorista de Huancayo o en chacra.' },
+  { i: 6, cultivo: 'Papa amarilla tumbay', cant: 12000, precio: 1.9, antes: 2.4, est: 'disponible', riesgo: 'medio', dest: 'local', foto: 'papa-2.jpg', desc: 'Papa amarilla de primera, calibre uniforme. Entrega en el Mercado Mayorista de Huancayo o en chacra.' },
   { i: 7, cultivo: 'Uva Red Globe', cant: 15000, precio: 4.2, est: 'proxima', riesgo: 'bajo', dest: 'exportacion', foto: 'uva-1.jpg', desc: 'Racimos de 600 a 800 g, grados Brix sobre 16. Cosecha estimada a partir de noviembre.' },
-  { i: 8, cultivo: 'Kiwicha', cant: 2400, precio: 7.5, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'quinua-1.jpg', desc: 'Grano limpio y venteado del valle del Colca, en sacos de 25 kg.' },
+  { i: 8, cultivo: 'Kiwicha', cant: 2400, precio: 7.5, antes: 8.9, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'quinua-1.jpg', desc: 'Grano limpio y venteado del valle del Colca, en sacos de 25 kg.' },
   { i: 9, cultivo: 'Banano orgánico', cant: 20000, precio: 1.6, est: 'en_cosecha', riesgo: 'medio', dest: 'exportacion', foto: 'banano-1.jpg', desc: 'Variedad Cavendish con certificación orgánica en trámite. Cajas de 18,14 kg, cosecha semanal.' },
   { i: 10, cultivo: 'Cebolla roja', cant: 40000, precio: 1.1, est: 'en_cosecha', riesgo: 'bajo', dest: 'local', foto: 'cebolla-1.jpg', desc: 'Cebolla roja arequipeña de calibre mediano a grande, curada en campo. Mallas de 25 kg.' },
   { i: 10, cultivo: 'Cebolla roja de exportación', cant: 18000, precio: 1.5, est: 'disponible', riesgo: 'bajo', dest: 'exportacion', foto: 'cebolla-2.jpg', desc: 'Selección calibre 3 y 4 para exportación, embalaje a pedido del comprador.' },
   { i: 11, cultivo: 'Jengibre fresco', cant: 9000, precio: 4.8, est: 'en_cosecha', riesgo: 'bajo', dest: 'exportacion', foto: 'jengibre-1.jpg', desc: 'Rizoma de 9 meses, lavado y seleccionado. Cajas de 13,6 kg.' },
   { i: 11, cultivo: 'Jengibre para industria', cant: 5000, precio: 2.9, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'jengibre-2.jpg', desc: 'Rizoma de segunda para deshidratado, extractos e infusiones.' },
   { i: 12, cultivo: 'Mandarina W. Murcott', cant: 14000, precio: 2.3, est: 'en_cosecha', riesgo: 'bajo', dest: 'exportacion', foto: 'mandarina-1.jpg', desc: 'Fruta sin semilla, calibre 1 a 3. Empaque en planta certificada de Huaral.' },
-  { i: 12, cultivo: 'Mandarina Satsuma', cant: 6000, precio: 1.7, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'mandarina-2.jpg', desc: 'Para mercado mayorista y jugueras, en jabas de 20 kg.' },
+  { i: 12, cultivo: 'Mandarina Satsuma', cant: 6000, precio: 1.7, antes: 2.1, est: 'disponible', riesgo: 'bajo', dest: 'local', foto: 'mandarina-2.jpg', desc: 'Para mercado mayorista y jugueras, en jabas de 20 kg.' },
   { i: 13, cultivo: 'Alcachofa sin espinas', cant: 11000, precio: 3.0, est: 'proxima', riesgo: 'bajo', dest: 'exportacion', foto: 'alcachofa-1.jpg', desc: 'Variedad Lorca para conserva. Cosecha desde octubre, acopio en planta de Chincha.' },
   { i: 14, cultivo: 'Café especial lavado', cant: 2800, precio: 19.5, est: 'disponible', riesgo: 'bajo', dest: 'exportacion', foto: 'cafe-1.jpg', desc: 'Caturra y bourbon de 1 700 m s. n. m., taza 85 puntos. Lotes pequeños para tostadores.' },
 ]
@@ -129,7 +129,7 @@ for (const [k, l] of LOTES.entries()) {
   const creado = new Date(Date.now() - (2 + ((k * 7) % 24)) * 86400000 - k * 3600000).toISOString()
   const [lote] = await api('POST', '/rest/v1/lotes', { headers: { Prefer: 'return=representation' }, body: {
     productor_id: prod.id, cultivo: l.cultivo, region: meta.r, provincia: meta.p, distrito: meta.d, cantidad_disponible: l.cant, unidad: 'kg',
-    precio_unidad: l.precio, estado_cosecha: l.est, nivel_riesgo: l.riesgo, destino: l.dest, descripcion: MARCA + l.desc, creado_en: creado, borrador: true } })
+    precio_unidad: l.precio, precio_anterior: l.antes ?? null, estado_cosecha: l.est, nivel_riesgo: l.riesgo, destino: l.dest, descripcion: MARCA + l.desc, creado_en: creado, borrador: true } })
   const ruta = `${prod.id}/${lote.id}/${crypto.randomUUID()}.jpg`
   await api('POST', `/storage/v1/object/fotos-lotes/${ruta}`, { raw: true, body: fs.readFileSync(path.join(FOTOS, l.foto)), headers: { 'Content-Type': 'image/jpeg' } })
   const [publicado] = await api('PATCH', `/rest/v1/lotes?id=eq.${lote.id}`, { headers: { Prefer: 'return=representation' }, body: { fotos: [ruta], borrador: false } })

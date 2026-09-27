@@ -19,6 +19,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `cultivo_principal` | text (nullable) | Solo si rol = productor |
 | `tipo_comprador` | enum: `natural`, `empresa`, `exportador` (nullable) | Solo si rol = comprador |
 | `destino_exportacion` | boolean (nullable) | Solo si rol = comprador |
+| `foto` | text (nullable) | Ruta `<usuario>/<uuid>.jpg` en el bucket público `fotos-perfil`. Solo el dueño la cambia (grant de columna + política `perfiles_foto_propia`); el archivo debe existir |
 | `creado_en` | timestamp | Fecha de registro |
 
 ## `lotes`
@@ -32,6 +33,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `cantidad_disponible` | numeric | Se descuenta con cada venta confirmada |
 | `unidad` | enum: `kg`, `ton` | — |
 | `precio_unidad` | numeric | En soles |
+| `precio_anterior` | numeric (nullable) | Precio antes del descuento; siempre mayor que `precio_unidad` (hasta 20 veces). El catálogo muestra el % de rebaja y el filtro «Solo lotes con descuento» |
 | `estado_cosecha` | enum: `en_cosecha`, `proxima`, `disponible` | — |
 | `nivel_riesgo` | enum: `bajo`, `medio`, `alto` | Manual por ahora |
 | `destino` | enum: `local`, `exportacion` | Afecta qué niveles de Sello se recomiendan |

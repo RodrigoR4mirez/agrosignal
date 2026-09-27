@@ -1,6 +1,6 @@
 import 'server-only'
 import { createClient } from '@/lib/supabase/server'
-import { CALIFICACION_MINIMA, type Lote, type LotePublico } from './types'
+import { CALIFICACION_MINIMA, descuento, type Lote, type LotePublico } from './types'
 
 function ordenar<T extends { order: (column: string, options?: { ascending?: boolean; nullsFirst?: boolean }) => T }>(query: T, orden?: string) {
   if (orden === 'calificacion') return query.order('productor_promedio', { ascending: false, nullsFirst: false }).order('productor_calificaciones', { ascending: false }).order('creado_en', { ascending: false })
@@ -9,7 +9,7 @@ function ordenar<T extends { order: (column: string, options?: { ascending?: boo
   return query.order('creado_en', { ascending: false })
 }
 
-export type Filters = { q?: string; region?: string; cultivo?: string; minimo?: string; maximo?: string; destino?: string; sello?: string; calificacion?: string; orden?: string; pagina?: string }
+export type Filters = { q?: string; region?: string; cultivo?: string; minimo?: string; maximo?: string; destino?: string; sello?: string; calificacion?: string; ofertas?: string; orden?: string; pagina?: string }
 export const PAGE_SIZE = 12
 // Cultivos con más lotes publicados (agrupados por la primera palabra: "Arándano Biloxi" → Arándano),
 // para los accesos rápidos del catálogo.
@@ -29,13 +29,18 @@ export async function getCatalog(filters: Filters) {
   if (/^[0-3]$/.test(filters.sello ?? '')) query = query.eq('nivel_sello', Number(filters.sello))
   // Solo productores con promedio publicado (3+ calificaciones) pasan este filtro.
   if (CALIFICACION_MINIMA.some(([value]) => value === filters.calificacion)) query = query.gte('productor_promedio', Number(filters.calificacion))
+  if (filters.ofertas === '1') query = query.not('precio_anterior', 'is', null)
   if (filters.minimo && Number.isFinite(Number(filters.minimo)) && Number(filters.minimo) >= 0) query = query.gte('precio_unidad', Number(filters.minimo))
   if (filters.maximo && Number.isFinite(Number(filters.maximo)) && Number(filters.maximo) >= 0) query = query.lte('precio_unidad', Number(filters.maximo))
-  const [{ data, count, error }, options] = await Promise.all([
+  const [{ data, count, error }, options, rebajas] = await Promise.all([
     ordenar(query, filters.orden).order('id').range((page - 1) * PAGE_SIZE, page * PAGE_SIZE - 1),
     db.from('catalogo_lotes').select('cultivo,region').order('cultivo').limit(1000),
+    db.from('catalogo_lotes').select('precio_unidad,precio_anterior,fotos').not('precio_anterior', 'is', null).limit(500),
   ])
-  return { lots: (data ?? []) as LotePublico[], count: count ?? 0, page, error: Boolean(error || options.error), crops: [...new Set((options.data ?? []).map(x => x.cultivo as string))], popular: masPublicados((options.data ?? []).map(x => x.cultivo as string)) }
+  // Resumen para el banner de ofertas: cuántos lotes tienen descuento, el mayor y una foto.
+  const conRebaja = (rebajas.data ?? []).map(lote => ({ rebaja: descuento(lote as Pick<Lote, 'precio_unidad' | 'precio_anterior'>) ?? 0, foto: (lote.fotos as string[])[0] ?? '' })).filter(lote => lote.rebaja > 0).sort((a, b) => b.rebaja - a.rebaja)
+  const ofertas = { total: conRebaja.length, maxima: conRebaja[0]?.rebaja ?? 0, foto: conRebaja[0]?.foto ?? '' }
+  return { lots: (data ?? []) as LotePublico[], count: count ?? 0, page, error: Boolean(error || options.error), crops: [...new Set((options.data ?? []).map(x => x.cultivo as string))], popular: masPublicados((options.data ?? []).map(x => x.cultivo as string)), ofertas }
 }
 export async function getPublicLot(id: string) {
   const db = await createClient()

@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { Avatar } from '@/components/perfil/Avatar'
 import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/AppShell'
 import { Card } from '@/components/ui/Card'
@@ -24,9 +25,9 @@ export default async function ProductorPage({ params }: { params: Promise<{ id: 
   const ejemplo = lotes.lots.some(esEjemplo)
   const desde = new Intl.DateTimeFormat('es-PE', { month: 'long', year: 'numeric', timeZone: 'America/Lima' }).format(new Date(productor.creado_en))
   return <AppShell profile={profile}>
-    <Link href="/marketplace" className="mb-6 inline-block text-sm font-semibold text-petroleo underline">← Volver a productos</Link>
+    <nav aria-label="Ruta" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-600"><Link href="/marketplace" className="font-semibold text-petroleo underline-offset-4 hover:underline">Productos</Link><span aria-hidden="true">/</span><span className="wrap-anywhere">{productor.nombre}</span></nav>
     <header className="mb-8 flex flex-wrap items-center gap-5">
-      <span aria-hidden="true" className="grid size-20 shrink-0 place-items-center rounded-full bg-bosque font-display text-4xl text-arena-claro">{productor.nombre.trim().charAt(0).toUpperCase()}</span>
+      <Avatar nombre={productor.nombre} foto={productor.foto} className="size-24 text-2xl ring-4" />
       <div className="min-w-0">
         <h1 className="wrap-anywhere text-4xl font-normal sm:text-5xl text-bosque">{productor.nombre}</h1>
         <p className="mt-2 text-sm text-gray-600">{[productor.cultivo_principal && `Cultiva ${productor.cultivo_principal.toLowerCase()}`, productor.region, `en AgroSignal desde ${desde}`].filter(Boolean).join(', ')}</p>

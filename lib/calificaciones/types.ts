@@ -1,7 +1,7 @@
 export type RolCalificador = 'comprador' | 'productor'
 export type Distribucion = Record<'1' | '2' | '3' | '4' | '5', number>
 export type Reputacion = { total: number; promedio: number | null; distribucion: Distribucion }
-export type PerfilProductor = { id: string; nombre: string; region: string | null; cultivo_principal: string | null; creado_en: string; reputacion: Reputacion }
+export type PerfilProductor = { id: string; nombre: string; region: string | null; cultivo_principal: string | null; creado_en: string; foto?: string | null; reputacion: Reputacion }
 export type Resena = { id: string; productor_id: string; estrellas: number; comentario: string | null; creado_en: string; autor: string }
 export type CalificacionPropia = { estrellas: number; comentario: string | null; creado_en: string; visible: boolean }
 export type EstadoCalificacion = {

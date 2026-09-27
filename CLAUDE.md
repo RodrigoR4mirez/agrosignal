@@ -31,6 +31,7 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `app/(auth)` — registro, login, recuperación y cuenta
 - `components/AppShell.tsx` — header/footer compartidos con la identidad de la landing (logo → `/`); `anchoCompleto` para páginas con bandas a sangre (catálogo, ayuda)
 - `app/marketplace/page.tsx` — cabecera petróleo con búsqueda y accesos rápidos por cultivo, filtros como opciones visibles (en escritorio se aplican al instante), chips de filtros activos; tarjeta en `components/marketplace/LotCard.tsx`
+- Catálogo al estilo tienda: banners (buscador en vidrio + ofertas), ventajas, pestañas de orden, banner intermedio y categorías; tarjeta con descuento (`precio_anterior`), estrellas y franja de vidrio con la foto del productor (`perfiles.foto`, bucket `fotos-perfil`, se sube desde el panel del productor; `components/perfil/`)
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription

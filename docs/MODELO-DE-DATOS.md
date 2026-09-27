@@ -36,7 +36,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `nivel_riesgo` | enum: `bajo`, `medio`, `alto` | Manual por ahora |
 | `destino` | enum: `local`, `exportacion` | Afecta qué niveles de Sello se recomiendan |
 | `descripcion` | text (nullable) | Máx. 300 caracteres |
-| `fotos` | text[] | URLs en Supabase Storage |
+| `fotos` | text[] | Rutas permanentes en el bucket público `fotos-lotes` |
 | `bloqueado` | boolean | `true` automático si un test de residuos falla |
 | `creado_en` | timestamp | — |
 
@@ -64,7 +64,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `tipo` | enum: `senasa`, `global_gap`, `otro` | — |
 | `numero` | text | — |
 | `fecha_vencimiento` | date | — |
-| `archivo_url` | text | PDF o imagen en Storage |
+| `archivo_url` | text | Ruta permanente privada del PDF o imagen en Storage |
 | `estado` | enum: `en_revision`, `aprobado`, `rechazado`, `vencido` | — |
 | `revisado_por` | uuid (FK a `perfiles`, nullable) | Admin que lo aprobó/rechazó |
 | `motivo_rechazo` | text (nullable) | — |
@@ -78,7 +78,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `estado` | enum: `solicitado`, `completado` | — |
 | `coordenadas_gps` | text (nullable) | Se llena al completarse |
 | `fecha_vuelo` | date (nullable) | — |
-| `evidencia_urls` | text[] (nullable) | Fotos/video en Storage |
+| `evidencia_urls` | text[] (nullable) | Rutas privadas de fotos/video en Storage |
 | `notas` | text (nullable) | — |
 
 ## `tests_residuos` (Sello de Inocuidad — Nivel 3)
@@ -90,7 +90,7 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `tipo_kit` | text | Marca/tipo de tira reactiva usada |
 | `fecha_prueba` | date | — |
 | `resultado` | enum: `pasa`, `no_pasa` | Si es `no_pasa`, el lote se bloquea automático |
-| `foto_evidencia_url` | text | — |
+| `foto_evidencia_url` | text | Ruta privada de la foto en Storage |
 | `realizado_por` | uuid (FK a `perfiles`) | — |
 
 ## `notificaciones`
@@ -115,3 +115,35 @@ lotes (1) ──< inspecciones_dron (N)
 lotes (1) ──< tests_residuos (N)
 perfiles (1) ──< notificaciones (N)
 ```
+
+## Campos y garantías incorporados en la implementación
+
+La referencia ejecutable son las migraciones 001–007 de `supabase/migrations/`.
+Se conservan las siete tablas de negocio anteriores.
+
+| Tabla | Campos adicionales | Función |
+|---|---|---|
+| `perfiles` | `suspendido`; `moderacion_version`, `moderacion_motivo`, `moderacion_en`, `moderacion_por`, `moderacion_historial` | Cuenta activa y auditoría acumulativa de suspensiones/reactivaciones |
+| `lotes` | `borrador` | Permite subir fotos antes de publicar; no aparece en el catálogo |
+| `pedidos` | `productor_id`, nombres y teléfonos de ambas partes, `cultivo`, `unidad`, `precio_unidad` | Copia del acuerdo al comprar, independiente de ediciones posteriores del lote |
+| `pedidos` | `idempotencia`, `motivo`, `actualizado_en` | Reintentos sin duplicar compras, motivo y seguimiento |
+| `pedidos` | `resolucion`, `resolucion_accion`, `resolucion_estado_inicial`, `resuelto_por`, `resuelto_en`, `resolucion_idempotencia` | Resolución administrativa única e inmutable, visible a ambas partes |
+| `certificados` | `creado_en`, `revisado_en` | Fecha de presentación y decisión |
+| `inspecciones_dron` | `creado_en`, `completado_por`, `completado_en` | Trazabilidad de la inspección |
+| `tests_residuos` | `creado_en` | Registro inmutable de la prueba |
+
+- RLS y privilegios restringen cada tabla. Las mutaciones sensibles se hacen
+  por RPC, con rol, propiedad y estado validados en la base de datos.
+- Los precios se fijan en soles al crear el pedido; el total se calcula en
+  PostgreSQL. El stock se descuenta al confirmar y se devuelve una sola vez
+  al cancelar un pedido confirmado antes del envío, con bloqueos de filas.
+- `catalogo_lotes` y `estado_sello_lote` exponen únicamente el resumen público.
+  La vigencia documental se evalúa por fecha de Lima en cada lectura; no
+  depende de que una tarea programada cambie el estado almacenado.
+- Cualquier test `no_pasa` bloquea el lote en la misma transacción. Un test
+  posterior `pasa` no borra el bloqueo. No se permite editar ni eliminar el
+  resultado para reabrir el catálogo, tampoco con la clave de servicio.
+- Los enlaces firmados no se guardan en tablas: se generan al consultar la
+  evidencia. Los campos históricos con sufijo `_url` guardan rutas estables.
+- `private.agrosignal_migrations` registra versiones y hashes técnicos; no
+  es una tabla de negocio ni está expuesta a clientes públicos.

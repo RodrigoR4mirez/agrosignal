@@ -10,7 +10,7 @@
                              ▼
 ┌─────────────────────────────────────────────────────────────┐
 │  Next.js 16 (App Router) — desplegado en Vercel                │
-│  ├── / (landing)                                               │
+│  ├── / (monitor de riesgo agrícola)                                               │
 │  ├── /marketplace (público, lotes en venta)                    │
 │  ├── /fenomeno-nino (dashboard de riesgo climático, ya existe)  │
 │  ├── /panel-productor  (requiere sesión, rol Productor)         │
@@ -66,5 +66,29 @@ lib/
   supabase/
     client.ts        ← cliente de Supabase para el browser
     server.ts        ← cliente de Supabase para Server Components
-    middleware.ts     ← protección de rutas por rol
+    proxy.ts         ← renovación de sesión y protección de rutas por rol
 ```
+
+## Marketplace implementado
+
+- `proxy.ts` aplica la protección inicial; cada página, consulta privada y
+  Server Action vuelve a verificar sesión, correo confirmado, cuenta activa
+  y rol persistido mediante `requireRole`. No se confía en roles del navegador.
+- Las operaciones usan el cliente Supabase de la sesión, RLS y RPC que validan
+  permisos en PostgreSQL. La aplicación no usa `service_role` para acciones
+  del usuario ni para moderación.
+- `catalogo_lotes` es la vista pública: descarta borradores, agotados,
+  bloqueados, residuos fallidos y productores suspendidos o sin confirmar.
+  Los paneles privados conservan el historial aunque el lote salga del catálogo.
+- `lib/marketplace`, `lib/transacciones`, `lib/sello` y `lib/admin` separan
+  datos y tipos. Las acciones viven en sus carpetas de `app/` y los componentes
+  reutilizables en `components/`.
+- `/verificaciones/[id]` sirve al productor dueño y al administrador.
+  Los archivos privados se abren mediante enlaces firmados de 10 minutos.
+- `/admin` reúne métricas, usuarios, colas, pedidos y notificaciones.
+  Consume las mismas operaciones de sello y pedidos que el resto de la app.
+- `/ayuda` cubre cuentas, publicaciones, compras e inocuidad y se enlaza desde
+  todas las pantallas. `/pro` redirige al marketplace funcional.
+- Las siete migraciones de `supabase/migrations/` son la definición ejecutable
+  del esquema. `scripts/supabase-management.mjs` registra su versión y hash.
+  Las pruebas aisladas de PostgreSQL se ejecutan con `npm run test:db`.

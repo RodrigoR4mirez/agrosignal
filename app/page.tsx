@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PublicLinks } from '@/components/PublicLinks'
 import { getRiesgoData } from '@/lib/parseData'
 import StatsCards from '@/components/StatsCards'
 import RiesgoChart from '@/components/RiesgoChart'
@@ -37,6 +38,7 @@ export default function Home() {
           </div>
         </div>
       </header>
+      <PublicLinks />
 
       {/* Main */}
       <main className="app-container px-4 sm:px-6 lg:px-8 py-6 flex flex-col gap-6">
@@ -60,22 +62,22 @@ export default function Home() {
 
         {/* Banner: El Niño 2026-2027 — más compacto y menos saturado que el hero */}
         <Link href="/fenomeno-nino" className="group block">
-          <div className="card-surface relative overflow-hidden bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex items-center justify-between gap-4 group-hover:shadow-[var(--shadow-card-hover)] group-hover:-translate-y-0.5">
+          <div className="card-surface relative overflow-hidden bg-linear-to-r from-[#5c2a1a] to-[#b45309] px-6 sm:px-8 py-4 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center group-hover:shadow-[var(--shadow-card-hover)] group-hover:-translate-y-0.5">
             <div className="relative flex items-center gap-4 min-w-0">
               <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center text-lg shrink-0">
                 🌊
               </div>
               <div className="min-w-0">
-                <h3 className="text-sm font-bold text-white mb-1 truncate">
+                <h3 className="text-sm font-bold text-white mb-1">
                   Alerta: El Niño 2026–2027 se perfila fuerte
                 </h3>
-                <p className="text-sm font-normal text-orange-100/80 truncate">
+                <p className="text-sm font-normal text-orange-100/80">
                   63% prob. de evento &quot;muy fuerte&quot; (NOAA CPC) · ENFEN prevé magnitud fuerte en la costa
                 </p>
               </div>
             </div>
             <span
-              className="relative self-center text-sm font-medium text-white whitespace-nowrap flex items-center gap-1.5 shrink-0 rounded-lg bg-white/10 border border-white/15 pl-4 pr-5 py-2 group-hover:bg-white/15"
+              className="relative self-start text-sm font-medium text-white whitespace-nowrap flex items-center gap-1.5 shrink-0 rounded-lg bg-white/10 border border-white/15 pl-4 pr-5 py-2 group-hover:bg-white/15"
               style={{ transition: 'var(--transition-base)' }}
             >
               Ver pronóstico
@@ -128,6 +130,7 @@ export default function Home() {
           </div>
           <div>Actualizado mensualmente · © {new Date().getFullYear()} AgroSignal</div>
         </div>
+        <Link href="/ayuda" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">Ayuda y preguntas frecuentes</Link>
       </footer>
 
     </div>

@@ -24,7 +24,7 @@ export async function AppShell({ children, profile: suppliedProfile }: { childre
         </nav>
       </div>
     </header>
-    {profile && <div className="border-b border-green-100 bg-green-50"><p className="app-container px-4 py-2 text-xs text-green-900 sm:px-6 lg:px-8">{profile.nombre_completo} · {ROLE_LABEL[profile.rol]}</p></div>}
+    {profile && <div className="border-b border-green-100 bg-green-50"><p className="app-container px-4 py-2 text-xs text-green-900 wrap-anywhere sm:px-6 lg:px-8">{profile.nombre_completo} · {ROLE_LABEL[profile.rol]}</p></div>}
     <main id="contenido" className="app-container px-4 py-8 sm:px-6 lg:px-8">{children}</main>
     <footer className="app-container flex flex-wrap justify-between gap-3 px-4 py-8 text-sm text-gray-600 sm:px-6 lg:px-8">
       <p>AgroSignal · Conectamos el campo peruano</p><Link href="/ayuda" className="font-semibold text-[#1a5c2a] underline underline-offset-4">Ayuda y preguntas frecuentes</Link>

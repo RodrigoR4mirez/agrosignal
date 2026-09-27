@@ -49,9 +49,11 @@ claves foráneas. Se informa al productor que puede poner el stock en 0.
 `_components/desktop`, `_components/mobile`, `_components/shared`,
 `marketplace.css` y las imágenes locales de `public/marketplace` conservan
 las referencias del landing original de Stitch. Ya no se renderizan desde
-la página principal del catálogo. `/pro` conserva su landing de marketing.
+la página principal del catálogo. `/pro` redirige a `/marketplace`; las referencias
+visuales anteriores se conservan en el repositorio, sin lista de espera activa.
 
-El flujo de verificación documental, drones y tests se implementa en el módulo 4;
-por ahora se consulta el mayor nivel ya registrado, sin exponer evidencia privada.
+El flujo documental, de drones y de tests está implementado en `/verificaciones/[id]`.
+El catálogo muestra el mayor nivel y la ficha detalla los tres estados, sin
+exponer archivos privados. Administración consume estas mismas operaciones.
 
 Estado y validación: `docs/MODULOS/02-marketplace.md`.

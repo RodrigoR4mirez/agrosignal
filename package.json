@@ -7,7 +7,7 @@
     "build": "next build",
     "test:db": "node --test supabase/tests/*.test.mjs",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "eslint app components lib proxy.ts next.config.ts"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

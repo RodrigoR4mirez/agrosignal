@@ -9,6 +9,7 @@ export type Profile = {
   cultivo_principal: string | null
   tipo_comprador: 'natural' | 'empresa' | 'exportador' | null
   destino_exportacion: boolean | null
+  moderacion_motivo?: string | null
   suspendido: boolean
   creado_en: string
   email: string

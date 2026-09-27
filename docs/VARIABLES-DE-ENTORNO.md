@@ -8,7 +8,8 @@ Settings → Environment Variables cuando despliegues.
 |---|---|---|
 | `NEXT_PUBLIC_SUPABASE_URL` | URL de tu proyecto de Supabase | Supabase → tu proyecto → Settings → API → "Project URL" |
 | `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Clave pública para que el navegador hable con Supabase | Supabase → Settings → API → "anon public" |
-| `SUPABASE_SERVICE_ROLE_KEY` | Clave privada, solo para acciones de servidor (ej. aprobar certificados desde el panel admin) — **nunca exponer al navegador** | Supabase → Settings → API → "service_role" (marcada como secreta) |
+| `NEXT_PUBLIC_SITE_URL` | Origen de los enlaces de confirmación y recuperación | `http://localhost:3000` en desarrollo; `https://agrosignal.vercel.app` en producción |
+| `SUPABASE_SERVICE_ROLE_KEY` | Clave privada para herramientas administrativas locales; la app usa sesión y RLS, incluso en admin — **nunca exponer al navegador** | Supabase → Settings → API → "service_role" (marcada como secreta) |
 
 El prefijo `NEXT_PUBLIC_` es especial en Next.js: cualquier variable con
 ese prefijo queda visible en el navegador. Por eso la `service_role` NUNCA
@@ -53,3 +54,11 @@ No se desactivó la confirmación de correo para eludir esta limitación.
 Referencia: [SMTP de Supabase](https://supabase.com/docs/guides/auth/auth-smtp).
 Las pruebas de sesiones usan cuentas temporales y enlaces generados por la
 API administrativa; no equivalen a verificar entrega de correo real.
+
+Para habilitar correo externo, configura SMTP personalizado en Supabase Auth
+con host, puerto, usuario, contraseña y remitente verificado. Ajusta también
+las plantillas según el flujo elegido: `/auth/callback` usa PKCE del navegador
+que inició la solicitud; `/auth/confirm` admite `token_hash` para enlaces
+abiertos en otro dispositivo. El proveedor predeterminado del plan actual
+rechazó el cambio de plantillas sin SMTP personalizado. Después de configurarlo,
+prueba registro y recuperación con una dirección externa real.

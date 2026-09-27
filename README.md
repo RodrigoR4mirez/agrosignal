@@ -22,6 +22,17 @@ AgroSignal es una plataforma de inteligencia agrícola para el Perú. Combina da
 
 ---
 
+## Marketplace funcional
+
+En [/marketplace](https://agrosignal.vercel.app/marketplace) están disponibles
+publicaciones con fotos, cuentas de productor/comprador, pedidos con seguimiento,
+Sello de Inocuidad y administración por roles. El dashboard climático mantiene
+su pipeline independiente.
+
+La confirmación de cuentas y recuperación por correo requieren completar SMTP
+en Supabase; consulta [variables de entorno](docs/VARIABLES-DE-ENTORNO.md).
+AgroSignal registra los acuerdos de compra, sin cobros en línea.
+
 ## Cultivos monitoreados
 
 Papa · Caña de azúcar · Arroz · Café · Cacao · Palta · Espárrago · Mango · Uva · Maíz · Plátano · Yuca · Mandarina · Cebolla · Piña · Limón · Arándano · Aceituna · Tomate · Trigo · Frijol · Haba · Camote · Alcachofa · Palma aceitera · Papaya · Naranja · **Jengibre** · **Ají/Rocoto**
@@ -56,7 +67,7 @@ AgroSignal es un proyecto abierto. Buscamos colaboradores con interés en:
 ### Ideas abiertas
 - [ ] Mapa interactivo del Perú con riesgo por región
 - [ ] Precios de mercado en tiempo real
-- [ ] Portal de compra/venta entre agricultores y compradores
+- [x] Portal de compra/venta entre agricultores y compradores
 - [ ] Alertas por WhatsApp cuando sube el riesgo
 - [ ] App móvil
 
@@ -67,11 +78,17 @@ AgroSignal es un proyecto abierto. Buscamos colaboradores con interés en:
 ```bash
 git clone https://github.com/RodrigoR4mirez/agrosignal.git
 cd agrosignal
-npm install
+npm ci
+cp .env.example .env.local
+# Completa las variables de Supabase antes de iniciar.
 npm run dev
 ```
 
-Abre `http://localhost:3000`
+Abre `http://localhost:3000`. La preparación del esquema y los buckets se
+explica en [Despliegue](docs/DESPLIEGUE.md).
+
+Verificación: `npm run build`, `npm run test:db` y `npm run lint`.
+La documentación de los cinco módulos está en [docs/README.md](docs/README.md).
 
 ---
 

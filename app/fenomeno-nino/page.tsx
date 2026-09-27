@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { PublicLinks } from '@/components/PublicLinks'
 import type { Metadata } from 'next'
 import ProbabilidadNinoChart from '@/components/ProbabilidadNinoChart'
 import AnomaliaSSTChart from '@/components/AnomaliaSSTChart'
@@ -77,6 +78,7 @@ export default function FenomenoNino() {
           </Link>
         </div>
       </header>
+      <PublicLinks />
 
       {/* Main */}
       <main className="app-container px-4 sm:px-6 lg:px-8 py-8 flex flex-col gap-8">
@@ -268,6 +270,7 @@ export default function FenomenoNino() {
             <div>© {new Date().getFullYear()} AgroSignal</div>
           </div>
         </div>
+        <Link href="/ayuda" className="mt-4 inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">Ayuda y preguntas frecuentes</Link>
       </footer>
 
     </div>

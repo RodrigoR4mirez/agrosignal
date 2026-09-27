@@ -50,10 +50,35 @@ correo/contraseña) con los datos propios de AgroSignal.
 | `cantidad` | numeric | — |
 | `total` | numeric | `cantidad * precio_unidad` al momento de la compra |
 | `direccion_entrega` | text | — |
-| `estado` | enum: `pendiente`, `confirmado`, `enviado`, `recibido`, `calificado`, `rechazado`, `cancelado` | Ver `docs/MODULOS/03-transacciones.md` |
-| `calificacion` | int (1-5, nullable) | Solo si estado = calificado |
-| `comentario` | text (nullable) | — |
+| `estado` | enum: `pendiente`, `confirmado`, `enviado`, `recibido`, `calificado`, `rechazado`, `cancelado` | `calificado` solo existe en pedidos anteriores al 27 set 2026 y equivale a `recibido`. Ver `docs/MODULOS/03-transacciones.md` |
+| `recibido_en` | timestamp (nullable) | Cuándo pasó a `recibido`; abre la ventana de calificación de 14 días |
 | `creado_en` | timestamp | — |
+
+> Los antiguos campos `calificacion` y `comentario` de `pedidos` se
+> reemplazaron por la tabla `calificaciones` (migración
+> `20260927000100_calificaciones.sql`); sus datos se copiaron allí.
+
+## `calificaciones`
+
+Hasta 2 filas por pedido: una del comprador hacia el productor y otra del
+productor hacia el comprador. Inmutables una vez enviadas.
+
+| Columna | Tipo | Descripción |
+|---|---|---|
+| `id` | uuid | — |
+| `pedido_id` | uuid (FK a `pedidos`) | — |
+| `calificado_por` | uuid (FK a `perfiles`) | Quién califica |
+| `calificado_a` | uuid (FK a `perfiles`) | Quién recibe la calificación |
+| `rol_calificador` | enum: `comprador`, `productor` | Para saber qué preguntas mostrar; único por pedido |
+| `estrellas` | int (1-5) | — |
+| `comentario` | text (nullable, hasta 1000) | — |
+| `visible` | boolean | `false` hasta que ambas partes califican ("doble ciego"); ver reglas |
+| `creado_en` | timestamp | — |
+
+Lectura pública: vista `resenas_productores` (solo reseñas visibles de
+compradores a productores, con el autor abreviado "Carlos H." y sin
+`pedido_id`). El catálogo `catalogo_lotes` agrega `productor_calificaciones`
+y `productor_promedio` (null con menos de 3 calificaciones visibles).
 
 ## `certificados` (Sello de Inocuidad — Nivel 1)
 

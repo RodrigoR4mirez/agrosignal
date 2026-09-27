@@ -34,6 +34,7 @@ export type AdminMetrics = {
   certificados_pendientes: number
   drones_pendientes: number
   lotes_bloqueados: number
+  vendedores_en_revision: number
   mes_desde: string
 }
 export type AdminActionState = { error?: string; success?: string }

@@ -5,6 +5,7 @@ import { requireRole } from '@/lib/supabase/auth'
 import { createClient } from '@/lib/supabase/server'
 import { uuidPattern } from '@/lib/marketplace/types'
 import { ESTADOS_PEDIDO, type EstadoPedido, type PedidoActionState } from '@/lib/transacciones/types'
+import type { CalificacionActionState } from '@/lib/calificaciones/types'
 
 const text = (form: FormData, key: string) => String(form.get(key) ?? '').trim()
 
@@ -52,22 +53,38 @@ export async function cambiarEstadoPedidoAction(_previous: PedidoActionState, fo
   const pedidoId = text(form, 'pedido_id')
   const estado = text(form, 'estado') as EstadoPedido
   const motivo = text(form, 'motivo') || null
-  const comentario = text(form, 'comentario') || null
-  const calificacionTexto = text(form, 'calificacion')
-  const calificacion = calificacionTexto ? Number(calificacionTexto) : null
   if (!uuidPattern.test(pedidoId) || !ESTADOS_PEDIDO.includes(estado) || estado === 'pendiente') return { error: 'El cambio solicitado no es válido.' }
-  const allowed = profile.rol === 'productor' ? ['confirmado', 'rechazado', 'enviado', 'cancelado'] : ['recibido', 'calificado', 'cancelado']
+  const allowed = profile.rol === 'productor' ? ['confirmado', 'rechazado', 'enviado', 'cancelado'] : ['recibido', 'cancelado']
   if (!allowed.includes(estado)) return { error: 'No tienes permiso para realizar este cambio.' }
-  if (estado === 'calificado' && (!calificacionTexto || !/^[1-5]$/.test(calificacionTexto))) return { error: 'Elige una calificación de 1 a 5 estrellas.' }
-  if ((comentario?.length ?? 0) > 1000) return { error: 'El comentario puede tener hasta 1000 caracteres.' }
   if (['rechazado', 'cancelado'].includes(estado) && (!motivo || motivo.length < 3 || motivo.length > 1000)) return { error: 'Indica un motivo de entre 3 y 1000 caracteres.' }
   try {
     const db = await createClient()
-    const { error } = await db.rpc('cambiar_estado_pedido', { p_pedido_id: pedidoId, p_estado: estado, p_motivo: motivo, p_calificacion: calificacion, p_comentario: comentario })
+    const { error } = await db.rpc('cambiar_estado_pedido', { p_pedido_id: pedidoId, p_estado: estado, p_motivo: motivo })
     if (error) return { error: friendlyError(error) }
   } catch { return { error: 'No pudimos conectar. Reintenta el cambio; el stock no se descontará dos veces.' } }
   refreshOrders(pedidoId)
   return { success: `Pedido ${estado}. Ambas partes recibieron una notificación.`, pedidoId }
+}
+
+export async function calificarPedidoAction(_previous: CalificacionActionState, form: FormData): Promise<CalificacionActionState> {
+  const profile = await requireRole(['comprador', 'productor'])
+  const pedidoId = text(form, 'pedido_id')
+  const estrellas = text(form, 'estrellas')
+  const comentario = text(form, 'comentario') || null
+  if (!uuidPattern.test(pedidoId)) return { error: 'La solicitud no es válida. Actualiza la página para volver a intentarlo.' }
+  if (!/^[1-5]$/.test(estrellas)) return { error: 'Elige de 1 a 5 estrellas.' }
+  if ((comentario?.length ?? 0) > 1000) return { error: 'El comentario puede tener hasta 1000 caracteres.' }
+  let revelada = false
+  try {
+    const db = await createClient()
+    const { error } = await db.rpc('calificar_pedido', { p_pedido_id: pedidoId, p_estrellas: Number(estrellas), p_comentario: comentario })
+    if (error) return { error: friendlyError(error) }
+    const { data } = await db.rpc('estado_calificacion_pedido', { p_pedido_id: pedidoId })
+    revelada = Boolean(data?.otra)
+  } catch { return { error: 'No pudimos conectar. Reintenta: tu calificación no se guardará dos veces.' } }
+  refreshOrders(pedidoId)
+  revalidatePath('/marketplace/productor/[id]', 'page')
+  return { success: profile.rol === 'comprador' ? 'comprador' : 'productor', revelada }
 }
 
 export async function marcarNotificacionAction(_previous: PedidoActionState, form: FormData): Promise<PedidoActionState> {

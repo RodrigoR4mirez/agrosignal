@@ -17,8 +17,7 @@ export type Pedido = {
   total: number
   direccion_entrega: string
   estado: EstadoPedido
-  calificacion: number | null
-  comentario: string | null
+  recibido_en: string | null
   motivo: string | null
   creado_en: string
   actualizado_en: string

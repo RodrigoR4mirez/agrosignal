@@ -1,9 +1,12 @@
 -- Borra TODOS los datos de ejemplo (usuarios *.ejemplo@example.com, sus lotes,
--- pedidos, notificaciones y fotos). Correr en Supabase → SQL Editor cuando ya
+-- pedidos, calificaciones, notificaciones y fotos). Correr en Supabase → SQL Editor cuando ya
 -- haya productores reales. No toca ningún usuario ni dato real.
 begin;
 create temp table ejemplo_ids on commit drop as
   select id from auth.users where email like '%.ejemplo@example.com';
+delete from public.calificaciones where calificado_por in (select id from ejemplo_ids)
+  or calificado_a in (select id from ejemplo_ids)
+  or pedido_id in (select p.id from public.pedidos p join public.lotes l on l.id = p.lote_id where l.productor_id in (select id from ejemplo_ids));
 delete from public.pedidos where comprador_id in (select id from ejemplo_ids)
   or productor_id in (select id from ejemplo_ids)
   or lote_id in (select id from public.lotes where productor_id in (select id from ejemplo_ids));

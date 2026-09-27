@@ -156,3 +156,13 @@ interrupción y queda activo en la **sesión 2998**. No se probaron listas
 con más de 12 resultados ni una caída de red durante una decisión; los
 conflictos entre administradores y rollback transaccional están cubiertos
 por la suite SQL.
+
+## Vendedores en revisión (27 set 2026)
+
+Nueva sección `/admin/vendedores` con contador en el resumen: lista
+productores con al menos 5 calificaciones visibles de compradores y
+promedio menor a 3 estrellas (RPC `vendedores_en_revision()`, solo admin).
+Solo informa: la decisión sobre la cuenta se toma en Usuarios, con la
+moderación auditada que ya existe. El detalle de cada pedido muestra
+también sus calificaciones y si siguen ocultas por el doble ciego. Reglas
+completas en `docs/MODULOS/03-transacciones.md` § Calificaciones.

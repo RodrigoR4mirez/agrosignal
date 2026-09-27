@@ -20,16 +20,18 @@ Comprador presiona "Comprar"
                   productor podría rechazar)
       → Rechaza → estado "rechazado"
   → Productor marca "Enviado" → estado "enviado"
-  → Comprador marca "Recibido" → estado "recibido"
-  → Se pide calificación (1-5 estrellas + comentario opcional)
-      → estado "calificado"
+  → Comprador marca "Recibido" → estado "recibido" (se guarda recibido_en)
+  → Durante 14 días, comprador y productor se califican mutuamente
+      (1-5 estrellas + comentario opcional, en la tabla `calificaciones`)
 ```
 
 ## Reglas de negocio
 
 - Nombres de estado exactos a usar en base de datos e interfaz:
-  `pendiente`, `confirmado`, `enviado`, `recibido`, `calificado`,
-  `rechazado`, `cancelado`.
+  `pendiente`, `confirmado`, `enviado`, `recibido`, `rechazado`,
+  `cancelado`. `calificado` queda en el enum solo por los pedidos
+  anteriores al sistema de calificaciones y se trata como `recibido`.
+  Ya no es una transición válida.
 - El stock del lote se descuenta solo al pasar a `confirmado`.
 - Cada cambio de estado dispara una notificación interna (tabla
   `notificaciones`) para ambas partes.
@@ -67,9 +69,8 @@ con `search_path` vacío y autorización por identidad, rol y propiedad:
   sin editar su mensaje ni destinatario.
 
 Cada creación y transición inserta dos notificaciones, una para cada
-parte, en la misma transacción. Una calificación solo se registra después
-de recibir el pedido, admite 1–5 estrellas y hasta 1000 caracteres de
-comentario, y queda inmutable.
+parte, en la misma transacción. Las calificaciones tienen su propia
+sección más abajo.
 
 ### Cancelaciones y cambios del lote
 
@@ -201,3 +202,112 @@ consultó al terminar y refleja los 990 kg restantes a S/ 5.50.
 No se simularon cortes de red, envíos físicos ni cobros. La paginación de
 pedidos/notificaciones más allá de la primera página queda sin recorrido de
 navegador en esta QA; se usaron cuatro pedidos y doce avisos por parte.
+
+## Calificaciones bidireccionales
+
+Migración `20260927000100_calificaciones.sql`, prueba
+`supabase/tests/calificaciones.test.mjs`. Reemplaza los campos
+`pedidos.calificacion` y `pedidos.comentario` por la tabla
+`calificaciones` (ver `docs/MODELO-DE-DATOS.md`).
+
+### Reglas de negocio
+
+1. **Solo desde "recibido".** `calificar_pedido` rechaza cualquier pedido
+   que no esté en `recibido` (o en el antiguo `calificado`). La interfaz no
+   muestra la sección de calificación antes de ese estado.
+2. **Ventana de 14 días** desde `pedidos.recibido_en`. Se valida en el
+   servidor (`calificar_pedido` responde "El plazo para calificar este
+   pedido ya venció.") y en la interfaz, que en ese caso muestra ese mismo
+   mensaje en vez del formulario.
+3. **Una por persona y pedido, inmutable.** Hay restricciones únicas
+   `(pedido_id, calificado_por)` y `(pedido_id, rol_calificador)`, y un
+   trigger que impide modificarla. Reenviar exactamente lo mismo es
+   idempotente. La interfaz pide confirmación antes de enviar.
+4. **Doble ciego.** La primera calificación se guarda con
+   `visible = false`: RLS no la muestra a quien la recibe, ni aparece en
+   `resenas_productores`, ni cuenta para el promedio. Cuando califica la
+   segunda parte, las dos pasan a `visible = true` en la misma transacción
+   y ambas partes reciben una notificación. Si la ventana cierra con una
+   sola calificación, esta se considera visible desde ese momento: la
+   regla autoritativa es `private.calificacion_visible()` (`visible` o
+   ventana vencida), así que no depende de ningún proceso programado.
+   `publicar_calificaciones_vencidas()` sincroniza la columna. La migración
+   la programa cada hora con `pg_cron` solo si esa extensión está activa.
+5. **Preguntas según el rol.** *Decisión:* un solo campo de estrellas más
+   un comentario libre, orientados por tres preguntas de apoyo que cambian
+   según quién califica (comprador: descripción, puntualidad y
+   comunicación; productor: pago puntual, coordinación de la entrega y
+   comunicación). Se descartaron las sub-estrellas promediadas porque
+   añaden columnas que hoy nadie consulta y alargan el formulario. Si más
+   adelante se quieren métricas por criterio, se agregan como columnas
+   nuevas sin romper `estrellas`. El texto vive en
+   `lib/calificaciones/types.ts` (`PREGUNTAS`).
+6. **Umbral de 3.** Con menos de 3 calificaciones visibles se muestra
+   "Nuevo en la plataforma" en vez del promedio (`UMBRAL_REPUTACION`;
+   `catalogo_lotes.productor_promedio` es null). El filtro "Calificación
+   mínima" del marketplace excluye a esos productores.
+7. **Vendedores en revisión.** Productores con al menos 5 calificaciones
+   visibles de compradores y promedio menor a 3. RPC solo para admin
+   `vendedores_en_revision()`, página `/admin/vendedores` y contador en
+   `metricas_admin()`.
+
+### RPC y lecturas
+
+- `calificar_pedido(pedido, estrellas, comentario)`: la escritura. Solo
+  pueden usarla las partes del pedido, con rol activo y correo verificado.
+- `estado_calificacion_pedido(pedido)`: devuelve lo que la interfaz
+  necesita: la calificación propia, si la otra parte ya calificó (sin
+  revelar el contenido), la otra solo si ya es visible, la fecha de cierre
+  y si venció.
+- `perfil_productor(id)`: perfil público mínimo con reputación (total,
+  promedio y distribución por estrella). Solo para productores activos.
+- Página pública `/marketplace/productor/[id]`, enlazada desde la ficha de
+  cada lote.
+
+### Interfaz
+
+- Formulario con estrellas que se encienden de izquierda a derecha al
+  pasar el mouse o tocar (escala y color, 35 ms entre cada estrella) y un
+  pulso breve al elegir. Respeta `prefers-reduced-motion`.
+- Mientras la propia calificación espera a la otra parte, se muestra
+  "sellada": la tarjeta aparece desenfocada bajo vidrio esmerilado, con un
+  candado y la fecha en que se abrirá sola.
+- En la tarjeta del marketplace, el Sello (insignia de color) califica el
+  lote. La reputación es una línea discreta junto al nombre del productor
+  ("4,8 (127 calificaciones)" o "Nuevo en la plataforma"). La ficha del lote
+  muestra primero el Sello y luego "Sobre el productor", con la
+  distribución por estrellas.
+
+### Migración para usuarios existentes
+
+1. **Sin activación por usuario.** `calificaciones` es una tabla
+   independiente: cualquier comprador o productor, registrado antes o
+   después del cambio, puede calificar y ser calificado apenas tenga un
+   pedido recibido. Se revisó el código (`lib/`, `app/`, `components/`,
+   RPC) y ningún filtro usa la fecha de creación de la cuenta.
+2. **Excepción de la ventana para pedidos ya recibidos.** Los pedidos que
+   ya estaban en `recibido`/`calificado` reciben `recibido_en` =
+   `actualizado_en`, que es la mejor aproximación disponible. La migración
+   guarda el instante en que se aplica en `private.hitos`
+   (`lanzamiento_calificaciones`), y `private.cierre_calificacion()`
+   calcula `greatest(recibido_en, lanzamiento) + 14 días`. Así ningún
+   pedido antiguo cierra su ventana antes de 14 días después del
+   lanzamiento. Para los pedidos nuevos, `recibido_en` siempre es
+   posterior, por lo que la excepción no les afecta.
+3. **Calificaciones antiguas.** Las calificaciones que ya estaban en
+   `pedidos.calificacion` se copian como calificación del comprador con
+   `visible = true`, porque ya eran públicas antes del cambio. El productor
+   de esos pedidos puede calificar al comprador dentro de la ventana
+   anterior.
+4. **Perfiles sin calificaciones.** Cuentas antiguas y nuevas se tratan
+   igual: con menos de 3 calificaciones visibles muestran "Nuevo en la
+   plataforma".
+5. **Datos de ejemplo.** `scripts/cargar-ejemplos.mjs` ahora deja los
+   pedidos en `recibido` y califica con `calificar_pedido`.
+   `scripts/limpiar-ejemplos.sql` borra las calificaciones antes que los
+   pedidos.
+
+Estado de producción revisado antes del cambio (27 set 2026, consulta de
+solo lectura): 24 pedidos, ninguno en `recibido` y 10 en `calificado`, de
+los cuales 8 son de ejemplo y 2 de QA. Esos 10 son los que reciben la
+excepción de la ventana.

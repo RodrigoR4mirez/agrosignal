@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { SelloInocuidadBadge } from '@/components/SelloInocuidadBadge'
+import { ReputacionCompacta } from '@/components/calificaciones/Reputacion'
 import { Card } from '@/components/ui/Card'
 import { COSECHA, esEjemplo, money, photoUrl, quantity, type LotePublico } from '@/lib/marketplace/types'
 
@@ -19,7 +20,7 @@ export function LotCard({ lot, eager = false }: { lot: LotePublico; eager?: bool
         <p className="text-sm text-gray-600">{quantity(lot.cantidad_disponible)} {lot.unidad} disponibles · {lot.destino === 'local' ? 'Mercado local' : 'Exportación'}</p>
         <p className="wrap-anywhere text-2xl font-extrabold tabular-nums text-cacao">{money(lot.precio_unidad)} <span className="text-sm font-normal text-gray-500">/ {lot.unidad}</span></p>
         <SelloInocuidadBadge nivel={lot.nivel_sello} />
-        <p className="truncate text-xs text-gray-500">Publicado por {lot.productor_nombre}</p>
+        <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-t border-[#ece8dc] pt-3"><p className="min-w-0 truncate text-xs text-gray-500">{lot.productor_nombre}</p><ReputacionCompacta promedio={lot.productor_promedio} total={lot.productor_calificaciones} /></div>
       </div>
     </Link>
   </Card>

@@ -21,10 +21,11 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
         ['Usuarios nuevos', metrics.usuarios_nuevos, 'Cuentas registradas este mes'],
       ].map(([label, value, hint]) => <Card key={label} className="min-w-0"><h2 className="text-sm font-semibold text-gray-600">{label}</h2><p className="my-4 text-4xl font-extrabold text-[#1a5c2a]">{value}</p><p className="text-xs leading-relaxed text-gray-500">{hint}</p></Card>)}</div>
       <p className="mt-3 text-xs text-gray-500">Mes calendario según la hora de Perú. Los importes de los pedidos no representan pagos procesados por AgroSignal.</p>
-      <h2 className="mb-4 mt-8 text-xl font-bold">Requieren seguimiento</h2><div className="grid gap-4 sm:grid-cols-3">{[
+      <h2 className="mb-4 mt-8 text-xl font-bold">Requieren seguimiento</h2><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
         ['/admin/certificados', 'Certificados pendientes', metrics.certificados_pendientes],
         ['/admin/drones', 'Inspecciones solicitadas', metrics.drones_pendientes],
         ['/admin/tests', 'Lotes bloqueados', metrics.lotes_bloqueados],
+        ['/admin/vendedores', 'Vendedores en revisión', metrics.vendedores_en_revision ?? 0],
       ].map(([href, label, value]) => <Card key={href} className="min-w-0"><p className="mb-2 text-3xl font-bold text-[#b8860f]">{value}</p><h3 className="mb-3 text-sm font-semibold">{label}</h3><Link href={String(href)} className={adminLink}>Revisar</Link></Card>)}</div>
     </>}
     <section className="mt-8"><Notifications {...notices} role="admin" /></section>

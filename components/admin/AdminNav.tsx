@@ -7,6 +7,7 @@ const items = [
   ['/admin', 'Resumen'], ['/admin/usuarios', 'Usuarios'],
   ['/admin/certificados', 'Certificados pendientes'], ['/admin/drones', 'Solicitudes de dron'],
   ['/admin/tests', 'Tests fallidos'], ['/admin/pedidos', 'Pedidos y disputas'],
+  ['/admin/vendedores', 'Vendedores en revisión'],
 ]
 
 export function AdminNav() {

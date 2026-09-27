@@ -74,7 +74,7 @@ const COMPRADORES = [
   ['Claudia Mendoza Aguirre', 'empresa', false], ['Raúl Gamarra Ttito', 'natural', false],
 ]
 const DIRECCIONES = ['Av. Nicolás Ayllón 4570, Ate, Lima', 'Calle Los Pinos 214, Víctor Larco Herrera, Trujillo', 'Av. Ejército 1205, Yanahuara, Arequipa', 'Terminal de carga, Av. Elmer Faucett 2851, Callao', 'Jr. Huallaga 780, Huancayo, Junín', 'Av. Sánchez Cerro 1450, Piura', 'Mercado Mayorista de Lima, Santa Anita, puesto 3-112', 'Parque Industrial, Mz. B Lt. 12, Chincha Alta, Ica']
-// [comprador, lote, cantidad, estado final, estrellas, comentario]
+// [comprador, lote, cantidad, estado final, estrellas, comentario]; "calificado" = recibido + calificación del comprador
 const PEDIDOS = [
   [1, 0, 3000, 'calificado', 5, 'Fruta pareja y bien empacada, llegó a planta sin daños. Volveremos a comprar en la próxima campaña.'],
   [3, 4, 1200, 'calificado', 5, 'Excelente condición y cadena de frío impecable. Muy buena coordinación con la productora.'],
@@ -137,15 +137,17 @@ for (const [k, l] of LOTES.entries()) {
 }
 console.log('Lotes:', lotes.length)
 
-const ORDEN = ['confirmado', 'enviado', 'recibido', 'calificado']
+const ORDEN = ['confirmado', 'enviado', 'recibido']
 for (const [c, li, cant, final, estrellas, comentario] of PEDIDOS) {
   const comprador = compradores[c], lote = lotes[li]
   const id = await rpc(comprador, 'crear_pedido', { p_lote_id: lote.id, p_cantidad: cant, p_direccion_entrega: DIRECCIONES[c % DIRECCIONES.length], p_idempotencia: crypto.randomUUID(), p_precio_esperado: Number(lote.precio_unidad) })
   if (final === 'rechazado') { await rpc(lote.productor, 'cambiar_estado_pedido', { p_pedido_id: id, p_estado: 'rechazado', p_motivo: 'Ese volumen ya está comprometido con otro cliente esta semana.' }); continue }
-  for (const estado of ORDEN.slice(0, ORDEN.indexOf(final) + 1)) {
+  for (const estado of ORDEN.slice(0, ORDEN.indexOf(final === 'calificado' ? 'recibido' : final) + 1)) {
     const actor = ['confirmado', 'enviado'].includes(estado) ? lote.productor : comprador
-    await rpc(actor, 'cambiar_estado_pedido', { p_pedido_id: id, p_estado: estado, ...(estado === 'calificado' ? { p_calificacion: estrellas, p_comentario: comentario } : {}) })
+    await rpc(actor, 'cambiar_estado_pedido', { p_pedido_id: id, p_estado: estado })
   }
+  // Solo califica el comprador: queda oculta (doble ciego) hasta que el productor califique o venza el plazo.
+  if (final === 'calificado') await rpc(comprador, 'calificar_pedido', { p_pedido_id: id, p_estrellas: estrellas, p_comentario: comentario })
   console.log('Pedido', lote.cultivo, '→', final)
 }
 console.log('Listo.')

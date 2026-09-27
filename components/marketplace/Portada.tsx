@@ -10,7 +10,7 @@ const PASOS = [
   { icono: 'photo_camera', titulo: 'Publica tu lote', texto: 'Sube fotos, cantidad y precio desde tu panel. Tu cosecha aparece en el catálogo al instante.' },
   { icono: 'verified', titulo: 'Suma verificaciones', texto: 'Certificados, inspección con dron y test de residuos elevan el nivel de tu Sello de Inocuidad.' },
   { icono: 'handshake', titulo: 'Acuerda el pedido', texto: 'El comprador reserva stock y tú aceptas o rechazas cada pedido con un clic.' },
-  { icono: 'local_shipping', titulo: 'Entrega y calificación', texto: 'Coordinan la entrega y el comprador califica la compra para el siguiente cliente.' },
+  { icono: 'local_shipping', titulo: 'Entrega y calificación', texto: 'Coordinan la entrega y, al recibirla, comprador y productor se califican mutuamente.' },
 ]
 
 const CULTIVOS: { nombre: string; q: string; icono: string; texto: string; tono: string }[] = [

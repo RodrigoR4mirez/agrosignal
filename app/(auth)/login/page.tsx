@@ -18,7 +18,7 @@ export default async function LoginPage({ searchParams }: { searchParams: Promis
   return <AuthCard title="Vuelve a tu campo" description="Ingresa para gestionar tus cosechas o encontrar tu próxima compra.">
     {params.aviso && notices[params.aviso] && <p role="status" className="mb-5 rounded-xl border border-amber-200 bg-amber-50 p-3 text-sm text-amber-950">{notices[params.aviso]}</p>}
     <LoginForm next={params.next ? safeNext(params.next) : undefined} />
-    <p className="mt-6 text-center text-sm text-gray-600">¿Aún no tienes cuenta? <Link href="/registro" className="font-semibold text-[#1a5c2a] underline">Regístrate gratis</Link></p>
-    <p className="mt-4 text-center text-sm"><Link href="/verificar-correo" className="text-[#1a5c2a] underline">Reenviar correo de verificación</Link></p>
+    <p className="mt-6 text-center text-sm text-gray-600">¿Aún no tienes cuenta? <Link href="/registro" className="font-semibold text-petroleo underline">Regístrate gratis</Link></p>
+    <p className="mt-4 text-center text-sm"><Link href="/verificar-correo" className="text-petroleo underline">Reenviar correo de verificación</Link></p>
   </AuthCard>
 }

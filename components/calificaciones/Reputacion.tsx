@@ -37,7 +37,7 @@ export function ReputacionCompacta({ promedio, total, className = '' }: { promed
 export function ResumenReputacion({ reputacion, nombre }: { reputacion: Reputacion; nombre: string }) {
   const { total, promedio, distribucion } = reputacion
   if (!tieneReputacion(total) || promedio === null) {
-    return <div className="flex flex-wrap items-start gap-4 rounded-[18px] border border-dashed border-musgo/50 bg-salvia/70 p-5">
+    return <div className="flex flex-wrap items-start gap-4 rounded-[18px] border border-dashed border-musgo/50 bg-crema p-5">
       <span className="grid size-12 shrink-0 place-items-center rounded-full bg-musgo/15 text-musgo"><IconoBrote className="size-6" /></span>
       <div className="min-w-0 flex-1 basis-56">
         <p className="font-display text-xl font-medium text-bosque">Nuevo en la plataforma</p>
@@ -57,7 +57,7 @@ export function ResumenReputacion({ reputacion, nombre }: { reputacion: Reputaci
       {(['5', '4', '3', '2', '1'] as const).map(estrellas => {
         const cantidad = distribucion[estrellas], porcentaje = Math.round((cantidad / total) * 100)
         return <li key={estrellas} className="grid grid-cols-[2.25rem_1fr_2.75rem] items-center gap-3 text-sm">
-          <span className="tabular-nums text-gray-700">{estrellas} <span aria-hidden="true" className="text-[#b8860f]">★</span><span className="sr-only">{estrellas === '1' ? 'estrella' : 'estrellas'}</span></span>
+          <span className="tabular-nums text-gray-700">{estrellas} <span aria-hidden="true" className="text-tierra">★</span><span className="sr-only">{estrellas === '1' ? 'estrella' : 'estrellas'}</span></span>
           <span className="barra-reputacion block h-2.5 overflow-hidden rounded-full bg-arena/60" aria-hidden="true"><span className={`block h-full rounded-full ${Number(estrellas) >= 4 ? 'bg-[#d4a017]' : Number(estrellas) === 3 ? 'bg-musgo' : 'bg-tierra'}`} style={{ width: `${porcentaje}%` }} /></span>
           <span className="text-right tabular-nums text-gray-600">{porcentaje}%<span className="sr-only"> ({cantidad})</span></span>
         </li>

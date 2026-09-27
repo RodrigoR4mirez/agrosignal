@@ -3,8 +3,8 @@
 import { useActionState, useEffect, useRef, type InputHTMLAttributes } from 'react'
 import type { ActionState } from '@/lib/supabase/types'
 
-export const inputClass = 'w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base outline-none focus:border-[#1a5c2a] focus:ring-2 focus:ring-[#1a5c2a]/20 disabled:bg-gray-100'
-export const buttonClass = 'inline-flex min-h-11 items-center justify-center rounded-xl bg-[#1a5c2a] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#14532d] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#1a5c2a] disabled:cursor-wait disabled:opacity-60'
+export const inputClass = 'w-full rounded-xl border border-gray-300 bg-white px-3 py-3 text-base outline-none focus:border-petroleo focus:ring-2 focus:ring-petroleo/20 disabled:bg-gray-100'
+export const buttonClass = 'inline-flex min-h-11 items-center justify-center rounded-full bg-naranja px-6 py-3 text-sm font-semibold text-petroleo transition hover:bg-[#f29a5e] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-petroleo disabled:cursor-wait disabled:opacity-60'
 
 export function Field({ label, hint, ...props }: InputHTMLAttributes<HTMLInputElement> & { label: string; hint?: string }) {
   const id = props.id ?? props.name

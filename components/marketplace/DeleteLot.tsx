@@ -12,6 +12,6 @@ export function DeleteLot({ id, crop }: { id: string; crop: string }) {
     <input type="hidden" name="id" value={id} /><input type="hidden" name="confirmar" value="si" />
     <p className="text-sm text-red-950">¿Eliminar el lote de {crop}? Esta acción también elimina sus fotos y no se puede deshacer.</p>
     <FormMessage state={state} />
-    <div className="flex flex-wrap gap-3"><button disabled={pending} className="min-h-11 rounded-lg bg-red-700 px-4 text-sm font-bold text-white disabled:opacity-50">{pending ? 'Eliminando…' : 'Sí, eliminar lote'}</button><button disabled={pending} type="button" onClick={() => setConfirm(false)} className="min-h-11 rounded-lg border border-gray-300 bg-white px-4 text-sm font-semibold">Cancelar</button></div>
+    <div className="flex flex-wrap gap-3"><button disabled={pending} className="min-h-11 rounded-lg bg-red-700 px-4 text-sm font-bold text-white disabled:opacity-50">{pending ? 'Eliminando…' : 'Sí, eliminar lote'}</button><button disabled={pending} type="button" onClick={() => setConfirm(false)} className="min-h-11 rounded-full border border-gray-300 bg-white px-5 text-sm font-semibold">Cancelar</button></div>
   </form>
 }

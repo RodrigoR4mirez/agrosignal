@@ -67,7 +67,7 @@ export function FormularioCalificacion({ pedidoId, rol, contraparte, cierre, otr
       <p className="text-sm leading-relaxed text-gray-600">{contraparte} no verá tu calificación hasta que también califique, o hasta que venza el plazo.</p>
       <div className="flex flex-wrap gap-3">
         <button disabled={pending} className={buttonClass}>{pending ? 'Enviando…' : 'Enviar calificación'}</button>
-        <button type="button" disabled={pending} onClick={() => setRevisando(false)} className="min-h-11 rounded-xl border border-gray-300 bg-white px-4 text-sm font-semibold">Seguir editando</button>
+        <button type="button" disabled={pending} onClick={() => setRevisando(false)} className="min-h-11 rounded-full border border-gray-300 bg-white px-5 text-sm font-semibold">Seguir editando</button>
       </div>
     </div>}
   </form>

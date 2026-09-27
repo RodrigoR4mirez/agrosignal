@@ -78,9 +78,9 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
     finally { setPending(false); setProgress('') }
   }
   return <div className="mx-auto w-full max-w-3xl">
-    <ol aria-label="Pasos para publicar" className="mb-8 grid grid-cols-3 gap-2">{steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} className={`rounded-xl p-3 text-xs font-semibold sm:text-sm ${step === index ? 'bg-[#1a5c2a] text-white' : 'bg-green-50 text-green-900'}`}><span className="mb-1 block">Paso {index + 1}</span>{label}</li>)}</ol>
+    <ol aria-label="Pasos para publicar" className="mb-8 grid grid-cols-3 gap-2">{steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} className={`rounded-xl p-3 text-xs font-semibold sm:text-sm ${step === index ? 'bg-petroleo text-white' : 'bg-crema text-petroleo'}`}><span className="mb-1 block">Paso {index + 1}</span>{label}</li>)}</ol>
     <form onSubmit={submit} className="card-surface space-y-6 border border-gray-100 bg-white p-5 sm:p-8">
-      <h2 className="text-xl font-bold text-[#1a5c2a]">{steps[step]}</h2>
+      <h2 className="text-xl font-semibold text-petroleo">{steps[step]}</h2>
       <FormMessage state={state} />
       <fieldset disabled={pending} className="space-y-5">
         {step === 0 && <>
@@ -96,15 +96,15 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
           <div className="space-y-2"><label htmlFor="descripcion" className="block text-sm font-semibold">Descripción (opcional)</label><textarea id="descripcion" name="descripcion" value={values.descripcion} onChange={event => update('descripcion', event.target.value)} maxLength={300} rows={4} className={inputClass} /><p className="text-xs text-gray-500">{values.descripcion.length}/300 caracteres</p></div>
         </>}
         {step === 2 && <>
-          <div className="rounded-xl bg-green-50 p-4 text-sm leading-relaxed text-green-950"><p className="wrap-anywhere font-bold">{values.cultivo} · {values.region}</p><p>{values.cantidad_disponible} {values.unidad} · S/ {values.precio_unidad} por {values.unidad}</p><p>{values.provincia}, {values.distrito}</p></div>
-          <div className="space-y-2"><label htmlFor="fotos" className="block text-sm font-semibold">Fotos del lote ({photos.length}/6)</label><input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={pending || photos.length >= 6} onChange={event => { void addPhotos(event.target.files); event.target.value = '' }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-green-50 file:px-3 file:py-2 file:font-semibold file:text-green-900`} /><p className="text-xs text-gray-600">De 1 a 6 fotos propias, JPG, PNG o WebP. Hasta 5 MB por foto. La primera será la portada.</p></div>
+          <div className="rounded-xl bg-crema p-4 text-sm leading-relaxed text-petroleo"><p className="wrap-anywhere font-bold">{values.cultivo} · {values.region}</p><p>{values.cantidad_disponible} {values.unidad} · S/ {values.precio_unidad} por {values.unidad}</p><p>{values.provincia}, {values.distrito}</p></div>
+          <div className="space-y-2"><label htmlFor="fotos" className="block text-sm font-semibold">Fotos del lote ({photos.length}/6)</label><input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={pending || photos.length >= 6} onChange={event => { void addPhotos(event.target.files); event.target.value = '' }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-crema file:px-3 file:py-2 file:font-semibold file:text-petroleo`} /><p className="text-xs text-gray-600">De 1 a 6 fotos propias, JPG, PNG o WebP. Hasta 5 MB por foto. La primera será la portada.</p></div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{photos.map((photo, index) => <div key={photo.preview} className="overflow-hidden rounded-xl border border-gray-200"><div className="relative aspect-square"><Image unoptimized fill src={photo.preview} alt={`Foto ${index + 1} del lote`} className="object-cover" sizes="200px" /></div><button type="button" disabled={pending} onClick={() => { if (photo.preview.startsWith('blob:')) URL.revokeObjectURL(photo.preview); setPhotos(previous => previous.filter((_, i) => i !== index)) }} className="min-h-11 w-full px-2 text-sm font-semibold text-red-700">Quitar foto {index + 1}</button></div>)}</div>
           <p className="text-sm leading-relaxed text-gray-600">Al publicar, la información y las fotos serán visibles en el marketplace. Un lote agotado o bloqueado permanece visible solo en tu gestión.</p>
         </>}
       </fieldset>
-      {pending && <p role="status" className="text-sm font-semibold text-[#1a5c2a]">{progress}</p>}
+      {pending && <p role="status" className="text-sm font-semibold text-petroleo">{progress}</p>}
       <div className="flex flex-wrap items-center justify-between gap-3 border-t border-gray-100 pt-5">
-        {step > 0 ? <button type="button" disabled={pending} onClick={() => { setState({}); setStep(step - 1) }} className="min-h-11 rounded-xl border border-gray-300 px-5 text-sm font-semibold">Anterior</button> : <Link href="/panel-productor/mis-lotes" className="py-3 text-sm font-semibold text-gray-600 underline">Cancelar</Link>}
+        {step > 0 ? <button type="button" disabled={pending} onClick={() => { setState({}); setStep(step - 1) }} className="min-h-11 rounded-full border border-gray-300 px-5 text-sm font-semibold">Anterior</button> : <Link href="/panel-productor/mis-lotes" className="py-3 text-sm font-semibold text-gray-600 underline">Cancelar</Link>}
         <button type="submit" disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : step < 2 ? 'Continuar' : initial && !initial.borrador ? 'Guardar cambios' : 'Publicar lote'}</button>
       </div>
     </form>

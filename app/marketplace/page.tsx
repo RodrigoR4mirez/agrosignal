@@ -18,7 +18,7 @@ const DESTINOS = [['', 'Todos'], ['local', 'Mercado local'], ['exportacion', 'Ex
 
 // Opción de radio con estilo de fila; el estado marcado se ve por color, no solo por el círculo.
 function Opcion({ name, value, actual, children }: { name: string; value: string; actual?: string; children: React.ReactNode }) {
-  return <label className="flex min-h-10 cursor-pointer items-center gap-3 rounded-xl px-3 text-sm text-gray-700 hover:bg-crema has-checked:bg-petroleo/[0.07] has-checked:font-semibold has-checked:text-petroleo">
+  return <label className="flex min-h-10 cursor-pointer items-center gap-3 rounded-full px-3 text-sm text-gray-700 hover:bg-crema has-checked:bg-petroleo/[0.07] has-checked:font-semibold has-checked:text-petroleo">
     <input type="radio" name={name} value={value} defaultChecked={(actual ?? '') === value} className="size-4 shrink-0 accent-[#133535]" />{children}
   </label>
 }
@@ -50,7 +50,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
   ]
 
   return <AppShell profile={profile} anchoCompleto>
-    <Form key={JSON.stringify(filters)} action="/marketplace" scroll={false} className="tipo-sans">
+    <Form key={JSON.stringify(filters)} action="/marketplace" scroll={false}>
       <EnvioAutomatico />
       {/* Cabecera: búsqueda protagonista y accesos rápidos a los cultivos más publicados */}
       <section className="relative overflow-hidden bg-petroleo text-white">
@@ -83,7 +83,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
               <div className="space-y-5 rounded-[22px] border border-[#ebe4d4] bg-white p-5">
                 <Grupo titulo="Destino">
                   <div className="flex flex-wrap gap-2">
-                    {DESTINOS.map(([value, label]) => <label key={value} className="relative flex min-h-10 cursor-pointer items-center rounded-full px-4 text-sm text-gray-700 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40 has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo">
+                    {DESTINOS.map(([value, label]) => <label key={value} className="relative flex min-h-10 cursor-pointer items-center rounded-full px-5 text-sm text-gray-700 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40 has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo">
                       <input type="radio" name="destino" value={value} defaultChecked={(filters.destino ?? '') === value} className="sr-only" />{label}
                     </label>)}
                   </div>

@@ -54,7 +54,7 @@ const caja = 'app-container px-4 sm:px-6 lg:px-8'
 export default function HelpPage() {
   return <AppShell anchoCompleto>
     <AbrirPreguntaEnlazada />
-    <div className="tipo-sans">
+    <div>
       <section className="relative overflow-hidden bg-petroleo text-white">
         <CurvasNivel className="absolute -right-32 -top-24 w-[38rem] opacity-40" />
         <div className={`${caja} relative py-12 lg:py-16`}>

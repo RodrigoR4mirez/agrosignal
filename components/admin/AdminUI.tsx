@@ -1,9 +1,9 @@
 import Link from 'next/link'
 import { Card } from '@/components/ui/Card'
 
-export const adminLink = 'inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline underline-offset-4'
+export const adminLink = 'inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline underline-offset-4'
 export function AdminHeading({ title, description }: { title: string; description: string }) {
-  return <div className="mb-7 space-y-3"><h1 className="text-3xl font-extrabold text-[#1a5c2a]">{title}</h1><p className="text-sm leading-relaxed text-gray-600">{description}</p></div>
+  return <div className="mb-7 space-y-3"><h1 className="text-3xl font-normal sm:text-4xl text-petroleo">{title}</h1><p className="text-sm leading-relaxed text-gray-600">{description}</p></div>
 }
 export function QueueEmpty({ error, children }: { error: boolean; children: React.ReactNode }) {
   return <Card><p role={error ? 'alert' : undefined} className={`text-sm ${error ? 'text-red-800' : 'text-gray-600'}`}>{error ? 'No pudimos cargar esta sección. Actualiza la página para intentarlo nuevamente.' : children}</p></Card>

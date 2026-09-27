@@ -2,11 +2,11 @@
 
 @theme {
   --font-sans: var(--font-jakarta), ui-sans-serif, system-ui, -apple-system, sans-serif;
-  --font-display: var(--font-fraunces), Georgia, serif;
+  --font-display: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
 
-  /* Paleta tierra: bosque, musgo, tierra, cacao y arena junto al verde/dorado de marca */
-  --color-bosque: #173d2c;
-  --color-bosque-claro: #24543d;
+  /* Paleta tierra: bosque (ahora el petróleo de la landing), musgo, tierra, cacao y arena */
+  --color-bosque: #133535;
+  --color-bosque-claro: #1d4a4a;
   --color-musgo: #6f8f4e;
   --color-tierra: #7a4a2e;
   --color-cacao: #4a2c1d;
@@ -22,13 +22,13 @@
 }
 
 :root {
-  --surface: #eef0e6;
-  --border-soft: #dfe3d4;
+  --surface: #fdf9f0;
+  --border-soft: #ebe4d4;
 
   /* Sistema unificado — un solo radio, una sola sombra, transición estándar */
-  --radius-card: 20px;
-  --shadow-card: 0 1px 2px rgba(23, 61, 44, 0.06), 0 10px 28px -12px rgba(23, 61, 44, 0.18);
-  --shadow-card-hover: 0 2px 4px rgba(23, 61, 44, 0.08), 0 18px 36px -14px rgba(23, 61, 44, 0.28);
+  --radius-card: 22px;
+  --shadow-card: 0 1px 2px rgba(19, 53, 53, 0.05);
+  --shadow-card-hover: 0 22px 40px -24px rgba(19, 53, 53, 0.4);
   --transition-base: all 0.2s ease;
 }
 
@@ -50,10 +50,6 @@ html, body {
   color: #111827;
   min-height: 100vh;
   background-color: var(--surface);
-  background-image:
-    radial-gradient(760px circle at 0% 0%, rgba(111, 143, 78, 0.14), transparent 60%),
-    radial-gradient(640px circle at 100% 10%, rgba(122, 74, 46, 0.07), transparent 55%);
-  background-attachment: fixed;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -67,7 +63,7 @@ html, body {
 }
 
 ::selection {
-  background: rgba(26, 92, 42, 0.18);
+  background: rgba(238, 124, 50, 0.25);
 }
 
 ::-webkit-scrollbar {
@@ -85,19 +81,19 @@ html, body {
   background: #b9beac;
 }
 
+/* Títulos en la misma sans de la landing, con interletra algo más cerrada */
 h1, h2, h3, .font-display {
   font-family: var(--font-display);
-  font-variation-settings: "SOFT" 60;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.015em;
   text-wrap: balance;
 }
 
-/* Nervaduras de hoja: textura sutil para las franjas verde bosque */
+/* Nervaduras de hoja: textura sutil para las franjas oscuras (petróleo) */
 .leaf-texture {
   background-color: var(--color-bosque);
   background-image:
     url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220' viewBox='0 0 220 220'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.05' stroke-width='1.2'%3E%3Cpath d='M20 200 C60 120 120 80 200 20'/%3E%3Cpath d='M70 150 C60 120 64 100 80 84'/%3E%3Cpath d='M110 112 C96 92 100 70 118 56'/%3E%3Cpath d='M70 150 C100 150 120 140 140 124'/%3E%3Cpath d='M110 112 C140 112 158 100 172 84'/%3E%3C/g%3E%3C/svg%3E"),
-    radial-gradient(600px circle at 90% 0%, rgba(111, 143, 78, 0.35), transparent 60%);
+    radial-gradient(600px circle at 90% 0%, rgba(111, 143, 78, 0.25), transparent 60%);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -120,7 +116,7 @@ h1, h2, h3, .font-display {
   animation: estrella-pulso 420ms cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 .estrella-opcion:has(input:focus-visible) {
-  outline: 2px solid #173d2c;
+  outline: 2px solid #133535;
   outline-offset: 2px;
   border-radius: 10px;
 }
@@ -163,12 +159,6 @@ h1, h2, h3, .font-display {
   .estrella-opcion[data-elegida="true"] svg { animation: none; }
 }
 
-/* Landing (estructura inspirada en tourba.ma): títulos en sans de peso ligero */
-.tipo-sans :is(h1, h2, h3) {
-  font-family: var(--font-sans);
-  font-variation-settings: normal;
-  letter-spacing: -0.015em;
-}
 
 /* Landing: bloques que entran al hacer scroll (fundido 1.5s + desplazamiento 1s).
    AnimacionesScroll solo oculta lo que está debajo de la pantalla al cargar,

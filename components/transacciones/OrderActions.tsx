@@ -30,7 +30,7 @@ export function OrderActions({ order, role }: { order: Pedido; role: 'productor'
       <fieldset disabled={pending} className="space-y-5">
         {(active === 'rechazado' || active === 'cancelado') && <div className="space-y-2"><label htmlFor="motivo" className="block text-sm font-semibold">Motivo</label><textarea id="motivo" name="motivo" required minLength={5} maxLength={500} rows={3} value={reason} onChange={event => setReason(event.target.value)} className={inputClass} /></div>}
       </fieldset>
-      <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : `Sí, ${labels[active]?.toLowerCase()}`}</button><button type="button" disabled={pending} onClick={() => setSelected(null)} className="min-h-11 rounded-xl border border-gray-300 px-4 text-sm font-semibold">Volver</button></div>
+      <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : `Sí, ${labels[active]?.toLowerCase()}`}</button><button type="button" disabled={pending} onClick={() => setSelected(null)} className="min-h-11 rounded-full border border-gray-300 px-5 text-sm font-semibold">Volver</button></div>
     </form> : <div className="flex flex-wrap gap-3">{options.map(next => <button key={next} onClick={() => setSelected(next)} type="button" className={next === 'rechazado' || next === 'cancelado' ? 'min-h-11 rounded-xl border border-red-200 px-4 text-sm font-semibold text-red-700' : buttonClass}>{labels[next]}</button>)}</div>}
   </div>
 }

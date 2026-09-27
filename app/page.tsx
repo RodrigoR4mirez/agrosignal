@@ -29,7 +29,7 @@ export default async function Landing() {
   const profile = await getProfile()
   const panel = profile ? (profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]) : null
   const vender = !profile ? '/registro?rol=productor' : profile.rol === 'productor' ? '/panel-productor/publicar' : '/marketplace'
-  return <div className="tipo-sans overflow-x-clip bg-white font-sans text-[#2b2118]">
+  return <div className="overflow-x-clip bg-white font-sans text-[#2b2118]">
     <AnimacionesScroll />
     <a href="#contenido" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Saltar al contenido</a>
 

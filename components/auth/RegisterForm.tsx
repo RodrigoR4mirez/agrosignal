@@ -25,15 +25,15 @@ export function RegisterForm() {
     if (event.key === 'Enter' && step < 2 && event.target instanceof HTMLInputElement) { event.preventDefault(); nextStep() }
   }}>
     <div>
-      <p className="mb-2 text-sm font-semibold text-[#1a5c2a]" aria-live="polite">Paso {step + 1} de 3 · {['Tu actividad', 'Tus datos', 'Tu acceso'][step]}</p>
-      <div className="flex gap-2" aria-hidden="true">{[0, 1, 2].map(index => <span key={index} className={`h-1.5 flex-1 rounded-full ${index <= step ? 'bg-[#1a5c2a]' : 'bg-gray-200'}`} />)}</div>
+      <p className="mb-2 text-sm font-semibold text-petroleo" aria-live="polite">Paso {step + 1} de 3 · {['Tu actividad', 'Tus datos', 'Tu acceso'][step]}</p>
+      <div className="flex gap-2" aria-hidden="true">{[0, 1, 2].map(index => <span key={index} className={`h-1.5 flex-1 rounded-full ${index <= step ? 'bg-petroleo' : 'bg-gray-200'}`} />)}</div>
     </div>
     <FormMessage state={state} />
     <fieldset hidden={step !== 0} data-step="0" className="space-y-5">
       <legend className="mb-3 font-semibold">¿Cómo usarás AgroSignal?</legend>
       <div className="grid gap-3 sm:grid-cols-2">
-        {(['productor', 'comprador'] as const).map(value => <label key={value} className={`cursor-pointer rounded-xl border-2 p-4 ${role === value ? 'border-[#1a5c2a] bg-green-50' : 'border-gray-200'}`}>
-          <span className="flex items-center gap-2 font-bold"><input type="radio" name="rol" value={value} checked={role === value} onChange={() => setRole(value)} className="accent-[#1a5c2a]" />{value === 'productor' ? 'Soy productor' : 'Soy comprador'}</span>
+        {(['productor', 'comprador'] as const).map(value => <label key={value} className={`cursor-pointer rounded-xl border-2 p-4 ${role === value ? 'border-petroleo bg-crema' : 'border-gray-200'}`}>
+          <span className="flex items-center gap-2 font-bold"><input type="radio" name="rol" value={value} checked={role === value} onChange={() => setRole(value)} className="accent-petroleo" />{value === 'productor' ? 'Soy productor' : 'Soy comprador'}</span>
           <span className="mt-2 block text-sm text-gray-600">{value === 'productor' ? 'Quiero publicar y vender mis cosechas.' : 'Quiero encontrar y comprar cosechas.'}</span>
         </label>)}
       </div>
@@ -42,7 +42,7 @@ export function RegisterForm() {
         <Field label="Cultivo principal" name="cultivo_principal" placeholder="Por ejemplo, palta Hass" required minLength={2} maxLength={100} {...field('cultivo_principal')} />
       </> : <>
         <div className="space-y-2"><label htmlFor="tipo_comprador" className="block text-sm font-semibold">Tipo de comprador</label><select id="tipo_comprador" name="tipo_comprador" required {...field('tipo_comprador')} className={inputClass}><option value="natural">Persona natural</option><option value="empresa">Empresa</option><option value="exportador">Exportador</option></select></div>
-        <label className="flex items-start gap-3 text-sm"><input type="checkbox" name="destino_exportacion" checked={exportacion} onChange={event => setExportacion(event.target.checked)} className="mt-1 size-4 accent-[#1a5c2a]" /><span>Busco productos para exportación</span></label>
+        <label className="flex items-start gap-3 text-sm"><input type="checkbox" name="destino_exportacion" checked={exportacion} onChange={event => setExportacion(event.target.checked)} className="mt-1 size-4 accent-petroleo" /><span>Busco productos para exportación</span></label>
       </>}
     </fieldset>
     <fieldset hidden={step !== 1} data-step="1" className="space-y-5">
@@ -58,7 +58,7 @@ export function RegisterForm() {
       <p className="text-xs leading-relaxed text-gray-600">Te enviaremos un enlace para verificar tu correo antes de publicar o comprar.</p>
     </fieldset>
     <div className="flex gap-3">
-      {step > 0 && <button type="button" onClick={() => setStep(step - 1)} disabled={pending} className="min-h-11 rounded-xl border border-gray-300 px-4 py-3 text-sm font-semibold">Atrás</button>}
+      {step > 0 && <button type="button" onClick={() => setStep(step - 1)} disabled={pending} className="min-h-11 rounded-full border border-gray-300 px-5 py-3 text-sm font-semibold">Atrás</button>}
       {step < 2 ? <button type="button" onClick={nextStep} className={`${buttonClass} flex-1`}>Continuar</button> : <button className={`${buttonClass} flex-1`} disabled={pending}>{pending ? 'Creando cuenta…' : 'Crear mi cuenta'}</button>}
     </div>
   </form>

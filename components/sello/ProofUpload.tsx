@@ -42,9 +42,9 @@ export function ProofUpload({ bucket, owner, lotId, onReady, onBusy, disabled = 
   }
   return <div className="space-y-2">
     <label htmlFor={id} className="block text-sm font-semibold">{bucket === 'certificados' ? 'Certificado (PDF o imagen)' : bucket === 'evidencia-drones' ? 'Fotos o video de la inspección' : 'Foto del resultado'}</label>
-    <input id={id} type="file" accept={allowed.join(',')} multiple={maximum > 1} disabled={disabled || uploading} onChange={event => { const input = event.currentTarget; void upload(input.files).finally(() => { input.value = '' }) }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-green-50 file:px-3 file:py-2 file:text-green-900`} />
+    <input id={id} type="file" accept={allowed.join(',')} multiple={maximum > 1} disabled={disabled || uploading} onChange={event => { const input = event.currentTarget; void upload(input.files).finally(() => { input.value = '' }) }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-crema file:px-3 file:py-2 file:text-petroleo`} />
     <p className="text-xs leading-relaxed text-gray-600">Hasta {maximum} {maximum === 1 ? 'archivo' : 'archivos'}, {megabytes} MB por archivo. JPG, PNG, WebP{bucket === 'certificados' ? ' o PDF' : bucket === 'evidencia-drones' ? ' o MP4' : ''}. Acceso privado para el productor y la administración.</p>
-    {status && <p role="status" className="text-sm text-[#1a5c2a]">{status}</p>}
+    {status && <p role="status" className="text-sm text-petroleo">{status}</p>}
     {error && <p role="alert" className="text-sm text-red-800">{error}</p>}
   </div>
 }

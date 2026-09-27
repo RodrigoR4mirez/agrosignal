@@ -18,7 +18,7 @@ const sections: { id: string; title: string; icono: typeof IconoPersona; questio
   { id: 'cuenta', title: 'Tu cuenta', icono: IconoPersona, questions: accountQuestions },
   { id: 'publicaciones', title: 'Publicar y encontrar cosechas', icono: IconoMercado, questions: [
     ['publicar', '¿Cómo publico un lote?', 'Ingresa como productor y abre Mi panel → Publicar lote. Completa los datos de la cosecha, su ubicación y las fotos en tres pasos. Revisa el precio, la unidad y la cantidad antes de publicar.'],
-    ['fotos', '¿Qué fotos puedo subir?', 'Agrega entre 1 y 6 fotos de tu lote en JPG, PNG o WebP, de hasta 5 MB cada una. Usa imágenes que correspondan a la cosecha ofrecida. Las fotos del catálogo son públicas.'],
+    ['fotos', '¿Qué fotos puedo subir?', 'Agrega entre 1 y 5 fotos de tu lote en JPG, PNG o WebP, de hasta 5 MB cada una. Usa imágenes que correspondan a la cosecha ofrecida. Las fotos del catálogo son públicas.'],
     ['borrador', 'Se interrumpió la publicación, ¿perdí el lote?', 'Revisa Mis lotes. Si se alcanzó a crear un borrador, puedes editarlo y terminar la publicación desde allí. Los borradores no aparecen en el catálogo.'],
     ['visibilidad', '¿Por qué mi lote no aparece en el marketplace?', 'Revisa que esté publicado, tenga fotos y una cantidad mayor que cero. La cuenta debe estar activa y con correo confirmado. Los lotes bloqueados por un test de residuos no aparecen en el catálogo.'],
     ['retirar', '¿Cómo retiro una publicación?', 'En Mis lotes puedes editar la cantidad disponible y ponerla en cero. Si el lote ya tiene pedidos o verificaciones, se conserva su historial y no se puede eliminar.'],

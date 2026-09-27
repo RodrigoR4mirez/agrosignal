@@ -1,8 +1,8 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/AppShell'
 import { SelloInocuidadBadge } from '@/components/SelloInocuidadBadge'
+import { GaleriaLote } from '@/components/marketplace/GaleriaLote'
 import { getPublicSello } from '@/lib/sello/data'
 import { SelloSummary } from '@/components/sello/SelloSummary'
 import { getPublicLot } from '@/lib/marketplace/data'
@@ -48,8 +48,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
     <nav aria-label="Ruta" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-600"><Link href="/marketplace" className="font-semibold text-petroleo underline-offset-4 hover:underline">Productos</Link><span aria-hidden="true">/</span><span className="wrap-anywhere">{lot.cultivo}</span></nav>
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12">
       <div className="min-w-0">
-        {photos.length ? <div className="grid grid-cols-2 gap-3">{photos.map((url, index) => <div key={url} className={`relative overflow-hidden rounded-[22px] bg-crema ${index === 0 ? 'col-span-2 aspect-4/3' : 'aspect-4/3'}`}><Image src={url} alt={`${lot.cultivo}, foto ${index + 1} de ${photos.length}`} fill unoptimized loading={index === 0 ? 'eager' : 'lazy'} sizes={index === 0 ? '(max-width: 1024px) 100vw, 55vw' : '(max-width: 1024px) 50vw, 28vw'} className="object-cover" /></div>)}</div>
-          : <div className="grid aspect-4/3 place-items-center rounded-[22px] bg-white text-sm text-gray-600 ring-1 ring-[#ebe4d4]">Este lote no tiene fotos disponibles.</div>}
+        <GaleriaLote fotos={photos} alt={`Lote de ${lot.cultivo} en ${lot.region}`} />
       </div>
 
       <aside aria-label="Resumen del lote" className="min-w-0 lg:sticky lg:top-24 lg:self-start">

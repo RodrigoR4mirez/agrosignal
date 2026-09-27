@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import { prepareLot, saveLot } from '@/app/panel-productor/actions'
 import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
-import { COSECHA, REGIONES, photoUrl, type Lote } from '@/lib/marketplace/types'
+import { COSECHA, MAX_FOTOS, REGIONES, photoUrl, type Lote } from '@/lib/marketplace/types'
 import type { ActionState } from '@/lib/supabase/types'
 
 type Photo = { path?: string; preview: string; file?: File }
@@ -24,7 +24,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
     cantidad_disponible: initial ? String(initial.cantidad_disponible) : '', precio_unidad: initial ? String(initial.precio_unidad) : '', precio_anterior: initial?.precio_anterior ? String(initial.precio_anterior) : '',
     unidad: initial?.unidad ?? 'kg', estado_cosecha: initial?.estado_cosecha ?? 'disponible', nivel_riesgo: initial?.nivel_riesgo ?? 'medio', destino: initial?.destino ?? 'local', descripcion: initial?.descripcion ?? '',
   })
-  const [photos, setPhotos] = useState<Photo[]>(() => [...new Set([...(initial?.fotos ?? []), ...recoveredPhotos])].slice(0, 6).flatMap(path => {
+  const [photos, setPhotos] = useState<Photo[]>(() => [...new Set([...(initial?.fotos ?? []), ...recoveredPhotos])].slice(0, MAX_FOTOS).flatMap(path => {
     const preview = photoUrl(path)
     return preview ? [{ path, preview }] : []
   }))
@@ -34,7 +34,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
   async function addPhotos(files: FileList | null) {
     if (!files) return
     setState({})
-    if (photos.length + files.length > 6) { setState({ error: 'Puedes agregar hasta 6 fotos por lote.' }); return }
+    if (photos.length + files.length > MAX_FOTOS) { setState({ error: `Puedes agregar hasta ${MAX_FOTOS} fotos por lote.` }); return }
     for (const file of Array.from(files)) {
       if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { setState({ error: 'Usa fotos JPG, PNG o WebP.' }); return }
       if (file.size > 5 * 1024 * 1024 || file.size === 0) { setState({ error: 'Cada foto debe pesar más de 0 y hasta 5 MB.' }); return }
@@ -98,7 +98,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
         </>}
         {step === 2 && <>
           <div className="rounded-xl bg-crema p-4 text-sm leading-relaxed text-petroleo"><p className="wrap-anywhere font-bold">{values.cultivo} · {values.region}</p><p>{values.cantidad_disponible} {values.unidad} · S/ {values.precio_unidad} por {values.unidad}{values.precio_anterior && ` (antes S/ ${values.precio_anterior})`}</p><p>{values.provincia}, {values.distrito}</p></div>
-          <div className="space-y-2"><label htmlFor="fotos" className="block text-sm font-semibold">Fotos del lote ({photos.length}/6)</label><input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={pending || photos.length >= 6} onChange={event => { void addPhotos(event.target.files); event.target.value = '' }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-crema file:px-3 file:py-2 file:font-semibold file:text-petroleo`} /><p className="text-xs text-gray-600">De 1 a 6 fotos propias, JPG, PNG o WebP. Hasta 5 MB por foto. La primera será la portada.</p></div>
+          <div className="space-y-2"><label htmlFor="fotos" className="block text-sm font-semibold">Fotos del lote ({photos.length}/{MAX_FOTOS})</label><input id="fotos" type="file" accept="image/jpeg,image/png,image/webp" multiple disabled={pending || photos.length >= 6} onChange={event => { void addPhotos(event.target.files); event.target.value = '' }} className={`${inputClass} text-sm file:mr-3 file:rounded-lg file:border-0 file:bg-crema file:px-3 file:py-2 file:font-semibold file:text-petroleo`} /><p className="text-xs text-gray-600">De 1 a 6 fotos propias, JPG, PNG o WebP. Hasta 5 MB por foto. La primera será la portada.</p></div>
           <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">{photos.map((photo, index) => <div key={photo.preview} className="overflow-hidden rounded-xl border border-gray-200"><div className="relative aspect-square"><Image unoptimized fill src={photo.preview} alt={`Foto ${index + 1} del lote`} className="object-cover" sizes="200px" /></div><button type="button" disabled={pending} onClick={() => { if (photo.preview.startsWith('blob:')) URL.revokeObjectURL(photo.preview); setPhotos(previous => previous.filter((_, i) => i !== index)) }} className="min-h-11 w-full px-2 text-sm font-semibold text-red-700">Quitar foto {index + 1}</button></div>)}</div>
           <p className="text-sm leading-relaxed text-gray-600">Al publicar, la información y las fotos serán visibles en el marketplace. Un lote agotado o bloqueado permanece visible solo en tu gestión.</p>
         </>}

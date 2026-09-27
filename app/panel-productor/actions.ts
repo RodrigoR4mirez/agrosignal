@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache'
 import { redirect } from 'next/navigation'
 import { requireRole } from '@/lib/supabase/auth'
 import { createClient } from '@/lib/supabase/server'
-import { REGIONES, uuidPattern } from '@/lib/marketplace/types'
+import { MAX_FOTOS, REGIONES, uuidPattern } from '@/lib/marketplace/types'
 import type { ActionState } from '@/lib/supabase/types'
 
 type SaveResult = ActionState & { id?: string; cleanupWarning?: boolean }
@@ -51,7 +51,7 @@ export async function saveLot(form: FormData): Promise<SaveResult> {
   if (!uuidPattern.test(id)) return { error: 'El lote no es válido.' }
   let photos: unknown
   try { photos = JSON.parse(String(form.get('fotos') ?? '[]')) } catch { return { error: 'Revisa las fotos del lote.' } }
-  if (!Array.isArray(photos) || photos.length < 1 || photos.length > 6 || new Set(photos).size !== photos.length || photos.some(path => typeof path !== 'string' || !new RegExp(`^${profile.id}/${id}/[0-9a-f-]{36}\\.(jpg|jpeg|png|webp)$`).test(path))) return { error: 'Agrega de 1 a 6 fotos válidas de este lote.' }
+  if (!Array.isArray(photos) || photos.length < 1 || photos.length > MAX_FOTOS || new Set(photos).size !== photos.length || photos.some(path => typeof path !== 'string' || !new RegExp(`^${profile.id}/${id}/[0-9a-f-]{36}\\.(jpg|jpeg|png|webp)$`).test(path))) return { error: 'Agrega de 1 a 6 fotos válidas de este lote.' }
   const db = await createClient()
   const { data: old, error: readError } = await db.from('lotes').select('fotos').eq('id', id).eq('productor_id', profile.id).maybeSingle()
   if (readError || !old) return { error: 'No encontramos este lote entre tus publicaciones.' }

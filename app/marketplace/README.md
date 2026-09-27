@@ -32,7 +32,7 @@ filtra además por el productor autenticado.
 Las fotos son objetos de `fotos-lotes` con rutas
 `productor_uuid/lote_uuid/archivo_uuid.ext`. En `lotes.fotos` se guardan rutas
 permanentes, y la UI deriva la URL pública del bucket. JPG/PNG/WebP, máximo
-5 MB por archivo, de 1 a 6 fotos para publicar. No se usan fotos de Stitch
+5 MB por archivo, de 1 a 5 fotos para publicar. No se usan fotos de Stitch
 como si fueran fotos de productos reales.
 
 Antes de subir fotos se crea un borrador con stock 0. Solo se publica después

@@ -55,6 +55,7 @@ export default async function CompradorPage({ params }: { params: Promise<{ id: 
         </dl>
       </div>
     </header>
+    {comprador.ejemplo && <p className="mt-6 rounded-2xl bg-arena-claro px-5 py-4 text-sm text-cacao"><strong>Comprador de ejemplo.</strong> Su perfil, sus compras y sus reseñas son de demostración y no corresponden a una persona real; la foto es referencial, de un banco de imágenes libre.</p>}
     <div className="mt-8 grid gap-6 lg:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] lg:items-start">
       <div className="min-w-0 space-y-6">
         <section aria-labelledby="sobre" className={tarjeta}>

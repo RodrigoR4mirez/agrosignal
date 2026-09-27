@@ -120,3 +120,40 @@ Fotos de los 10 lotes nuevos (bucket `fotos-lotes`), también de Pexels, reducid
 | maracuya-1.jpg | Maracuyá amarillo | [Quang Nguyen Vinh](https://www.pexels.com/photo/hanging-green-fruits-2649268/) |
 
 La foto de ají amarillo registra datos de cámara de celular (f/1.6, 5,1 mm, ISO 50). Ninguna de estas fotos está marcada como generada por IA en Pexels.
+
+## Fotos de compradores y galerías añadidas por `completar-ejemplos.mjs`
+
+Retratos **referenciales** de [Pexels](https://www.pexels.com/license/) para los compradores de ejemplo (y las dos cuentas QA de comprador): son personas reales fotografiadas por los autores indicados y **no** son los compradores ficticios. El perfil del comprador lo aclara. Recorte cuadrado de 600 px centrado en la zona de interés. Bucket `fotos-perfil`. Autor según el listado de Pexels.
+
+| Comprador de ejemplo | Foto (autor en Pexels) |
+|---|---|
+| Andrea Torres Villanueva | [Cristian Rojas](https://www.pexels.com/photo/10041280/) |
+| Miguel Ángel Rivas Cornejo | [Cristian Torres Torres](https://www.pexels.com/photo/19785045/) |
+| Lucía Benavides Ormeño | [Bill Salazar](https://www.pexels.com/photo/18477780/) |
+| Jorge Luis Castañeda Rey | [Moises Sanchez](https://www.pexels.com/photo/34299170/) |
+| Patricia Huertas Molina | [Manuel Guillén Vega](https://www.pexels.com/photo/15177076/) |
+| Renzo Alvarado Pacheco | [Amir Abbaspoor](https://www.pexels.com/photo/28243040/) |
+| Sofía Delgado Arana | [Gilmer Díaz](https://www.pexels.com/photo/16342601/) |
+| Óscar Villena Campos | [Gabriel Victor Prudencio](https://www.pexels.com/photo/13100886/) |
+| Karina Zegarra Lizárraga | [Erick Foto](https://www.pexels.com/photo/37302655/) |
+| Álvaro Montoya Rospigliosi | [Gera Cejas](https://www.pexels.com/photo/34627219/) |
+| Diana Palomino Cáceres | [israwmx](https://www.pexels.com/photo/28386379/) |
+| Héctor Nakamura Flores | [Cristian Rojas](https://www.pexels.com/photo/10041264/) |
+| Verónica Ascencio Ruiz | [Pexels LATAM](https://www.pexels.com/photo/39283714/) |
+| Gustavo Lecca Núñez | [Sandro Tavares](https://www.pexels.com/photo/17582358/) |
+| Milagros Quiroz Durand | [Eugenia Tellez](https://www.pexels.com/photo/37479150/) |
+| Ricardo Solís Arévalo | [Kampus](https://www.pexels.com/photo/8815882/) |
+| Fiorella Chirinos Vega | [Eduardo Eugenio Padrón](https://www.pexels.com/photo/10573031/) |
+| Eduardo Pflücker Bustamante | [Pexels LATAM](https://www.pexels.com/photo/39284036/) |
+| Claudia Mendoza Aguirre | [Guillermo Berlín](https://www.pexels.com/photo/38008779/) |
+| Raúl Gamarra Ttito | [Giancarlo Gallardo](https://www.pexels.com/photo/16962613/) |
+| Carmen Rosa Vílchez Otárola (QA) | [Geovanna Barreto](https://www.pexels.com/photo/30599317/) |
+| Julio César Paredes Loayza (QA) | [Dante Muñoz Photo](https://www.pexels.com/photo/16346703/) |
+
+Galerías de varias fotos (bucket `fotos-lotes`, reducidas a 1600 px):
+
+| Lote | Fotos (autor en Pexels) |
+|---|---|
+| Palta Hass · Wilfredo Quispe Huamán (5) | [Quang Nguyen Vinh](https://www.pexels.com/photo/11669609/), [Matthias Oben](https://www.pexels.com/photo/3687927/), [Mikkel Kvist](https://www.pexels.com/photo/33723580/), [Lala Jafarova](https://www.pexels.com/photo/19610913/), [matreding](https://www.pexels.com/photo/11911814/) |
+| Palta Hass · Rosa Huamán Quispe (+3) | [Rufaro](https://www.pexels.com/photo/31747251/), [Rachel Claire](https://www.pexels.com/photo/8113067/), [Alisa Skripina](https://www.pexels.com/photo/39299678/) |
+| Papa nativa · Nicolasa Mamani Apaza (+2) | [Shiwa](https://www.pexels.com/photo/10854385/), [Erick Ayaucan](https://www.pexels.com/photo/14111821/) |

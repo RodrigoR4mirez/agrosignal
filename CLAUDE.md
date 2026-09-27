@@ -36,6 +36,9 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Comunidad (migración `20260927000400`): **favoritos** (el comprador sigue productores; RPC `seguir_productor`) y **alertas de precio** por cultivo; el trigger `avisar_lote` notifica (`referencia_tipo = 'lote'`) cuando un lote se publica o baja de precio. **Perfil del comprador** en `/compradores/[id]` (RPC `perfil_comprador`: solo él, admin o productores con pedidos suyos). **Historial de precios** en `historial_precios` (triggers al publicar/cambiar precio y al recibir un pedido) → `/marketplace/precios` y gráfico en la ficha del lote (`components/comunidad/`)
 - Las pruebas QA (cultivos con "QA") también dejan filas en `historial_precios`; bórralas si aparecen en la lista de cultivos
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
+- Galería del lote (`components/marketplace/GaleriaLote.tsx`): hasta 5 fotos (`MAX_FOTOS`,
+  check en la base); con varias, pila de tarjetas en abanico + miniaturas; al hacer clic, visor
+  glass en `<dialog>` con zoom al punto (doble clic/toque, rueda, pellizco), arrastre, deslizar y teclado
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`
@@ -92,6 +95,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Carga: `scripts/cargar-ejemplos.mjs`, luego `scripts/ampliar-ejemplos.mjs`
   (perfiles, fotos, 10 lotes y reseñas), `scripts/ejemplos-comunidad.mjs` (perfil de
   los compradores, favoritos e historial de precios marcado `ejemplo`) y
+  `scripts/completar-ejemplos.mjs` (foto y región de los compradores, alertas de precio y
+  galerías de 5, 4 y 3 fotos en Palta Hass de Wilfredo, Palta Hass de Rosa y Papa nativa) y
   `scripts/verificaciones-ejemplo.mjs` (certificado, dron y test con evidencias que dicen
   "ejemplo": Papa nativa queda en 1/3, Maíz morado en 2/3 y el resto en 3/3) · Retiro: `scripts/limpiar-ejemplos.sql`
   (SQL Editor de Supabase) · Créditos de fotos: `docs/creditos-fotos-ejemplo.md`

@@ -1,6 +1,7 @@
 import { notFound } from 'next/navigation'
 import { AppShell } from '@/components/AppShell'
 import { OrderDetail } from '@/components/transacciones/OrderDetail'
+import { PedidoDetalle } from '@/components/transacciones/PedidoDetalle'
 import { requireRole } from '@/lib/supabase/auth'
 import { getOrder } from '@/lib/transacciones/data'
 import { getEstadoCalificacion } from '@/lib/calificaciones/data'
@@ -10,8 +11,10 @@ export default async function BuyerOrder({ params, searchParams }: { params: Pro
   const profile = await requireRole('comprador')
   const { id } = await params
   if (!uuidPattern.test(id)) notFound()
-  const [{ order, error }, query, calificacion] = await Promise.all([getOrder(id), searchParams, getEstadoCalificacion(id)])
+  const [{ order, eventos, documentos, error }, query, calificacion] = await Promise.all([getOrder(id), searchParams, getEstadoCalificacion(id)])
   if (error) throw new Error('No se pudo cargar el pedido.')
   if (!order || order.comprador_id !== profile.id) notFound()
-  return <AppShell profile={profile}><OrderDetail order={order} role="comprador" created={query.creado === '1'} calificacion={calificacion} /></AppShell>
+  return <AppShell profile={profile}>{order.flujo === 2
+    ? <PedidoDetalle order={order} role="comprador" eventos={eventos} documentos={documentos} calificacion={calificacion} created={query.creado === '1'} />
+    : <OrderDetail order={order} role="comprador" created={query.creado === '1'} calificacion={calificacion} />}</AppShell>
 }

@@ -40,7 +40,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
   const accion = profile?.id === lot.productor_id
     ? <Link href={`/panel-productor/mis-lotes/${id}/editar`} className="flex min-h-12 w-full items-center justify-center rounded-full bg-petroleo px-6 text-[15px] font-semibold text-white hover:bg-bosque-claro">Editar mi lote</Link>
     : ejemplo ? <p className="rounded-2xl bg-arena-claro px-5 py-4 text-sm leading-relaxed text-cacao"><strong>Lote de ejemplo.</strong> Muestra cómo se ve una publicación en AgroSignal; el productor y la oferta no son reales y no se puede comprar.</p>
-    : profile?.rol === 'comprador' ? <Link href={`/panel-comprador/comprar/${id}`} className="flex min-h-12 w-full items-center justify-center rounded-full bg-naranja px-6 text-[15px] font-semibold text-petroleo hover:bg-[#f29a5e]">Comprar este lote</Link>
+    : profile?.rol === 'comprador' ? <Link href={`/panel-comprador/comprar/${id}`} className="flex min-h-12 w-full items-center justify-center rounded-full bg-naranja px-6 text-[15px] font-semibold text-petroleo hover:bg-[#f29a5e]">Solicitar compra</Link>
     : !profile ? <div className="space-y-2"><Link href={`/login?next=${encodeURIComponent(`/panel-comprador/comprar/${id}`)}`} className="flex min-h-12 w-full items-center justify-center rounded-full bg-naranja px-6 text-[15px] font-semibold text-petroleo hover:bg-[#f29a5e]">Ingresar para comprar</Link><p className="text-center text-xs text-gray-500">Necesitas una cuenta de comprador para enviar tu pedido.</p></div>
     : null
 

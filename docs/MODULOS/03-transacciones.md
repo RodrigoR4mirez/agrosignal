@@ -311,3 +311,27 @@ Estado de producción revisado antes del cambio (27 set 2026, consulta de
 solo lectura): 24 pedidos, ninguno en `recibido` y 10 en `calificado`, de
 los cuales 8 son de ejemplo y 2 de QA. Esos 10 son los que reciben la
 excepción de la ventana.
+
+## Flujo de compra en 6 fases (27 set 2026)
+
+Migración `20260927000700_acuerdo_pago_documentos.sql`. Los pedidos nuevos tienen `flujo = 2`;
+los anteriores quedan con `flujo = 1` y se muestran con la vista simple de antes.
+
+| Fase | Quién actúa | Función | Resultado |
+|---|---|---|---|
+| 1. Solicitud | Comprador | `solicitar_compra` | Cantidad, envío o recojo, fecha deseada, forma de pago y mensaje. No reserva stock. |
+| 2. Acuerdo | Productor / comprador | `cambiar_estado_pedido('confirmado')` o `proponer_condiciones` + `responder_propuesta` | Acuerdo con fecha; se descuenta stock; se muestran los teléfonos y la orden de compra. |
+| 3. Pago | Comprador / productor | `informar_pago` (voucher salvo efectivo) + `confirmar_pago` | Pago directo entre las partes (transferencia, Yape/Plin o efectivo). |
+| 4. Despacho | Productor | `registrar_despacho` | Guía de remisión y transportista (opcionales). Con "pago antes del envío" no se despacha sin pago confirmado. |
+| 5. Recepción | Comprador | `cambiar_estado_pedido('recibido')` o `reportar_observacion` | Recepción conforme, o problema reportado que avisa a la administración. |
+| 6. Cierre | Productor o comprador | `registrar_comprobante` | Factura o boleta (productor con RUC) o liquidación de compra (la emite el comprador si el productor no tiene RUC). Calificaciones. |
+
+Con **pago contra entrega** el orden es solicitud → acuerdo → despacho → recepción → pago → cierre.
+
+- `pedido_eventos`: historial con autor y fecha (triggers en cada cambio de estado + cada función).
+  Solo lo leen las partes y la administración.
+- Bucket privado `documentos-pedido` (`<pedido>/<uuid>.<pdf|jpg|png|webp>`, 10 MB): vouchers y
+  comprobantes. Lo suben y leen solo las partes; la administración lee.
+- Orden de compra imprimible en `/pedidos/[id]/orden` (partes y admin).
+- AgroSignal no cobra ni retiene dinero. Una pasarela (Mercado Pago/Culqi) o un escrow bancario
+  quedan para una siguiente etapa; el estado del pago ya está separado para integrarlos.

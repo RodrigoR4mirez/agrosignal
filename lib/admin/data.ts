@@ -9,7 +9,7 @@ import type { AdminCertificate, AdminDrone, AdminFailedTest, AdminLot, AdminMetr
 export const ADMIN_PAGE_SIZE = 12
 const pageNumber = (value = 1) => Math.max(1, Math.min(10000, Math.floor(Number(value) || 1)))
 const userColumns = 'id,nombre_completo,telefono,rol,region,cultivo_principal,tipo_comprador,destino_exportacion,suspendido,creado_en,moderacion_version,moderacion_motivo,moderacion_en,moderacion_por'
-const orderColumns = 'id,lote_id,comprador_id,productor_id,comprador_nombre,productor_nombre,comprador_telefono,productor_telefono,cultivo,unidad,precio_unidad,cantidad,total,direccion_entrega,estado,recibido_en,motivo,creado_en,actualizado_en,resolucion,resolucion_accion,resolucion_estado_inicial,resuelto_por,resuelto_en'
+const orderColumns = 'id,lote_id,comprador_id,productor_id,comprador_nombre,productor_nombre,comprador_telefono,productor_telefono,cultivo,unidad,precio_unidad,cantidad,total,direccion_entrega,estado,recibido_en,motivo,creado_en,actualizado_en,resolucion,resolucion_accion,resolucion_estado_inicial,resuelto_por,resuelto_en,flujo'
 const searchText = (q = '') => q.trim().slice(0, 100).replace(/[\\%_]/g, '\\$&')
 const failedPage = <T>(page: number): AdminPage<T> => ({ items: [], count: 0, page, error: true })
 

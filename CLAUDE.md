@@ -38,6 +38,9 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Perfil del productor (`app/marketplace/productor/[id]`): finca, hectáreas, experiencia, altitud, ubicación GPS con mapa de OpenStreetMap, prácticas, meses de cosecha, entregas y cifras (ventas completadas, lotes activos, mejor verificación). Se edita en el panel del productor (`components/perfil/PerfilFincaForm.tsx`); columnas en `perfiles` (migración `20260927000300`)
 - Comunidad (migración `20260927000400`): **favoritos** (el comprador sigue productores; RPC `seguir_productor`) y **alertas de precio** por cultivo; el trigger `avisar_lote` notifica (`referencia_tipo = 'lote'`) cuando un lote se publica o baja de precio. **Perfil del comprador** en `/compradores/[id]` (RPC `perfil_comprador`: solo él, admin o productores con pedidos suyos). **Historial de precios** en `historial_precios` (triggers al publicar/cambiar precio y al recibir un pedido) → `/marketplace/precios` y gráfico en la ficha del lote (`components/comunidad/`)
 - Las pruebas QA (cultivos con "QA") también dejan filas en `historial_precios`; bórralas si aparecen en la lista de cultivos
+- Compra en 6 fases (solicitud → acuerdo/contrapropuesta → pago directo con voucher → despacho con guía →
+  recepción u observación → comprobante): `components/transacciones/PedidoDetalle.tsx`, `PasoPedido.tsx`,
+  `lib/transacciones/fases.ts`, orden de compra en `/pedidos/[id]/orden`. Detalle en `docs/MODULOS/03-transacciones.md`
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta
 - Galería del lote (`components/marketplace/GaleriaLote.tsx`): hasta 5 fotos (`MAX_FOTOS`,
   check en la base); con varias, pila de tarjetas en abanico + miniaturas; al hacer clic, visor

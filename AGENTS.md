@@ -135,6 +135,9 @@ solo si hace falta para producción.
 
 **Entregable de referencia:** ver `docs/DESPLIEGUE.md`.
 
+**Procedimiento ejecutable:** `.claude/agents/deploy-devops.md` (revisión, validaciones, migraciones,
+pruebas locales y en producción con `scripts/qa/`, reversión y reporte).
+
 ---
 
 ## Orden de ejecución obligatorio

@@ -127,3 +127,5 @@ catálogo de productos (búsqueda, filtros y estrellas).
   `supabase/tests/`; nunca editar migraciones ya aplicadas
 - Al terminar un cambio: `npm run lint`, `npm run build`, `npm run test:db`,
   luego commit + push para que Vercel redespliegue
+- Despliegues: seguir `.claude/agents/deploy-devops.md`. QA reutilizable en `scripts/qa/`
+  (`validar-catalogo.mjs`, `capturas.mjs`, `esperar-despliegue.sh`)

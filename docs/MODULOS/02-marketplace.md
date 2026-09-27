@@ -61,9 +61,30 @@ la limpieza fallida se informa sin deshacer el cambio. Intentos interrumpidos
 pueden dejar archivos no referenciados para limpieza posterior. RLS y permisos
 por columna impiden cambiar dueño, bloqueo, fecha de creación o rol.
 
-El catálogo incluye búsqueda, los seis filtros requeridos, paginación y estados
+El catálogo incluye búsqueda, los seis filtros requeridos, scroll infinito y estados
 de carga/error/vacío. El detalle incluye galería, oferta, origen y productor.
 La compra se anuncia como próxima hasta módulo 3, sin un botón no funcional.
+
+### Carga incremental del catálogo (27 de septiembre de 2026)
+
+La primera tanda de 12 lotes se consulta y renderiza en el Server Component para
+conservar una carga inicial rápida y HTML útil. Las siguientes tandas se obtienen
+desde `GET /api/marketplace` cuando un `IntersectionObserver` se aproxima al final
+del listado; su margen anticipado permite que la siguiente tanda llegue antes de
+que el usuario alcance el indicador. También queda un botón «Cargar más productos»
+como alternativa accesible y para navegadores sin `IntersectionObserver`.
+
+La continuación usa un cursor keyset opaco, no offsets. El cursor conserva todos
+los desempates del orden activo (fecha, precio o reputación y finalmente `id`),
+incluido el caso de productores sin promedio, que se ordenan al final. El endpoint
+valida longitudes, rangos y valores permitidos, fija el tamaño de tanda, consulta
+un registro adicional para saber si terminó el catálogo y responde sin caché. El
+cliente cancela solicitudes al desmontarse, bloquea solicitudes simultáneas y
+deduplica por `id`; un fallo muestra un mensaje simple con reintento manual.
+
+Los filtros y los cuatro órdenes continúan en la URL y cualquier `pagina` antigua
+se ignora. El banner intermedio aparece después de 12 tarjetas, múltiplo de las
+rejillas de 1, 2, 3 y 4 columnas, por lo que no corta una fila ni deja huecos.
 
 Validación de implementación: `npm run test:db` — 24 pruebas correctas con
 PostgreSQL embebido, incluyendo roles, borradores, fotos, privacidad, visibilidad
@@ -111,8 +132,8 @@ El lote adicional de eliminación ya no existe.
 
 Esta QA verifica un archivo válido y rechazo por tipo, además de ausencia de
 foto; no simula interrupciones de red ni agota todos los límites de archivos.
-La paginación de grandes catálogos no se recorrió, porque solo se generaron
-dos lotes de prueba. Las compras y verificaciones documentales/dron/residuos
+El recorrido de catálogos grandes no se probó en esa QA original, porque solo se
+generaron dos lotes de prueba. Las compras y verificaciones documentales/dron/residuos
 pertenecen a los módulos siguientes.
 
 El aviso de rendimiento de Next.js sobre la imagen LCP detectado durante QA
@@ -120,3 +141,34 @@ se corrigió con carga `eager` para la primera foto del detalle y la primera
 fila del catálogo. Se repitió catálogo/detalle a 375 y 1440 px: imágenes
 cargadas, sin overflow, consola sin errores ni warnings. El build posterior
 a esta corrección terminó sin errores ni warnings nuevos.
+
+## QA de scroll infinito — 27 de septiembre de 2026
+
+Validación secuencial posterior al cambio, realizada sobre el build de
+producción local con Chromium/agent-browser:
+
+- [x] `npm run lint` terminó sin errores ni warnings.
+- [x] `npx next build --webpack` completó compilación, TypeScript y las 31
+  páginas. El build predeterminado con Turbopack no pudo evaluarse en el
+  sandbox porque su proceso interno intentó enlazar un puerto y recibió
+  `EPERM`; es una restricción ambiental, no un error de compilación del código.
+- [x] `npm run test:db` completó 67/67 pruebas.
+- [x] A 375 px, la primera tanda mostró 12 de 33 productos, sin paginación
+  visible, sin overflow horizontal y con el banner intermedio tras 12 tarjetas.
+- [x] Al alcanzar el final, el catálogo llegó a 33/33 IDs únicos, sin
+  duplicados, y mostró correctamente «Has visto todos los productos». En
+  esta ejecución una sola llegada al final disparó las dos tandas restantes.
+- [x] A 1440 px, la carga avanzó 12 → 24 → 33 productos en dos llegadas
+  al final. Los 33 IDs fueron únicos, no apareció paginación ni overflow
+  horizontal y el estado final mostró «Has visto todos los productos».
+- [x] La geometría del DOM confirmó cuatro filas iniciales y once filas
+  finales completas de tres tarjetas. El banner comienza después de la tarjeta
+  12 y ocupa exactamente todo el ancho de la rejilla, sin celdas ni huecos
+  artificiales.
+- [x] Consola y registro de excepciones vacíos, sin overlay de Next.js,
+  durante la carga inicial y las dos tandas incrementales.
+
+Capturas locales ignoradas por Git:
+`.qa-artifacts/marketplace-infinite-initial-375.png`,
+`.qa-artifacts/marketplace-infinite-initial-1440.png` y
+`.qa-artifacts/marketplace-infinite-final-1440.png`.

@@ -2,14 +2,13 @@ import type { Metadata } from 'next'
 import Form from 'next/form'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Fragment } from 'react'
 import { AppShell } from '@/components/AppShell'
-import { LotCard } from '@/components/marketplace/LotCard'
+import { InfiniteCatalog } from '@/components/marketplace/InfiniteCatalog'
 import { EnvioAutomatico, FiltrosPlegables } from '@/components/marketplace/FiltrosCatalogo'
 import { Estrellas } from '@/components/calificaciones/Reputacion'
 import { IconoCertificado, IconoEstrellas, IconoGarantia, IconoMercado } from '@/components/landing/Iconos'
 import { getProfile } from '@/lib/supabase/auth'
-import { getCatalog, PAGE_SIZE, type Filters } from '@/lib/marketplace/data'
+import { filtrosEfectivos, getCatalog, type Filters } from '@/lib/marketplace/data'
 import { CALIFICACION_MINIMA, ORDENES, REGIONES, SELLOS, photoUrl } from '@/lib/marketplace/types'
 
 export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo, encuentra ofertas y filtra por región, precio, destino, verificación y calificación.' }
@@ -17,6 +16,7 @@ const caja = 'app-container px-4 sm:px-6 lg:px-8'
 const campoTexto = 'w-full min-h-11 rounded-xl border border-[#e2dbc9] bg-white px-3 py-2 text-sm text-gray-900 focus:border-petroleo focus:outline-2 focus:outline-petroleo/20'
 const vidrio = 'bg-white/15 ring-1 ring-white/30 backdrop-blur-xl'
 const FILTROS: (keyof Filters)[] = ['region', 'cultivo', 'minimo', 'maximo', 'destino', 'sello', 'calificacion', 'ofertas']
+const PARAMETROS = new Set<keyof Filters>(['q', ...FILTROS, 'orden'])
 const DESTINOS = [['', 'Todos'], ['local', 'Mercado local'], ['exportacion', 'Exportación']] as const
 const VENTAJAS = [
   [IconoMercado, 'Directo del productor', 'Sin intermediarios'],
@@ -36,7 +36,7 @@ function Grupo({ titulo, children }: { titulo: string; children: React.ReactNode
 
 export default async function MarketplacePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
   const params = await searchParams
-  const filters = Object.fromEntries(Object.entries(params).filter((entry): entry is [string, string] => typeof entry[1] === 'string')) as Filters
+  const filters = Object.fromEntries(Object.entries(params).filter((entry): entry is [keyof Filters, string] => PARAMETROS.has(entry[0] as keyof Filters) && typeof entry[1] === 'string')) as Filters
   const [profile, catalog] = await Promise.all([getProfile(), getCatalog(filters)])
   const orden = ORDENES.some(([value]) => value === filters.orden) ? filters.orden! : 'recientes'
   const activos = FILTROS.filter(key => filters[key]).length
@@ -48,7 +48,6 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
     const texto = query.toString()
     return texto ? `/marketplace?${texto}` : '/marketplace'
   }
-  const pageLink = (page: number) => enlace({ pagina: String(page) })
   const chips: [keyof Filters, string][] = [
     ...(filters.q ? [['q', `“${filters.q}”`] as [keyof Filters, string]] : []),
     ...FILTROS.filter(key => filters[key]).map(key => [key, {
@@ -182,29 +181,13 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
 
           <div className="mt-6">
             {catalog.error ? <div role="alert" className="rounded-[22px] bg-white p-8 text-sm text-red-800">No pudimos cargar los productos. Intenta nuevamente en unos momentos. <Link href="/marketplace" className="ml-2 font-semibold text-petroleo underline">Volver a intentar</Link></div>
-              : catalog.lots.length ? <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4">
-                {catalog.lots.map((lot, index) => <Fragment key={lot.id}>
-                  <LotCard lot={lot} eager={index < 4} />
-                  {/* Banner intermedio, como pausa visual entre filas */}
-                  {index === 5 && catalog.lots.length > 8 && filters.destino !== 'exportacion' && <Link href={enlace({ destino: 'exportacion' })} className="group relative isolate col-span-full flex min-h-36 items-center overflow-hidden rounded-[24px] bg-petroleo px-7 py-6 text-white sm:px-10">
-                    <Image src="/catalogo/exportacion-arandanos.jpg" alt="" fill sizes="100vw" className="-z-10 object-cover object-[50%_40%] opacity-60 transition-transform duration-700 group-hover:scale-105" />
-                    <span aria-hidden="true" className="absolute inset-0 -z-10 bg-linear-to-r from-petroleo via-petroleo/80 to-transparent" />
-                    <span className="flex flex-wrap items-center gap-x-8 gap-y-3"><span><span className="block text-2xl font-normal sm:text-3xl">Cosechas listas para exportar</span><span className="mt-1 block text-sm text-white/80">Lotes con destino de exportación, con su origen y verificación a la vista.</span></span>
-                      <span className="inline-flex min-h-11 items-center rounded-full bg-naranja px-6 text-sm font-semibold text-petroleo">Ver lotes de exportación</span></span>
-                  </Link>}
-                </Fragment>)}
-              </div>
+              : catalog.lots.length ? <InfiniteCatalog key={JSON.stringify(filters)} initialLots={catalog.lots} initialCursor={catalog.nextCursor} filters={filtrosEfectivos(filters)} exportHref={enlace({ destino: 'exportacion' })} />
               : <div className="rounded-[22px] border border-dashed border-[#d9cfb8] bg-white px-6 py-14 text-center">
                 <h3 className="text-2xl font-normal text-petroleo">No hay productos con estos filtros</h3>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-gray-600">Prueba con otro cultivo o región, o quita la calificación mínima: los productores nuevos aún no tienen 3 calificaciones.</p>
                 <Link href="/marketplace" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-naranja px-6 text-sm font-semibold text-petroleo hover:bg-[#f29a5e]">Ver todos los productos</Link>
               </div>}
           </div>
-          {!catalog.error && (catalog.page > 1 || catalog.count > PAGE_SIZE) && <nav aria-label="Paginación de productos" className="mt-10 flex items-center justify-center gap-4 text-sm font-semibold text-petroleo">
-            {catalog.page > 1 && <Link href={pageLink(catalog.page - 1)} className="min-h-11 rounded-full bg-white px-5 py-3 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40">Anterior</Link>}
-            <p>Página {catalog.page} de {Math.max(1, Math.ceil(catalog.count / PAGE_SIZE))}</p>
-            {catalog.page * PAGE_SIZE < catalog.count && <Link href={pageLink(catalog.page + 1)} className="min-h-11 rounded-full bg-white px-5 py-3 ring-1 ring-[#e2dbc9] hover:ring-petroleo/40">Siguiente</Link>}
-          </nav>}
         </section>
       </div>
 

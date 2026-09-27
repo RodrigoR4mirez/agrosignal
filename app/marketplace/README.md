@@ -8,7 +8,7 @@ vive en `/` (`app/page.tsx`); esta ruta es para navegar y buscar productos.
 - `/marketplace`: búsqueda por cultivo, filtros laterales (plegables en móvil)
   de región/cultivo/precio/destino/Verificación AgroSignal/calificación mínima, orden (recientes,
   mejor calificados, precio), estrellas del productor en cada tarjeta,
-  paginación de 12 lotes y estados vacíos/error.
+  scroll infinito en tandas de 12 lotes y estados de carga/vacío/error/reintento.
 - `/marketplace/productor/[id]`: perfil público con reputación y reseñas.
 - `/marketplace/[id]`: galería, oferta, origen, productor y nivel de verificación.
 - `/panel-productor/publicar`: wizard de tres pasos con fotos en Supabase Storage.
@@ -16,6 +16,10 @@ vive en `/` (`app/page.tsx`); esta ruta es para navegar y buscar productos.
   edición y eliminación de lotes propios con confirmación.
 - `components/marketplace/`: tarjeta, wizard y confirmación de eliminación.
 - `lib/marketplace/`: tipos, formato y consultas de datos.
+
+La primera tanda se renderiza en servidor. Las siguientes usan el Route Handler
+`GET /api/marketplace`, cursor keyset estable y precarga con
+`IntersectionObserver`; no hay paginación visible ni consultas con offset.
 
 Se reutilizan `AppShell`, `components/ui/Card.tsx`, `.app-container` y la paleta
 verde/dorado. La ficha permite comprar mediante el flujo del módulo 3 a usuarios

@@ -29,12 +29,13 @@ const sections = [
     ['disputas', '¿Qué ocurre si hay un desacuerdo?', 'Conserva el código del pedido y coordina con la otra parte y la administración. Un administrador puede registrar una resolución visible para ambos o cancelar un pedido que todavía esté pendiente o confirmado.'],
     ['calificar', '¿Cómo califico una compra?', 'Cuando el comprador confirma que recibió la cosecha, comprador y productor tienen 14 días para calificarse desde el pedido, con 1 a 5 estrellas y un comentario opcional. Ninguno ve la calificación del otro hasta que ambos califican (o hasta que vence el plazo). Revísala antes de enviarla: no se puede cambiar.'],
   ] },
-  { id: 'inocuidad', title: 'Sello de Inocuidad', questions: [
+  { id: 'inocuidad', title: 'Verificación AgroSignal', questions: [
+    ['bpa', '¿Es lo mismo que el Sello BPA del SENASA?', 'No. La Verificación AgroSignal es un control propio de la plataforma en tres niveles. El Sello BPA es un distintivo oficial, gratuito y voluntario que otorga el SENASA a predios certificados en Buenas Prácticas Agrícolas, con un código de verificación y una vigencia de dos años. Si tu predio tiene ese certificado, súbelo como certificado SENASA: cuenta como nivel 1 de la Verificación AgroSignal.'],
     ['niveles', '¿Qué significan los tres niveles?', 'El nivel 1 corresponde a un certificado aprobado y vigente; el 2, a una inspección con dron completada; y el 3, a un test de residuos con resultado Pasa. El distintivo muestra el mayor nivel disponible. Consulta también el estado individual de los tres controles en la ficha.'],
     ['documentos', '¿Cómo solicito una verificación?', 'Como productor, abre Mis lotes → Verificaciones. Puedes enviar un certificado con su vigencia y archivo, o solicitar una inspección con dron. La administración revisa los documentos y registra la evidencia de los vuelos y tests realizados.'],
     ['evidencia', '¿Quién puede ver mis documentos y evidencias?', 'Solo el productor dueño y la administración pueden abrir certificados, fotos de tests y evidencias de dron. El público ve el estado de las verificaciones. Si un enlace privado vence, actualiza la página para abrirlo nuevamente.'],
     ['test-fallido', '¿Qué pasa si un test indica No pasa?', 'El lote se bloquea y deja de aparecer en el marketplace. Se avisa al productor y a la administración, y se impiden nuevos pedidos y envíos. Registrar después un resultado Pasa no levanta el bloqueo anterior.'],
-    ['exportacion', '¿El sello garantiza que puedo exportar?', 'La plataforma recomienda contar con los tres controles para lotes destinados a exportación. El distintivo describe las verificaciones registradas: no reemplaza los requisitos del destino ni un análisis de laboratorio.'],
+    ['exportacion', '¿La verificación garantiza que puedo exportar?', 'La plataforma recomienda contar con los tres controles para lotes destinados a exportación. El distintivo describe las verificaciones registradas: no reemplaza los requisitos del destino ni un análisis de laboratorio.'],
   ] },
 ]
 

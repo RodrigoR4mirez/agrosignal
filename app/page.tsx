@@ -12,7 +12,7 @@ import {
 
 export const metadata: Metadata = {
   title: 'AgroSignal — Cosechas del Perú con confianza verificada',
-  description: 'Marketplace agrícola del Perú: lotes con Sello de Inocuidad (certificados, inspección con dron y test de residuos), calificaciones de ambos lados y, muy pronto, pago en garantía y financiamiento.',
+  description: 'Marketplace agrícola del Perú: lotes con Verificación AgroSignal en tres niveles (certificado, inspección con dron y test de residuos; acepta la certificación BPA del SENASA), calificaciones de ambos lados y, muy pronto, pago en garantía y financiamiento.',
 }
 
 // Estructura inspirada en tourba.ma: foto a sangre con menú transparente, textos
@@ -52,24 +52,32 @@ export default async function Landing() {
       <section id="que-es" className="relative overflow-hidden scroll-mt-24">
         <CurvasNivel className="absolute -right-24 top-40 w-[34rem] opacity-80 lg:right-[12%]" />
         <div className={`${caja} relative py-24 lg:py-32`}>
-          <p className="max-w-[56rem] text-[26px] leading-[1.35] text-tierra sm:text-[34px]">Con el respaldo de un <span className="text-[#1a5c2a]">Sello de Inocuidad</span> en tres niveles y la <span className="text-[#1a5c2a]">reputación</span> de ambas partes, AgroSignal enfrenta el mayor problema del comercio agrícola: comprar sin saber qué llega ni a quién se le paga.</p>
+          <p className="max-w-[56rem] text-[26px] leading-[1.35] text-tierra sm:text-[34px]">Con una <span className="text-[#1a5c2a]">verificación en tres niveles</span> para cada lote y la <span className="text-[#1a5c2a]">reputación</span> de ambas partes, AgroSignal enfrenta el mayor problema del comercio agrícola: comprar sin saber qué llega ni a quién se le paga.</p>
           <p className="mt-12 max-w-[46rem] text-lg leading-relaxed">Trabajamos con productores de costa, sierra y selva para que publiquen sus lotes con fotos, cantidades y precios reales, y para que cada verificación que suman quede a la vista del comprador.</p>
           <p className="mt-8 max-w-[46rem] text-lg font-semibold leading-relaxed">Nuestra meta es que cualquier comprador del Perú o del mundo pueda elegir una cosecha peruana con la misma seguridad con la que la elegiría en persona. Ese es nuestro compromiso con el campo.</p>
           <div className="mt-14"><a href="#como-funciona" className={pildora}>Descubre cómo</a></div>
         </div>
       </section>
 
-      {/* ¿Por qué un Sello de Inocuidad? */}
-      <section id="sello" className="scroll-mt-24">
-        <div className={`${caja} grid items-center gap-16 pb-24 lg:grid-cols-[1.2fr_1fr] lg:pb-32`}>
+      {/* Verificación AgroSignal (propia) y su relación con el Sello BPA oficial del SENASA */}
+      <section id="verificacion" className="scroll-mt-24">
+        <div className={`${caja} grid items-center gap-16 lg:grid-cols-[1.2fr_1fr]`}>
           <div>
-            <h2 className={`${titulo} text-4xl sm:text-[46px]`}>¿Por qué un Sello de Inocuidad?</h2>
-            <p className="mt-9 max-w-[46rem] text-lg leading-relaxed">Porque una foto no basta. Cada lote puede sumar tres verificaciones independientes: un <strong className="font-semibold">certificado</strong> (SENASA, GlobalG.A.P. u otro) revisado por nuestro equipo, una <strong className="font-semibold">inspección con dron</strong> con fotos y coordenadas del campo, y un <strong className="font-semibold">test de residuos</strong> con tiras reactivas.</p>
-            <p className="mt-7 max-w-[46rem] text-lg font-semibold italic leading-relaxed">Si un test de residuos no pasa, el lote sale del catálogo al instante. Sin excepciones.</p>
+            <h2 className={`${titulo} text-4xl sm:text-[46px]`}>Verificación AgroSignal</h2>
+            <p className="mt-9 max-w-[46rem] text-lg leading-relaxed">Porque una foto no basta. Cada lote puede sumar hasta tres controles que revisa el equipo de AgroSignal. En el catálogo ves el nivel más alto que alcanzó.</p>
+            <ol className="mt-8 max-w-[46rem] space-y-5">
+              {[
+                ['Nivel 1 · Documento', 'Un certificado vigente (del SENASA, GlobalG.A.P. u otro) revisado por nuestro equipo.'],
+                ['Nivel 2 · Inspección con dron', 'Un vuelo sobre el campo con fotos, coordenadas y fecha como evidencia del cultivo real.'],
+                ['Nivel 3 · Test de residuos', 'Tiras reactivas sobre la cosecha. Si no pasa, el lote sale del catálogo al instante.'],
+              ].map(([nivel, texto], i) => <li key={nivel} className="flex gap-4">
+                <span aria-hidden="true" className="grid size-9 shrink-0 place-items-center rounded-full bg-[#1a5c2a] text-sm text-white">{i + 1}</span>
+                <p className="text-[17px] leading-relaxed"><strong className="font-semibold text-[#1a5c2a]">{nivel}.</strong> {texto}</p>
+              </li>)}
+            </ol>
             <p className="mt-10 text-xl font-semibold text-gray-700">Nuestra misión es clara:</p>
-            <p className="mt-7 max-w-xl text-2xl italic leading-[1.55] text-[#1a5c2a] sm:text-[28px]">Que la calidad del campo peruano se pueda demostrar, y que quien la cultiva reciba lo justo por ella.</p>
-            <div className="mt-12"><Link href="/marketplace?sello=1" className={pildora}>Ver lotes verificados</Link></div>
-            <p className="mt-6 max-w-[46rem] text-xs text-gray-500">Son señales de verificación. El test de residuos no reemplaza un análisis de laboratorio.</p>
+            <p className="mt-5 max-w-xl text-2xl italic leading-[1.55] text-[#1a5c2a] sm:text-[28px]">Que la calidad del campo peruano se pueda demostrar, y que quien la cultiva reciba lo justo por ella.</p>
+            <div className="mt-10"><Link href="/marketplace" className={pildora}>Ver el catálogo</Link></div>
           </div>
           <div className="relative mx-auto aspect-square w-full max-w-[26rem]">
             <div className="absolute inset-0 overflow-hidden rounded-full">
@@ -80,6 +88,25 @@ export default async function Landing() {
             </div>
             <span aria-hidden="true" className="absolute -right-2 -top-4 grid size-20 place-items-center rounded-full bg-[#1a5c2a]"><span className="size-6 rounded-full bg-white" /></span>
           </div>
+        </div>
+
+        <div className={`${caja} pb-24 pt-16 lg:pb-32`}>
+          <aside aria-labelledby="sello-bpa" className="grid gap-8 rounded-[20px] border border-[#1a5c2a]/20 bg-[#f4f2ee] p-8 sm:p-10 lg:grid-cols-[1fr_1.6fr] lg:gap-14">
+            <div>
+              <h3 id="sello-bpa" className="text-[28px] font-normal leading-tight text-[#1a5c2a]">¿Y el Sello BPA del SENASA?</h3>
+              <p className="mt-4 text-[15px] leading-relaxed text-gray-700">Es otra cosa, y lo aceptamos con gusto.</p>
+            </div>
+            <div className="space-y-4 text-[15px] leading-relaxed text-gray-800">
+              <p>El <strong className="font-semibold">Sello de Buenas Prácticas Agrícolas (BPA)</strong> es un distintivo <strong className="font-semibold">oficial</strong> del SENASA, creado por el MIDAGRI en 2025. Es gratuito y voluntario. Lo reciben los predios que el SENASA certifica en buenas prácticas, trae un código de verificación y dura dos años.</p>
+              <p>La <strong className="font-semibold">Verificación AgroSignal</strong> es un control <strong className="font-semibold">propio</strong> de esta plataforma: no la otorga el SENASA ni la reemplaza.</p>
+              <p><strong className="font-semibold">Si tu predio tiene la certificación BPA</strong>, súbela en tu lote como certificado SENASA y suma el nivel 1 de la Verificación AgroSignal.</p>
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3 pt-2">
+                <Link href={vender} className="inline-flex min-h-11 items-center rounded-full bg-[#1a5c2a] px-6 text-[15px] text-white hover:bg-bosque">Publicar mi cosecha</Link>
+                <a href="https://www.gob.pe/institucion/senasa/noticias/1290615-gobierno-fortalece-la-inocuidad-y-calidad-de-alimentos-con-nuevo-sello-del-senasa" target="_blank" rel="noopener noreferrer" className="text-[15px] font-semibold text-[#1a5c2a] underline underline-offset-4">Leer la nota oficial del SENASA<span className="sr-only"> (se abre en otra pestaña)</span></a>
+              </div>
+              <p className="text-xs text-gray-500">El test de residuos de AgroSignal es un examen preliminar y no reemplaza un análisis de laboratorio.</p>
+            </div>
+          </aside>
         </div>
       </section>
 
@@ -92,14 +119,14 @@ export default async function Landing() {
               <article className="rounded-[20px] bg-[#f4f2ee] p-10 md:p-12">
                 <h3 className="font-sans text-[28px] font-normal text-musgo">Para productores</h3>
                 <p className="mt-6 text-[15px] leading-relaxed text-gray-700">Si cultivas frutas, café, cacao, granos andinos o tubérculos, AgroSignal es tu vitrina. Publica tus lotes con fotos, cantidades y precio, y recibe pedidos directos de compradores de todo el país.</p>
-                <p className="text-[15px] leading-relaxed text-gray-700">Suma certificados, inspección con dron y test de residuos para subir el nivel de tu Sello y destacar frente a quienes compran para exportar.</p>
+                <p className="text-[15px] leading-relaxed text-gray-700">Suma certificados, inspección con dron y test de residuos para subir el nivel de tu Verificación AgroSignal y destacar frente a quienes compran para exportar.</p>
               </article>
               <div className="relative min-h-64 overflow-hidden rounded-[20px]"><Image src="/landing/productora-cafe.jpg" alt="Productora de café junto a sus plantones" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
               <div className="relative min-h-64 overflow-hidden rounded-[20px] max-md:order-last"><Image src="/landing/compradores-mercado.jpg" alt="Cajas de verduras frescas a la venta en un mercado" fill sizes="(max-width: 768px) 100vw, 40vw" className="object-cover" /></div>
               <article className="rounded-[20px] bg-[#ede5dc] p-10 md:p-12">
                 <h3 className="font-sans text-[28px] font-normal text-musgo">Para compradores</h3>
                 <p className="mt-6 text-[15px] leading-relaxed text-gray-700">Exportadores, agroindustrias, restaurantes y compradores particulares encuentran aquí lotes con origen, cantidad y verificaciones a la vista.</p>
-                <p className="text-[15px] leading-relaxed text-gray-700">Filtra por cultivo, región, precio, nivel de Sello y calificación del productor, y haz tu pedido en minutos.</p>
+                <p className="text-[15px] leading-relaxed text-gray-700">Filtra por cultivo, región, precio, nivel de verificación y calificación del productor, y haz tu pedido en minutos.</p>
               </article>
             </div>
             <p className="mx-auto mt-14 max-w-3xl text-center text-2xl leading-snug text-white sm:text-[28px]">¿Produces o compras cosechas y quieres hacerlo con más confianza?<br />AgroSignal es tu puerta de entrada al campo peruano.</p>
@@ -140,7 +167,7 @@ export default async function Landing() {
           <ul className="mt-20 grid gap-x-16 gap-y-24 md:grid-cols-2 lg:grid-cols-3">
             {[
               [IconoMercado, 'Marketplace directo', 'Publica o encuentra lotes de todo el Perú sin intermediarios. El precio acordado queda registrado en cada pedido.', null],
-              [IconoCertificado, 'Certificados verificados', 'Sube tu certificado SENASA, GlobalG.A.P. u otro. Nuestro equipo lo revisa y cuenta mientras esté vigente.', null],
+              [IconoCertificado, 'Certificados verificados', 'Sube tu certificado del SENASA (incluida la certificación BPA), GlobalG.A.P. u otro. Nuestro equipo lo revisa y cuenta mientras esté vigente.', null],
               [IconoDron, 'Inspección con dron', 'Un vuelo sobre el campo deja fotos o video, coordenadas y fecha como evidencia del cultivo real.', null],
               [IconoEstrellas, 'Calificaciones de doble ciego', 'Comprador y productor se califican al recibir el pedido. Nadie ve la opinión del otro hasta que ambos califican.', null],
               [IconoGarantia, 'Pago en garantía (escrow)', 'El dinero del comprador queda en custodia y solo se libera al productor cuando ambas partes confirman que se cumplió el acuerdo.', 'Próximamente'],
@@ -181,7 +208,7 @@ export default async function Landing() {
           <ol className="mt-20 grid gap-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
             {[
               [IconoPlan, 'Publica', 'El productor sube su lote con fotos, cantidad, precio y destino. Aparece en el catálogo apenas lo publica.', 'bg-tierra'],
-              [IconoCertificado, 'Verifica', 'Suma certificado, inspección con dron y test de residuos para elevar el nivel de su Sello de Inocuidad.', 'bg-tierra/85'],
+              [IconoCertificado, 'Verifica', 'Suma certificado, inspección con dron y test de residuos para elevar el nivel de su Verificación AgroSignal.', 'bg-tierra/85'],
               [IconoApreton, 'Acuerda', 'El comprador hace su pedido. Cuando el productor lo acepta, la cantidad se descuenta del stock y coordinan la entrega.', 'bg-tierra/65'],
               [IconoBrote, 'Recibe y califica', 'Al recibir la cosecha, ambos se califican. Esa reputación ayuda al siguiente comprador y al siguiente productor.', 'bg-tierra/45'],
             ].map(([Icono, nombre, texto, tono], i, lista) => {

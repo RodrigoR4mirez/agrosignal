@@ -8,7 +8,7 @@ import { getProfile } from '@/lib/supabase/auth'
 import { getCatalog, PAGE_SIZE, type Filters } from '@/lib/marketplace/data'
 import { CALIFICACION_MINIMA, ORDENES, REGIONES, SELLOS } from '@/lib/marketplace/types'
 
-export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo y filtra por región, precio, destino, Sello de Inocuidad y calificación.' }
+export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo y filtra por región, precio, destino, verificación y calificación.' }
 const input = 'w-full min-h-11 rounded-xl border border-[#d9dccd] bg-[#fbfaf6] px-3 py-2 text-sm focus:border-bosque focus:outline-2 focus:outline-bosque/20'
 const FILTROS: (keyof Filters)[] = ['region', 'cultivo', 'minimo', 'maximo', 'destino', 'sello', 'calificacion']
 
@@ -38,7 +38,7 @@ export default async function MarketplacePage({ searchParams }: { searchParams: 
           <FiltrosPlegables activos={activos}>
             <div className="space-y-5 rounded-[20px] border border-[#e4e0d2] bg-white p-5">
               {campo('calificacion', 'Calificación mínima', <select id="calificacion" name="calificacion" defaultValue={filters.calificacion ?? ''} className={input}><option value="">Cualquiera</option>{CALIFICACION_MINIMA.map(([value, label]) => <option key={value} value={value}>{label} ★</option>)}</select>)}
-              {campo('sello', 'Sello de Inocuidad', <select id="sello" name="sello" defaultValue={filters.sello ?? ''} className={input}><option value="">Todos los niveles</option>{SELLOS.map((label, i) => <option key={i} value={i}>{label}</option>)}</select>)}
+              {campo('sello', 'Verificación AgroSignal', <select id="sello" name="sello" defaultValue={filters.sello ?? ''} className={input}><option value="">Todos los niveles</option>{SELLOS.map((label, i) => <option key={i} value={i}>{label}</option>)}</select>)}
               {campo('cultivo', 'Cultivo', <select id="cultivo" name="cultivo" defaultValue={filters.cultivo ?? ''} className={input}><option value="">Todos los cultivos</option>{catalog.crops.map(crop => <option key={crop}>{crop}</option>)}</select>)}
               {campo('region', 'Región', <select id="region" name="region" defaultValue={filters.region ?? ''} className={input}><option value="">Todas las regiones</option>{REGIONES.map(region => <option key={region}>{region}</option>)}</select>)}
               <fieldset><legend className="mb-2 text-sm font-semibold text-gray-800">Precio por unidad (S/)</legend><div className="grid grid-cols-2 gap-2"><label className="sr-only" htmlFor="minimo">Precio mínimo</label><input id="minimo" name="minimo" type="number" min="0" step="0.01" defaultValue={filters.minimo} className={input} placeholder="Mín." /><label className="sr-only" htmlFor="maximo">Precio máximo</label><input id="maximo" name="maximo" type="number" min="0" step="0.01" defaultValue={filters.maximo} className={input} placeholder="Máx." /></div></fieldset>

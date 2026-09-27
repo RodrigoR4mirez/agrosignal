@@ -23,7 +23,7 @@ export function IconoCandado({ className = 'size-5' }: { className?: string }) {
   return <svg viewBox="0 0 24 24" aria-hidden="true" className={className} fill="none" stroke="currentColor" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round"><rect x="4.5" y="10.5" width="15" height="10" rx="2.5" /><path d="M8 10.5V7.5a4 4 0 0 1 8 0v3" /><path d="M12 14.5v2.5" /></svg>
 }
 
-// Etiqueta discreta para tarjetas: reputación del productor, subordinada al Sello del lote.
+// Etiqueta discreta para tarjetas: reputación del productor, subordinada a la verificación del lote.
 export function ReputacionCompacta({ promedio, total, className = '' }: { promedio: number | null; total: number; className?: string }) {
   if (promedio === null || !tieneReputacion(total)) return <span className={`inline-flex items-center gap-1 text-xs font-semibold text-musgo ${className}`}><IconoBrote className="size-3.5" />Nuevo en la plataforma</span>
   return <span className={`inline-flex items-center gap-1.5 text-xs text-gray-600 ${className}`}>

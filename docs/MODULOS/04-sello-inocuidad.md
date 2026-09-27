@@ -1,4 +1,12 @@
-# Módulo 4 — Sello de Inocuidad (3 niveles)
+# Módulo 4 — Verificación AgroSignal (3 niveles)
+
+> **Nombre en la interfaz:** desde el 27 set 2026 se muestra como
+> "Verificación AgroSignal" (antes "Sello de Inocuidad"), para no confundirlo
+> con el **Sello BPA oficial del SENASA** (RD N° D000042-2025-MIDAGRI-SENASA-DIAIA,
+> [nota en gob.pe](https://www.gob.pe/institucion/senasa/noticias/1290615-gobierno-fortalece-la-inocuidad-y-calidad-de-alimentos-con-nuevo-sello-del-senasa)).
+> Un certificado BPA del SENASA vigente se sube como tipo `senasa` y aporta el
+> nivel 1. No se usa el logo oficial. Los nombres internos (`sello`,
+> `nivel_sello`, `SelloInocuidadBadge`) no cambian.
 
 **Agente responsable:** `sello-inocuidad` (ver `/AGENTS.md`).
 

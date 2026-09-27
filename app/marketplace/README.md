@@ -6,7 +6,7 @@ vive en `/` (`app/page.tsx`); esta ruta es para navegar y buscar productos.
 ## Rutas y componentes activos
 
 - `/marketplace`: búsqueda por cultivo, filtros laterales (plegables en móvil)
-  de región/cultivo/precio/destino/Sello/calificación mínima, orden (recientes,
+  de región/cultivo/precio/destino/Verificación AgroSignal/calificación mínima, orden (recientes,
   mejor calificados, precio), estrellas del productor en cada tarjeta,
   paginación de 12 lotes y estados vacíos/error.
 - `/marketplace/productor/[id]`: perfil público con reputación y reseñas.

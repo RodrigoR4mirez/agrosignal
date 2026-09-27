@@ -8,7 +8,7 @@ import { requireRole } from '@/lib/supabase/auth'
 import { getSelloManagement } from '@/lib/sello/data'
 import { hoyLima } from '@/lib/sello/types'
 
-const certificateNames = { senasa: 'SENASA', global_gap: 'GLOBAL G.A.P.', otro: 'Otro' }
+const certificateNames = { senasa: 'SENASA (BPA u otro)', global_gap: 'GLOBAL G.A.P.', otro: 'Otro' }
 const certificateStates = { en_revision: 'En revisión', aprobado: 'Aprobado', rechazado: 'Rechazado', vencido: 'Vencido' }
 const date = (value: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeZone: 'UTC' }).format(new Date(`${value}T12:00:00Z`))
 function EvidenceLink({ url, children }: { url: string | null; children: React.ReactNode }) {
@@ -24,7 +24,7 @@ export default async function VerificationPage({ params }: { params: Promise<{ i
   const props = { lotId: id, owner: data.lote.productor_id, today: hoyLima() }
   const pendingDrone = data.inspecciones.some(row => row.estado === 'solicitado')
   return <AppShell profile={profile}>
-    <div className="mb-8 space-y-4"><Link href={admin ? '/admin' : '/panel-productor/mis-lotes'} className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">← {admin ? 'Administración' : 'Mis lotes'}</Link><p className="text-xs font-bold uppercase tracking-wide text-[#b8860f]">Sello de Inocuidad</p><h1 className="text-3xl font-extrabold text-[#1a5c2a] wrap-anywhere">Verificaciones de {data.lote.cultivo}</h1><p className="text-sm text-gray-600">{data.lote.region} · {data.lote.provincia}, {data.lote.distrito}</p></div>
+    <div className="mb-8 space-y-4"><Link href={admin ? '/admin' : '/panel-productor/mis-lotes'} className="inline-flex min-h-11 items-center text-sm font-semibold text-[#1a5c2a] underline">← {admin ? 'Administración' : 'Mis lotes'}</Link><p className="text-xs font-bold uppercase tracking-wide text-[#b8860f]">Verificación AgroSignal</p><h1 className="text-3xl font-extrabold text-[#1a5c2a] wrap-anywhere">Verificaciones de {data.lote.cultivo}</h1><p className="text-sm text-gray-600">{data.lote.region} · {data.lote.provincia}, {data.lote.distrito}</p></div>
     {data.resumen.bloqueado && <p role="alert" className="mb-6 rounded-xl border border-red-200 bg-red-50 p-5 text-sm leading-relaxed text-red-950">Lote bloqueado. Un resultado No pasa lo retira del marketplace y evita nuevos pedidos. Registrar otro test no elimina este bloqueo.</p>}
     <Card className="mb-8"><SelloSummary summary={data.resumen} exporting={data.lote.destino === 'exportacion'} /></Card>
     <nav aria-label="Niveles de verificación" className="mb-8 flex flex-wrap gap-3 text-sm font-semibold text-[#1a5c2a]"><a href="#documental" className="rounded-xl border border-green-700 px-4 py-3">1. Documentos</a><a href="#dron" className="rounded-xl border border-green-700 px-4 py-3">2. Inspección con dron</a><a href="#residuos" className="rounded-xl border border-green-700 px-4 py-3">3. Test de residuos</a></nav>

@@ -1,7 +1,7 @@
 # AgroSignal — Contexto del proyecto
 
 Marketplace agrícola para el Perú: productores publican lotes de cosecha y
-compradores hacen pedidos, con un Sello de Inocuidad de tres niveles y panel
+compradores hacen pedidos, con una Verificación AgroSignal de tres niveles y panel
 de administración. `/` es la landing de presentación y `/marketplace` el
 catálogo de productos (búsqueda, filtros y estrellas).
 
@@ -27,7 +27,7 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `app/marketplace` — catálogo de productos, ficha de lote (`[id]`) y perfil de productor (`productor/[id]`)
 - `app/panel-productor`, `app/panel-comprador` — paneles por rol
 - `app/admin` — usuarios, pedidos, certificados, drones, tests
-- `app/verificaciones/[id]` — gestión del Sello de Inocuidad de un lote
+- `app/verificaciones/[id]` — gestión de la Verificación AgroSignal de un lote
 - `app/(auth)` — registro, login, recuperación y cuenta
 - `components/AppShell.tsx` — header/footer compartidos (logo → `/`)
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
@@ -50,6 +50,17 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Íconos: SVG en línea (no se carga ninguna fuente de íconos)
 - Fotos: solo con licencia libre verificada (Pexels, CC0, dominio público) y
   con créditos documentados; nunca imágenes generadas por IA presentadas como reales
+
+## Verificación AgroSignal ≠ Sello BPA del SENASA
+
+- En la interfaz, el antiguo "Sello de Inocuidad" se llama **Verificación
+  AgroSignal** (27 set 2026). En código y base de datos siguen los nombres
+  `sello`, `nivel_sello`, etc.
+- El **Sello BPA** es un distintivo oficial del SENASA (RD N°
+  D000042-2025-MIDAGRI-SENASA-DIAIA) para predios certificados en Buenas
+  Prácticas Agrícolas. AgroSignal no lo otorga: un certificado BPA vigente se
+  sube como certificado `senasa` y cuenta como nivel 1.
+- No usar el logo oficial del Sello BPA ni textos que sugieran aval del SENASA.
 
 ## Datos de ejemplo en producción
 

@@ -23,13 +23,13 @@ catálogo de productos (búsqueda, filtros y estrellas).
 
 ## Estructura
 
-- `app/page.tsx` — landing (hero con buscador, Sello en andenes, reputación, destacados)
+- `app/page.tsx` — landing con estructura inspirada en tourba.ma (header propio transparente, no usa AppShell); íconos y curvas en `components/landing/Iconos.tsx`
 - `app/marketplace` — catálogo de productos, ficha de lote (`[id]`) y perfil de productor (`productor/[id]`)
 - `app/panel-productor`, `app/panel-comprador` — paneles por rol
 - `app/admin` — usuarios, pedidos, certificados, drones, tests
 - `app/verificaciones/[id]` — gestión del Sello de Inocuidad de un lote
 - `app/(auth)` — registro, login, recuperación y cuenta
-- `components/AppShell.tsx` — header/footer compartidos (logo → `/`; `ancho="completo"` para páginas a sangre)
+- `components/AppShell.tsx` — header/footer compartidos (logo → `/`)
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`

@@ -46,10 +46,3 @@ export async function getProducerLots(productorId: string) {
   const { data, error } = await db.from('catalogo_lotes').select('*').eq('productor_id', productorId).order('creado_en', { ascending: false }).limit(24)
   return { lots: (data ?? []) as LotePublico[], error: Boolean(error) }
 }
-// Para la landing: lotes con foto, primero los de Sello más alto.
-export async function getFeaturedLots(limite = 4) {
-  const db = await createClient()
-  const { data, error } = await db.from('catalogo_lotes').select('*').neq('fotos', '{}')
-    .order('nivel_sello', { ascending: false }).order('creado_en', { ascending: false }).limit(limite)
-  return { lots: (data ?? []) as LotePublico[], error: Boolean(error) }
-}

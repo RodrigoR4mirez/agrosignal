@@ -49,10 +49,11 @@ claves foráneas. Se informa al productor que puede poner el stock en 0.
 
 ## Diseño
 
-La landing (`app/page.tsx`) usa `hero-valle-sagrado-terrazas.jpg`, con los
-andenes del Sello (`components/landing/SelloAndenes.tsx`) como elemento visual
-principal. `hero-agricultor-sembrando.jpg` queda disponible sin uso. Ambas
-fotos de `public/marketplace/` tienen [Pexels License](https://www.pexels.com/license/)
+La landing (`app/page.tsx`, estructura inspirada en tourba.ma) usa
+`hero-valle-sagrado-terrazas.jpg` en el hero y `hero-agricultor-sembrando.jpg`
+en el círculo del Sello, además de las fotos CC0 de `public/landing/`
+(créditos en `docs/creditos-fotos-ejemplo.md`). Ambas fotos de
+`public/marketplace/` tienen [Pexels License](https://www.pexels.com/license/)
 (uso comercial gratuito, sin atribución obligatoria):
 
 - `hero-valle-sagrado-terrazas.jpg` — Willian Justen de Vasconcellos,

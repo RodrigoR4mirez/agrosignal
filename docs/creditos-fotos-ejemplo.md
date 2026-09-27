@@ -24,3 +24,11 @@ Fotos de dominio público o CC0 obtenidas vía [Openverse](https://openverse.org
 | papa-2.jpg | food-healthy-vegetables-potatoes | pixellaphoto | CC0 | [flickr](https://www.flickr.com/photos/137643065@N06/23958160949) |
 | quinua-1.jpg | ch'iva, ch'ivaqhora [chile], chula, quingua, quinoa, quínoa, | Philipp | CC0 | [inaturalist](https://www.inaturalist.org/photos/143908949) |
 | uva-1.jpg | Nature Vines | Rohit Tandon | CC0 | [stocksnap](https://stocksnap.io/photo/nature-vines-XDTXWYRRZI) |
+
+## Fotos de la landing (`public/landing/`)
+
+Copias de seis de las fotos anteriores, para que la landing (`app/page.tsx`) no
+dependa de los datos de ejemplo, que pueden borrarse. Mismos autores y licencias
+que en la tabla: `cafe-1.jpg`, `arandano-1.jpg`, `banano-1.jpg`, `palta-1.jpg`,
+`mango-1.jpg` y `papa-1.jpg`. La landing también usa las dos fotos de Pexels de
+`public/marketplace/` (créditos en `app/marketplace/README.md`).

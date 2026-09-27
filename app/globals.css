@@ -156,3 +156,10 @@ h1, h2, h3, .font-display {
   .estrella-opcion svg, .barra-reputacion > span { transition: none; animation: none; }
   .estrella-opcion[data-elegida="true"] svg { animation: none; }
 }
+
+/* Landing (estructura inspirada en tourba.ma): títulos en sans de peso ligero */
+.tipo-sans :is(h1, h2, h3) {
+  font-family: var(--font-sans);
+  font-variation-settings: normal;
+  letter-spacing: -0.015em;
+}

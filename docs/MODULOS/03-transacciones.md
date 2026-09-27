@@ -335,3 +335,11 @@ Con **pago contra entrega** el orden es solicitud → acuerdo → despacho → r
 - Orden de compra imprimible en `/pedidos/[id]/orden` (partes y admin).
 - AgroSignal no cobra ni retiene dinero. Una pasarela (Mercado Pago/Culqi) o un escrow bancario
   quedan para una siguiente etapa; el estado del pago ya está separado para integrarlos.
+
+### Pago en línea con Mercado Pago (opcional)
+
+Migración `20260927000800_mercado_pago.sql` y `lib/pagos/mercadopago.ts`. Si el productor conectó su
+cuenta (panel del productor → Cobros con Mercado Pago) y las variables `MP_*` existen, en la fase de
+pago el comprador ve "Pagar con Mercado Pago" (Checkout Pro, split 1:1: el dinero va al productor y
+AgroSignal puede cobrar `marketplace_fee`). El pago se confirma solo, sin voucher; el pago directo
+sigue disponible como alternativa. Configuración en `docs/VARIABLES-DE-ENTORNO.md`.

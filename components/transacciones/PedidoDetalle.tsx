@@ -17,13 +17,20 @@ const EVENTOS: Record<string, string> = {
   pago_confirmado: 'Pago confirmado por el productor', enviado: 'Cosecha despachada', recibido: 'Recepción confirmada', observacion: 'Problema reportado',
   comprobante: 'Comprobante registrado',
 }
+const AVISOS_PAGO: Record<string, [string, string]> = {
+  aprobado: ['bg-musgo/10 text-bosque', 'Mercado Pago aprobó tu pago. El productor ya recibió el aviso para despachar.'],
+  pendiente: ['bg-trigo/20 text-cacao', 'Tu pago está en proceso en Mercado Pago. Lo confirmaremos aquí apenas se acredite.'],
+  rechazado: ['bg-red-50 text-red-900', 'Mercado Pago no aprobó el pago. Puedes intentarlo de nuevo con otro medio.'],
+  cancelado: ['bg-gray-100 text-gray-700', 'No se completó el pago. Puedes intentarlo de nuevo cuando quieras.'],
+  invalido: ['bg-red-50 text-red-900', 'No pudimos verificar ese pago. Si se descontó dinero, escríbenos desde Contáctanos.'],
+}
 function Dato({ t, children }: { t: string; children: React.ReactNode }) {
   return <div><dt className="text-xs text-gray-500">{t}</dt><dd className="mt-1 text-sm font-semibold text-gray-900 wrap-anywhere">{children}</dd></div>
 }
 
 // Detalle de un pedido del flujo de compra (flujo 2), para comprador y productor.
-export function PedidoDetalle({ order, role, eventos, documentos, calificacion, created = false }: {
-  order: Pedido; role: 'comprador' | 'productor'; eventos: EventoPedido[]; documentos: DocumentosPedido; calificacion: EstadoCalificacion | null; created?: boolean
+export function PedidoDetalle({ order, role, eventos, documentos, calificacion, created = false, pagoEnLinea = false, avisoPago }: {
+  order: Pedido; role: 'comprador' | 'productor'; eventos: EventoPedido[]; documentos: DocumentosPedido; calificacion: EstadoCalificacion | null; created?: boolean; pagoEnLinea?: boolean; avisoPago?: string
 }) {
   const fases = fasesDe(order), actual = faseActual(order), paso = siguientePaso(order, role)
   const indice = actual === 'completado' ? fases.length : actual === 'terminado' ? -1 : fases.indexOf(actual)
@@ -34,6 +41,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
 
   return <div className="space-y-6">
     <Link href={volver} className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline underline-offset-4">← {role === 'productor' ? 'Mis ventas' : 'Mis compras'}</Link>
+    {avisoPago && AVISOS_PAGO[avisoPago] && <p role="status" className={`rounded-2xl px-5 py-4 text-sm ${AVISOS_PAGO[avisoPago][0]}`}>{AVISOS_PAGO[avisoPago][1]}</p>}
     {created && <p role="status" className="rounded-2xl bg-musgo/10 px-5 py-4 text-sm text-bosque">Solicitud enviada. El productor recibió un aviso y te responderá aquí.</p>}
 
     <header className="flex flex-wrap items-end justify-between gap-4">
@@ -60,7 +68,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
     <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-[#ebe4d4] bg-crema'}`}>
       <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
       <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
-      <div className="mt-5"><PasoPedido order={order} role={role} /></div>
+      <div className="mt-5"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} /></div>
     </section>
 
     {order.propuesta_en && <section className={`${tarjeta} ring-2 ring-trigo`} aria-labelledby="propuesta">

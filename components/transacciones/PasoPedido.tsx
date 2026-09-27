@@ -7,6 +7,7 @@ import { createClient } from '@/lib/supabase/client'
 import { money } from '@/lib/marketplace/types'
 import { faseActual } from '@/lib/transacciones/fases'
 import { FORMAS_PAGO, METODOS_PAGO, type Pedido } from '@/lib/transacciones/types'
+import { PagarMercadoPago } from '@/components/pagos/PagarMercadoPago'
 
 const secundario = 'inline-flex min-h-11 items-center justify-center rounded-full border border-petroleo/25 px-5 text-sm font-semibold text-petroleo transition hover:bg-crema'
 const peligro = 'inline-flex min-h-11 items-center justify-center rounded-full px-4 text-sm font-semibold text-red-700 hover:bg-red-50'
@@ -14,7 +15,7 @@ const etiqueta = 'mb-1.5 block text-sm font-semibold text-petroleo'
 const hoy = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date())
 
 // Acciones del paso en curso, según la fase del pedido y el rol de quien lo mira.
-export function PasoPedido({ order, role }: { order: Pedido; role: 'comprador' | 'productor' }) {
+export function PasoPedido({ order, role, pagoEnLinea = false }: { order: Pedido; role: 'comprador' | 'productor'; pagoEnLinea?: boolean }) {
   const [paso, pasoAction, pasoPending] = useActionState(pasoPedidoAction, {})
   const [estado, estadoAction, estadoPending] = useActionState(cambiarEstadoPedidoAction, {})
   const [abierto, setAbierto] = useState<string | null>(null)
@@ -81,7 +82,9 @@ export function PasoPedido({ order, role }: { order: Pedido; role: 'comprador' |
   } else {
     if (f === 'solicitud') botones.push(cambioEstado('x', 'cancelado', 'Cancelar solicitud', 'El productor recibirá el motivo.', peligro))
     else if (f === 'acuerdo') botones.push(accionBoton('a', 'responder', 'Aceptar propuesta', { aceptar: '1' }), accionBoton('r', 'responder', 'Rechazar propuesta', { aceptar: '0' }, secundario))
-    else if (f === 'pago' && !order.pago_informado_en) formulario = <FormPago order={order} action={pasoAction} pending={pending} />
+    else if (f === 'pago' && !order.pago_informado_en) formulario = pagoEnLinea && abierto !== 'directo'
+      ? <div className="space-y-4"><PagarMercadoPago pedidoId={order.id} total={Number(order.total)} /><button type="button" onClick={() => setAbierto('directo')} className="text-sm font-semibold text-petroleo underline underline-offset-4">Prefiero pagar directo al productor y subir la constancia</button></div>
+      : <FormPago order={order} action={pasoAction} pending={pending} />
     else if (f === 'despacho') botones.push(cambioEstado('x', 'cancelado', 'Cancelar pedido', 'El productor recibirá el motivo. Si ya pagaste, coordina la devolución con él.', peligro))
     else if (f === 'recepcion') {
       botones.push(cambioEstado('r', 'recibido', 'Confirmar recepción conforme', 'Confirma que recibiste la cosecha en la cantidad y calidad acordadas.'),
@@ -131,7 +134,7 @@ function FormPago({ order, action, pending }: { order: Pedido; action: (f: FormD
   return <form action={action} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-[#ebe4d4]">
     <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="accion" value="informar_pago" />
     <p className="text-sm leading-relaxed text-gray-700">Paga <strong className="text-petroleo">{money(order.total)}</strong> directamente al productor con los datos que te comparta por teléfono. Luego informa aquí el pago.</p>
-    <fieldset><legend className={etiqueta}>Método</legend><div className="flex flex-wrap gap-2">{Object.entries(METODOS_PAGO).map(([v, t]) => <label key={v} className="cursor-pointer rounded-full px-4 py-2 text-sm ring-1 ring-[#e2dbc9] has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo"><input type="radio" name="metodo" value={v} checked={metodo === v} onChange={() => setMetodo(v)} className="sr-only" />{t}</label>)}</div></fieldset>
+    <fieldset><legend className={etiqueta}>Método</legend><div className="flex flex-wrap gap-2">{Object.entries(METODOS_PAGO).filter(([v]) => v !== 'mercado_pago').map(([v, t]) => <label key={v} className="cursor-pointer rounded-full px-4 py-2 text-sm ring-1 ring-[#e2dbc9] has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo"><input type="radio" name="metodo" value={v} checked={metodo === v} onChange={() => setMetodo(v)} className="sr-only" />{t}</label>)}</div></fieldset>
     {metodo !== 'efectivo' && <div><label htmlFor="operacion" className={etiqueta}>N.° de operación</label><input id="operacion" name="operacion" maxLength={60} className={inputClass} /></div>}
     <SubirDocumento pedidoId={order.id} name="voucher" label="Constancia del pago" requerido={metodo !== 'efectivo'} />
     <button disabled={pending} className={buttonClass}>{pending ? 'Enviando…' : 'Informar pago'}</button>

@@ -54,6 +54,33 @@ Opción recomendada: `RESEND_API_KEY` (y opcional `RESEND_FROM`). Con la clave, 
 [Resend](https://resend.com) en lugar de FormSubmit. Sin dominio verificado, Resend solo entrega
 al correo con el que se creó la cuenta, así que crea la cuenta con el mismo correo de `CONTACTO_CORREO`.
 
+## Cobro en línea con Mercado Pago (marketplace)
+
+Sin estas variables el sitio funciona igual, con pago directo registrado; el botón "Pagar con
+Mercado Pago" y la tarjeta "Cobros con Mercado Pago" solo aparecen cuando existen.
+
+| Variable | Para qué sirve |
+|---|---|
+| `MP_CLIENT_ID` | Número de la aplicación (Mercado Pago Developers → Tus integraciones → la app → Credenciales) |
+| `MP_CLIENT_SECRET` | Client secret de la aplicación. También se usa para cifrar los tokens de los productores: si cambia, cada productor vuelve a conectar |
+| `MP_WEBHOOK_SECRET` | Clave secreta de Webhooks (la app → Webhooks → Configurar notificaciones) para validar `x-signature` |
+| `MP_COMISION_PORCENTAJE` | Comisión de AgroSignal por venta (0 a 20; por defecto 0) enviada como `marketplace_fee` |
+| `MP_MODO_PRUEBA` | `true` mientras se prueba con usuarios de prueba (usa `sandbox_init_point` y `test_token`) |
+
+Configuración de la aplicación en Mercado Pago:
+1. Crear la aplicación con el producto **Checkout Pro** y modelo **Marketplace**.
+2. URL de redirección (OAuth): `https://agrosignal.vercel.app/api/mercadopago/callback` (idéntica).
+3. Webhooks: URL `https://agrosignal.vercel.app/api/mercadopago/webhook`, evento **Pagos**.
+   Cada cobro además envía su propia `notification_url` con el pedido.
+4. Para probar: crear dos usuarios de prueba (vendedor y comprador) en Tus integraciones →
+   Cuentas de prueba; el productor conecta la cuenta vendedora y el comprador paga con la otra.
+
+Flujo: el productor conecta su cuenta (OAuth, tokens cifrados con AES-256-GCM en
+`cuentas_mercadopago`, sin acceso desde el navegador) → el comprador paga en Checkout Pro a nombre
+del productor → el aviso o el regreso del comprador consultan el pago en Mercado Pago y solo si está
+aprobado y coinciden pedido, monto y moneda (PEN) se registra con `registrar_pago_mercadopago`
+(solo `service_role`).
+
 ## Pendiente: proveedor de correo
 
 Supabase no tiene SMTP personalizado. Su remitente predeterminado restringe

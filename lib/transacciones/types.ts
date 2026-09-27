@@ -53,14 +53,14 @@ export type Pedido = {
   comprobante_en?: string | null
 }
 export type FormaPago = 'antes_envio' | 'contra_entrega'
-export type MetodoPago = 'transferencia' | 'yape_plin' | 'efectivo'
+export type MetodoPago = 'transferencia' | 'yape_plin' | 'efectivo' | 'mercado_pago'
 export type TipoComprobante = 'factura' | 'boleta' | 'liquidacion_compra'
 export type EventoPedido = { id: number; tipo: string; actor_id: string | null; detalle: string | null; creado_en: string }
 export const FORMAS_PAGO: Record<FormaPago, [string, string]> = {
   antes_envio: ['Pago antes del envío', 'Pagas al cerrar el acuerdo y el productor despacha al confirmar el pago.'],
   contra_entrega: ['Pago contra entrega', 'Pagas al recibir la cosecha conforme.'],
 }
-export const METODOS_PAGO: Record<MetodoPago, string> = { transferencia: 'Transferencia bancaria', yape_plin: 'Yape o Plin', efectivo: 'Efectivo' }
+export const METODOS_PAGO: Record<MetodoPago, string> = { transferencia: 'Transferencia bancaria', yape_plin: 'Yape o Plin', efectivo: 'Efectivo', mercado_pago: 'Mercado Pago' }
 export const COMPROBANTES: Record<TipoComprobante, string> = { factura: 'Factura electrónica', boleta: 'Boleta de venta', liquidacion_compra: 'Liquidación de compra' }
 
 export type Notificacion = {

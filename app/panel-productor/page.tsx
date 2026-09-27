@@ -8,10 +8,14 @@ import { Notifications } from '@/components/transacciones/Notifications'
 import { Card } from '@/components/ui/Card'
 import { FotoPerfil } from '@/components/perfil/FotoPerfil'
 import { PerfilFincaForm } from '@/components/perfil/PerfilFincaForm'
-export default async function ProducerPanel({ searchParams }: { searchParams: Promise<{ aviso?: string; pagina?: string; avisos?: string }> }) {
+import { CobrosMercadoPago } from '@/components/pagos/CobrosMercadoPago'
+import { configMercadoPago } from '@/lib/pagos/mercadopago'
+import { createClient } from '@/lib/supabase/server'
+export default async function ProducerPanel({ searchParams }: { searchParams: Promise<{ aviso?: string; pagina?: string; avisos?: string; mp?: string }> }) {
   const profile = await requireRole('productor')
   const params = await searchParams
   const [result, orders, notifications] = await Promise.all([getOwnLots(profile.id), listOrders(profile, Number(params.pagina) || 1), listNotifications(Number(params.avisos) || 1)])
+  const cobros = configMercadoPago() ? (await (await createClient()).rpc('estado_mercadopago', { p_productor_id: profile.id })).data as { conectado: boolean; conectado_en: string | null; modo_prueba: boolean } | null : null
   return <AppShell profile={profile}>
     {params.aviso === 'sin-permiso' && <p role="alert" className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">No tienes permiso para ver esta página.</p>}
     <p className="mb-2 text-sm font-semibold text-tierra">Mi espacio · Productor</p><h1 className="mb-8 text-3xl font-normal sm:text-4xl text-petroleo wrap-anywhere">Hola, {profile.nombre_completo}</h1>
@@ -24,6 +28,7 @@ export default async function ProducerPanel({ searchParams }: { searchParams: Pr
         <div className="mt-5"><PerfilFincaForm inicial={profile} /></div>
       </details>
     </Card>
+    {cobros && <CobrosMercadoPago conectado={cobros.conectado} conectadoEn={cobros.conectado_en} modoPrueba={cobros.modo_prueba} aviso={params.mp} />}
     <div className="mt-8 space-y-8"><OrderList {...orders} role="productor" notificationsPage={notifications.page} /><Notifications {...notifications} role="productor" ordersPage={orders.page} /></div>
   </AppShell>
 }

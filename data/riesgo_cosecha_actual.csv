@@ -1,17 +1,31 @@
 Cultivo,Region,Riesgo_%,Nivel,Media_historica_ton
-Papaya,Loreto,62.0,ALTO,467
 Palma aceitera,Loreto,60.0,MEDIO,1060689
 Mango,Piura,56.0,MEDIO,407461
-Aceituna,Tacna,36.0,MEDIO,22618
-Arandano,LaLibertad,34.0,BAJO,161161
 Palta,LaLibertad,34.0,BAJO,640507
 Cafe,SanMartin,34.0,BAJO,340045
+Arandano,LaLibertad,34.0,BAJO,161161
 Cacao,SanMartin,34.0,BAJO,141514
+Aceituna,Tacna,28.0,BAJO,130481
 Jengibre,Junin,23.0,BAJO,43648
 Mandarina,Junin,20.0,BAJO,521555
 Alcachofa,Ica,13.0,BAJO,116083
+Papaya,Loreto,10.0,BAJO,173109
 Pina,Junin,9.0,BAJO,544886
 Uva,Ica,6.0,BAJO,754542
 Cebolla,Arequipa,0.0,BAJO,632338
 Limon,Piura,0.0,BAJO,305705
 Aji Rocoto,Arequipa,0.0,BAJO,177900
+Arroz,SanMartin,,N/D,1573443
+Camote,Lima,,N/D,197081
+Cana azucar,LaLibertad,,N/D,8760250
+Esparrago,LaLibertad,,N/D,143567
+Frijol,Cajamarca,,N/D,66624
+Haba,Junin,,N/D,41921
+Maiz,LaLibertad,,N/D,990785
+Maiz choclo,Lima,,N/D,249057
+Naranja,Junin,,N/D,275499
+Papa,Puno,,N/D,2749419
+Platano,Loreto,,N/D,2186076
+Tomate,Lima,,N/D,136202
+Trigo,Junin,,N/D,153725
+Yuca,Loreto,,N/D,753980

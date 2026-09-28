@@ -166,3 +166,20 @@ Solo informa: la decisión sobre la cuenta se toma en Usuarios, con la
 moderación auditada que ya existe. El detalle de cada pedido muestra
 también sus calificaciones y si siguen ocultas por el doble ciego. Reglas
 completas en `docs/MODULOS/03-transacciones.md` § Calificaciones.
+
+## Transacciones (tablero de negocio)
+
+`/admin/transacciones` (migración `20260927000900_tablero_transacciones.sql`, RPC
+`tablero_transacciones(desde, hasta, solo_reales)`, solo admin):
+
+- **Indicadores del periodo:** valor acordado, valor con pago confirmado (y cuánto por Mercado Pago),
+  tasa de acuerdo, compras concluidas, tiempo de respuesta del productor, tiempo del acuerdo al pago,
+  compradores y productores activos.
+- **Requieren atención hoy:** solicitudes y contrapropuestas sin respuesta (48 h), pagos informados
+  sin confirmar (24 h), pagados sin despachar (3 días), enviados sin recepción (7 días) y problemas
+  reportados, con enlace a cada pedido.
+- **Gráficos:** valor acordado por semana y embudo de las 6 fases (con tabla y tooltip accesibles).
+- **Rankings:** cultivos, regiones, productores y compradores por valor; pagos por método.
+- **Trazabilidad:** últimas 50 transacciones con estado, comprobante y orden de compra;
+  exportación CSV completa en `/admin/transacciones/exportar` (con columna "ejemplo").
+- Filtro "Excluir datos de ejemplo" (pedidos de lotes con `[Ejemplo] `).

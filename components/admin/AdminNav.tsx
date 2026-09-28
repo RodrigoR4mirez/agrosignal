@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
 const items = [
-  ['/admin', 'Resumen'], ['/admin/usuarios', 'Usuarios'],
+  ['/admin', 'Resumen'], ['/admin/transacciones', 'Transacciones'], ['/admin/usuarios', 'Usuarios'],
   ['/admin/certificados', 'Certificados pendientes'], ['/admin/drones', 'Solicitudes de dron'],
   ['/admin/tests', 'Tests fallidos'], ['/admin/pedidos', 'Pedidos y disputas'],
   ['/admin/vendedores', 'Vendedores en revisión'], ['/admin/mensajes', 'Mensajes de contacto'],

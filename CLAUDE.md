@@ -26,7 +26,7 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - `app/page.tsx` — landing con estructura inspirada en tourba.ma (header propio transparente, no usa AppShell); íconos y curvas en `components/landing/Iconos.tsx`
 - `app/marketplace` — catálogo de productos, ficha de lote (`[id]`) y perfil de productor (`productor/[id]`)
 - `app/panel-productor`, `app/panel-comprador` — paneles por rol
-- `app/admin` — usuarios, pedidos, certificados, drones, tests
+- `app/admin` — transacciones (tablero de negocio + CSV), usuarios, pedidos, certificados, drones, tests, mensajes
 - `app/verificaciones/[id]` — gestión de la Verificación AgroSignal de un lote
 - `app/(auth)` — registro, login, recuperación y cuenta
 - `components/AppShell.tsx` — header/footer compartidos con la identidad de la landing (logo → `/`); `anchoCompleto` para páginas con bandas a sangre (catálogo, ayuda)

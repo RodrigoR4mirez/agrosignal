@@ -40,11 +40,9 @@ Git y del despliegue.
 | [VARIABLES-DE-ENTORNO.md](./VARIABLES-DE-ENTORNO.md) | Qué es cada variable y de dónde sacarla |
 | [GLOSARIO.md](./GLOSARIO.md) | Términos técnicos y del agro explicados en simple |
 
-Para las reglas de **cómo dividir el trabajo entre agentes de IA** al
-construir cada módulo, ver `/AGENTS.md` en la raíz del repo.
-
-Para convenciones de diseño, paleta de colores y datos de ejemplo, ver
-`/CLAUDE.md` en la raíz del repo — ese documento no se duplica acá.
+Para las reglas de **cómo dividir el trabajo entre agentes de IA**, el
+contexto del proyecto, las convenciones de diseño y los datos de ejemplo, ver
+`/AGENTS.md` en la raíz del repo. Es la única fuente de instrucciones.
 
 ## Usabilidad transversal verificada
 

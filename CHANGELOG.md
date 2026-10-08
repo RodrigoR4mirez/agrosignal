@@ -13,7 +13,7 @@ AgroSignal pasa a ser solo el marketplace.
 ### Cambiado
 - `/` redirige a `/marketplace`; header, footer, ayuda y panel de productor
   sin enlaces al monitor climático.
-- README, CLAUDE.md, AGENTS.md y `docs/` describen solo el marketplace.
+- README, AGENTS.md y `docs/` describen solo el marketplace.
 
 ### Agregado (misma fecha, antes de la limpieza)
 - Rediseño con estética tierra (Fraunces, bosque/musgo/tierra/cacao/arena).

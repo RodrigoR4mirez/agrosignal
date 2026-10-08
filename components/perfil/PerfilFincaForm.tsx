@@ -2,12 +2,12 @@
 
 import { useActionState, useState } from 'react'
 import { guardarPerfilFinca } from '@/app/panel-productor/actions'
-import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
-import { buttonSecondaryClass } from '@/components/ui/estilos'
+import { Field, FormMessage, inputClass } from '@/components/auth/FormFields'
+import { buttonPrimaryClass, buttonSecondaryClass } from '@/components/ui/estilos'
 import { cn } from '@/lib/utils'
 import { ENTREGAS, MESES, PRACTICAS, type PerfilFinca } from '@/lib/perfil/types'
 
-const casilla = 'flex min-h-10 cursor-pointer items-center gap-2 rounded-full px-3.5 text-sm text-gray-700 ring-1 ring-[#e2dbc9] has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo'
+const casilla = 'flex min-h-10 cursor-pointer items-center gap-2 rounded-full px-3.5 text-sm text-gray-700 ring-1 ring-linea-fuerte has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo'
 
 // Datos de la finca que se muestran en el perfil público del productor.
 export function PerfilFincaForm({ inicial }: { inicial: Partial<PerfilFinca> }) {
@@ -60,6 +60,6 @@ export function PerfilFincaForm({ inicial }: { inicial: Partial<PerfilFinca> }) 
       <div className="flex flex-wrap gap-2">{Object.entries(ENTREGAS).map(([valor, texto]) => <label key={valor} className={casilla}><input type="checkbox" name="entregas" value={valor} defaultChecked={inicial.entregas?.includes(valor)} className="sr-only" />{texto}</label>)}</div>
     </fieldset>
     <FormMessage state={state} />
-    <button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : 'Guardar perfil'}</button>
+    <button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Guardar perfil'}</button>
   </form>
 }

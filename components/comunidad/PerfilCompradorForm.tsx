@@ -2,8 +2,9 @@
 
 import { useActionState, useState } from 'react'
 import { guardarPerfilComprador } from '@/app/panel-comprador/actions'
-import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
+import { Field, FormMessage, inputClass } from '@/components/auth/FormFields'
 import type { Profile } from '@/lib/supabase/types'
+import { buttonPrimaryClass } from '@/components/ui/estilos'
 
 // Datos que ven los productores con los que el comprador tiene pedidos.
 export function PerfilCompradorForm({ inicial }: { inicial: Profile }) {
@@ -23,6 +24,6 @@ export function PerfilCompradorForm({ inicial }: { inicial: Profile }) {
       <p className="text-xs text-gray-500">{sobre.length}/600 caracteres</p>
     </div>
     <FormMessage state={state} />
-    <button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : 'Guardar perfil'}</button>
+    <button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Guardar perfil'}</button>
   </form>
 }

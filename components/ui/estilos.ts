@@ -1,8 +1,10 @@
 // Sistema de los paneles (productor, comprador, admin y precios). Sin 'use client': se usa en
 // componentes de servidor y de cliente.
 
-// Botones, todos en píldora. El principal es `buttonClass` (naranja) en components/auth/FormFields.tsx.
-const foco = 'focus-visible:outline-2 focus-visible:outline-offset-2 disabled:cursor-wait disabled:opacity-60'
+// Botones, todos en píldora: principal (naranja), secundario (contorno) y destructivo (rojo).
+// Responden al presionar (escala 0.97), no solo al soltar. `buttonClass` de FormFields queda para auth.
+const foco = 'focus-visible:outline-2 focus-visible:outline-offset-2 active:scale-[0.97] disabled:cursor-wait disabled:opacity-60 disabled:active:scale-100'
+export const buttonPrimaryClass = `inline-flex min-h-11 items-center justify-center rounded-full bg-naranja px-6 py-2.5 text-sm font-semibold text-petroleo transition hover:bg-[#f29a5e] focus-visible:outline-petroleo ${foco}`
 export const buttonSecondaryClass = `inline-flex min-h-11 items-center justify-center rounded-full border border-petroleo/30 bg-white px-5 py-2.5 text-sm font-semibold text-petroleo transition hover:border-petroleo/60 hover:bg-crema focus-visible:outline-petroleo ${foco}`
 export const buttonDangerClass = `inline-flex min-h-11 items-center justify-center rounded-full bg-red-700 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-red-800 focus-visible:outline-red-700 ${foco}`
 // Abre una confirmación destructiva: contorno rojo suave, sin relleno.

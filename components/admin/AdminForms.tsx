@@ -2,11 +2,11 @@
 
 import { useActionState, useState } from 'react'
 import { moderarUsuarioAction, resolverDisputaAction } from '@/app/admin/actions'
-import { FormMessage, inputClass, buttonClass } from '@/components/auth/FormFields'
+import { FormMessage, inputClass } from '@/components/auth/FormFields'
 import type { EstadoPedido } from '@/lib/transacciones/types'
 import type { AdminActionState } from '@/lib/admin/types'
 import { useActionFeedback } from '@/components/ActionFeedback'
-import { buttonDangerClass, buttonDangerSoftClass, buttonSecondaryClass } from '@/components/ui/estilos'
+import { buttonDangerClass, buttonDangerSoftClass, buttonPrimaryClass, buttonSecondaryClass } from '@/components/ui/estilos'
 
 export function UserModeration({ id, suspended, version, requestId }: { id: string; suspended: boolean; version: number; requestId: string }) {
   const notify = useActionFeedback()
@@ -17,12 +17,12 @@ export function UserModeration({ id, suspended, version, requestId }: { id: stri
   }, {})
   const [confirming, setConfirming] = useState(false)
   const [intent] = useState(requestId)
-  return <div className="space-y-4"><FormMessage state={state} />{state.success && <a href="/admin/usuarios" className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline">Actualizar lista de usuarios</a>}{!state.success && (confirming ? <form action={action} className="space-y-4 rounded-xl border border-gray-200 p-4">
+  return <div className="space-y-4"><FormMessage state={state} />{state.success && <a href="/admin/usuarios" className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline">Actualizar lista de usuarios</a>}{!state.success && (confirming ? <form action={action} className="space-y-4 rounded-xl border border-linea p-4">
     <input type="hidden" name="usuario_id" value={id} /><input type="hidden" name="suspendido" value={String(!suspended)} /><input type="hidden" name="version_esperada" value={version} /><input type="hidden" name="idempotencia" value={intent} />
     <p className="text-sm font-semibold">{suspended ? '¿Confirmas la reactivación de esta cuenta?' : '¿Confirmas la suspensión de esta cuenta?'}</p>
     <p className="text-sm leading-relaxed text-gray-600">{suspended ? 'Podrá volver a usar su panel. Sus lotes que cumplan los requisitos volverán al catálogo.' : 'No podrá publicar ni comprar. Sus lotes dejarán de aparecer en el catálogo y sus datos se conservarán.'}</p>
     <label className="block space-y-2 text-sm font-semibold" htmlFor={`motivo-${id}`}><span>Motivo de la decisión</span><textarea id={`motivo-${id}`} name="motivo" required minLength={3} maxLength={1000} rows={3} disabled={pending} className={inputClass} /></label>
-    <div className="flex flex-wrap gap-3"><button disabled={pending} className={suspended ? buttonClass : buttonDangerClass}>{pending ? 'Guardando…' : suspended ? 'Sí, reactivar cuenta' : 'Sí, suspender cuenta'}</button><button type="button" disabled={pending} onClick={() => setConfirming(false)} className="min-h-11 px-3 text-sm font-semibold">Volver</button></div>
+    <div className="flex flex-wrap gap-3"><button disabled={pending} className={suspended ? buttonPrimaryClass : buttonDangerClass}>{pending ? 'Guardando…' : suspended ? 'Sí, reactivar cuenta' : 'Sí, suspender cuenta'}</button><button type="button" disabled={pending} onClick={() => setConfirming(false)} className="min-h-11 px-3 text-sm font-semibold">Volver</button></div>
   </form> : <button onClick={() => setConfirming(true)} className={suspended ? buttonSecondaryClass : buttonDangerSoftClass}>{suspended ? 'Reactivar cuenta' : 'Suspender cuenta'}</button>)}</div>
 }
 
@@ -47,6 +47,6 @@ export function DisputeForm({ id, status, requestId }: { id: string; status: Est
       <label htmlFor="resolucion" className="block space-y-2 text-sm font-semibold"><span>Resolución acordada con las partes</span><textarea id="resolucion" name="resolucion" required minLength={10} maxLength={1000} rows={5} value={resolution} onChange={event => setResolution(event.target.value)} className={inputClass} /></label>
       <p className="text-sm leading-relaxed text-gray-600">Se notificará al comprador y al productor. La resolución quedará registrada y no podrá modificarse. {canCancel ? 'Al cancelar un pedido confirmado, su cantidad se devuelve al stock.' : 'Este pedido ya no admite cancelación desde la plataforma.'}</p>
     </> : <><input type="hidden" name="accion" value={decision} /><input type="hidden" name="resolucion" value={resolution} /><div className={`space-y-3 rounded-xl p-4 ${decision === 'cancelar' ? 'bg-red-50 text-red-950' : 'bg-crema text-petroleo'}`}><p className="text-sm font-semibold">{decision === 'cancelar' ? 'Cancelar pedido y registrar resolución' : 'Registrar acuerdo sin cambiar el estado'}</p><p className="whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{resolution}</p></div><label className="flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" required className="mt-1" /><span>Confirmo que revisé este caso con las partes y que la resolución es correcta.</span></label></>}</fieldset>
-    <div className="flex flex-wrap gap-3">{step === 1 && <button type="button" disabled={pending} onClick={() => setStep(0)} className={buttonSecondaryClass}>Anterior</button>}<button disabled={pending} className={buttonClass}>{pending ? 'Guardando…' : step === 0 ? 'Revisar resolución' : 'Confirmar resolución'}</button></div>
+    <div className="flex flex-wrap gap-3">{step === 1 && <button type="button" disabled={pending} onClick={() => setStep(0)} className={buttonSecondaryClass}>Anterior</button>}<button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : step === 0 ? 'Revisar resolución' : 'Confirmar resolución'}</button></div>
   </form>
 }

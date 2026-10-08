@@ -1,10 +1,11 @@
 import type { EstadoPedido } from '@/lib/transacciones/types'
+import { TONOS } from './EtiquetaPedido'
 
-const colors: Record<EstadoPedido, string> = {
-  pendiente: 'bg-amber-50 text-amber-900', confirmado: 'bg-green-50 text-green-900',
-  enviado: 'bg-blue-50 text-blue-900', recibido: 'bg-teal-50 text-teal-900',
-  calificado: 'bg-green-100 text-green-950', rechazado: 'bg-red-50 text-red-900', cancelado: 'bg-gray-100 text-gray-700',
+// Mismos tonos que EtiquetaPedido para que un estado se vea igual en todo el sitio.
+const tono: Record<EstadoPedido, keyof typeof TONOS> = {
+  pendiente: 'espera', confirmado: 'avance', enviado: 'avance', recibido: 'ok',
+  calificado: 'ok', rechazado: 'alerta', cancelado: 'neutro',
 }
 export function OrderStatus({ state }: { state: EstadoPedido }) {
-  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-bold ${colors[state]}`}>{state}</span>
+  return <span className={`inline-flex rounded-full px-3 py-1 text-xs font-semibold ${TONOS[tono[state]]}`}>{state.charAt(0).toUpperCase() + state.slice(1)}</span>
 }

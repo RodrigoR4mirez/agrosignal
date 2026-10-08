@@ -13,7 +13,7 @@ export function BarrasSemanales({ semanas }: { semanas: { semana: string; pedido
     <div className="flex gap-3">
       <div aria-hidden="true" className="-mt-1.5 flex h-49 flex-col justify-between text-right text-[11px] tabular-nums text-gray-400">{[tope, tope / 2, 0].map(v => <span key={v}>{corto(v)}</span>)}</div>
       <div className="relative min-w-0 flex-1 pb-7">
-        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-46 flex flex-col justify-between">{[0, 1, 2].map(i => <span key={i} className={`border-t ${i === 2 ? 'border-gray-300' : 'border-dashed border-[#ebe4d4]'}`} />)}</div>
+        <div aria-hidden="true" className="absolute inset-x-0 top-0 h-46 flex flex-col justify-between">{[0, 1, 2].map(i => <span key={i} className={`border-t ${i === 2 ? 'border-gray-300' : 'border-dashed border-linea'}`} />)}</div>
         <ol className="relative flex h-46 items-end gap-[2px]">{semanas.map((s, i) => <li key={s.semana} className="group relative flex h-full flex-1 flex-col justify-end focus-visible:outline-2 focus-visible:outline-petroleo" tabIndex={0} aria-label={`Semana del ${semanaTexto(s.semana)}: ${money(Number(s.valor))} en ${s.pedidos} pedidos`}>
           <span className="mx-auto w-full max-w-7 shrink-0 rounded-t-[4px] bg-petroleo transition-colors group-hover:bg-bosque-claro" style={{ height: `${(Number(s.valor) / tope) * 100}%`, minHeight: Number(s.valor) ? 2 : 0 }} />
           <span className={tooltip}><strong className="block">Semana del {semanaTexto(s.semana)}</strong>{money(Number(s.valor))} · {s.pedidos} {s.pedidos === 1 ? 'pedido' : 'pedidos'}</span>
@@ -22,7 +22,7 @@ export function BarrasSemanales({ semanas }: { semanas: { semana: string; pedido
       </div>
     </div>
     <details className="mt-3 text-sm"><summary className="cursor-pointer text-xs font-semibold text-petroleo">Ver como tabla</summary>
-      <div className="mt-2 overflow-x-auto"><table className="w-full text-xs"><thead><tr className="text-left text-gray-500"><th className="py-1 font-medium">Semana</th><th className="py-1 text-right font-medium">Pedidos</th><th className="py-1 text-right font-medium">Valor acordado</th></tr></thead><tbody>{semanas.map(s => <tr key={s.semana} className="border-t border-[#f0ebdf]"><td className="py-1">{semanaTexto(s.semana)}</td><td className="py-1 text-right tabular-nums">{s.pedidos}</td><td className="py-1 text-right tabular-nums">{money(Number(s.valor))}</td></tr>)}</tbody></table></div>
+      <div className="mt-2 overflow-x-auto"><table className="w-full text-xs"><thead><tr className="text-left text-gray-500"><th className="py-1 font-medium">Semana</th><th className="py-1 text-right font-medium">Pedidos</th><th className="py-1 text-right font-medium">Valor acordado</th></tr></thead><tbody>{semanas.map(s => <tr key={s.semana} className="border-t border-linea-suave"><td className="py-1">{semanaTexto(s.semana)}</td><td className="py-1 text-right tabular-nums">{s.pedidos}</td><td className="py-1 text-right tabular-nums">{money(Number(s.valor))}</td></tr>)}</tbody></table></div>
     </details>
   </figure>
 }

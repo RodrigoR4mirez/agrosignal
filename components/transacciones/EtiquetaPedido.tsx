@@ -1,7 +1,7 @@
 import { etiquetaPedido } from '@/lib/transacciones/fases'
 import type { Pedido } from '@/lib/transacciones/types'
 
-const TONOS = {
+export const TONOS = {
   espera: 'bg-trigo/25 text-cacao', avance: 'bg-petroleo/[0.08] text-petroleo', ok: 'bg-musgo/15 text-bosque',
   alerta: 'bg-amber-100 text-amber-950', neutro: 'bg-gray-100 text-gray-600',
 }

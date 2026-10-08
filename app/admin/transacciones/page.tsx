@@ -2,8 +2,7 @@ import { AdminHeading } from '@/components/admin/AdminUI'
 import { TableroVista } from '@/components/admin/tablero/TableroVista'
 import { PERIODOS, getTablero, rangoDe } from '@/lib/admin/tablero'
 import { requireRole } from '@/lib/supabase/auth'
-import { buttonClass } from '@/components/auth/FormFields'
-import { buttonSecondaryClass } from '@/components/ui/estilos'
+import { buttonPrimaryClass, buttonSecondaryClass } from '@/components/ui/estilos'
 import { cn } from '@/lib/utils'
 
 
@@ -17,10 +16,10 @@ export default async function TransaccionesPage({ searchParams }: { searchParams
 
   return <>
     <AdminHeading title="Transacciones" description="Cómo se mueve el negocio: valor transado, conversión entre fases, pedidos que necesitan atención y quién compra y vende. Importes en soles." />
-    <form className="mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-[#ebe4d4] bg-white p-4">
+    <form className="mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-linea bg-white p-4">
       <label className="space-y-1.5 text-sm font-semibold"><span className="block">Periodo</span><select name="periodo" defaultValue={params.periodo ?? '90'} className="min-h-11 rounded-xl border border-gray-300 bg-white px-3 text-sm">{PERIODOS.map(([v, texto]) => <option key={v} value={v}>{texto}</option>)}</select></label>
       <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" name="reales" value="1" defaultChecked={soloReales} className="size-4 accent-petroleo" />Excluir datos de ejemplo</label>
-      <button className={buttonClass}>Aplicar</button>
+      <button className={buttonPrimaryClass}>Aplicar</button>
       <a href={`/admin/transacciones/exportar?${filtros}`} className={cn(buttonSecondaryClass, 'ml-auto')}>Exportar CSV</a>
       <p className="w-full text-xs text-gray-500">Del {fecha(desde)} al {fecha(hasta)} (hora de Perú), según la fecha de creación del pedido.</p>
     </form>

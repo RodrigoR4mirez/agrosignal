@@ -19,6 +19,11 @@
   --color-naranja: #ee7c32;
   --color-trigo: #f3bc48;
   --color-crema: #fdf9f0;
+
+  /* Líneas cálidas: bordes de tarjetas, divisores y chips (en lugar de grises fríos) */
+  --color-linea: #ebe4d4;
+  --color-linea-suave: #f0ebdf;
+  --color-linea-fuerte: #e2dbc9;
 }
 
 :root {
@@ -29,7 +34,8 @@
   --radius-card: 22px;
   --shadow-card: 0 1px 2px rgba(19, 53, 53, 0.05);
   --shadow-card-hover: 0 22px 40px -24px rgba(19, 53, 53, 0.4);
-  --transition-base: all 0.2s ease;
+  /* Solo lo que cambia al pasar el cursor (nunca `all`): sombra y borde, curva estándar */
+  --transition-base: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1), border-color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Superficie base de tarjeta: mismo radio y misma sombra en TODOS los componentes */

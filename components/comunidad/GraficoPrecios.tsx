@@ -20,7 +20,7 @@ export function GraficoPrecios({ serie, actual, titulo }: { serie: PuntoPrecio[]
   const ultimo = serie.at(-1)
   return <figure className="min-w-0">
     <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={`${titulo}. ${ultimo ? `Último mes: publicado ${ultimo.publicado !== null ? soles(ultimo.publicado) : 'sin datos'} por kg${ultimo.vendido !== null ? `, vendido ${soles(ultimo.vendido)} por kg` : ''}.` : ''}`} className="w-full">
-      {ticks.map(v => <g key={v}><line x1={L} x2={W - R} y1={y(v)} y2={y(v)} stroke="#ebe4d4" /><text x={L - 8} y={y(v) + 4} textAnchor="end" className="fill-gray-500 text-[11px] tabular-nums">{soles(v)}</text></g>)}
+      {ticks.map(v => <g key={v}><line x1={L} x2={W - R} y1={y(v)} y2={y(v)} className="stroke-linea" /><text x={L - 8} y={y(v) + 4} textAnchor="end" className="fill-gray-500 text-[11px] tabular-nums">{soles(v)}</text></g>)}
       {serie.length > 1 && <polygon points={franja} className="fill-trigo/25" />}
       {actual && <g><line x1={L} x2={W - R} y1={y(actual)} y2={y(actual)} strokeDasharray="5 5" className="stroke-tierra" strokeWidth="1.5" /><text x={W - R} y={y(actual) - 6} textAnchor="end" className="fill-tierra text-[11px] font-semibold">Este lote · {soles(actual)}</text></g>}
       <polyline points={linea('publicado')} fill="none" className="stroke-petroleo" strokeWidth="2.5" strokeLinejoin="round" strokeLinecap="round" />

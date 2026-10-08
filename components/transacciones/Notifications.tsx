@@ -14,7 +14,7 @@ function NotificationItem({ notification, role }: { notification: Notificacion; 
   const verification = notification.referencia_tipo === 'sello' && role !== 'comprador'
   const contacto = notification.referencia_tipo === 'contacto'
   const target = contacto ? '/admin/mensajes' : notification.referencia_tipo === 'lote' ? `/marketplace/${notification.referencia_id}` : notification.referencia_tipo === 'pedido' ? `${base}/${role === 'productor' ? 'ventas' : 'pedidos'}/${notification.referencia_id}` : verification ? `/verificaciones/${notification.referencia_id}` : base
-  return <li className={`space-y-3 rounded-xl border p-4 ${notification.leida ? 'border-gray-100' : 'border-[#e2dbc9] bg-crema'}`}>
+  return <li className={`space-y-3 rounded-xl border p-4 ${notification.leida ? 'border-linea-suave' : 'border-linea-fuerte bg-crema'}`}>
     <p className="text-sm leading-relaxed wrap-anywhere">{notification.mensaje}</p>
     <p className="text-xs text-gray-500">{new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Lima' }).format(new Date(notification.creado_en))}</p>
     <FormMessage state={state} />

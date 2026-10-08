@@ -3,9 +3,10 @@ import { SeccionCalificacion } from '@/components/calificaciones/SeccionCalifica
 import { money, quantity } from '@/lib/marketplace/types'
 import type { EstadoCalificacion } from '@/lib/calificaciones/types'
 import type { DocumentosPedido } from '@/lib/transacciones/data'
-import { NOMBRE_FASE, faseActual, fasesDe, siguientePaso } from '@/lib/transacciones/fases'
+import { faseActual, siguientePaso } from '@/lib/transacciones/fases'
 import { COMPROBANTES, FORMAS_PAGO, METODOS_PAGO, type EventoPedido, type Pedido } from '@/lib/transacciones/types'
 import { EtiquetaPedido } from './EtiquetaPedido'
+import { LineaFases } from './LineaFases'
 import { PasoPedido } from './PasoPedido'
 
 const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-7'
@@ -32,8 +33,7 @@ function Dato({ t, children }: { t: string; children: React.ReactNode }) {
 export function PedidoDetalle({ order, role, eventos, documentos, calificacion, created = false, pagoEnLinea = false, avisoPago }: {
   order: Pedido; role: 'comprador' | 'productor'; eventos: EventoPedido[]; documentos: DocumentosPedido; calificacion: EstadoCalificacion | null; created?: boolean; pagoEnLinea?: boolean; avisoPago?: string
 }) {
-  const fases = fasesDe(order), actual = faseActual(order), paso = siguientePaso(order, role)
-  const indice = actual === 'completado' ? fases.length : actual === 'terminado' ? -1 : fases.indexOf(actual)
+  const actual = faseActual(order), paso = siguientePaso(order, role)
   const acordado = !['pendiente', 'rechazado'].includes(order.estado)
   const telefono = role === 'productor' ? order.comprador_telefono : order.productor_telefono
   const recibido = order.estado === 'recibido' || order.estado === 'calificado'
@@ -53,16 +53,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
       <div className="flex flex-wrap items-center gap-3"><EtiquetaPedido order={order} grande />{acordado && <Link href={`/pedidos/${order.id}/orden`} className="inline-flex min-h-10 items-center rounded-full px-4 text-sm font-semibold text-petroleo ring-1 ring-petroleo/25 hover:bg-crema">Orden de compra</Link>}</div>
     </header>
 
-    {/* Fases */}
-    <ol aria-label="Fases del pedido" className="grid grid-cols-3 gap-2 sm:grid-cols-6">
-      {fases.map((f, i) => {
-        const hecho = i < indice, ahora = i === indice
-        return <li key={f} aria-current={ahora ? 'step' : undefined} className="min-w-0">
-          <span aria-hidden="true" className={`block h-1.5 rounded-full ${hecho ? 'bg-musgo' : ahora ? 'bg-petroleo' : 'bg-[#ebe4d4]'}`} />
-          <span className={`mt-2 flex items-center gap-1.5 text-xs font-semibold ${hecho ? 'text-musgo' : ahora ? 'text-petroleo' : 'text-gray-400'}`}>{hecho && <span aria-hidden="true">✓</span>}{NOMBRE_FASE[f]}{hecho && <span className="sr-only"> (completada)</span>}</span>
-        </li>
-      })}
-    </ol>
+    <LineaFases order={order} role={role} />
 
     {/* Siguiente paso */}
     <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-[#ebe4d4] bg-crema'}`}>

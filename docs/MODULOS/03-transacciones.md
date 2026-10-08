@@ -328,6 +328,12 @@ los anteriores quedan con `flujo = 1` y se muestran con la vista simple de antes
 
 Con **pago contra entrega** el orden es solicitud → acuerdo → despacho → recepción → pago → cierre.
 
+En el detalle del pedido, `components/transacciones/LineaFases.tsx` muestra las fases como línea de tiempo
+(vertical en celular, horizontal desde `md`): check musgo en las hechas, círculo hueco trigo en la actual
+(`aria-current="step"`), arena en las pendientes y gris si el pedido se canceló o rechazó. Cada fase dice
+quién actúa ("Tú" o la otra parte; en la actual lo decide `siguientePaso()`) y su fecha (`creado_en`,
+`acordado_en`, `pago_confirmado_en`, `enviado_en`, `recibido_en`, `comprobante_en`).
+
 - `pedido_eventos`: historial con autor y fecha (triggers en cada cambio de estado + cada función).
   Solo lo leen las partes y la administración.
 - Bucket privado `documentos-pedido` (`<pedido>/<uuid>.<pdf|jpg|png|webp>`, 10 MB): vouchers y

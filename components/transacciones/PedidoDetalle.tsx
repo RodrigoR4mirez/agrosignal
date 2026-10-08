@@ -53,14 +53,15 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
       <div className="flex flex-wrap items-center gap-3"><EtiquetaPedido order={order} grande />{acordado && <Link href={`/pedidos/${order.id}/orden`} className="inline-flex min-h-10 items-center rounded-full px-4 text-sm font-semibold text-petroleo ring-1 ring-petroleo/25 hover:bg-crema">Orden de compra</Link>}</div>
     </header>
 
-    <LineaFases order={order} role={role} />
-
-    {/* Siguiente paso */}
-    <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-[#ebe4d4] bg-crema'}`}>
-      <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
-      <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
-      <div className="mt-5"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} /></div>
-    </section>
+    {/* Siguiente paso y fases: en celular primero la acción; en escritorio, fases a la izquierda */}
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:items-start">
+      <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-[#ebe4d4] bg-crema'}`}>
+        <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
+        <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
+        <div className="mt-5"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} /></div>
+      </section>
+      <div className="lg:order-first"><LineaFases order={order} role={role} /></div>
+    </div>
 
     {order.propuesta_en && <section className={`${tarjeta} ring-2 ring-trigo`} aria-labelledby="propuesta">
       <h2 id="propuesta" className="text-xl font-normal text-petroleo">Propuesta del productor</h2>

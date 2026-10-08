@@ -115,7 +115,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
         {order.observacion && <section className={`${tarjeta} border-amber-200 bg-amber-50/60`}><h2 className="text-lg font-semibold text-cacao">Problema reportado</h2><p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-cacao wrap-anywhere">{order.observacion}</p><p className="mt-2 text-xs text-gray-600">La administración de AgroSignal lo revisa con ambas partes.</p></section>}
         {order.motivo && <section className={tarjeta}><h2 className="text-lg font-semibold">Motivo de {order.estado === 'rechazado' ? 'rechazo' : 'cancelación'}</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.motivo}</p></section>}
         {order.resolucion && <section className={tarjeta}><h2 className="text-lg font-semibold">Resolución de la administración</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.resolucion}</p></section>}
-        {recibido && <SeccionCalificacion pedidoId={order.id} estado={calificacion} contraparte={role === 'productor' ? order.comprador_nombre : order.productor_nombre} yo={role === 'productor' ? order.productor_nombre : order.comprador_nombre} />}
+        {recibido && <SeccionCalificacion pedidoId={order.id} estado={calificacion} contraparte={role === 'productor' ? order.comprador_nombre : order.productor_nombre} yo={role === 'productor' ? order.productor_nombre : order.comprador_nombre} amplio />}
 
         <section className={tarjeta} aria-labelledby="historial">
           <h2 id="historial" className="text-xl font-normal text-petroleo">Historial</h2>

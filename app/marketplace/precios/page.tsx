@@ -5,10 +5,11 @@ import { GraficoPrecios } from '@/components/comunidad/GraficoPrecios'
 import { CurvasNivel } from '@/components/landing/Iconos'
 import { getCultivosConPrecios, getHistorialPrecios } from '@/lib/comunidad/data'
 import { getProfile } from '@/lib/supabase/auth'
+import { Metrica } from '@/components/ui/Card'
 
 export const metadata: Metadata = { title: 'Precios por cultivo | AgroSignal', description: 'Evolución mensual del precio publicado y de venta de cada cultivo en AgroSignal, por kilo.' }
 const caja = 'app-container px-4 sm:px-6 lg:px-8'
-const soles = (v: number) => `S/ ${v.toFixed(2)}`
+const soles = (v: number) => `S/\u00a0${v.toFixed(2)}`
 const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']
 
 export default async function PreciosPage({ searchParams }: { searchParams: Promise<{ cultivo?: string }> }) {
@@ -51,7 +52,7 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
               <GraficoPrecios serie={serie} titulo={`Precio mensual de ${elegido.nombre.toLowerCase()} por kilo`} />
             </section>
             <aside aria-label="Resumen" className="space-y-4">
-              <dl className="grid grid-cols-2 gap-3 lg:grid-cols-1">{cifras.map(([k, v]) => <div key={k} className="rounded-[18px] border border-[#ebe4d4] bg-white p-4"><dt className="text-xs text-gray-500">{k}</dt><dd className="mt-1 text-lg font-semibold tabular-nums text-petroleo">{v}</dd></div>)}</dl>
+              <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">{cifras.map(([k, v]) => <Metrica key={k} etiqueta={k} valor={v} compacta className="p-4 sm:p-5" />)}</div>
               <p className="text-xs leading-relaxed text-gray-500">Precios en soles por kilo (las toneladas se convierten a kilos). El publicado es el promedio de los lotes publicados o con precio cambiado ese mes; el de venta, el de los pedidos recibidos. {ejemplo && 'Incluye datos de ejemplo de la demostración.'}</p>
             </aside>
             <section aria-labelledby="tabla" className="min-w-0 overflow-x-auto rounded-[22px] border border-[#ebe4d4] bg-white p-5 sm:p-8 lg:col-span-2">

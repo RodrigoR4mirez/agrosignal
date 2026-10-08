@@ -1,5 +1,6 @@
 import Link from 'next/link'
-import { Card } from '@/components/ui/Card'
+import { Metrica } from '@/components/ui/Card'
+import { tituloBloque } from '@/components/ui/estilos'
 import { AdminHeading, QueueEmpty, adminLink } from '@/components/admin/AdminUI'
 import { Notifications } from '@/components/transacciones/Notifications'
 import { listNotifications } from '@/lib/transacciones/data'
@@ -19,14 +20,14 @@ export default async function AdminPage({ searchParams }: { searchParams: Promis
         ['Lotes activos', metrics.lotes_activos, 'Disponibles en el catálogo público'],
         ['Transacciones del mes', metrics.pedidos_mes, 'Pedidos creados, incluidos cancelados'],
         ['Usuarios nuevos', metrics.usuarios_nuevos, 'Cuentas registradas este mes'],
-      ].map(([label, value, hint]) => <Card key={label} className="min-w-0"><h2 className="text-sm font-semibold text-gray-600">{label}</h2><p className="my-4 text-4xl font-extrabold text-petroleo">{value}</p><p className="text-xs leading-relaxed text-gray-500">{hint}</p></Card>)}</div>
+      ].map(([label, value, hint]) => <Metrica key={label} etiqueta={label} valor={value} nota={hint} />)}</div>
       <p className="mt-3 text-xs text-gray-500">Mes calendario según la hora de Perú. Los importes de los pedidos no representan pagos procesados por AgroSignal.</p>
-      <h2 className="mb-4 mt-8 text-xl font-semibold">Requieren seguimiento</h2><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
+      <h2 className={`mb-4 mt-8 ${tituloBloque}`}>Requieren seguimiento</h2><div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">{[
         ['/admin/certificados', 'Certificados pendientes', metrics.certificados_pendientes],
         ['/admin/drones', 'Inspecciones solicitadas', metrics.drones_pendientes],
         ['/admin/tests', 'Lotes bloqueados', metrics.lotes_bloqueados],
         ['/admin/vendedores', 'Vendedores en revisión', metrics.vendedores_en_revision ?? 0],
-      ].map(([href, label, value]) => <Card key={href} className="min-w-0"><p className="mb-2 text-3xl font-bold text-tierra">{value}</p><h3 className="mb-3 text-sm font-semibold">{label}</h3><Link href={String(href)} className={adminLink}>Revisar</Link></Card>)}</div>
+      ].map(([href, label, value]) => <Metrica key={href} etiqueta={label} valor={value} nota={<Link href={String(href)} className={adminLink}>Revisar<span className="sr-only"> {String(label).toLowerCase()}</span></Link>} />)}</div>
     </>}
     <section className="mt-8"><Notifications {...notices} role="admin" /></section>
   </>

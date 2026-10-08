@@ -3,6 +3,8 @@
 import { useActionState, useState } from 'react'
 import { guardarPerfilFinca } from '@/app/panel-productor/actions'
 import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
+import { buttonSecondaryClass } from '@/components/ui/estilos'
+import { cn } from '@/lib/utils'
 import { ENTREGAS, MESES, PRACTICAS, type PerfilFinca } from '@/lib/perfil/types'
 
 const casilla = 'flex min-h-10 cursor-pointer items-center gap-2 rounded-full px-3.5 text-sm text-gray-700 ring-1 ring-[#e2dbc9] has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo'
@@ -44,7 +46,7 @@ export function PerfilFincaForm({ inicial }: { inicial: Partial<PerfilFinca> }) 
       <div className="grid gap-3 sm:grid-cols-[1fr_1fr_auto] sm:items-end">
         <Field name="latitud" label="Latitud" type="number" step="0.000001" min="-18.5" max="0.2" value={lat} onChange={event => setLat(event.target.value)} placeholder="-13.531950" />
         <Field name="longitud" label="Longitud" type="number" step="0.000001" min="-81.5" max="-68.5" value={lon} onChange={event => setLon(event.target.value)} placeholder="-71.967463" />
-        <button type="button" onClick={ubicar} className="min-h-12 rounded-full border border-petroleo/40 px-5 text-sm font-semibold text-petroleo hover:bg-white">Usar mi ubicación</button>
+        <button type="button" onClick={ubicar} className={cn(buttonSecondaryClass, 'min-h-12')}>Usar mi ubicación</button>
       </div>
       <p aria-live="polite" className="min-h-4 text-xs text-petroleo">{ubicando}</p>
     </fieldset>

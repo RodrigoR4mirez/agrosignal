@@ -5,6 +5,8 @@ import { useState } from 'react'
 import { guardarFotoPerfil } from '@/app/panel-productor/actions'
 import { createClient } from '@/lib/supabase/client'
 import { Avatar } from './Avatar'
+import { buttonSecondaryClass } from '@/components/ui/estilos'
+import { cn } from '@/lib/utils'
 
 const TIPOS: Record<string, string> = { 'image/jpeg': 'jpg', 'image/png': 'png', 'image/webp': 'webp' }
 
@@ -36,11 +38,11 @@ export function FotoPerfil({ owner, nombre, foto }: { owner: string; nombre: str
     <Avatar nombre={nombre} foto={foto} className="size-20 text-xl" />
     <div className="min-w-0 space-y-2">
       <div className="flex flex-wrap gap-3">
-        <label className={`inline-flex min-h-11 cursor-pointer items-center rounded-full bg-petroleo px-5 text-sm font-semibold text-white hover:bg-bosque-claro has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo ${estado.subiendo ? 'pointer-events-none opacity-60' : ''}`}>
+        <label className={cn(buttonSecondaryClass, 'cursor-pointer has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo', estado.subiendo && 'pointer-events-none opacity-60')}>
           {estado.subiendo ? 'Guardando…' : foto ? 'Cambiar foto' : 'Subir foto'}
           <input type="file" accept="image/jpeg,image/png,image/webp" className="sr-only" disabled={estado.subiendo} onChange={event => { void elegir(event.target.files?.[0]); event.target.value = '' }} />
         </label>
-        {foto && <button type="button" onClick={() => void quitar()} disabled={estado.subiendo} className="min-h-11 rounded-full border border-petroleo/40 px-5 text-sm font-semibold text-petroleo disabled:opacity-60">Quitar</button>}
+        {foto && <button type="button" onClick={() => void quitar()} disabled={estado.subiendo} className={buttonSecondaryClass}>Quitar</button>}
       </div>
       <p className="text-xs text-gray-500">JPG, PNG o WebP de hasta 2 MB. Una foto tuya o de tu campo genera más confianza.</p>
       <p aria-live="polite" className={`text-sm ${estado.error ? 'text-red-700' : 'text-petroleo'}`}>{estado.error ?? estado.ok ?? ''}</p>

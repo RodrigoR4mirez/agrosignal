@@ -4,6 +4,7 @@ import { BarrasSemanales, Embudo, Ranking } from '@/components/admin/tablero/Gra
 import { EtiquetaPedido } from '@/components/transacciones/EtiquetaPedido'
 import type { Tablero } from '@/lib/admin/tablero'
 import { money, quantity } from '@/lib/marketplace/types'
+import { Metrica } from '@/components/ui/Card'
 import { METODOS_PAGO, type MetodoPago } from '@/lib/transacciones/types'
 
 const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6'
@@ -24,13 +25,13 @@ export function TableroVista({ t, error }: { t: Tablero | null; error: boolean }
         ['Del acuerdo al pago', horas(t.kpis.horas_hasta_pago), 'Promedio hasta el pago confirmado'],
         ['Compradores activos', String(t.kpis.compradores), 'Con al menos una solicitud'],
         ['Productores con pedidos', String(t.kpis.productores), 'Recibieron al menos una solicitud'],
-      ].map(([titulo, valor, pie]) => <div key={titulo} className="min-w-0 rounded-[22px] border border-[#ebe4d4] bg-white p-4 sm:p-6"><p className="text-xs text-gray-600 sm:text-sm">{titulo}</p><p className="mt-2 text-xl font-semibold tabular-nums text-petroleo wrap-anywhere sm:mt-3 sm:text-3xl">{valor}</p><p className="mt-2 text-xs leading-relaxed text-gray-500">{pie}</p></div>)}</section>
+      ].map(([titulo, valor, pie]) => <Metrica key={titulo} etiqueta={titulo} valor={valor} nota={pie} className="p-4 sm:p-6" />)}</section>
 
       {/* Alertas operativas */}
       <section aria-labelledby="alertas" className={tarjeta}>
         <div className="flex flex-wrap items-baseline justify-between gap-2"><h2 id="alertas" className="text-xl font-normal text-petroleo">Requieren atención hoy</h2><p className="text-xs text-gray-500">Estado actual, sin importar el periodo</p></div>
         <ul className="mt-4 divide-y divide-[#f0ebdf]">{t.alertas.map(a => <li key={a.clave} className="flex flex-wrap items-center justify-between gap-3 py-3">
-          <span className="flex items-center gap-3 text-sm"><span className={`grid min-w-8 place-items-center rounded-full px-2 py-1 text-xs font-bold tabular-nums ${a.ids.length ? 'bg-amber-100 text-amber-950' : 'bg-gray-100 text-gray-500'}`}>{a.ids.length}</span><span className={a.ids.length ? 'text-gray-900' : 'text-gray-500'}>{a.titulo}</span></span>
+          <span className="flex items-center gap-3 text-sm"><span className={`grid min-w-8 place-items-center rounded-full px-2 py-1 text-xs font-semibold tabular-nums ${a.ids.length ? 'bg-amber-100 text-amber-950' : 'bg-gray-100 text-gray-500'}`}>{a.ids.length}</span><span className={a.ids.length ? 'text-gray-900' : 'text-gray-500'}>{a.titulo}</span></span>
           {a.ids.length > 0 && <span className="flex flex-wrap gap-2">{a.ids.slice(0, 4).map(id => <Link key={id} href={`/admin/pedidos/${id}`} className="rounded-full bg-crema px-3 py-1 font-mono text-xs text-petroleo hover:bg-arena-claro">#{id.slice(0, 8)}</Link>)}{a.ids.length > 4 && <span className="text-xs text-gray-500">y {a.ids.length - 4} más</span>}</span>}
         </li>)}</ul>
       </section>

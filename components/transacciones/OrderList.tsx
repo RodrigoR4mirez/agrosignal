@@ -10,9 +10,9 @@ export function OrderList({ orders, count, page, error, role, notificationsPage 
   orders: Pedido[]; count: number; page: number; error: boolean; role: 'productor' | 'comprador'; notificationsPage?: number
 }) {
   const base = role === 'productor' ? '/panel-productor' : '/panel-comprador'
-  return <section className="space-y-5" aria-labelledby="pedidos-heading">
+  return <section className="space-y-6" aria-labelledby="pedidos-heading">
     <div className="flex flex-wrap items-center justify-between gap-3"><h2 id="pedidos-heading" className={tituloBloque}>{role === 'productor' ? 'Mis ventas' : 'Mis compras'}</h2><p className="text-sm text-gray-600">{count} {count === 1 ? 'pedido' : 'pedidos'}</p></div>
-    {error ? <Card><p role="alert" className="text-sm text-red-800">No pudimos cargar los pedidos. Intenta nuevamente.</p></Card> : orders.length ? <div className="grid gap-5 md:grid-cols-2">{orders.map(order => <Card key={order.id} className="min-w-0 space-y-4">
+    {error ? <Card><p role="alert" className="text-sm text-red-800">No pudimos cargar los pedidos. Intenta nuevamente.</p></Card> : orders.length ? <div className="grid gap-6 md:grid-cols-2">{orders.map(order => <Card key={order.id} className="min-w-0 space-y-4">
       <div className="flex flex-wrap items-start justify-between gap-3"><h3 className={`min-w-0 wrap-anywhere ${tituloItem}`}>{order.cultivo}</h3><EtiquetaPedido order={order} /></div>
       {order.flujo === 2 && siguientePaso(order, role).quien === 'yo' && <p className="inline-flex items-center gap-2 text-xs font-semibold text-cacao"><span aria-hidden="true" className="size-2 rounded-full bg-naranja" />Te toca: {siguientePaso(order, role).texto}</p>}
       <p className="text-sm text-gray-600 wrap-anywhere">{role === 'productor' ? `Comprador: ${order.comprador_nombre}` : `Productor: ${order.productor_nombre}`}</p>

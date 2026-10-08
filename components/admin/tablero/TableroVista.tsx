@@ -16,7 +16,7 @@ export function TableroVista({ t, error }: { t: Tablero | null; error: boolean }
   return <>
     {error || !t ? <QueueEmpty error>No pudimos cargar el tablero. Intenta nuevamente.</QueueEmpty> : <div className="space-y-6">
       {/* Indicadores */}
-      <section aria-label="Indicadores" className="grid grid-cols-2 gap-3 sm:gap-4 xl:grid-cols-4">{[
+      <section aria-label="Indicadores" className="grid grid-cols-2 gap-4 xl:grid-cols-4">{[
         ['Valor acordado', money(Number(t.kpis.valor_acordado)), `${t.kpis.acuerdos} acuerdos · ticket promedio ${money(Number(t.kpis.ticket_promedio))}`],
         ['Valor con pago confirmado', money(Number(t.kpis.valor_pagado)), Number(t.kpis.valor_mercado_pago) ? `${money(Number(t.kpis.valor_mercado_pago))} por Mercado Pago` : 'Pago directo registrado'],
         ['Tasa de acuerdo', pct(t.kpis.acuerdos, t.kpis.pedidos), `${t.kpis.pedidos} solicitudes · ${t.kpis.rechazados} rechazadas · ${t.kpis.cancelados} canceladas`],
@@ -54,7 +54,7 @@ export function TableroVista({ t, error }: { t: Tablero | null; error: boolean }
         {t.transacciones.length ? <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[56rem] text-sm">
           <thead><tr className="border-b border-linea text-left text-xs text-gray-500"><th className="py-2 font-medium">Pedido</th><th className="py-2 font-medium">Fecha</th><th className="py-2 font-medium">Cultivo</th><th className="py-2 font-medium">Comprador → Productor</th><th className="py-2 pr-6 text-right font-medium">Total</th><th className="py-2 font-medium">Estado</th><th className="py-2 font-medium">Comprobante</th><th className="py-2" /></tr></thead>
           <tbody className="divide-y divide-linea-suave">{t.transacciones.map(p => <tr key={p.id}>
-            <td className="py-2.5 font-mono text-xs"><Link href={`/admin/pedidos/${p.id}`} className="text-petroleo hover:underline">#{p.id.slice(0, 8)}</Link>{p.ejemplo && <span className="ml-1.5 rounded bg-trigo/30 px-1.5 py-0.5 font-sans text-[10px] text-cacao">Ejemplo</span>}</td>
+            <td className="py-2.5 font-mono text-xs"><Link href={`/admin/pedidos/${p.id}`} className="text-petroleo hover:underline">#{p.id.slice(0, 8)}</Link>{p.ejemplo && <span className="ml-1.5 rounded bg-trigo/30 px-1.5 py-0.5 font-sans text-xs text-cacao">Ejemplo</span>}</td>
             <td className="py-2.5 whitespace-nowrap text-gray-600">{new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeZone: 'America/Lima' }).format(new Date(p.creado_en))}</td>
             <td className="py-2.5">{p.cultivo}<span className="block text-xs text-gray-500">{quantity(p.cantidad)} {p.unidad}</span></td>
             <td className="py-2.5 text-gray-700">{p.comprador_nombre}<span className="block text-xs text-gray-500">→ {p.productor_nombre}</span></td>

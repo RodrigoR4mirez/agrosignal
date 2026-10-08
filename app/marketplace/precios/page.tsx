@@ -49,10 +49,10 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
           : <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
             <section aria-labelledby="grafico" className="min-w-0 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
               <div className="mb-5 flex flex-wrap items-end justify-between gap-3"><h2 id="grafico" className="text-2xl font-normal text-petroleo">{elegido.nombre}: precio por kilo</h2><Link href={`/marketplace?q=${encodeURIComponent(elegido.nombre)}`} className="text-sm font-semibold text-petroleo underline underline-offset-4">Ver lotes de {elegido.nombre.toLowerCase()}</Link></div>
-              <GraficoPrecios serie={serie} titulo={`Precio mensual de ${elegido.nombre.toLowerCase()} por kilo`} />
+              <div className="-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0"><div className="min-w-[36rem] sm:min-w-0"><GraficoPrecios serie={serie} titulo={`Precio mensual de ${elegido.nombre.toLowerCase()} por kilo`} /></div></div>
             </section>
             <aside aria-label="Resumen" className="space-y-4">
-              <div className="grid grid-cols-2 gap-3 lg:grid-cols-1">{cifras.map(([k, v]) => <Metrica key={k} etiqueta={k} valor={v} compacta className="p-4 sm:p-5" />)}</div>
+              <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">{cifras.map(([k, v]) => <Metrica key={k} etiqueta={k} valor={v} compacta className="p-4 sm:p-5" />)}</div>
               <p className="text-xs leading-relaxed text-gray-500">Precios en soles por kilo (las toneladas se convierten a kilos). El publicado es el promedio de los lotes publicados o con precio cambiado ese mes; el de venta, el de los pedidos recibidos. {ejemplo && 'Incluye datos de ejemplo de la demostración.'}</p>
             </aside>
             <section aria-labelledby="tabla" className="min-w-0 overflow-x-auto rounded-[22px] border border-linea bg-white p-5 sm:p-8 lg:col-span-2">

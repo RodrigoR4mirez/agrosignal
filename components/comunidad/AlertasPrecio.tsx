@@ -19,7 +19,7 @@ export function AlertasPrecio({ alertas }: { alertas: AlertaPrecio[] }) {
     <FormMessage state={state} />
     {alertas.length > 0 ? <ul className="flex flex-wrap gap-2">{alertas.map(a => <li key={a.id} className="inline-flex items-center gap-2 rounded-full bg-crema py-1.5 pl-4 pr-1.5 text-sm text-petroleo ring-1 ring-linea-fuerte">
       <span><strong className="font-semibold">{a.cultivo}</strong>{a.precio_maximo_kg ? ` · hasta S/ ${Number(a.precio_maximo_kg).toFixed(2)}/kg` : ' · cualquier precio'}</span>
-      <form action={borrarAlertaAction}><input type="hidden" name="alerta_id" value={a.id} /><button aria-label={`Borrar alerta de ${a.cultivo}`} className="grid size-7 place-items-center rounded-full bg-white text-xs hover:bg-red-50 hover:text-red-700">✕</button></form>
+      <form action={borrarAlertaAction}><input type="hidden" name="alerta_id" value={a.id} /><button aria-label={`Borrar alerta de ${a.cultivo}`} className="relative grid size-7 place-items-center rounded-full bg-white text-xs before:absolute before:-inset-2 before:content-[''] hover:bg-red-50 hover:text-red-700">✕</button></form>
     </li>)}</ul> : <p className="text-sm text-gray-600">Aún no tienes alertas. Crea una y te avisaremos en tus notificaciones.</p>}
     <p className="text-xs text-gray-500">{alertas.length}/10 alertas. Coinciden por nombre: “palta” incluye Palta Hass y Palta Fuerte.</p>
   </div>

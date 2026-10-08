@@ -4,7 +4,7 @@ import { buttonSecondaryClass, tituloPagina } from '@/components/ui/estilos'
 
 export const adminLink = 'inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline underline-offset-4'
 export function AdminHeading({ title, description }: { title: string; description: string }) {
-  return <div className="mb-7 space-y-3"><h1 className={tituloPagina}>{title}</h1><p className="text-sm leading-relaxed text-gray-600">{description}</p></div>
+  return <div className="mb-8 space-y-3"><h1 className={tituloPagina}>{title}</h1><p className="text-sm leading-relaxed text-gray-600">{description}</p></div>
 }
 export function QueueEmpty({ error, children }: { error: boolean; children: React.ReactNode }) {
   return <Card><p role={error ? 'alert' : undefined} className={`text-sm ${error ? 'text-red-800' : 'text-gray-600'}`}>{error ? 'No pudimos cargar esta sección. Actualiza la página para intentarlo nuevamente.' : children}</p></Card>

@@ -11,13 +11,13 @@ export function BarrasSemanales({ semanas }: { semanas: { semana: string; pedido
   const cada = Math.max(1, Math.ceil(semanas.length / 5))
   return <figure>
     <div className="flex gap-3">
-      <div aria-hidden="true" className="-mt-1.5 flex h-49 flex-col justify-between text-right text-[11px] tabular-nums text-gray-400">{[tope, tope / 2, 0].map(v => <span key={v}>{corto(v)}</span>)}</div>
+      <div aria-hidden="true" className="-mt-1.5 flex h-49 flex-col justify-between text-right text-xs tabular-nums text-gray-500">{[tope, tope / 2, 0].map(v => <span key={v}>{corto(v)}</span>)}</div>
       <div className="relative min-w-0 flex-1 pb-7">
         <div aria-hidden="true" className="absolute inset-x-0 top-0 h-46 flex flex-col justify-between">{[0, 1, 2].map(i => <span key={i} className={`border-t ${i === 2 ? 'border-gray-300' : 'border-dashed border-linea'}`} />)}</div>
         <ol className="relative flex h-46 items-end gap-[2px]">{semanas.map((s, i) => <li key={s.semana} className="group relative flex h-full flex-1 flex-col justify-end focus-visible:outline-2 focus-visible:outline-petroleo" tabIndex={0} aria-label={`Semana del ${semanaTexto(s.semana)}: ${money(Number(s.valor))} en ${s.pedidos} pedidos`}>
           <span className="mx-auto w-full max-w-7 shrink-0 rounded-t-[4px] bg-petroleo transition-colors group-hover:bg-bosque-claro" style={{ height: `${(Number(s.valor) / tope) * 100}%`, minHeight: Number(s.valor) ? 2 : 0 }} />
           <span className={tooltip}><strong className="block">Semana del {semanaTexto(s.semana)}</strong>{money(Number(s.valor))} · {s.pedidos} {s.pedidos === 1 ? 'pedido' : 'pedidos'}</span>
-          {i % cada === 0 && <span aria-hidden="true" className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-[11px] text-gray-500">{semanaTexto(s.semana)}</span>}
+          {i % cada === 0 && <span aria-hidden="true" className="absolute left-1/2 top-full mt-1.5 -translate-x-1/2 whitespace-nowrap text-xs text-gray-500">{semanaTexto(s.semana)}</span>}
         </li>)}</ol>
       </div>
     </div>

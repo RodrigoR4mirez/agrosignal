@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { AppShell } from '@/components/AppShell'
+import { CabeceraPanel } from '@/components/CabeceraPanel'
 import { OrderList } from '@/components/transacciones/OrderList'
 import { Notifications } from '@/components/transacciones/Notifications'
 import { AlertasPrecio } from '@/components/comunidad/AlertasPrecio'
@@ -7,7 +8,7 @@ import { PerfilCompradorForm } from '@/components/comunidad/PerfilCompradorForm'
 import { Avatar } from '@/components/perfil/Avatar'
 import { FotoPerfil } from '@/components/perfil/FotoPerfil'
 import { Card } from '@/components/ui/Card'
-import { buttonPrimaryClass, buttonSecondaryClass, tituloBloque, tituloPagina } from '@/components/ui/estilos'
+import { buttonPrimaryClass, buttonSecondaryClass, tituloBloque } from '@/components/ui/estilos'
 import { listAlertas, listSeguidos } from '@/lib/comunidad/data'
 import { requireRole } from '@/lib/supabase/auth'
 import { listOrders, listNotifications } from '@/lib/transacciones/data'
@@ -18,7 +19,7 @@ export default async function BuyerPanel({ searchParams }: { searchParams: Promi
   const [orders, notifications, seguidos, alertas] = await Promise.all([listOrders(profile, Number(params.pagina) || 1), listNotifications(Number(params.avisos) || 1), listSeguidos(), listAlertas()])
   return <AppShell profile={profile}>
     {params.aviso === 'sin-permiso' && <p role="alert" className="mb-6 rounded-xl border border-amber-200 bg-amber-50 p-4 text-sm text-amber-950">No tienes permiso para ver esta página.</p>}
-    <div className="mb-8 flex flex-wrap items-center justify-between gap-5"><div className="min-w-0"><p className="mb-2 text-sm font-semibold text-tierra">Mi espacio · Comprador</p><h1 className={`${tituloPagina} wrap-anywhere`}>Hola, {profile.nombre_completo}</h1></div><div className="flex flex-wrap gap-3"><Link href="/marketplace/precios" className={buttonSecondaryClass}>Ver precios</Link><Link href="/marketplace" className={buttonPrimaryClass}>Explorar cosechas</Link></div></div>
+    <CabeceraPanel antetitulo="Mi espacio · Comprador" titulo={`Hola, ${profile.nombre_completo}`}><Link href="/marketplace/precios" className={buttonSecondaryClass}>Ver precios</Link><Link href="/marketplace" className={buttonPrimaryClass}>Explorar cosechas</Link></CabeceraPanel>
 
     <div className="grid gap-6 lg:grid-cols-2">
       <Card className="min-w-0">

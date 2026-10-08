@@ -1,16 +1,17 @@
 import Link from 'next/link'
 import { AppShell } from '@/components/AppShell'
+import { CabeceraPanel } from '@/components/CabeceraPanel'
 import { Card } from '@/components/ui/Card'
 import { DeleteLot } from '@/components/marketplace/DeleteLot'
 import { requireRole } from '@/lib/supabase/auth'
 import { getOwnLots } from '@/lib/marketplace/data'
 import { money, quantity } from '@/lib/marketplace/types'
-import { buttonPrimaryClass, buttonSecondaryClass, tituloItem, tituloPagina } from '@/components/ui/estilos'
+import { buttonPrimaryClass, buttonSecondaryClass, tituloItem } from '@/components/ui/estilos'
 export default async function OwnLots({ searchParams }: { searchParams: Promise<{ guardado?: string; eliminado?: string; limpieza?: string }> }) {
   const profile = await requireRole('productor')
   const [params, result] = await Promise.all([searchParams, getOwnLots(profile.id)])
   return <AppShell profile={profile}>
-    <div className="mb-8 flex flex-wrap items-center justify-between gap-4"><div><Link href="/panel-productor" className="text-sm font-semibold text-petroleo underline">← Mi panel</Link><h1 className={`mt-3 ${tituloPagina}`}>Mis lotes</h1></div><Link href="/panel-productor/publicar" className={buttonPrimaryClass}>Publicar lote</Link></div>
+    <CabeceraPanel antetitulo={<Link href="/panel-productor" className="text-petroleo underline underline-offset-4">← Mi panel</Link>} titulo="Mis lotes"><Link href="/panel-productor/publicar" className={buttonPrimaryClass}>Publicar lote</Link></CabeceraPanel>
     {(params.guardado || params.eliminado) && <p role="status" className="mb-6 rounded-xl border border-green-200 bg-green-50 p-4 text-sm text-green-950">{params.eliminado ? 'Lote eliminado correctamente.' : 'Lote guardado correctamente.'}{params.limpieza && ' No pudimos limpiar algunas fotos almacenadas; el cambio del lote ya está guardado.'}</p>}
     {result.error ? <Card><p role="alert" className="text-sm text-red-800">No pudimos cargar tus lotes. Intenta nuevamente.</p></Card> : result.lots.length ? <div className="grid gap-6 md:grid-cols-2">{result.lots.map(lot => <Card key={lot.id}>
       <div className="mb-4 flex flex-wrap items-start justify-between gap-3"><h2 className={`min-w-0 wrap-anywhere ${tituloItem}`}>{lot.cultivo}</h2><span className={`rounded-full px-3 py-1 text-xs font-semibold ${lot.bloqueado ? 'bg-red-50 text-red-800' : lot.borrador || Number(lot.cantidad_disponible) === 0 ? 'bg-gray-100 text-gray-700' : 'bg-crema text-petroleo'}`}>{lot.bloqueado ? 'Bloqueado' : lot.borrador ? 'Borrador' : Number(lot.cantidad_disponible) === 0 ? 'Agotado' : 'Publicado'}</span></div>

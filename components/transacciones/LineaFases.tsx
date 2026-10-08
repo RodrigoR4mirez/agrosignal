@@ -76,7 +76,7 @@ export function LineaFases({ order, role }: { order: Pedido; role: Rol }) {
 
   return <div className="relative pb-2.5">
     <div aria-hidden="true" className="absolute inset-x-6 top-6 bottom-0 rounded-[22px] bg-white/70 ring-1 ring-[#ebe4d4]" />
-    <div className="relative rounded-[22px] bg-white p-6 shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)] ring-1 ring-[#ebe4d4] sm:p-7">
+    <div className="relative rounded-[22px] bg-white p-5 shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)] ring-1 ring-[#ebe4d4] sm:p-7">
       <h2 id="fases" className="text-sm text-bosque/60">Avance del pedido</h2>
 
       <div aria-hidden="true" className="mt-5 flex items-center gap-1.5 sm:gap-2">
@@ -91,7 +91,7 @@ export function LineaFases({ order, role }: { order: Pedido; role: Rol }) {
       <ol aria-labelledby="fases" className="mt-7">
         {fases.map((f, i) => {
           const e = estados[i], fecha = fechaDe(order, f), gris = e === 'gris'
-          return <li key={f} aria-current={e === 'actual' ? 'step' : undefined} className="relative flex gap-4 pb-6 last:pb-0">
+          return <li key={f} aria-current={e === 'actual' ? 'step' : undefined} className="relative flex gap-3 pb-6 last:pb-0 sm:gap-4">
             {i < fases.length - 1 && <span aria-hidden="true" className={`absolute top-5 -bottom-5 left-4 w-2 rounded-full ${conector(e, estados[i + 1])} ${transicion}`} />}
             <span aria-hidden="true" className="relative grid size-10 shrink-0 place-items-center"><Circulo estado={e} ocurrio={!!fecha} /></span>
             <div className="min-w-0 flex-1">
@@ -104,7 +104,7 @@ export function LineaFases({ order, role }: { order: Pedido; role: Rol }) {
                 <span className="min-w-0 wrap-anywhere">{detalleDe(order, f)}</span>
               </p>
             </div>
-            <span aria-hidden="true" className={`grid size-11 shrink-0 place-items-center self-start rounded-2xl ${TESELA[e]} ${transicion}`}><Svg className="size-6">{ICONO[f]}</Svg></span>
+            <span aria-hidden="true" className={`grid size-9 shrink-0 place-items-center self-start rounded-xl sm:size-11 sm:rounded-2xl ${TESELA[e]} ${transicion}`}><Svg className="size-5 sm:size-6">{ICONO[f]}</Svg></span>
           </li>
         })}
       </ol>

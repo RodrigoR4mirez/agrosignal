@@ -334,8 +334,8 @@ musgo en las hechas, círculo hueco trigo en la actual (`aria-current="step"`), 
 gris si el pedido se canceló o rechazó. Cada fase tiene su ícono (documento, apretón, billete, camión,
 caja, recibo), quién actúa ("Tú" o la otra parte; en la actual lo decide `siguientePaso()`), su fecha
 (`creado_en`, `acordado_en`, `pago_confirmado_en`, `enviado_en`, `recibido_en`, `comprobante_en`) y un
-dato del pedido (cantidad, método de pago, envío o recojo, comprobante). En escritorio va a la izquierda
-de "Siguiente paso"; en celular, debajo de él.
+dato del pedido (cantidad, método de pago, envío o recojo, comprobante). En escritorio ocupa la columna
+izquierda y "Siguiente paso" con el resto del detalle va a la derecha; en celular va entre la acción y el detalle.
 
 - `pedido_eventos`: historial con autor y fecha (triggers en cada cambio de estado + cada función).
   Solo lo leen las partes y la administración.

@@ -37,6 +37,9 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Variables: ver `docs/VARIABLES-DE-ENTORNO.md` (`.env.local` no se versiona)
 - iCloud a veces duplica archivos generados en `.next/types` ("… 2.ts") y
   rompe `tsc`; se borran sin problema (`rm -rf .next/types`)
+- Tras cambiar `app/globals.css`, la caché de Turbopack puede servir la versión vieja en
+  `npm run build` local (en iCloud no detecta el cambio): `rm -rf .next/cache/turbopack` antes
+  de construir. Vercel construye limpio
 
 ## Estructura
 
@@ -95,6 +98,15 @@ catálogo de productos (búsqueda, filtros y estrellas).
   sin JS o con movimiento reducido todo se ve normal)
 - Tipografía: Plus Jakarta Sans para todo; títulos de peso ligero (`font-normal`)
 - Botones: píldora (`rounded-full`); acción principal naranja con texto petróleo
+- Paneles (productor, comprador, admin y precios), auditados con la skill `apple-design` (8 oct 2026).
+  Clases en `components/ui/estilos.ts`: botones `buttonPrimaryClass` (naranja, uno por bloque),
+  `buttonSecondaryClass` (contorno), `buttonDangerClass` y `buttonDangerSoftClass`, todos en píldora
+  y con escala 0.97 al presionar (`buttonClass` de `FormFields` queda para auth); títulos
+  `tituloPagina` (36 px) > `tituloBloque` (24 px, ligero) > `tituloItem` (18 px, semibold); sin
+  `font-bold`. Cifras con `Metrica` (`components/ui/Card.tsx`); cabecera con `CabeceraPanel`.
+  Espaciado en pasos de 16 (cifras), 24 (tarjetas) y 32 px (secciones). Líneas cálidas
+  `border-linea`, `linea-suave` y `linea-fuerte` (no `gray-200` ni hexadecimales sueltos). Texto
+  mínimo de 12 px y gris `gray-500` o más oscuro
 - `.leaf-texture` para franjas verde bosque con nervaduras de hoja
 - Tailwind v4: degradados con `bg-linear-to-*` (**no** `bg-gradient-to-*`)
 - Contenedor centrado: `.app-container` (max-width 1440px), no `max-w-[...]` suelto

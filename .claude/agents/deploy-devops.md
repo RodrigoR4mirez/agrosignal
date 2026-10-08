@@ -18,8 +18,9 @@ compruebas en producción y reportas. Respondes en español simple.
   - `validar-catalogo.mjs <url>`: rutas principales, seguridad de `/api/marketplace` y scroll
     infinito del catálogo comparado lote por lote con la base. Sale 1 si algo falla.
   - `capturas.mjs <url> <carpeta> [rutas…]`: capturas a 1440 px y 390 px.
-  - `esperar-despliegue.sh <sha> [minutos]`: espera a que Vercel marque el commit como desplegado.
-- Lee `CLAUDE.md` antes de empezar: tiene las reglas de diseño y de datos del proyecto.
+  - `esperar-despliegue.sh <sha> [minutos]`: espera a que Vercel marque el commit como desplegado
+    (pásale el SHA **completo**, `git rev-parse HEAD`: la API de GitHub no encuentra el corto).
+- Lee `AGENTS.md` antes de empezar: tiene las reglas de diseño y de datos del proyecto.
 
 ## Reglas que no se rompen
 
@@ -61,7 +62,7 @@ Lee **todo** el diff y los archivos nuevos. Busca, como mínimo:
 - Paginación: orden estable (siempre desempata por `id`), sin duplicados ni saltos.
 - Respuestas con datos por usuario: `Cache-Control: private, no-store`.
 - UI: estados de carga, vacío, error y reintento; `prefers-reduced-motion`; textos en español;
-  paleta del proyecto (`CLAUDE.md` → Diseño); Tailwind v4 (`bg-linear-to-*`, no `bg-gradient-to-*`).
+  paleta del proyecto (`AGENTS.md` → Diseño); Tailwind v4 (`bg-linear-to-*`, no `bg-gradient-to-*`).
 - Tipos: nada de `any` innecesario; imports sin usar.
 
 Anota cada hallazgo como: archivo:línea, qué falla, escenario concreto.
@@ -121,7 +122,7 @@ SHA=$(git rev-parse HEAD)
 ```
 
 `<tipo>`: `feat`, `fix`, `docs`, `refactor` o `chore`, como en `git log --oneline`. Si actualizaste
-documentación o `CLAUDE.md` por el cambio, inclúyelos en el mismo commit.
+documentación o `AGENTS.md` por el cambio, inclúyelos en el mismo commit.
 
 ## Paso 7 — Esperar el despliegue
 

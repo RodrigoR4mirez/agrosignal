@@ -1,3 +1,19 @@
+## [2.1.0] — 2026-10-08
+
+Auditoría de diseño de los paneles con la skill `apple-design` (reglas con números:
+escala, espaciado, contraste y movimiento), corregida en 4 rondas.
+
+### Cambiado
+- Paneles de productor, comprador, admin y `/marketplace/precios`: tres botones en píldora
+  (principal, secundario y destructivo) que responden al presionar; escala de títulos de
+  36/24/18 px; cifras con `Metrica`; cabecera común `CabeceraPanel`; espaciado de 16/24/32 px.
+- Bordes cálidos (`linea`, `linea-suave`, `linea-fuerte`) en lugar de grises fríos; el estado
+  del pedido en admin usa los tonos de la paleta y va con mayúscula inicial.
+- Las tarjetas animan solo sombra y borde (antes `transition: all`).
+- Textos de 10–11 px y gris de bajo contraste del tablero a 12 px y `gray-500`; el gráfico de
+  precios mantiene un ancho mínimo en el celular; el botón para borrar una alerta toca en 44 px.
+- Menú de admin en el celular: una fila de píldoras desplazable en vez de una rejilla de 5 filas.
+
 ## [2.0.0] — 2026-09-26
 
 AgroSignal pasa a ser solo el marketplace.

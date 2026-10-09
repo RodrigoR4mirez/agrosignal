@@ -183,3 +183,9 @@ completas en `docs/MODULOS/03-transacciones.md` § Calificaciones.
 - **Trazabilidad:** últimas 50 transacciones con estado, comprobante y orden de compra;
   exportación CSV completa en `/admin/transacciones/exportar` (con columna "ejemplo").
 - Filtro "Excluir datos de ejemplo" (pedidos de lotes con `[Ejemplo] `).
+
+## Diseño
+
+El aspecto del panel (fondo de planta desenfocada y superficies de vidrio) se define únicamente en
+la skill `.claude/skills/diseno-panel-admin/SKILL.md`. Se activa con el envoltorio `.tema-admin` de
+`app/admin/layout.tsx` y la hoja `app/admin/tema-admin.css`; no afecta a ninguna otra parte del sitio.

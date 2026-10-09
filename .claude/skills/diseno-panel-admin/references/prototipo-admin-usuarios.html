@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prototipo · Admin Usuarios</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --canvas:#9FB2A6;
+  --glass:rgba(250,252,246,.40);--glass-strong:rgba(250,252,246,.58);--glass-hover:rgba(19,53,53,.04);--glass-active:rgba(111,143,78,.12);
+  --border:rgba(255,255,255,.55);--border-strong:rgba(19,53,53,.22);
+  --text:#133535;--muted:#36504A;--dim:#4F655C;--accent:#6F8F4E;--on-light:#FFFFFF;
+  --success:#4E8A3E;--danger:#C2410C;
+  --float:0 16px 48px rgba(19,53,53,.18);--inset:inset 0 1px 0 rgba(255,255,255,.9),inset 0 -1px 0 rgba(255,255,255,.2);
+}
+*{box-sizing:border-box;margin:0}
+body{font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;color:var(--text);font-size:14px;line-height:1.5;
+  background:var(--canvas);min-height:100vh}
+a{color:inherit}
+.glass{position:relative;background:linear-gradient(135deg,rgba(255,255,255,.22),rgba(255,255,255,.06)),var(--glass);backdrop-filter:blur(28px) saturate(140%);-webkit-backdrop-filter:blur(28px) saturate(140%);border:1px solid var(--border);box-shadow:var(--inset),0 10px 30px rgba(19,53,53,.10)}
+.strong{background:var(--glass-strong)}
+.banner{position:relative;z-index:2;background:#F3E9D6;color:#4A2C1D;font-size:12.5px;font-weight:500;text-align:center;padding:6px 12px;border-bottom:1px solid var(--border)}
+header{position:sticky;top:12px;z-index:20;margin:12px 16px 0;border-radius:9999px;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:8px 8px 8px 20px}
+.logo{display:flex;align-items:center;gap:8px;font-size:17px;letter-spacing:.08em;font-weight:400;text-decoration:none}
+.logo svg{color:#6F8F4E}
+.top{display:flex;align-items:center;gap:18px;font-size:13.5px;font-weight:500}
+.top a{text-decoration:none;color:var(--muted)}.top a:hover{color:var(--text)}
+.who{font-size:12.5px;color:var(--dim)}
+.app{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;max-width:1440px;margin:0 auto;padding:24px 16px 48px}
+main{min-width:0}
+#follaje{position:fixed;inset:-80px;width:calc(100% + 160px);height:calc(100% + 160px);z-index:-2;filter:blur(40px) saturate(.9) brightness(1.04);pointer-events:none}
+.velo{position:fixed;inset:0;z-index:-1;pointer-events:none;background:linear-gradient(rgba(236,241,232,.20),rgba(236,241,232,.20)),radial-gradient(90% 70% at 50% 40%,transparent,rgba(160,178,166,.30))}
+.side{border-radius:16px;padding:16px 10px;position:sticky;top:84px;align-self:start}
+.side .t{font-size:12.5px;color:var(--dim);padding:0 10px 8px;font-weight:500}
+.side a{display:flex;justify-content:space-between;align-items:center;gap:8px;min-height:40px;padding:0 10px;border-radius:10px;color:var(--muted);text-decoration:none;position:relative;transition:background .15s}
+.side a:hover{background:var(--glass-hover);color:var(--text)}
+.side a[aria-current]{background:var(--glass-active);color:var(--text);font-weight:500}
+.side a[aria-current]::before{content:"";position:absolute;left:0;top:9px;bottom:9px;width:3px;border-radius:3px;background:var(--accent)}
+.side a span{color:var(--dim);font-size:12.5px;font-variant-numeric:tabular-nums;font-weight:400}
+h1{font-size:34px;font-weight:500;letter-spacing:-1.2px;line-height:1.15}
+.desc{color:var(--muted);margin:10px 0 28px;max-width:62ch}
+.filtros{border-radius:16px;padding:16px;display:grid;grid-template-columns:2fr 1fr 1fr auto;gap:12px;align-items:end;margin-bottom:16px}
+.f label{display:block;font-size:12.5px;font-weight:500;color:var(--dim);margin-bottom:6px}
+.f input,.f select{width:100%;height:40px;border-radius:9999px;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.7);color:var(--text);padding:0 16px;font:14px "Plus Jakarta Sans",sans-serif;appearance:none}
+.f select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236B7A72' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center}
+.f input::placeholder{color:#5E716A}
+.btn{height:40px;padding:0 18px;border-radius:9999px;font:500 14px "Plus Jakarta Sans",sans-serif;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid transparent;transition:background .15s,box-shadow .15s,transform .1s;white-space:nowrap;text-decoration:none}
+.btn:active{transform:scale(.97)}
+.btn-p{background:#133535;color:#fff}.btn-p:hover{background:#1d4a4a;box-shadow:var(--float)}
+.btn-s{background:rgba(255,255,255,.42);border-color:rgba(255,255,255,.75);color:var(--text);backdrop-filter:blur(10px)}.btn-s:hover{background:rgba(255,255,255,.75)}
+.btn-ds{background:rgba(255,255,255,.7);border-color:rgba(194,65,12,.35);color:#B4410F}.btn-ds:hover{background:#FFF4EE}
+.btn-d{background:#B4410F;color:#fff}.btn-d:hover{background:#9A3709}
+.btn-l{background:none;color:var(--muted);padding:0 10px}.btn-l:hover{color:var(--text)}
+:is(.btn,input,select,textarea,a,tr):focus-visible{outline:none;box-shadow:0 0 0 3px rgba(111,143,78,.35)}
+.count{display:inline-block;color:var(--muted);font-size:13px;margin:0 0 10px 4px}
+.tabla{border-radius:16px;overflow:hidden}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12.5px;font-weight:500;color:var(--dim);padding:12px 16px;border-bottom:1px solid rgba(19,53,53,.10)}
+td{padding:0 16px;height:60px;border-bottom:1px solid rgba(19,53,53,.08)}
+tbody tr{cursor:pointer;transition:background .15s}
+tbody tr:hover{background:rgba(255,255,255,.38)}
+tbody tr:last-child td{border-bottom:none}
+.u{display:flex;align-items:center;gap:12px;min-width:0}
+.av{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:12px;font-weight:600;color:#133535;flex-shrink:0}
+.sm{color:var(--dim);font-size:12.5px}
+.chip{display:inline-flex;align-items:center;height:24px;padding:0 10px;border-radius:9999px;background:rgba(111,143,78,.16);color:#2F4722;font-size:12.5px;border:1px solid rgba(255,255,255,.5)}
+.chip.c{background:rgba(122,74,46,.12);color:#5C3519}
+.st{display:inline-flex;align-items:center;gap:8px;font-size:13px}
+.st i{width:7px;height:7px;border-radius:50%}
+.nota{display:inline-block;margin-left:6px;width:7px;height:7px;border-radius:50%;background:var(--accent);vertical-align:middle}
+.pag{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:20px;color:var(--muted);font-size:13px}
+.toast{position:fixed;top:84px;left:50%;transform:translate(-50%,-8px);opacity:0;pointer-events:none;transition:all .2s;border-radius:9999px;padding:8px 8px 8px 18px;display:flex;align-items:center;gap:14px;z-index:60;box-shadow:var(--float)}
+.toast.on{opacity:1;transform:translate(-50%,0);pointer-events:auto}
+.toast i{width:7px;height:7px;border-radius:50%;background:var(--success)}
+.ov{position:fixed;inset:0;background:rgba(19,53,53,.14);backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .2s;z-index:40}
+.dr{position:fixed;top:12px;right:12px;bottom:12px;width:440px;max-width:calc(100% - 24px);border-radius:24px;box-shadow:var(--float);padding:24px;display:flex;flex-direction:column;gap:20px;transform:translateX(16px);opacity:0;pointer-events:none;transition:all .2s ease-out;overflow:auto;z-index:50;background:linear-gradient(160deg,rgba(255,255,255,.62),rgba(255,255,255,.38))}
+.open .ov{opacity:1;pointer-events:auto}.open .dr{transform:none;opacity:1;pointer-events:auto}
+.dh{display:flex;align-items:center;gap:14px}.dh .av{width:52px;height:52px;font-size:17px}
+.dh h2{font-size:20px;font-weight:500;letter-spacing:-.4px}
+.x{margin-left:auto;align-self:flex-start;background:none;border:none;color:var(--dim);font-size:22px;cursor:pointer;border-radius:8px;padding:0 6px}
+.x:hover{color:var(--text);background:var(--glass-hover)}
+dl{display:grid;grid-template-columns:auto 1fr;gap:10px 20px;font-size:13.5px}
+dt{color:var(--dim)}dd{margin:0}
+.box{border-radius:14px;padding:14px 16px;background:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.7)}
+.box p+p{margin-top:6px}
+.lbl{font-size:12.5px;font-weight:500;color:var(--dim);display:block;margin-bottom:6px}
+textarea{width:100%;border-radius:12px;background:rgba(255,255,255,.7);border:1px solid var(--border-strong);color:var(--text);padding:10px 12px;font:14px/1.5 "Plus Jakarta Sans",sans-serif;resize:vertical}
+.err{color:#B4410F;font-size:12.5px;margin-top:6px;display:none}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+@media(max-width:1020px){.filtros{grid-template-columns:1fr 1fr}.c-reg{display:none}}
+@media(max-width:860px){
+  .app{grid-template-columns:1fr;padding-top:16px}
+  .side{position:static;display:flex;gap:8px;overflow-x:auto;padding:8px;border-radius:9999px}
+  .side .t{display:none}
+  .side a{flex-shrink:0;border-radius:9999px;padding:0 14px;white-space:nowrap}
+  .side a span{display:none}.side a[aria-current]::before{display:none}
+  .top .hide-m,.who{display:none}
+  .c-tel,.c-fecha{display:none}
+  h1{font-size:28px}
+}
+@media(max-width:560px){.filtros{grid-template-columns:1fr}.c-tipo{display:none}header{border-radius:20px;margin:10px 12px 0;padding:8px 8px 8px 14px}.logo{font-size:15px}.top{gap:10px;font-size:13px}.top .btn{padding:0 12px}.app{padding:16px 12px 40px}td,th{padding-left:12px;padding-right:12px}td .btn{padding:0 12px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="banner">Prototipo visual — datos de ejemplo. Nada de esto está conectado a tu base de datos.</div>
+<canvas id="follaje" aria-hidden="true"></canvas><div class="velo" aria-hidden="true"></div>
+<div id="app">
+<header class="glass strong">
+  <a class="logo" href="#"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 21V11"/><path d="M12 11c0-4 3-7 8-7 0 5-3 8-8 7Z"/><path d="M12 14c0-3-2-5-6-5 0 4 2 6 6 5Z"/></svg>AGROSIGNAL</a>
+  <nav class="top" aria-label="Navegación principal">
+    <a href="#" class="hide-m">Productos</a><a href="#" class="hide-m">Precios</a><a href="#" class="hide-m">Ayuda</a>
+    <span class="who">Administración AgroSignal · Administrador</span>
+    <a href="#" style="color:var(--text);font-weight:600">Mi panel</a>
+    <button class="btn btn-s" style="height:34px">Cerrar sesión</button>
+  </nav>
+</header>
+
+<div class="app">
+  <nav class="side glass" aria-label="Administración">
+    <div class="t">Administración</div>
+    <a href="#">Resumen <span>01</span></a>
+    <a href="#">Transacciones <span>02</span></a>
+    <a href="#" aria-current="page">Usuarios <span>03</span></a>
+    <a href="#">Certificados pendientes <span>04</span></a>
+    <a href="#">Solicitudes de dron <span>05</span></a>
+    <a href="#">Tests fallidos <span>06</span></a>
+    <a href="#">Pedidos y disputas <span>07</span></a>
+    <a href="#">Vendedores en revisión <span>08</span></a>
+    <a href="#">Mensajes de contacto <span>09</span></a>
+  </nav>
+
+  <main>
+    <h1>Usuarios</h1>
+    <p class="desc">Gestiona las cuentas de productores y compradores. Cada suspensión o reactivación conserva un motivo y avisa a la persona afectada.</p>
+
+    <form class="filtros glass" onsubmit="event.preventDefault();filtrar()">
+      <div class="f"><label for="q">Buscar por nombre</label><input id="q" name="q" maxlength="100" placeholder="Ej. Quispe"></div>
+      <div class="f"><label for="rol">Tipo de cuenta</label><select id="rol" name="rol"><option value="todos">Todos</option><option value="productor">Productores</option><option value="comprador">Compradores</option></select></div>
+      <div class="f"><label for="estado">Estado</label><select id="estado" name="estado"><option value="todos">Todos</option><option value="activos">Activos</option><option value="suspendidos">Suspendidos</option></select></div>
+      <button class="btn btn-p">Filtrar usuarios</button>
+    </form>
+
+    <p class="count" id="count"></p>
+    <div class="tabla glass strong">
+      <table>
+        <thead><tr><th>Usuario</th><th class="c-tipo">Tipo de cuenta</th><th class="c-reg">Región</th><th>Estado</th><th class="c-fecha">Registro</th><th></th></tr></thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+    <nav class="pag" aria-label="Páginas de resultados"><span>Página 1</span><a class="btn btn-s" href="#">Siguientes</a></nav>
+  </main>
+</div>
+
+<div class="toast glass strong" id="toast" role="status"><i></i><span id="tmsg"></span><button class="btn btn-l" onclick="toast.classList.remove('on')">Cerrar</button></div>
+
+<div class="ov" onclick="cerrar()"></div>
+<aside class="dr glass strong" role="dialog" aria-label="Cuenta del usuario" id="dr"></aside>
+</div>
+
+<script>
+// Follaje: hojas pintadas en un lienzo y desenfocadas con CSS, para que parezca una planta detrás del vidrio.
+(function(){
+  const c=document.getElementById('follaje'),x=c.getContext('2d');
+  let seed=7;const r=()=>(seed=(seed*16807)%2147483647)/2147483647;
+  const pal=[['#3F6418',3],['#5E8A24',4],['#86B33A',5],['#A9CF55',4],['#C9E58A',3],['#DCEBB8',1],['#2F4F1A',2]];
+  const pick=()=>{let t=pal.reduce((a,p)=>a+p[1],0)*r();for(const p of pal){if((t-=p[1])<=0)return p[0]}return pal[0][0]};
+  function hoja(cx,cy,len,w,ang,col){x.save();x.translate(cx,cy);x.rotate(ang);x.fillStyle=col;x.beginPath();x.moveTo(0,0);
+    x.bezierCurveTo(len*.3,-w,len*.75,-w*.8,len,0);x.bezierCurveTo(len*.75,w*.8,len*.3,w,0,0);x.fill();x.restore()}
+  function pintar(){
+    const W=c.width=c.clientWidth/2,H=c.height=c.clientHeight/2;seed=7;
+    const g=x.createLinearGradient(0,0,0,H);g.addColorStop(0,'#A5B7AC');g.addColorStop(1,'#93A99A');x.fillStyle=g;x.fillRect(0,0,W,H);
+    const plantas=[[.30,.30,.9],[.72,.22,.7],[.55,.75,1.1],[.12,.85,.8],[.95,.7,.8]];
+    for(const [px,py,k] of plantas){
+      const cx=px*W,cy=py*H,n=34;
+      for(let i=0;i<n;i++){const a=r()*Math.PI*2,d=r()*120*k,len=(50+r()*120)*k,w=len*(.28+r()*.2);
+        hoja(cx+Math.cos(a)*d,cy+Math.sin(a)*d*.8,len,w,a+(r()-.5)*.8,pick())}
+    }
+    x.globalCompositeOperation='screen';
+    for(let i=0;i<10;i++){const gx=r()*W,gy=r()*H,rr=40+r()*90,rg=x.createRadialGradient(gx,gy,0,gx,gy,rr);rg.addColorStop(0,'rgba(235,244,215,.45)');rg.addColorStop(1,'rgba(230,245,190,0)');x.fillStyle=rg;x.fillRect(gx-rr,gy-rr,rr*2,rr*2)}
+    x.globalCompositeOperation='source-over';
+  }
+  pintar();let t;addEventListener('resize',()=>{clearTimeout(t);t=setTimeout(pintar,150)});
+})();
+const U=[
+ {n:"Wilfredo Quispe",r:"productor",reg:"Junín",tel:"+51 964 112 450",f:"26 set 2026",s:false},
+ {n:"Marleni Condori",r:"productor",reg:"Puno",tel:"+51 951 330 218",f:"26 set 2026",s:false},
+ {n:"Teodoro Salazar",r:"comprador",reg:"Lima",tel:"+51 987 554 016",f:"26 set 2026",s:false},
+ {n:"Carmen Rosa Vílchez",r:"comprador",reg:"Arequipa",tel:"+51 959 402 771",f:"27 set 2026",s:false},
+ {n:"Julio César Paredes",r:"productor",reg:"Cusco",tel:"+51 984 220 935",f:"27 set 2026",s:true,m:"Publicó lotes con datos de cosecha que no coinciden con la inspección. Se conversó con él antes de suspender.",me:"3 oct 2026"},
+ {n:"Rosa Huamán",r:"productor",reg:"",tel:"",f:"28 set 2026",s:false,m:"Reactivada tras entregar el certificado vigente.",me:"5 oct 2026"},
+ {n:"Andrés Mamani",r:"comprador",reg:"La Libertad",tel:"+51 944 870 312",f:"1 oct 2026",s:false},
+ {n:"Lucía Ccori",r:"productor",reg:"Ayacucho",tel:"+51 966 015 288",f:"4 oct 2026",s:false}
+];
+const GR=["#dfe9d2,#efe3cc","#d6e4c6,#f3e9d6","#e6edd9,#eedcc0","#d9e6cb,#f5e2b8"];
+const ini=n=>n.split(" ").map(w=>w[0]).join("").slice(0,2);
+const tipo=r=>r==="productor"?"Productor":"Comprador";
+let lista=U;
+function filtrar(){
+  const q=document.getElementById('q').value.toLowerCase(),r=rol.value,e=estado.value;
+  lista=U.filter(u=>u.n.toLowerCase().includes(q)&&(r==="todos"||u.r===r)&&(e==="todos"||(e==="suspendidos")===u.s));
+  pintar();
+}
+function pintar(){
+  count.textContent=`${lista.length} cuentas`;
+  rows.innerHTML=lista.length?lista.map(u=>{const i=U.indexOf(u);return `<tr tabindex="0" data-i="${i}">
+   <td><div class="u"><div class="av" style="background:linear-gradient(160deg,${GR[i%4]})">${ini(u.n)}</div><div style="min-width:0"><div>${u.n}${u.m?'<span class="nota" title="Tiene una decisión registrada"></span>':''}</div><div class="sm c-tel">${u.tel||'Sin teléfono'}</div></div></div></td>
+   <td class="c-tipo"><span class="chip${u.r==="comprador"?" c":""}">${tipo(u.r)}</span></td>
+   <td class="c-reg" style="color:var(--muted)">${u.reg||'Sin región indicada'}</td>
+   <td><span class="st"><i style="background:${u.s?'var(--danger)':'var(--success)'}"></i>${u.s?'Suspendido':'Activo'}</span></td>
+   <td class="c-fecha" style="color:var(--muted)">${u.f}</td>
+   <td style="text-align:right"><span class="btn btn-s" style="height:32px;font-size:13px">Gestionar</span></td></tr>`}).join("")
+   :`<tr><td colspan="6" style="color:var(--muted);cursor:default">No hay usuarios con estos filtros.</td></tr>`;
+}
+pintar();
+rows.onclick=e=>{const tr=e.target.closest("tr[data-i]");if(tr)abrir(+tr.dataset.i)};
+rows.onkeydown=e=>{if(e.key==="Enter"){const tr=e.target.closest("tr[data-i]");if(tr)abrir(+tr.dataset.i)}};
+
+let actual=null,confirmando=false,hecho=false;
+function abrir(i){actual=i;confirmando=false;hecho=false;dibujar();app.classList.add("open")}
+function cerrar(){app.classList.remove("open")}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")cerrar()});
+function dibujar(){
+  const u=U[actual],s=u.s;
+  dr.innerHTML=`
+   <div class="dh"><div class="av" style="background:linear-gradient(160deg,${GR[actual%4]})">${ini(u.n)}</div><div><h2>${u.n}</h2><span class="st"><i style="background:${s?'var(--danger)':'var(--success)'}"></i>${s?'Suspendido':'Activo'}</span></div><button class="x" aria-label="Cerrar" onclick="cerrar()">×</button></div>
+   <dl><dt>Tipo de cuenta</dt><dd>${tipo(u.r)}</dd><dt>Región</dt><dd>${u.reg||'Sin región indicada'}</dd><dt>Teléfono</dt><dd>${u.tel||'Sin teléfono'}</dd><dt>Registro</dt><dd>${u.f}</dd></dl>
+   ${u.m?`<div class="box"><p style="font-weight:500">Última decisión${u.me?' · '+u.me:''}</p><p style="color:var(--muted)">${u.m}</p></div>`:''}
+   <div style="margin-top:auto">${hecho?`<a href="#" class="btn btn-s" onclick="cerrar();return false">Actualizar lista de usuarios</a>`:
+    confirmando?`<div class="box" style="display:grid;gap:14px">
+      <p style="font-weight:500">${s?'¿Confirmas la reactivación de esta cuenta?':'¿Confirmas la suspensión de esta cuenta?'}</p>
+      <p style="color:var(--muted)">${s?'Podrá volver a usar su panel. Sus lotes que cumplan los requisitos volverán al catálogo.':'No podrá publicar ni comprar. Sus lotes dejarán de aparecer en el catálogo y sus datos se conservarán.'}</p>
+      <div><label class="lbl" for="motivo">Motivo de la decisión</label><textarea id="motivo" rows="3" maxlength="1000"></textarea><p class="err" id="err">Escribe al menos 3 caracteres.</p></div>
+      <div class="row"><button class="btn ${s?'btn-p':'btn-d'}" onclick="guardar()">${s?'Sí, reactivar cuenta':'Sí, suspender cuenta'}</button><button class="btn btn-l" onclick="confirmando=false;dibujar()">Volver</button></div></div>`
+    :`<button class="btn ${s?'btn-s':'btn-ds'}" onclick="confirmando=true;dibujar();setTimeout(()=>motivo.focus(),50)">${s?'Reactivar cuenta':'Suspender cuenta'}</button>`}</div>`;
+}
+function guardar(){
+  const m=motivo.value.trim();if(m.length<3){err.style.display="block";return}
+  const u=U[actual];u.s=!u.s;u.m=m;u.me="9 oct 2026";hecho=true;confirmando=false;dibujar();filtrar();
+  tmsg.textContent=u.s?"Cuenta suspendida. Avisamos a la persona y sus lotes dejaron el catálogo.":"Cuenta reactivada. Avisamos a la persona.";
+  toast.classList.add("on");setTimeout(()=>toast.classList.remove("on"),4000);
+}
+</script>
+</body>
+</html>

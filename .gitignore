@@ -33,7 +33,9 @@ next-env.d.ts
 
 # Local coding-agent skills (installed per developer, not project source)
 .agents/
-.claude/skills/
+.claude/skills/*
+# Excepción: diseño del panel admin, es parte del proyecto (ver AGENTS.md → Diseño)
+!.claude/skills/diseno-panel-admin/
 skills-lock.json
 
 # JetBrains IDE

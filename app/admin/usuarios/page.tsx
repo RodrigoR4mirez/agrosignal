@@ -15,7 +15,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
   const q = (params.q ?? '').slice(0, 100)
   const data = await listAdminUsers({ page: Number(params.pagina), rol, estado, q })
   return <><AdminHeading title="Usuarios" description="Gestiona las cuentas de productores y compradores. Cada suspensión o reactivación conserva un motivo y avisa a la persona afectada." />
-    <form className="mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-2 xl:grid-cols-4">
+    <form className="adm-vidrio mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-2 xl:grid-cols-4">
       <label className="space-y-2 text-sm font-semibold" htmlFor="buscar-usuario"><span>Buscar por nombre</span><input id="buscar-usuario" name="q" defaultValue={q} maxLength={100} className={inputClass} /></label>
       <label className="space-y-2 text-sm font-semibold" htmlFor="rol"><span>Tipo de cuenta</span><select id="rol" name="rol" defaultValue={rol} className={inputClass}><option value="todos">Todos</option><option value="productor">Productores</option><option value="comprador">Compradores</option></select></label>
       <label className="space-y-2 text-sm font-semibold" htmlFor="estado-usuario"><span>Estado</span><select id="estado-usuario" name="estado" defaultValue={estado} className={inputClass}><option value="todos">Todos</option><option value="activos">Activos</option><option value="suspendidos">Suspendidos</option></select></label><button className={buttonPrimaryClass}>Filtrar usuarios</button>

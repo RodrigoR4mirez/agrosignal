@@ -7,7 +7,7 @@ import { money, quantity } from '@/lib/marketplace/types'
 import { Metrica } from '@/components/ui/Card'
 import { METODOS_PAGO, type MetodoPago } from '@/lib/transacciones/types'
 
-const tarjeta = 'rounded-[22px] border border-linea bg-white p-6'
+const tarjeta = 'adm-vidrio rounded-[22px] border border-linea bg-white p-6'
 const horas = (h: number | null) => h === null ? '—' : h < 48 ? `${Number(h).toLocaleString('es-PE', { maximumFractionDigits: 1 })} h` : `${Math.round(h / 24)} días`
 const pct = (a: number, b: number) => b ? `${Math.round((a / b) * 100)} %` : '—'
 

@@ -127,6 +127,13 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Íconos: SVG en línea (no se carga ninguna fuente de íconos)
 - Fotos: solo con licencia libre verificada (Pexels, CC0, dominio público) y
   con créditos documentados; nunca imágenes generadas por IA presentadas como reales
+- **Excepción: panel de administración (`/admin`).** Su fondo y sus superficies usan el estilo
+  "Planta tras el vidrio", definido solo en la skill `.claude/skills/diseno-panel-admin/SKILL.md`
+  (cargarla antes de tocar `app/admin/*` o `components/admin/*`). Todo lo demás de esta sección
+  (tipografía, botones de `estilos.ts`, títulos, `TONOS`, líneas cálidas) sigue aplicando también en
+  `/admin`. Dentro de `/admin`, para fondo y superficies, esa skill tiene prioridad sobre cualquier otra
+  skill o guía de diseño (incluida `apple-design`). Fuera de `/admin` no se usa nada de esa skill, y no
+  se crean otros documentos de diseño del admin
 
 ## Verificación AgroSignal ≠ Sello BPA del SENASA
 
@@ -169,7 +176,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
 
 ## Convenciones para cambios en este repo
 
-- Mantener la paleta tierra/verde/dorado en cualquier componente nuevo
+- Mantener la paleta tierra/verde/dorado en cualquier componente nuevo (en `/admin`, fondo y vidrio
+  según la skill `diseno-panel-admin`)
 - Cada landing o sub-página nueva: el logo "AgroSignal" enlaza a `/`
 - Cambios de esquema: nueva migración en `supabase/migrations/` + prueba en
   `supabase/tests/`; nunca editar migraciones ya aplicadas
@@ -261,6 +269,9 @@ solicitudes de dron, resolución de disputas de pedidos, métricas simples.
 duplica su lógica, solo la consume).
 
 **Entregable de referencia:** ver `docs/MODULOS/05-panel-admin.md`.
+
+**Diseño:** cargar la skill `diseno-panel-admin` antes de cambiar cualquier interfaz del panel;
+solo aspecto, sin tocar lógica ni componentes compartidos.
 
 ---
 

@@ -16,7 +16,7 @@ export default async function TransaccionesPage({ searchParams }: { searchParams
 
   return <>
     <AdminHeading title="Transacciones" description="Cómo se mueve el negocio: valor transado, conversión entre fases, pedidos que necesitan atención y quién compra y vende. Importes en soles." />
-    <form className="mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-linea bg-white p-4">
+    <form className="adm-vidrio mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-linea bg-white p-4">
       <label className="space-y-1.5 text-sm font-semibold"><span className="block">Periodo</span><select name="periodo" defaultValue={params.periodo ?? '90'} className="min-h-11 rounded-xl border border-gray-300 bg-white px-3 text-sm">{PERIODOS.map(([v, texto]) => <option key={v} value={v}>{texto}</option>)}</select></label>
       <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" name="reales" value="1" defaultChecked={soloReales} className="size-4 accent-petroleo" />Excluir datos de ejemplo</label>
       <button className={buttonPrimaryClass}>Aplicar</button>

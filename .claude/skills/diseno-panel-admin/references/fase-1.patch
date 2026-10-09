@@ -1,0 +1,353 @@
+diff --git a/app/admin/error.tsx b/app/admin/error.tsx
+index 2a0248f..531465e 100644
+--- a/app/admin/error.tsx
++++ b/app/admin/error.tsx
+@@ -2,5 +2,5 @@
+ import Link from 'next/link'
+ 
+ export default function AdminError({ reset }: { reset: () => void }) {
+-  return <div className="space-y-5 rounded-2xl border border-red-100 bg-white p-6"><h1 className="text-2xl font-normal sm:text-3xl text-petroleo">No pudimos cargar la administración</h1><p role="alert" className="text-sm text-gray-600">Intenta nuevamente en unos momentos.</p><div className="flex flex-wrap gap-4"><button onClick={reset} className="min-h-11 rounded-full bg-petroleo px-5 text-sm font-semibold text-white">Reintentar</button><Link href="/ayuda" className="inline-flex min-h-11 items-center font-semibold text-petroleo underline">Ayuda</Link></div></div>
++  return <div className="adm-vidrio space-y-5 rounded-2xl border border-red-100 bg-white p-6"><h1 className="text-2xl font-normal sm:text-3xl text-petroleo">No pudimos cargar la administración</h1><p role="alert" className="text-sm text-gray-600">Intenta nuevamente en unos momentos.</p><div className="flex flex-wrap gap-4"><button onClick={reset} className="min-h-11 rounded-full bg-petroleo px-5 text-sm font-semibold text-white">Reintentar</button><Link href="/ayuda" className="inline-flex min-h-11 items-center font-semibold text-petroleo underline">Ayuda</Link></div></div>
+ }
+diff --git a/app/admin/layout.tsx b/app/admin/layout.tsx
+index f31480d..8ba14a1 100644
+--- a/app/admin/layout.tsx
++++ b/app/admin/layout.tsx
+@@ -2,8 +2,10 @@ import { AppShell } from '@/components/AppShell'
+ import { AdminNav } from '@/components/admin/AdminNav'
+ import { ActionFeedback } from '@/components/ActionFeedback'
+ import { requireRole } from '@/lib/supabase/auth'
++import { FondoFollaje } from '@/components/admin/FondoFollaje'
++import './tema-admin.css'
+ 
+ export default async function AdminLayout({ children }: { children: React.ReactNode }) {
+   const profile = await requireRole('admin')
+-  return <AppShell profile={profile}><ActionFeedback><div className="grid items-start gap-8 lg:grid-cols-[220px_minmax(0,1fr)]"><AdminNav /><div className="min-w-0">{children}</div></div></ActionFeedback></AppShell>
++  return <div className="tema-admin"><FondoFollaje /><AppShell profile={profile}><ActionFeedback><div className="grid items-start gap-8 lg:grid-cols-[220px_minmax(0,1fr)]"><AdminNav /><div className="min-w-0">{children}</div></div></ActionFeedback></AppShell></div>
+ }
+diff --git a/app/admin/loading.tsx b/app/admin/loading.tsx
+index c9f9a8a..7b03b5f 100644
+--- a/app/admin/loading.tsx
++++ b/app/admin/loading.tsx
+@@ -1,3 +1,3 @@
+ export default function AdminLoading() {
+-  return <p role="status" className="rounded-xl bg-white p-6 text-sm text-gray-600">Cargando administración…</p>
++  return <p role="status" className="adm-vidrio rounded-xl bg-white p-6 text-sm text-gray-600">Cargando administración…</p>
+ }
+diff --git a/app/admin/pedidos/page.tsx b/app/admin/pedidos/page.tsx
+index 516b29d..72cf8a2 100644
+--- a/app/admin/pedidos/page.tsx
++++ b/app/admin/pedidos/page.tsx
+@@ -16,7 +16,7 @@ export default async function OrdersPage({ searchParams }: { searchParams: Promi
+   const q = (params.q ?? '').slice(0, 100)
+   const data = await listAdminOrders({ page: Number(params.pagina), estado, q })
+   return <><AdminHeading title="Pedidos y disputas" description="Consulta los acuerdos de compra y registra resoluciones cuando las partes necesiten intervención." />
+-    <form className="mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-3"><label htmlFor="buscar-pedido" className="space-y-2 text-sm font-semibold"><span>Cultivo o código completo</span><input id="buscar-pedido" name="q" defaultValue={q} maxLength={100} className={inputClass} /></label><label htmlFor="estado-pedido" className="space-y-2 text-sm font-semibold"><span>Estado del pedido</span><select id="estado-pedido" name="estado" defaultValue={estado} className={inputClass}><option value="todos">Todos</option>{ESTADOS_PEDIDO.map(state => <option key={state} value={state}>{state.charAt(0).toUpperCase() + state.slice(1)}</option>)}</select></label><button className={buttonPrimaryClass}>Filtrar pedidos</button></form>
++    <form className="adm-vidrio mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-3"><label htmlFor="buscar-pedido" className="space-y-2 text-sm font-semibold"><span>Cultivo o código completo</span><input id="buscar-pedido" name="q" defaultValue={q} maxLength={100} className={inputClass} /></label><label htmlFor="estado-pedido" className="space-y-2 text-sm font-semibold"><span>Estado del pedido</span><select id="estado-pedido" name="estado" defaultValue={estado} className={inputClass}><option value="todos">Todos</option>{ESTADOS_PEDIDO.map(state => <option key={state} value={state}>{state.charAt(0).toUpperCase() + state.slice(1)}</option>)}</select></label><button className={buttonPrimaryClass}>Filtrar pedidos</button></form>
+     <p className="mb-4 text-sm text-gray-600">{data.count} pedidos</p>
+     {data.error || !data.items.length ? <QueueEmpty error={data.error}>No hay pedidos con estos filtros.</QueueEmpty> : <div className="grid gap-6 xl:grid-cols-2">{data.items.map(order => <Card key={order.id} className="min-w-0 space-y-4"><div className="flex flex-wrap items-start justify-between gap-3"><h2 className={`min-w-0 wrap-anywhere ${tituloItem}`}>{order.cultivo}</h2><OrderStatus state={order.estado} /></div><p className="text-sm text-gray-600 wrap-anywhere">Productor: {order.productor_nombre}<br />Comprador: {order.comprador_nombre}</p><p className="text-sm">{quantity(order.cantidad)} {order.unidad} · <strong className="font-semibold">{money(order.total)}</strong></p><p className="text-xs text-gray-500">{adminDate(order.creado_en)} · #{order.id.slice(0, 8)}</p>{order.resolucion && <p className="text-xs font-semibold text-petroleo">Con resolución de administración</p>}<Link href={`/admin/pedidos/${order.id}`} className={adminLink}>Revisar pedido</Link></Card>)}</div>}
+     <AdminPagination base="/admin/pedidos" page={data.page} count={data.count} filters={{ estado, q }} />
+diff --git a/app/admin/tema-admin.css b/app/admin/tema-admin.css
+new file mode 100644
+index 0000000..1cb059a
+--- /dev/null
++++ b/app/admin/tema-admin.css
+@@ -0,0 +1,143 @@
++/* ==========================================================================
++   Tema visual del panel de administración — "Planta tras el vidrio"
++   Fuente única de verdad: .claude/skills/diseno-panel-admin/SKILL.md
++
++   - Se importa SOLO desde app/admin/layout.tsx.
++   - TODOS los selectores empiezan por .tema-admin (el envoltorio del layout admin).
++     Aunque el navegador mantenga esta hoja cargada al navegar al marketplace,
++     fuera de .tema-admin no tiene ningún efecto.
++   - Solo aspecto: fondo y superficies de vidrio (+ un ajuste de contraste del gris).
++     No oculta, mueve, deshabilita ni cambia el tamaño de nada.
++   - Sin @layer a propósito: las reglas sin capa ganan a las utilidades de Tailwind v4,
++     por eso basta con AÑADIR una clase adm-* sin quitar las clases existentes.
++   ========================================================================== */
++
++.tema-admin {
++  --adm-canvas: #9fb2a6;
++  --adm-vidrio: rgba(250, 252, 246, 0.40);
++  --adm-vidrio-fuerte: rgba(250, 252, 246, 0.58);
++  --adm-vidrio-opaco: rgba(250, 252, 246, 0.94);
++  --adm-brillo: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
++  --adm-borde: rgba(255, 255, 255, 0.55);
++  --adm-sombra: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.2), 0 10px 30px rgba(19, 53, 53, 0.10);
++  --adm-sombra-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 22px 40px -24px rgba(19, 53, 53, 0.40);
++  --adm-desenfoque: blur(28px) saturate(140%);
++
++  position: relative;
++  isolation: isolate; /* el fondo fijo (z-index:-1) queda detrás del contenido y delante del body */
++  min-height: 100vh;
++  background-color: var(--adm-canvas);
++}
++
++/* --------------------------------------------------------------------------
++   1. Fondo: planta desenfocada (components/admin/FondoFollaje.tsx) + velo claro
++   -------------------------------------------------------------------------- */
++.tema-admin .adm-fondo {
++  position: fixed;
++  inset: -80px; /* sobra para que el desenfoque no deje bordes claros */
++  z-index: -1;
++  pointer-events: none;
++  filter: blur(40px) saturate(0.9) brightness(1.04);
++}
++.tema-admin .adm-fondo canvas {
++  display: block;
++  width: 100%;
++  height: 100%;
++}
++.tema-admin .adm-velo {
++  position: fixed;
++  inset: 0;
++  z-index: -1;
++  pointer-events: none;
++  background:
++    linear-gradient(rgba(236, 241, 232, 0.20), rgba(236, 241, 232, 0.20)),
++    radial-gradient(90% 70% at 50% 40%, transparent, rgba(160, 178, 166, 0.30));
++}
++
++/* --------------------------------------------------------------------------
++   2. Vidrio
++   .card-surface = Card y Metrica (components/ui/Card.tsx), sin editar ese archivo.
++   .adm-vidrio   = clase que se AÑADE a contenedores propios del admin.
++   -------------------------------------------------------------------------- */
++.tema-admin .card-surface,
++.tema-admin .adm-vidrio {
++  background: var(--adm-brillo), var(--adm-vidrio);
++  -webkit-backdrop-filter: var(--adm-desenfoque);
++  backdrop-filter: var(--adm-desenfoque);
++  border-color: var(--adm-borde);
++  box-shadow: var(--adm-sombra);
++}
++.tema-admin .card-surface.card-surface-hover:hover {
++  box-shadow: var(--adm-sombra-hover);
++}
++/* Variante más opaca: tablas densas, formularios largos, paneles laterales */
++.tema-admin .adm-vidrio-fuerte {
++  background: var(--adm-brillo), var(--adm-vidrio-fuerte);
++}
++
++/* Menú lateral del admin (components/admin/AdminNav.tsx): vidrio solo desde lg,
++   igual que hoy solo desde lg tiene fondo blanco. En el celular no cambia. */
++@media (min-width: 64rem) {
++  .tema-admin .adm-nav {
++    background: var(--adm-brillo), var(--adm-vidrio);
++    -webkit-backdrop-filter: var(--adm-desenfoque);
++    backdrop-filter: var(--adm-desenfoque);
++    border-color: var(--adm-borde);
++    box-shadow: var(--adm-sombra);
++  }
++}
++
++/* Encabezado del sitio (components/AppShell.tsx) y franja "Nombre · Rol", sin editar AppShell */
++.tema-admin header.sticky {
++  background-color: rgba(250, 252, 246, 0.55);
++  -webkit-backdrop-filter: var(--adm-desenfoque);
++  backdrop-filter: var(--adm-desenfoque);
++  border-bottom-color: var(--adm-borde);
++}
++.tema-admin header.sticky + div {
++  background-color: rgba(250, 252, 246, 0.32);
++  border-bottom-color: var(--adm-borde);
++}
++
++/* --------------------------------------------------------------------------
++   3. Contraste: sobre vidrio el gris 500/600 de Tailwind no llega a AA.
++   Se oscurece un tono (misma familia). Verificado: ningún elemento del admin
++   combina estos grises con variantes hover/focus de color de texto.
++   -------------------------------------------------------------------------- */
++.tema-admin .text-gray-500 { color: #4b5563; } /* = gray-600 */
++.tema-admin .text-gray-600 { color: #374151; } /* = gray-700 */
++
++/* --------------------------------------------------------------------------
++   4. Respaldo, accesibilidad e impresión
++   -------------------------------------------------------------------------- */
++@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
++  .tema-admin .card-surface,
++  .tema-admin .adm-vidrio,
++  .tema-admin .adm-vidrio-fuerte { background: var(--adm-vidrio-opaco); }
++  .tema-admin header.sticky { background-color: var(--adm-vidrio-opaco); }
++  @media (min-width: 64rem) { .tema-admin .adm-nav { background: var(--adm-vidrio-opaco); } }
++}
++
++@media (prefers-reduced-transparency: reduce) {
++  .tema-admin .card-surface,
++  .tema-admin .adm-vidrio,
++  .tema-admin .adm-vidrio-fuerte { background: var(--adm-vidrio-opaco); }
++  .tema-admin header.sticky { background-color: var(--adm-vidrio-opaco); }
++  @media (min-width: 64rem) { .tema-admin .adm-nav { background: var(--adm-vidrio-opaco); } }
++}
++
++@media print {
++  .tema-admin { background: #fff; }
++  .tema-admin .adm-fondo,
++  .tema-admin .adm-velo { display: none; }
++  .tema-admin .card-surface,
++  .tema-admin .adm-vidrio,
++  .tema-admin .adm-vidrio-fuerte,
++  .tema-admin .adm-nav,
++  .tema-admin header.sticky {
++    background: #fff;
++    box-shadow: none;
++    -webkit-backdrop-filter: none;
++    backdrop-filter: none;
++  }
++}
+diff --git a/app/admin/transacciones/page.tsx b/app/admin/transacciones/page.tsx
+index 9da6abd..b71837f 100644
+--- a/app/admin/transacciones/page.tsx
++++ b/app/admin/transacciones/page.tsx
+@@ -16,7 +16,7 @@ export default async function TransaccionesPage({ searchParams }: { searchParams
+ 
+   return <>
+     <AdminHeading title="Transacciones" description="Cómo se mueve el negocio: valor transado, conversión entre fases, pedidos que necesitan atención y quién compra y vende. Importes en soles." />
+-    <form className="mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-linea bg-white p-4">
++    <form className="adm-vidrio mb-6 flex flex-wrap items-end gap-4 rounded-2xl border border-linea bg-white p-4">
+       <label className="space-y-1.5 text-sm font-semibold"><span className="block">Periodo</span><select name="periodo" defaultValue={params.periodo ?? '90'} className="min-h-11 rounded-xl border border-gray-300 bg-white px-3 text-sm">{PERIODOS.map(([v, texto]) => <option key={v} value={v}>{texto}</option>)}</select></label>
+       <label className="flex min-h-11 items-center gap-2 text-sm"><input type="checkbox" name="reales" value="1" defaultChecked={soloReales} className="size-4 accent-petroleo" />Excluir datos de ejemplo</label>
+       <button className={buttonPrimaryClass}>Aplicar</button>
+diff --git a/app/admin/usuarios/page.tsx b/app/admin/usuarios/page.tsx
+index f62d6ee..24492f6 100644
+--- a/app/admin/usuarios/page.tsx
++++ b/app/admin/usuarios/page.tsx
+@@ -15,7 +15,7 @@ export default async function UsersPage({ searchParams }: { searchParams: Promis
+   const q = (params.q ?? '').slice(0, 100)
+   const data = await listAdminUsers({ page: Number(params.pagina), rol, estado, q })
+   return <><AdminHeading title="Usuarios" description="Gestiona las cuentas de productores y compradores. Cada suspensión o reactivación conserva un motivo y avisa a la persona afectada." />
+-    <form className="mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-2 xl:grid-cols-4">
++    <form className="adm-vidrio mb-6 grid items-end gap-4 rounded-2xl border border-linea bg-white p-5 sm:grid-cols-2 xl:grid-cols-4">
+       <label className="space-y-2 text-sm font-semibold" htmlFor="buscar-usuario"><span>Buscar por nombre</span><input id="buscar-usuario" name="q" defaultValue={q} maxLength={100} className={inputClass} /></label>
+       <label className="space-y-2 text-sm font-semibold" htmlFor="rol"><span>Tipo de cuenta</span><select id="rol" name="rol" defaultValue={rol} className={inputClass}><option value="todos">Todos</option><option value="productor">Productores</option><option value="comprador">Compradores</option></select></label>
+       <label className="space-y-2 text-sm font-semibold" htmlFor="estado-usuario"><span>Estado</span><select id="estado-usuario" name="estado" defaultValue={estado} className={inputClass}><option value="todos">Todos</option><option value="activos">Activos</option><option value="suspendidos">Suspendidos</option></select></label><button className={buttonPrimaryClass}>Filtrar usuarios</button>
+diff --git a/components/admin/AdminNav.tsx b/components/admin/AdminNav.tsx
+index 6227af4..fb6257c 100644
+--- a/components/admin/AdminNav.tsx
++++ b/components/admin/AdminNav.tsx
+@@ -18,7 +18,7 @@ export function AdminNav() {
+   const activo = useRef<HTMLAnchorElement>(null)
+   // Deja a la vista la sección actual cuando la fila se desplaza en el celular.
+   useEffect(() => { activo.current?.scrollIntoView({ block: 'nearest', inline: 'center' }) }, [pathname])
+-  return <nav aria-label="Administración" className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6 lg:sticky lg:top-6 lg:mx-0 lg:flex-col lg:gap-1 lg:overflow-visible lg:rounded-2xl lg:border lg:border-linea lg:bg-white lg:p-3">
++  return <nav aria-label="Administración" className="adm-nav -mx-4 flex gap-2 overflow-x-auto px-4 pb-1 sm:-mx-6 sm:px-6 lg:sticky lg:top-6 lg:mx-0 lg:flex-col lg:gap-1 lg:overflow-visible lg:rounded-2xl lg:border lg:border-linea lg:bg-white lg:p-3">
+     {items.map(([href, label]) => {
+       const active = href === '/admin' ? pathname === href : pathname.startsWith(href)
+       return <Link key={href} href={href} ref={active ? activo : undefined} aria-current={active ? 'page' : undefined} className={`flex min-h-11 shrink-0 items-center whitespace-nowrap rounded-full px-4 text-sm font-semibold transition-colors lg:rounded-xl lg:px-3 ${active ? 'bg-petroleo text-white' : 'bg-white text-gray-700 ring-1 ring-linea hover:bg-crema hover:text-petroleo lg:bg-transparent lg:ring-0'}`}>{label}</Link>
+diff --git a/components/admin/FondoFollaje.tsx b/components/admin/FondoFollaje.tsx
+new file mode 100644
+index 0000000..431097e
+--- /dev/null
++++ b/components/admin/FondoFollaje.tsx
+@@ -0,0 +1,97 @@
++'use client'
++
++import { useEffect, useRef } from 'react'
++
++// Fondo decorativo del panel admin ("Planta tras el vidrio"): hojas pintadas en un canvas y
++// desenfocadas por CSS (.adm-fondo y .adm-velo en app/admin/tema-admin.css).
++// Solo aspecto: no lee datos, no usa estado de la app, no recibe props y es invisible para
++// lectores de pantalla. Se monta una vez en app/admin/layout.tsx.
++
++// Verdes de la planta, con su peso (cuántas hojas de cada tono, en proporción).
++const PALETA: [string, number][] = [
++  ['#2F4F1A', 2], ['#3F6418', 3], ['#5E8A24', 4], ['#86B33A', 5],
++  ['#A9CF55', 4], ['#C9E58A', 3], ['#DCEBB8', 1],
++]
++// Grupos de hojas: [x, y] relativos al ancho/alto y escala del grupo.
++const PLANTAS: [number, number, number][] = [
++  [0.30, 0.30, 0.9], [0.72, 0.22, 0.7], [0.55, 0.75, 1.1], [0.12, 0.85, 0.8], [0.95, 0.70, 0.8],
++]
++const HOJAS_POR_PLANTA = 34
++const DESTELLOS = 10
++const SEMILLA = 7 // fija: el fondo se ve igual en cada visita
++
++export function FondoFollaje() {
++  const lienzo = useRef<HTMLCanvasElement>(null)
++
++  useEffect(() => {
++    const canvas = lienzo.current
++    const ctx = canvas?.getContext('2d')
++    if (!canvas || !ctx) return
++
++    let semilla = SEMILLA
++    const azar = () => (semilla = (semilla * 16807) % 2147483647) / 2147483647
++    const total = PALETA.reduce((suma, [, peso]) => suma + peso, 0)
++    const tono = () => {
++      let resto = azar() * total
++      for (const [color, peso] of PALETA) if ((resto -= peso) <= 0) return color
++      return PALETA[0][0]
++    }
++    const hoja = (x: number, y: number, largo: number, ancho: number, angulo: number) => {
++      ctx.save()
++      ctx.translate(x, y)
++      ctx.rotate(angulo)
++      ctx.fillStyle = tono()
++      ctx.beginPath()
++      ctx.moveTo(0, 0)
++      ctx.bezierCurveTo(largo * 0.3, -ancho, largo * 0.75, -ancho * 0.8, largo, 0)
++      ctx.bezierCurveTo(largo * 0.75, ancho * 0.8, largo * 0.3, ancho, 0, 0)
++      ctx.fill()
++      ctx.restore()
++    }
++
++    const pintar = () => {
++      // A media resolución: el desenfoque de 40px hace invisible la diferencia y pesa la cuarta parte.
++      const W = (canvas.width = Math.max(1, Math.round(canvas.clientWidth / 2)))
++      const H = (canvas.height = Math.max(1, Math.round(canvas.clientHeight / 2)))
++      semilla = SEMILLA
++
++      const base = ctx.createLinearGradient(0, 0, 0, H)
++      base.addColorStop(0, '#A5B7AC')
++      base.addColorStop(1, '#93A99A')
++      ctx.fillStyle = base
++      ctx.fillRect(0, 0, W, H)
++
++      for (const [px, py, escala] of PLANTAS) {
++        for (let i = 0; i < HOJAS_POR_PLANTA; i++) {
++          const angulo = azar() * Math.PI * 2
++          const distancia = azar() * 120 * escala
++          const largo = (50 + azar() * 120) * escala
++          const ancho = largo * (0.28 + azar() * 0.2)
++          hoja(px * W + Math.cos(angulo) * distancia, py * H + Math.sin(angulo) * distancia * 0.8, largo, ancho, angulo + (azar() - 0.5) * 0.8)
++        }
++      }
++
++      ctx.globalCompositeOperation = 'screen'
++      for (let i = 0; i < DESTELLOS; i++) {
++        const x = azar() * W, y = azar() * H, radio = 40 + azar() * 90
++        const luz = ctx.createRadialGradient(x, y, 0, x, y, radio)
++        luz.addColorStop(0, 'rgba(235, 244, 215, 0.45)')
++        luz.addColorStop(1, 'rgba(230, 245, 190, 0)')
++        ctx.fillStyle = luz
++        ctx.fillRect(x - radio, y - radio, radio * 2, radio * 2)
++      }
++      ctx.globalCompositeOperation = 'source-over'
++    }
++
++    pintar()
++    let espera: ReturnType<typeof setTimeout> | undefined
++    const alRedimensionar = () => { clearTimeout(espera); espera = setTimeout(pintar, 150) }
++    window.addEventListener('resize', alRedimensionar)
++    return () => { clearTimeout(espera); window.removeEventListener('resize', alRedimensionar) }
++  }, [])
++
++  return <>
++    <div aria-hidden="true" className="adm-fondo"><canvas ref={lienzo} /></div>
++    <div aria-hidden="true" className="adm-velo" />
++  </>
++}
+diff --git a/components/admin/tablero/TableroVista.tsx b/components/admin/tablero/TableroVista.tsx
+index be3bcff..2e3ce48 100644
+--- a/components/admin/tablero/TableroVista.tsx
++++ b/components/admin/tablero/TableroVista.tsx
+@@ -7,7 +7,7 @@ import { money, quantity } from '@/lib/marketplace/types'
+ import { Metrica } from '@/components/ui/Card'
+ import { METODOS_PAGO, type MetodoPago } from '@/lib/transacciones/types'
+ 
+-const tarjeta = 'rounded-[22px] border border-linea bg-white p-6'
++const tarjeta = 'adm-vidrio rounded-[22px] border border-linea bg-white p-6'
+ const horas = (h: number | null) => h === null ? '—' : h < 48 ? `${Number(h).toLocaleString('es-PE', { maximumFractionDigits: 1 })} h` : `${Math.round(h / 24)} días`
+ const pct = (a: number, b: number) => b ? `${Math.round((a / b) * 100)} %` : '—'
+ 

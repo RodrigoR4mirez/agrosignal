@@ -1,0 +1,143 @@
+/* ==========================================================================
+   Tema visual del panel de administración — "Planta tras el vidrio"
+   Fuente única de verdad: .claude/skills/diseno-panel-admin/SKILL.md
+
+   - Se importa SOLO desde app/admin/layout.tsx.
+   - TODOS los selectores empiezan por .tema-admin (el envoltorio del layout admin).
+     Aunque el navegador mantenga esta hoja cargada al navegar al marketplace,
+     fuera de .tema-admin no tiene ningún efecto.
+   - Solo aspecto: fondo y superficies de vidrio (+ un ajuste de contraste del gris).
+     No oculta, mueve, deshabilita ni cambia el tamaño de nada.
+   - Sin @layer a propósito: las reglas sin capa ganan a las utilidades de Tailwind v4,
+     por eso basta con AÑADIR una clase adm-* sin quitar las clases existentes.
+   ========================================================================== */
+
+.tema-admin {
+  --adm-canvas: #9fb2a6;
+  --adm-vidrio: rgba(250, 252, 246, 0.40);
+  --adm-vidrio-fuerte: rgba(250, 252, 246, 0.58);
+  --adm-vidrio-opaco: rgba(250, 252, 246, 0.94);
+  --adm-brillo: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
+  --adm-borde: rgba(255, 255, 255, 0.55);
+  --adm-sombra: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.2), 0 10px 30px rgba(19, 53, 53, 0.10);
+  --adm-sombra-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 22px 40px -24px rgba(19, 53, 53, 0.40);
+  --adm-desenfoque: blur(28px) saturate(140%);
+
+  position: relative;
+  isolation: isolate; /* el fondo fijo (z-index:-1) queda detrás del contenido y delante del body */
+  min-height: 100vh;
+  background-color: var(--adm-canvas);
+}
+
+/* --------------------------------------------------------------------------
+   1. Fondo: planta desenfocada (components/admin/FondoFollaje.tsx) + velo claro
+   -------------------------------------------------------------------------- */
+.tema-admin .adm-fondo {
+  position: fixed;
+  inset: -80px; /* sobra para que el desenfoque no deje bordes claros */
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(40px) saturate(0.9) brightness(1.04);
+}
+.tema-admin .adm-fondo canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.tema-admin .adm-velo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    linear-gradient(rgba(236, 241, 232, 0.20), rgba(236, 241, 232, 0.20)),
+    radial-gradient(90% 70% at 50% 40%, transparent, rgba(160, 178, 166, 0.30));
+}
+
+/* --------------------------------------------------------------------------
+   2. Vidrio
+   .card-surface = Card y Metrica (components/ui/Card.tsx), sin editar ese archivo.
+   .adm-vidrio   = clase que se AÑADE a contenedores propios del admin.
+   -------------------------------------------------------------------------- */
+.tema-admin .card-surface,
+.tema-admin .adm-vidrio {
+  background: var(--adm-brillo), var(--adm-vidrio);
+  -webkit-backdrop-filter: var(--adm-desenfoque);
+  backdrop-filter: var(--adm-desenfoque);
+  border-color: var(--adm-borde);
+  box-shadow: var(--adm-sombra);
+}
+.tema-admin .card-surface.card-surface-hover:hover {
+  box-shadow: var(--adm-sombra-hover);
+}
+/* Variante más opaca: tablas densas, formularios largos, paneles laterales */
+.tema-admin .adm-vidrio-fuerte {
+  background: var(--adm-brillo), var(--adm-vidrio-fuerte);
+}
+
+/* Menú lateral del admin (components/admin/AdminNav.tsx): vidrio solo desde lg,
+   igual que hoy solo desde lg tiene fondo blanco. En el celular no cambia. */
+@media (min-width: 64rem) {
+  .tema-admin .adm-nav {
+    background: var(--adm-brillo), var(--adm-vidrio);
+    -webkit-backdrop-filter: var(--adm-desenfoque);
+    backdrop-filter: var(--adm-desenfoque);
+    border-color: var(--adm-borde);
+    box-shadow: var(--adm-sombra);
+  }
+}
+
+/* Encabezado del sitio (components/AppShell.tsx) y franja "Nombre · Rol", sin editar AppShell */
+.tema-admin header.sticky {
+  background-color: rgba(250, 252, 246, 0.55);
+  -webkit-backdrop-filter: var(--adm-desenfoque);
+  backdrop-filter: var(--adm-desenfoque);
+  border-bottom-color: var(--adm-borde);
+}
+.tema-admin header.sticky + div {
+  background-color: rgba(250, 252, 246, 0.32);
+  border-bottom-color: var(--adm-borde);
+}
+
+/* --------------------------------------------------------------------------
+   3. Contraste: sobre vidrio el gris 500/600 de Tailwind no llega a AA.
+   Se oscurece un tono (misma familia). Verificado: ningún elemento del admin
+   combina estos grises con variantes hover/focus de color de texto.
+   -------------------------------------------------------------------------- */
+.tema-admin .text-gray-500 { color: #4b5563; } /* = gray-600 */
+.tema-admin .text-gray-600 { color: #374151; } /* = gray-700 */
+
+/* --------------------------------------------------------------------------
+   4. Respaldo, accesibilidad e impresión
+   -------------------------------------------------------------------------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .tema-admin .card-surface,
+  .tema-admin .adm-vidrio,
+  .tema-admin .adm-vidrio-fuerte { background: var(--adm-vidrio-opaco); }
+  .tema-admin header.sticky { background-color: var(--adm-vidrio-opaco); }
+  @media (min-width: 64rem) { .tema-admin .adm-nav { background: var(--adm-vidrio-opaco); } }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .tema-admin .card-surface,
+  .tema-admin .adm-vidrio,
+  .tema-admin .adm-vidrio-fuerte { background: var(--adm-vidrio-opaco); }
+  .tema-admin header.sticky { background-color: var(--adm-vidrio-opaco); }
+  @media (min-width: 64rem) { .tema-admin .adm-nav { background: var(--adm-vidrio-opaco); } }
+}
+
+@media print {
+  .tema-admin { background: #fff; }
+  .tema-admin .adm-fondo,
+  .tema-admin .adm-velo { display: none; }
+  .tema-admin .card-surface,
+  .tema-admin .adm-vidrio,
+  .tema-admin .adm-vidrio-fuerte,
+  .tema-admin .adm-nav,
+  .tema-admin header.sticky {
+    background: #fff;
+    box-shadow: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}

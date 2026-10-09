@@ -43,3 +43,8 @@ svgs/
 .env*
 !.env.example
 .qa-artifacts/
+
+# scripts y docs locales de renovación de tokens
+docs/SUPABASE-TOKEN.md
+docs/VERCEL-TOKEN.md
+scripts/renovar-supabase-token.mjs

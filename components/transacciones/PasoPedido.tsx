@@ -27,7 +27,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
 
   // Botón que cambia de estado con confirmación (y motivo para rechazar o cancelar).
   const cambioEstado = (key: string, a: 'confirmado' | 'rechazado' | 'enviado' | 'recibido' | 'cancelado', texto: string, detalle: string, clase = buttonPrimaryClass) => abierto === a
-    ? <form key={key} action={estadoAction} className="w-full space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+    ? <form key={key} action={estadoAction} className="adm-vidrio adm-vidrio-fuerte w-full space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
       {oculto}<input type="hidden" name="estado" value={a} />
       <p className="text-sm leading-relaxed text-gray-700">{detalle}</p>
       {(a === 'rechazado' || a === 'cancelado') && <div><label htmlFor={`motivo-${a}`} className={etiqueta}>Motivo</label><textarea id={`motivo-${a}`} name="motivo" required minLength={5} maxLength={500} rows={3} className={inputClass} /></div>}
@@ -48,7 +48,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
       botones.push(cambioEstado('a', 'confirmado', 'Aceptar solicitud', `Se confirmará el acuerdo por ${money(order.total)} y se descontará la cantidad de tu stock.`),
         <button key="p" type="button" onClick={() => setAbierto('proponer')} className={secundario}>Proponer otras condiciones</button>,
         cambioEstado('r', 'rechazado', 'Rechazar', 'El comprador recibirá el motivo. La solicitud no podrá aceptarse después.', peligro))
-      if (abierto === 'proponer') formulario = <form action={pasoAction} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+      if (abierto === 'proponer') formulario = <form action={pasoAction} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
         {oculto}<input type="hidden" name="accion" value="proponer" />
         <p className="text-sm text-gray-700">Ajusta lo que necesites. El comprador podrá aceptar o rechazar tu propuesta.</p>
         <div className="grid gap-4 sm:grid-cols-2">
@@ -68,7 +68,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
     } else if (f === 'despacho') {
       botones.push(<button key="d" type="button" onClick={() => setAbierto('despachar')} className={buttonPrimaryClass}>{order.entrega === 'recojo' ? 'Marcar como entregado' : 'Registrar despacho'}</button>,
         cambioEstado('x', 'cancelado', 'Cancelar pedido', 'La cantidad volverá a tu stock. Si ya recibiste un pago, devuélvelo al comprador.', peligro))
-      if (abierto === 'despachar') formulario = <form action={pasoAction} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+      if (abierto === 'despachar') formulario = <form action={pasoAction} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
         {oculto}<input type="hidden" name="accion" value="despachar" />
         <div className="grid gap-4 sm:grid-cols-2">
           <div><label htmlFor="guia" className={etiqueta}>Guía de remisión</label><input id="guia" name="guia" maxLength={40} placeholder="T001-00012345 (si la emites)" className={inputClass} /></div>
@@ -94,7 +94,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
       botones.push(<button key="l" type="button" onClick={() => setAbierto('comprobante')} className={secundario}>Registrar liquidación de compra</button>)
       if (abierto === 'comprobante') formulario = <FormComprobante order={order} tipos={['liquidacion_compra']} action={pasoAction} pending={pending} onVolver={() => setAbierto(null)} />
     }
-    if (abierto === 'observacion') formulario = <form action={pasoAction} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+    if (abierto === 'observacion') formulario = <form action={pasoAction} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
       {oculto}<input type="hidden" name="accion" value="observacion" />
       <div><label htmlFor="detalle" className={etiqueta}>¿Qué pasó?</label><textarea id="detalle" name="detalle" required minLength={10} maxLength={1000} rows={3} className={inputClass} placeholder="Cantidad, calidad o estado de la cosecha. Adjunta fotos si luego te las pide la administración." /></div>
       <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Enviando…' : 'Enviar reporte'}</button><button type="button" onClick={() => setAbierto(null)} className={secundario}>Volver</button></div>
@@ -109,7 +109,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
   } else if (role === 'productor' && order.devolucion_estado === 'solicitada') {
     devolucion.push(accionBoton('da', 'devolucion_responder', 'Aceptar devolución', { aceptar: '1' }),
       <button key="dr" type="button" onClick={() => setAbierto('devolucion_rechazo')} className={peligro}>Rechazar devolución</button>)
-    if (abierto === 'devolucion_rechazo') formulario = <form action={pasoAction} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+    if (abierto === 'devolucion_rechazo') formulario = <form action={pasoAction} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
       {oculto}<input type="hidden" name="accion" value="devolucion_responder" /><input type="hidden" name="aceptar" value="0" />
       <div><label htmlFor="respuesta" className={etiqueta}>¿Por qué la rechazas?</label><textarea id="respuesta" name="respuesta" required minLength={5} maxLength={1000} rows={3} className={inputClass} /></div>
       <p className="text-xs text-gray-600">El comprador verá tu motivo y la administración de AgroSignal revisará el caso.</p>
@@ -117,7 +117,7 @@ export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = f
     </form>
   } else if (role === 'productor' && order.devolucion_estado === 'aceptada') {
     devolucion.push(abierto === 'devolucion_fin'
-      ? <form key="df" action={pasoAction} className="w-full space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+      ? <form key="df" action={pasoAction} className="adm-vidrio adm-vidrio-fuerte w-full space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
         {oculto}<input type="hidden" name="accion" value="devolucion_completar" />
         <p className="text-sm leading-relaxed text-gray-700">Confirma que recibiste {quantity(Number(order.devolucion_cantidad))} {order.unidad} de vuelta{Number(order.devolucion_monto) > 0 ? <> y que reembolsaste <strong className="text-petroleo">{money(Number(order.devolucion_monto))}</strong> al comprador</> : ''}.</p>
         <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Sí, confirmar'}</button><button type="button" onClick={() => setAbierto(null)} className={secundario}>Volver</button></div>
@@ -159,7 +159,7 @@ function SubirDocumento({ pedidoId, name, label, requerido }: { pedidoId: string
 
 function FormPago({ order, action, pending }: { order: Pedido; action: (f: FormData) => void; pending: boolean }) {
   const [metodo, setMetodo] = useState('transferencia')
-  return <form action={action} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+  return <form action={action} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
     <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="accion" value="informar_pago" />
     <p className="text-sm leading-relaxed text-gray-700">Paga <strong className="text-petroleo">{money(order.total)}</strong> directamente al productor con los datos que te comparta por teléfono. Luego informa aquí el pago.</p>
     <fieldset><legend className={etiqueta}>Método</legend><div className="flex flex-wrap gap-2">{Object.entries(METODOS_PAGO).filter(([v]) => v !== 'mercado_pago').map(([v, t]) => <label key={v} className="cursor-pointer rounded-full px-4 py-2 text-sm ring-1 ring-linea-fuerte has-checked:bg-petroleo has-checked:font-semibold has-checked:text-white has-checked:ring-petroleo"><input type="radio" name="metodo" value={v} checked={metodo === v} onChange={() => setMetodo(v)} className="sr-only" />{t}</label>)}</div></fieldset>
@@ -171,7 +171,7 @@ function FormPago({ order, action, pending }: { order: Pedido; action: (f: FormD
 
 function FormComprobante({ order, tipos, action, pending, onVolver }: { order: Pedido; tipos: ('factura' | 'boleta' | 'liquidacion_compra')[]; action: (f: FormData) => void; pending: boolean; onVolver: () => void }) {
   const nombres = { factura: 'Factura', boleta: 'Boleta', liquidacion_compra: 'Liquidación de compra' }
-  return <form action={action} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+  return <form action={action} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
     <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="accion" value="comprobante" />
     <div className="grid gap-4 sm:grid-cols-2">
       <div><label htmlFor="tipo" className={etiqueta}>Tipo</label><select id="tipo" name="tipo" className={inputClass}>{tipos.map(t => <option key={t} value={t}>{nombres[t]}</option>)}</select></div>
@@ -184,7 +184,7 @@ function FormComprobante({ order, tipos, action, pending, onVolver }: { order: P
 
 function FormDevolucion({ order, action, pending, onVolver }: { order: Pedido; action: (f: FormData) => void; pending: boolean; onVolver: () => void }) {
   const [motivo, setMotivo] = useState<'defecto' | 'arrepentimiento'>('defecto')
-  return <form action={action} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+  return <form action={action} className="adm-vidrio adm-vidrio-fuerte space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
     <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="accion" value="devolucion_solicitar" />
     <p className="text-sm leading-relaxed text-gray-700">Tienes {PLAZO_DEVOLUCION_DIAS} días desde que confirmaste la recepción. Si el productor la acepta, coordinan el retiro y te reembolsa directamente lo que pagaste por esa cantidad.</p>
     <fieldset><legend className={etiqueta}>Motivo</legend><div className="grid gap-2 sm:grid-cols-2">{Object.entries(MOTIVOS_DEVOLUCION).map(([v, [t, d]]) => <label key={v} className="cursor-pointer rounded-2xl p-4 text-sm ring-1 ring-linea-fuerte has-checked:ring-2 has-checked:ring-petroleo">

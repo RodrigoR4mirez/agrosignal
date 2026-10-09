@@ -13,7 +13,7 @@ import { numero } from '@/lib/perfil/types'
 import { requireRole } from '@/lib/supabase/auth'
 
 export const metadata: Metadata = { title: 'Perfil del comprador | AgroSignal', robots: { index: false } }
-const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8'
+const tarjeta = 'adm-vidrio rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8'
 const fecha = (iso: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeZone: 'America/Lima' }).format(new Date(iso))
 
 // Perfil privado del comprador: lo ven él mismo, la administración y los productores con pedidos suyos.

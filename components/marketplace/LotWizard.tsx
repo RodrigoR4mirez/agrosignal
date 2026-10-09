@@ -80,7 +80,7 @@ export function LotWizard({ owner, id, initial, recoveredPhotos = [] }: { owner:
     finally { setPending(false); setProgress('') }
   }
   return <div className="mx-auto w-full max-w-3xl">
-    <ol aria-label="Pasos para publicar" className="mb-8 grid grid-cols-3 gap-2">{steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} className={`rounded-xl p-3 text-xs font-semibold sm:text-sm ${step === index ? 'bg-petroleo text-white' : 'bg-crema text-petroleo'}`}><span className="mb-1 block">Paso {index + 1}</span>{label}</li>)}</ol>
+    <ol aria-label="Pasos para publicar" className="mb-8 grid grid-cols-3 gap-2">{steps.map((label, index) => <li key={label} aria-current={step === index ? 'step' : undefined} className={`adm-crema rounded-xl p-3 text-xs font-semibold sm:text-sm ${step === index ? 'bg-petroleo text-white' : 'bg-crema text-petroleo'}`}><span className="mb-1 block">Paso {index + 1}</span>{label}</li>)}</ol>
     <form onSubmit={submit} className="card-surface space-y-6 border border-linea bg-white p-5 sm:p-8">
       <h2 className={tituloBloque}>{steps[step]}</h2>
       <FormMessage state={state} />

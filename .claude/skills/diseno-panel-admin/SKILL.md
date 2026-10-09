@@ -1,11 +1,12 @@
 ---
 name: diseno-panel-admin
-description: Diseño visual "Planta tras el vidrio" del panel de administración de AgroSignal (rutas /admin y archivos app/admin/* y components/admin/*). Úsala SIEMPRE antes de crear o modificar cualquier vista, componente o estilo del panel admin, incluida la gestión de usuarios. No aplica al marketplace, la landing, los paneles de productor y comprador, auth ni ninguna otra parte del sitio.
+description: Diseño visual "Planta tras el vidrio" de las zonas de gestión de AgroSignal — panel de administración (/admin) y paneles de productor y comprador (/panel-productor, /panel-comprador, /verificaciones, /compradores), con sus archivos app/admin/*, components/admin/* y los componentes que solo se muestran ahí. Úsala SIEMPRE antes de crear o modificar cualquier vista, componente o estilo de esas zonas. No aplica a la landing (/), el marketplace, auth, /ayuda, /contacto ni la orden de compra imprimible.
 ---
 
-# Diseño del panel admin — "Planta tras el vidrio"
+# Diseño de los paneles — "Planta tras el vidrio"
 
-Esta skill es la **única fuente de verdad** del aspecto del panel de administración. Define un
+Esta skill es la **única fuente de verdad** del aspecto del panel de administración y de los paneles
+de productor y comprador (ampliado desde el admin el 9 oct 2026). Define un
 fondo de planta desenfocada detrás de superficies de vidrio esmerilado, y nada más: la tipografía,
 los textos, los botones, los colores de estado y la estructura de cada página siguen siendo los
 del resto del sitio (`AGENTS.md` → "Diseño" y `components/ui/estilos.ts`).
@@ -23,12 +24,17 @@ Referencias en `references/`:
 
 | Sí aplica | No aplica (no tocar su aspecto) |
 |---|---|
-| `/admin`, `/admin/usuarios`, `/admin/vendedores`, `/admin/transacciones`, `/admin/pedidos`, `/admin/pedidos/[id]`, `/admin/certificados`, `/admin/drones`, `/admin/tests`, `/admin/mensajes` | `/` (landing), `/marketplace/*`, `/panel-productor/*`, `/panel-comprador/*`, `/(auth)/*`, `/verificaciones/*`, `/pedidos/*`, `/ayuda`, `/contacto`, `/compradores/*` |
-| Archivos `app/admin/**` y `components/admin/**` | Todo lo demás en `app/` y `components/` |
+| `/admin/*` (las 10 vistas del admin) | `/` (landing), `/marketplace/*` (catálogo, ficha, perfil del productor, precios) |
+| `/panel-productor/*` (inicio, mis lotes, publicar, editar, ventas) | `/(auth)/*` (login, registro, recuperación y `/mi-cuenta`) |
+| `/panel-comprador/*` (inicio, comprar, pedidos) | `/ayuda`, `/contacto`, `/cuenta-suspendida` |
+| `/verificaciones/[id]`, `/compradores/[id]` | `/pedidos/[id]/orden` (documento imprimible con su propio fondo de papel) |
 
-El diseño se activa **solo** porque `app/admin/layout.tsx` envuelve el panel en
-`<div className="tema-admin">`. Todo selector de `tema-admin.css` empieza por `.tema-admin`, así que
-fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al navegar.
+Se activa **solo** donde un layout envuelve la página con `TemaVidrio`
+(`components/admin/TemaVidrio.tsx`: pone `<div className="tema-admin">`, `<FondoFollaje />` e importa
+`app/admin/tema-admin.css`). Layouts que lo usan: `app/admin/layout.tsx`, `app/panel-productor/layout.tsx`,
+`app/panel-comprador/layout.tsx`, `app/verificaciones/layout.tsx`, `app/compradores/layout.tsx`.
+Todo selector de `tema-admin.css` empieza por `.tema-admin`, así que fuera de esas rutas no tiene
+ningún efecto, aunque el navegador conserve la hoja al navegar.
 
 ## 2. Reglas de oro (no romper nada)
 
@@ -38,12 +44,17 @@ fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al
 2. **Solo AÑADIR clases, nunca quitar.** Para dar vidrio a un contenedor del admin se agrega `adm-vidrio`
    (o `adm-nav`) **delante** de sus clases actuales. Las clases existentes (`bg-white`, `border-linea`…)
    se quedan: si la hoja del tema no cargara, todo se ve exactamente como antes.
-3. **No editar archivos compartidos.** Prohibido modificar para este diseño: `components/AppShell.tsx`,
-   `components/SitePie.tsx`, `components/ui/Card.tsx`, `components/ui/estilos.ts`,
-   `components/auth/FormFields.tsx`, `components/ActionFeedback.tsx`, `components/transacciones/*`,
-   `components/sello/*`, `components/calificaciones/*`, `components/contacto/*`, `app/globals.css`,
-   `app/layout.tsx`. Su aspecto dentro del admin se ajusta solo desde `tema-admin.css` con selectores
-   `.tema-admin …` (ya incluido: `.card-surface`, `header.sticky` y los avisos sin leer de `Notifications`, `li.bg-crema`).
+3. **No editar archivos compartidos con zonas sin tema.** Prohibido modificar para este diseño:
+   `components/AppShell.tsx`, `components/SitePie.tsx`, `components/ui/Card.tsx`, `components/ui/estilos.ts`,
+   `components/auth/FormFields.tsx`, `components/ActionFeedback.tsx`, `components/sello/*`,
+   `components/calificaciones/*`, `components/contacto/*`, `components/marketplace/*` (salvo `LotWizard`),
+   `app/globals.css`, `app/layout.tsx`. Su aspecto dentro del tema se ajusta solo desde `tema-admin.css`
+   con selectores `.tema-admin …` (ya incluido: `.card-surface`, `header.sticky` y los avisos sin leer
+   de `Notifications`, `li.bg-crema`).
+   Excepción: componentes que **solo** se muestran en rutas con tema pueden recibir clases `adm-*`
+   (regla 2). Hoy: `components/transacciones/{PedidoDetalle,LineaFases,PasoPedido,PurchaseForm,OrderActions}.tsx`,
+   `components/marketplace/LotWizard.tsx` y `app/compradores/[id]/page.tsx`. Antes de añadir otro,
+   comprobar con `git grep` que no se usa en ninguna ruta sin tema.
 4. **Tokens solo en `tema-admin.css`.** No escribir colores, desenfoques ni sombras del tema sueltos en
    los componentes. Si hace falta un valor nuevo, se agrega como variable `--adm-*` en esa hoja.
 5. **Lo que no cambia en el admin:** fuente Plus Jakarta Sans, escala de títulos (`tituloPagina`,
@@ -54,16 +65,16 @@ fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al
 ## 3. Relación con otros documentos (para que no haya conflicto)
 
 - `AGENTS.md` → "Diseño" rige todo el sitio. Esta skill es su **única excepción**, y solo para el
-  **fondo y las superficies** dentro de `/admin`. Para todo lo demás dentro de `/admin`, sigue mandando `AGENTS.md`.
+  **fondo y las superficies** dentro de las rutas con tema (§1). Para todo lo demás dentro de las rutas con tema (§1), sigue mandando `AGENTS.md`.
 - **Prioridad sobre otras skills o guías de diseño** (por ejemplo `apple-design`, `frontend-design` o
-  cualquier otra instalada): dentro de `/admin`, en fondo y superficies, **gana esta skill**. Si otra
-  skill propone otro fondo, otro vidrio, otra paleta o rediseñar el panel, no se aplica. Esas skills
-  pueden usarse en el admin solo para lo que esta no cubre y sin contradecirla.
-- Si una instrucción de `AGENTS.md` y esta skill parecen chocar dentro de `/admin`:
+  cualquier otra instalada): dentro de las rutas con tema (§1), en fondo y superficies, **gana esta skill**. Si otra
+  skill propone otro fondo, otro vidrio, otra paleta o rediseñar los paneles, no se aplica. Esas skills
+  pueden usarse en esas rutas solo para lo que esta no cubre y sin contradecirla.
+- Si una instrucción de `AGENTS.md` y esta skill parecen chocar dentro de las rutas con tema (§1):
   fondo y superficies → esta skill; cualquier otra cosa → `AGENTS.md`.
-- Orden de prioridad dentro de `/admin`: (1) esta skill para fondo y superficies → (2) `AGENTS.md`
+- Orden de prioridad dentro de las rutas con tema (§1): (1) esta skill para fondo y superficies → (2) `AGENTS.md`
   para todo lo demás → (3) cualquier otra skill de diseño, solo si no contradice a las dos anteriores.
-- No crear otros archivos de diseño para el admin (`DESIGN.md` en la raíz, otro `.md`, otra skill).
+- No crear otros archivos de diseño para los paneles (`DESIGN.md` en la raíz, otro `.md`, otra skill).
   Cualquier ajuste del tema se hace aquí y en `references/tema-admin.css`, y se copia a
   `app/admin/tema-admin.css` (deben quedar idénticos).
 
@@ -87,7 +98,7 @@ fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al
 | `--adm-vidrio` | `rgba(250,252,246,.40)` | tarjetas, filtros, menú, mensajes de carga y error |
 | `--adm-vidrio-fuerte` | `rgba(250,252,246,.58)` | tablas densas, formularios largos, paneles laterales (clase `adm-vidrio-fuerte`) |
 | `--adm-vidrio-opaco` | `rgba(250,252,246,.94)` | respaldo sin `backdrop-filter` o con transparencia reducida |
-| `--adm-resalte` | `rgba(253,249,240,.62)` | elemento destacado dentro del vidrio: avisos sin leer de `Notifications` (en vez de su `bg-crema` opaco) |
+| `--adm-resalte` | `rgba(253,249,240,.62)` | elemento destacado dentro del vidrio: avisos sin leer de `Notifications` y elementos con `adm-crema bg-crema` (en vez del `bg-crema` opaco) |
 | `--adm-brillo` | `linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06))` | capa sobre el vidrio |
 | `--adm-borde` | `rgba(255,255,255,.55)` | color del borde existente (no se agregan bordes nuevos) |
 | `--adm-sombra` | `inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.2), 0 10px 30px rgba(19,53,53,.10)` | relieve del vidrio |
@@ -98,6 +109,10 @@ Encabezado del sitio dentro del admin: `rgba(250,252,246,.55)` con el mismo dese
 "Nombre · Rol" bajo el encabezado: `rgba(250,252,246,.32)`. Bordes inferiores en `--adm-borde`.
 
 Radios: no cambian (cada elemento conserva su `rounded-*`; `Card` sigue en 22 px).
+
+Anillos: `adm-vidrio` conserva el anillo de Tailwind (`ring-*` también es `box-shadow`). Un `ring-2`
+de énfasis (p. ej. el recuadro "Te toca" del pedido, `ring-petroleo`) mantiene su color; un `ring-1`
+fino toma `--adm-borde`.
 
 ### 4.3 Contraste (obligatorio)
 Sobre vidrio, `text-gray-500` y `text-gray-600` no alcanzan AA. Dentro de `.tema-admin` se oscurecen
@@ -142,6 +157,13 @@ return <div className="tema-admin"><FondoFollaje /><AppShell profile={profile}>�
 Todo lo que usa `Card` o `Metrica` (usuarios, vendedores, certificados, drones, tests, mensajes,
 pedidos, `QueueEmpty`, notificaciones) toma el vidrio automáticamente vía `.card-surface`: no se edita.
 
+**Ampliación a paneles de productor y comprador (9 oct 2026):** `TemaVidrio` en los layouts de §1 y
+`adm-vidrio` delante de: `tarjeta` de `PedidoDetalle` y su sección "siguiente" ("Te toca"/"En espera"),
+las dos capas de `LineaFases`, el resumen y el formulario de `PurchaseForm`, el formulario de
+`OrderActions` y `tarjeta` de `app/compradores/[id]/page.tsx`; `adm-vidrio adm-vidrio-fuerte` en los
+formularios de `PasoPedido`; `adm-crema` en los pasos del asistente de `LotWizard`. El resto
+(`Card`, `Metrica`, `LotWizard`, `PerfilFincaForm`, verificación) toma el vidrio vía `.card-surface`.
+
 **No se tocan en Fase 1:** chips de estado (`bg-crema`, `bg-red-50`, `bg-amber-50`, `bg-gray-100`,
 `bg-arena-claro`), inputs (`inputClass`), botones, `ActionFeedback`, `SitePie`, el ítem activo del menú.
 
@@ -161,9 +183,10 @@ se apruebe aparte. Si se aprueba, condiciones:
 ## 7. Verificación (antes de dar el cambio por terminado)
 
 1. `npm run lint`, `npx tsc --noEmit`, `npm run build`, `npm run test:db`: sin errores ni warnings nuevos.
-2. `git diff --stat`: solo aparecen `app/admin/**`, `components/admin/**` (y esta skill/documentación).
+2. `git diff --stat`: solo aparecen archivos de las rutas con tema, `components/admin/**`, los componentes
+   de la excepción de la regla 3 (y esta skill/documentación).
    Si aparece cualquier otro archivo, revertirlo.
-3. Con la cuenta admin, recorrer las 10 rutas de §1: todo se ve, nada se movió, los formularios
+3. Con las cuentas QA de admin, productor y comprador, recorrer las rutas de §1: todo se ve, nada se movió, los formularios
    envían igual (filtrar usuarios, suspender/reactivar con motivo, resolver disputa, aprobar certificado,
    marcar mensaje, exportar CSV de transacciones).
 4. Navegar del admin a `/marketplace`, `/panel-productor` y `/` **sin recargar**: deben verse exactamente
@@ -174,15 +197,16 @@ se apruebe aparte. Si se aprueba, condiciones:
 
 ## 8. Cómo revertir
 
-Quitar en `app/admin/layout.tsx` el `<div className="tema-admin">`, `<FondoFollaje />` y los dos imports.
-Con eso el panel vuelve a verse exactamente como antes (las clases `adm-*` añadidas no hacen nada sin el
+Quitar `<TemaVidrio>` del layout de la sección (en el admin, dejar solo `AppShell`; en los paneles,
+borrar su `layout.tsx`). Con eso esa sección vuelve a verse exactamente como antes (las clases `adm-*` añadidas no hacen nada sin el
 envoltorio). Opcional: borrar `app/admin/tema-admin.css`, `components/admin/FondoFollaje.tsx` y las clases `adm-*`.
 
 ## 9. Mantenimiento
 
-- **Nueva página del admin:** usar `Card`/`Metrica` como siempre (toman el vidrio solos). Para un
+- **Nueva página del admin o de un panel:** usar `Card`/`Metrica` como siempre (toman el vidrio solos). Para un
   contenedor propio con `bg-white`, añadir `adm-vidrio` delante. Nada más.
-- **Nuevo componente compartido mostrado en el admin:** no editarlo para el tema; si se ve mal sobre el
+- **Nueva sección con tema:** crear su `layout.tsx` con `<TemaVidrio>{children}</TemaVidrio>` y sumarla a §1.
+- **Nuevo componente compartido mostrado en el tema:** no editarlo para el tema; si se ve mal sobre el
   vidrio, ajustar con un selector `.tema-admin …` en `tema-admin.css` y anotarlo en esta skill.
 - **Cambiar el tono:** solo variables `--adm-*` y los parámetros de §4.1 (también en `FondoFollaje.tsx`).
   Mantener `references/` sincronizado con los archivos reales.

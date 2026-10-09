@@ -10,7 +10,7 @@ import { EtiquetaPedido, TONOS } from './EtiquetaPedido'
 import { LineaFases } from './LineaFases'
 import { PasoPedido } from './PasoPedido'
 
-const tarjeta = 'rounded-[22px] border border-linea bg-white p-6 sm:p-7'
+const tarjeta = 'adm-vidrio rounded-[22px] border border-linea bg-white p-6 sm:p-7'
 const fechaHora = (v: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Lima' }).format(new Date(v))
 const fecha = (v: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${v}T12:00:00Z`))
 const EVENTOS: Record<string, string> = {
@@ -62,7 +62,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
 
     {/* En celular: acción, fases y detalle. En escritorio: fases en la columna izquierda y el resto a la derecha */}
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_1fr] lg:items-start">
-      <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 lg:col-start-2 lg:row-start-1 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-linea bg-crema'}`}>
+      <section aria-labelledby="siguiente" className={`adm-vidrio rounded-[22px] p-6 sm:p-7 lg:col-start-2 lg:row-start-1 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-linea bg-crema'}`}>
         <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
         <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
         <div className="mt-5 empty:hidden"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} puedeDevolver={puedeDevolver} /></div>

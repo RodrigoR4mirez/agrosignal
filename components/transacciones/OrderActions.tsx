@@ -23,7 +23,7 @@ export function OrderActions({ order, role }: { order: Pedido; role: 'productor'
   const active = selected && options.includes(selected) ? selected : null
   return <div className="space-y-4">
     <FormMessage state={state} />
-    {active ? <form action={action} className="space-y-5 rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
+    {active ? <form action={action} className="adm-vidrio space-y-5 rounded-xl border border-gray-200 bg-white p-4 sm:p-5">
       <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="estado" value={active} />
       <h3 className="text-lg font-bold">{labels[active]}</h3>
       {descriptions[active] && <p className="text-sm leading-relaxed text-gray-600">{descriptions[active]}</p>}

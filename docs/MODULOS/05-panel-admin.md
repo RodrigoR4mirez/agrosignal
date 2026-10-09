@@ -187,5 +187,6 @@ completas en `docs/MODULOS/03-transacciones.md` § Calificaciones.
 ## Diseño
 
 El aspecto del panel (fondo de planta desenfocada y superficies de vidrio) se define únicamente en
-la skill `.claude/skills/diseno-panel-admin/SKILL.md`. Se activa con el envoltorio `.tema-admin` de
-`app/admin/layout.tsx` y la hoja `app/admin/tema-admin.css`; no afecta a ninguna otra parte del sitio.
+la skill `.claude/skills/diseno-panel-admin/SKILL.md`. Se activa con `components/admin/TemaVidrio.tsx`
+(envoltorio `.tema-admin` y hoja `app/admin/tema-admin.css`) en `app/admin/layout.tsx`; el mismo
+envoltorio se usa en los paneles de productor y comprador. No afecta a la landing ni al marketplace.

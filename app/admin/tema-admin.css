@@ -2,8 +2,9 @@
    Tema visual del panel de administración — "Planta tras el vidrio"
    Fuente única de verdad: .claude/skills/diseno-panel-admin/SKILL.md
 
-   - Se importa SOLO desde app/admin/layout.tsx.
-   - TODOS los selectores empiezan por .tema-admin (el envoltorio del layout admin).
+   - Se importa SOLO desde components/admin/TemaVidrio.tsx (layouts de admin, paneles de
+     productor y comprador, verificaciones y perfil del comprador).
+   - TODOS los selectores empiezan por .tema-admin (el envoltorio que pone TemaVidrio).
      Aunque el navegador mantenga esta hoja cargada al navegar al marketplace,
      fuera de .tema-admin no tiene ningún efecto.
    - Solo aspecto: fondo y superficies de vidrio (+ un ajuste de contraste del gris).
@@ -58,7 +59,8 @@
 /* --------------------------------------------------------------------------
    2. Vidrio
    .card-surface = Card y Metrica (components/ui/Card.tsx), sin editar ese archivo.
-   .adm-vidrio   = clase que se AÑADE a contenedores propios del admin.
+   .adm-vidrio   = clase que se AÑADE a contenedores propios del admin y de los paneles.
+   .adm-crema    = se AÑADE a un elemento con bg-crema para volverlo translúcido.
    -------------------------------------------------------------------------- */
 .tema-admin .card-surface,
 .tema-admin .adm-vidrio {
@@ -66,19 +68,25 @@
   -webkit-backdrop-filter: var(--adm-desenfoque);
   backdrop-filter: var(--adm-desenfoque);
   border-color: var(--adm-borde);
-  box-shadow: var(--adm-sombra);
+  /* Conserva el anillo de Tailwind (ring-*), que también es box-shadow: "Te toca" usa ring-2 */
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--adm-sombra);
 }
 .tema-admin .card-surface.card-surface-hover:hover {
-  box-shadow: var(--adm-sombra-hover);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--adm-sombra-hover);
+}
+/* Anillo fino (ring-1, el borde de algunas tarjetas): toma el borde del vidrio. ring-2 conserva su color. */
+.tema-admin .adm-vidrio.ring-1 {
+  --tw-ring-color: var(--adm-borde);
 }
 /* Variante más opaca: tablas densas, formularios largos, paneles laterales */
 .tema-admin .adm-vidrio-fuerte {
   background: var(--adm-brillo), var(--adm-vidrio-fuerte);
 }
 
-/* Avisos sin leer de Notifications (components/transacciones/Notifications.tsx, sin editar ese
-   archivo): su bg-crema opaco tapaba el vidrio. Crema translúcido; se distingue igual de los leídos. */
-.tema-admin .card-surface li.bg-crema {
+/* Crema translúcido en vez de bg-crema opaco: avisos sin leer de Notifications (sin editar ese
+   archivo; se distinguen igual de los leídos) y pasos pendientes de LotWizard (adm-crema). */
+.tema-admin .card-surface li.bg-crema,
+.tema-admin .adm-crema.bg-crema {
   background-color: var(--adm-resalte);
 }
 

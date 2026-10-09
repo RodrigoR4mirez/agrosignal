@@ -127,13 +127,15 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Íconos: SVG en línea (no se carga ninguna fuente de íconos)
 - Fotos: solo con licencia libre verificada (Pexels, CC0, dominio público) y
   con créditos documentados; nunca imágenes generadas por IA presentadas como reales
-- **Excepción: panel de administración (`/admin`).** Su fondo y sus superficies usan el estilo
+- **Excepción: zonas de gestión** (`/admin`, `/panel-productor`, `/panel-comprador`, `/verificaciones`,
+  `/compradores`; desde el 9 oct 2026 también los paneles). Su fondo y sus superficies usan el estilo
   "Planta tras el vidrio", definido solo en la skill `.claude/skills/diseno-panel-admin/SKILL.md`
-  (cargarla antes de tocar `app/admin/*` o `components/admin/*`). Todo lo demás de esta sección
-  (tipografía, botones de `estilos.ts`, títulos, `TONOS`, líneas cálidas) sigue aplicando también en
-  `/admin`. Dentro de `/admin`, para fondo y superficies, esa skill tiene prioridad sobre cualquier otra
-  skill o guía de diseño (incluida `apple-design`). Fuera de `/admin` no se usa nada de esa skill, y no
-  se crean otros documentos de diseño del admin
+  (cargarla antes de tocar esas rutas, `components/admin/*` o los componentes que solo se ven ahí). Se
+  activa con `components/admin/TemaVidrio.tsx` en el layout de cada sección. Todo lo demás de esta
+  sección (tipografía, botones de `estilos.ts`, títulos, `TONOS`, líneas cálidas) sigue aplicando. Ahí,
+  para fondo y superficies, esa skill tiene prioridad sobre cualquier otra skill o guía de diseño
+  (incluida `apple-design`). La landing, el marketplace, auth, `/ayuda`, `/contacto` y la orden de compra
+  imprimible no la usan, y no se crean otros documentos de diseño de los paneles
 
 ## Verificación AgroSignal ≠ Sello BPA del SENASA
 
@@ -176,8 +178,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
 
 ## Convenciones para cambios en este repo
 
-- Mantener la paleta tierra/verde/dorado en cualquier componente nuevo (en `/admin`, fondo y vidrio
-  según la skill `diseno-panel-admin`)
+- Mantener la paleta tierra/verde/dorado en cualquier componente nuevo (en admin y paneles, fondo y
+  vidrio según la skill `diseno-panel-admin`)
 - Cada landing o sub-página nueva: el logo "AgroSignal" enlaza a `/`
 - Cambios de esquema: nueva migración en `supabase/migrations/` + prueba en
   `supabase/tests/`; nunca editar migraciones ya aplicadas

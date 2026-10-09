@@ -75,8 +75,8 @@ export function LineaFases({ order, role }: { order: Pedido; role: Rol }) {
     : indice >= fases.length ? 'Compra concluida' : `${faltan === 1 ? 'Falta 1 fase' : `Faltan ${faltan} fases`} para cerrar la compra`
 
   return <div className="relative pb-2.5">
-    <div aria-hidden="true" className="absolute inset-x-6 top-6 bottom-0 rounded-[22px] bg-white/70 ring-1 ring-[#ebe4d4]" />
-    <div className="relative rounded-[22px] bg-white p-5 shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)] ring-1 ring-[#ebe4d4] sm:p-7">
+    <div aria-hidden="true" className="adm-vidrio absolute inset-x-6 top-6 bottom-0 rounded-[22px] bg-white/70 ring-1 ring-[#ebe4d4]" />
+    <div className="adm-vidrio relative rounded-[22px] bg-white p-5 shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)] ring-1 ring-[#ebe4d4] sm:p-7">
       <h2 id="fases" className="text-sm text-bosque/60">Avance del pedido</h2>
 
       <div aria-hidden="true" className="mt-5 flex items-center gap-1.5 sm:gap-2">

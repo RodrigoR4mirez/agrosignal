@@ -28,13 +28,13 @@ export function PurchaseForm({ lotId, crop, unit, price, stock, requestId }: {
   const router = useRouter()
   const hoy = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date())
 
-  if (state.pedidoId) return <div className="space-y-5 rounded-[22px] border border-linea-fuerte bg-white p-6 sm:p-8">
+  if (state.pedidoId) return <div className="adm-vidrio space-y-5 rounded-[22px] border border-linea-fuerte bg-white p-6 sm:p-8">
     <h2 className="text-2xl font-normal text-petroleo">Solicitud enviada</h2>
     <p className="text-sm leading-relaxed text-gray-600">El productor recibió un aviso y te responderá en el pedido. No se hizo ningún cobro: el pago se acuerda con él y se hace directamente.</p>
     <div className="flex flex-wrap gap-3"><Link href={`/panel-comprador/pedidos/${state.pedidoId}?creado=1`} className={buttonPrimaryClass}>Ver mi pedido</Link><Link href="/marketplace" className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline">Seguir explorando</Link></div>
   </div>
 
-  return <form action={step === 1 ? action : undefined} onSubmit={event => { if (step === 0) { event.preventDefault(); setStep(1) } }} className="space-y-7 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
+  return <form action={step === 1 ? action : undefined} onSubmit={event => { if (step === 0) { event.preventDefault(); setStep(1) } }} className="adm-vidrio space-y-7 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
     <ol className="flex flex-wrap gap-4 text-sm font-semibold" aria-label="Pasos de la solicitud">
       {['Tu solicitud', 'Revisar y enviar'].map((t, i) => <li key={t} aria-current={step === i ? 'step' : undefined} className={step === i ? 'text-petroleo' : 'text-gray-500'}>{i + 1}. {t}</li>)}
     </ol>

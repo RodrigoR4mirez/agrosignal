@@ -1,3 +1,23 @@
+## [2.1.1] — 2026-10-08
+
+Fase 2 de la auditoría de diseño: se extiende el sistema de la Fase 1 a las 4 subpáginas que
+habían quedado fuera (Verificación AgroSignal, detalle del pedido, flujo de compra de 6 fases,
+publicar/editar lote y formulario de compra), en 4 rondas, solo cambios visuales.
+
+### Cambiado
+- Verificación AgroSignal (`SelloForms.tsx`, `ProofUpload.tsx`, `verificaciones/[id]`): botones del
+  sistema de paneles en vez de los de auth; cabecera común `CabeceraPanel`; escala de títulos;
+  pestañas e input de archivo en píldora.
+- Detalle del pedido (`PedidoDetalle.tsx`, `OrderDetail.tsx`): bordes/divisores con los tokens de
+  línea en vez de hexadecimales sueltos; avisos de pago y estado reutilizan `TONOS` de
+  `EtiquetaPedido.tsx`; totales sin `font-bold`/`font-extrabold`.
+- Flujo de compra de 6 fases (`PasoPedido.tsx`): todos los botones de acción (confirmar, rechazar,
+  cancelar, proponer, despachar, pagar, reportar) pasan a `buttonPrimaryClass`/`buttonSecondaryClass`/
+  `buttonDangerClass`; sin cambios de lógica, fases ni Server Actions.
+- Publicar/editar lote (`LotWizard.tsx`) y formulario de compra (`PurchaseForm.tsx`): mismos botones
+  del sistema, título de paso en escala, "Quitar foto" como botón destructivo suave en píldora, y
+  bordes/rings con los tokens de línea.
+
 ## [2.1.0] — 2026-10-08
 
 Auditoría de diseño de los paneles con la skill `apple-design` (reglas con números:

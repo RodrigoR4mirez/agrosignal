@@ -98,15 +98,18 @@ catálogo de productos (búsqueda, filtros y estrellas).
   sin JS o con movimiento reducido todo se ve normal)
 - Tipografía: Plus Jakarta Sans para todo; títulos de peso ligero (`font-normal`)
 - Botones: píldora (`rounded-full`); acción principal naranja con texto petróleo
-- Paneles (productor, comprador, admin y precios), auditados con la skill `apple-design` (8 oct 2026).
-  Clases en `components/ui/estilos.ts`: botones `buttonPrimaryClass` (naranja, uno por bloque),
-  `buttonSecondaryClass` (contorno), `buttonDangerClass` y `buttonDangerSoftClass`, todos en píldora
-  y con escala 0.97 al presionar (`buttonClass` de `FormFields` queda para auth); títulos
-  `tituloPagina` (36 px) > `tituloBloque` (24 px, ligero) > `tituloItem` (18 px, semibold); sin
-  `font-bold`. Cifras con `Metrica` (`components/ui/Card.tsx`); cabecera con `CabeceraPanel`.
-  Espaciado en pasos de 16 (cifras), 24 (tarjetas) y 32 px (secciones). Líneas cálidas
-  `border-linea`, `linea-suave` y `linea-fuerte` (no `gray-200` ni hexadecimales sueltos). Texto
-  mínimo de 12 px y gris `gray-500` o más oscuro
+- Paneles (productor, comprador, admin y precios), auditados con la skill `apple-design` (8 oct 2026,
+  Fase 1) y extendido a Verificación AgroSignal, detalle del pedido, el flujo de 6 fases, publicar/editar
+  lote y el formulario de compra (8 oct 2026, Fase 2). Clases en `components/ui/estilos.ts`: botones
+  `buttonPrimaryClass` (naranja, uno por bloque), `buttonSecondaryClass` (contorno), `buttonDangerClass`
+  y `buttonDangerSoftClass`, todos en píldora y con escala 0.97 al presionar (`buttonClass` de
+  `FormFields` queda solo para auth, nunca para vistas de panel); títulos `tituloPagina` (36 px) >
+  `tituloBloque` (24 px, ligero) > `tituloItem` (18 px, semibold); sin `font-bold`. Cifras con `Metrica`
+  (`components/ui/Card.tsx`); cabecera con `CabeceraPanel`. Espaciado en pasos de 16 (cifras), 24
+  (tarjetas) y 32 px (secciones). Líneas cálidas `border-linea`, `linea-suave` y `linea-fuerte` (no
+  `gray-200` ni hexadecimales sueltos como `#ebe4d4`/`#e2dbc9`). Texto mínimo de 12 px y gris
+  `gray-500` o más oscuro (nunca `text-gray-400`). Estados de pedido/avisos reutilizan `TONOS`
+  (`components/transacciones/EtiquetaPedido.tsx`) en vez de colores ad hoc
 - `.leaf-texture` para franjas verde bosque con nervaduras de hoja
 - Tailwind v4: degradados con `bg-linear-to-*` (**no** `bg-gradient-to-*`)
 - Contenedor centrado: `.app-container` (max-width 1440px), no `max-w-[...]` suelto

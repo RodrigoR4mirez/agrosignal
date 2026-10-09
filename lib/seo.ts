@@ -23,7 +23,10 @@ export const POLITICA_DEVOLUCION = {
   returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
   merchantReturnDays: 7,
   returnMethod: 'https://schema.org/ReturnByMail',
+  // Por defecto el comprador gestiona y paga el flete de vuelta (no hay tarifa fija de AgroSignal);
+  // si la cosecha llegó con defecto, la devolución es gratis para él.
+  returnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
   itemDefectReturnFees: 'https://schema.org/FreeReturn',
-  customerRemorseReturnFees: 'https://schema.org/ReturnShippingFees',
+  customerRemorseReturnFees: 'https://schema.org/ReturnFeesCustomerResponsibility',
   merchantReturnLink: `${SITE_URL}/ayuda#devoluciones`,
 }

@@ -14,6 +14,7 @@ import {
 export const metadata: Metadata = {
   title: 'AgroSignal — Cosechas del Perú con confianza verificada',
   description: 'Marketplace agrícola del Perú: lotes con Verificación AgroSignal en tres niveles (certificado, inspección con dron y test de residuos; acepta la certificación BPA del SENASA), calificaciones de ambos lados y, muy pronto, pago en garantía y financiamiento.',
+  alternates: { canonical: '/' },
 }
 
 // Estructura inspirada en tourba.ma: foto a sangre con menú transparente, textos

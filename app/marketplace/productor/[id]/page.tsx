@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { cache } from 'react'
 import { AppShell } from '@/components/AppShell'
 import { Avatar } from '@/components/perfil/Avatar'
 import { LotCard } from '@/components/marketplace/LotCard'
@@ -9,23 +10,41 @@ import { Estrellas, ResumenReputacion, TarjetaResena } from '@/components/califi
 import { getPerfilProductor, listResenas } from '@/lib/calificaciones/data'
 import { promedioTexto } from '@/lib/calificaciones/types'
 import { getProducerLots } from '@/lib/marketplace/data'
-import { SELLOS, esEjemplo, uuidPattern } from '@/lib/marketplace/types'
+import { SELLOS, esEjemplo, fotoPerfilUrl, uuidPattern } from '@/lib/marketplace/types'
+import { resumen } from '@/lib/seo'
 import { ENTREGAS, MESES, PRACTICAS, numero } from '@/lib/perfil/types'
 import { getProfile } from '@/lib/supabase/auth'
 import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
 import { getSiguiendo } from '@/lib/comunidad/data'
 
 const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-8'
+// Metadatos y página comparten las mismas lecturas dentro de una solicitud.
+const perfilCacheado = cache(getPerfilProductor)
+const lotesCacheados = cache(getProducerLots)
+
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
   const { id } = await params
-  const productor = uuidPattern.test(id) ? await getPerfilProductor(id).catch(() => null) : null
-  return { title: productor ? `${productor.nombre} | Productores de AgroSignal` : 'Productor | AgroSignal' }
+  if (!uuidPattern.test(id)) return { title: 'Productor | AgroSignal', robots: { index: false } }
+  const [productor, lotes] = await Promise.all([perfilCacheado(id).catch(() => null), lotesCacheados(id).catch(() => null)])
+  if (!productor) return { title: 'Productor | AgroSignal', robots: { index: false } }
+  const titulo = `${productor.nombre} | Productores de AgroSignal`
+  const cultivo = productor.cultivo_principal ? productor.cultivo_principal.toLowerCase() : 'cosechas'
+  const descripcion = resumen(`${productor.nombre}${productor.finca ? `, de ${productor.finca}` : ''}, productor de ${cultivo}${productor.region ? ` en ${productor.region}` : ''}. Mira sus lotes, su finca y las reseñas de sus compradores en AgroSignal.`)
+  const foto = fotoPerfilUrl(productor.foto)
+  return {
+    title: titulo,
+    description: descripcion,
+    alternates: { canonical: `/marketplace/productor/${id}` },
+    openGraph: { title: titulo, description: descripcion, url: `/marketplace/productor/${id}`, type: 'profile', ...(foto && { images: [{ url: foto, alt: productor.nombre }] }) },
+    // Productores de la demostración: el perfil es de ejemplo y no debe indexarse.
+    ...(lotes?.lots.some(esEjemplo) && { robots: { index: false, follow: true } }),
+  }
 }
 
 export default async function ProductorPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   if (!uuidPattern.test(id)) notFound()
-  const [profile, productor, resenas, lotes] = await Promise.all([getProfile(), getPerfilProductor(id), listResenas(id), getProducerLots(id)])
+  const [profile, productor, resenas, lotes] = await Promise.all([getProfile(), perfilCacheado(id), listResenas(id), lotesCacheados(id)])
   if (!productor) notFound()
   const siguiendo = profile?.rol === 'comprador' ? await getSiguiendo(id) : false
   const ejemplo = lotes.lots.some(esEjemplo)

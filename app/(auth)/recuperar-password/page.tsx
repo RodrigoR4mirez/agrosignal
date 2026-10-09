@@ -1,7 +1,10 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { EmailForm } from '@/components/auth/FormFields'
 import { recoverAction } from '../actions'
+
+export const metadata: Metadata = { title: 'Recuperar contraseña | AgroSignal' }
 
 export default function RecoverPage() {
   return <AuthCard title="Recupera tu acceso" description="Escribe el correo de tu cuenta y te enviaremos un enlace para elegir una contraseña nueva.">

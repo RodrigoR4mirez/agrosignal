@@ -1,5 +1,7 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
+import { cache } from 'react'
 import { AppShell } from '@/components/AppShell'
 import { SelloInocuidadBadge } from '@/components/SelloInocuidadBadge'
 import { GaleriaLote } from '@/components/marketplace/GaleriaLote'
@@ -14,11 +16,33 @@ import { Avatar } from '@/components/perfil/Avatar'
 import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
 import { GraficoPrecios } from '@/components/comunidad/GraficoPrecios'
 import { getHistorialPrecios, getSiguiendo } from '@/lib/comunidad/data'
+import { resumen } from '@/lib/seo'
+
+// Metadatos y página leen el mismo lote una sola vez por solicitud.
+const loteCacheado = cache(getPublicLot)
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params
+  const lot = uuidPattern.test(id) ? await loteCacheado(id).catch(() => null) : null
+  if (!lot) return { title: 'Lote no encontrado | AgroSignal', robots: { index: false } }
+  const titulo = `${lot.cultivo} en ${lot.provincia}, ${lot.region} | AgroSignal`
+  const descripcion = resumen(`${lot.cultivo} de ${lot.distrito}, ${lot.region}: ${money(lot.precio_unidad)} por ${lot.unidad}, ${quantity(lot.cantidad_disponible)} ${lot.unidad} disponibles. Verificado ${lot.nivel_sello}/3. Publicado por ${lot.productor_nombre}.`)
+  const foto = lot.fotos.map(photoUrl).find(Boolean)
+  return {
+    title: titulo,
+    description: descripcion,
+    alternates: { canonical: `/marketplace/${id}` },
+    openGraph: { title: titulo, description: descripcion, url: `/marketplace/${id}`, type: 'website', ...(foto && { images: [{ url: foto, alt: `Lote de ${lot.cultivo} en ${lot.region}` }] }) },
+    twitter: { card: foto ? 'summary_large_image' : 'summary', title: titulo, description: descripcion, ...(foto && { images: [foto] }) },
+    // Los lotes de ejemplo no son ofertas reales: no deben aparecer en buscadores.
+    ...(esEjemplo(lot) && { robots: { index: false, follow: true } }),
+  }
+}
 
 export default async function LotDetail({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   if (!uuidPattern.test(id)) notFound()
-  const [lot, profile, sello] = await Promise.all([getPublicLot(id), getProfile(), getPublicSello(id)])
+  const [lot, profile, sello] = await Promise.all([loteCacheado(id), getProfile(), getPublicSello(id)])
   if (!lot) notFound()
   const productor = await getPerfilProductor(lot.productor_id).catch(() => null)
   const ejemplo = esEjemplo(lot)

@@ -1,8 +1,15 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { AppShell } from '@/components/AppShell'
 import { BuscadorAyuda } from '@/components/ayuda/BuscadorAyuda'
 import { CurvasNivel, IconoApreton, IconoCertificado, IconoMercado, IconoPersona } from '@/components/landing/Iconos'
 import { AbrirPreguntaEnlazada } from '@/components/ayuda/AbrirPreguntaEnlazada'
+
+export const metadata: Metadata = {
+  title: 'Ayuda | AgroSignal',
+  description: 'Respuestas sobre tu cuenta, cómo publicar o comprar cosechas, pedidos, entregas y pagos, y la Verificación AgroSignal.',
+  alternates: { canonical: '/ayuda' },
+}
 
 type Pregunta = [id: string, pregunta: string, respuesta: React.ReactNode]
 

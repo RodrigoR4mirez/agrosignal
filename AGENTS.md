@@ -75,6 +75,11 @@ catálogo de productos (búsqueda, filtros y estrellas).
   (sin clave; la primera vez pide activar desde agrosignal@gmail.com; destino en `CONTACTO_CORREO`; en Vercel
   producción apunta al correo personal del dueño, que no se escribe en el repo público).
   El admin los lee en `/admin/mensajes`
+- SEO: `app/robots.ts` (bloquea paneles, admin, pedidos y API) y `app/sitemap.ts` (páginas públicas +
+  lotes y productores reales, se regenera cada hora; los de ejemplo quedan fuera). `metadataBase` y
+  `SITE_URL` en `lib/seo.ts`; cada página pública declara su `alternates.canonical`. Ficha del lote y
+  perfil del productor generan título, descripción y `og:image` propios, con `noindex` si son de
+  ejemplo; las páginas de `(auth)` llevan `noindex`
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`

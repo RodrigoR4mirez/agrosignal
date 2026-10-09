@@ -1,9 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { RegisterForm } from '@/components/auth/RegisterForm'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME } from '@/lib/supabase/types'
+
+export const metadata: Metadata = { title: 'Crear cuenta | AgroSignal' }
 
 export default async function RegisterPage() {
   const profile = await getProfile()

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans } from 'next/font/google'
+import { SITE_URL } from '@/lib/seo'
 import './globals.css'
 
 const jakarta = Plus_Jakarta_Sans({
@@ -9,6 +10,7 @@ const jakarta = Plus_Jakarta_Sans({
 })
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: 'AgroSignal — Marketplace de cosechas del Perú',
   description: 'Compra cosechas directo de productores peruanos. Compara lotes, revisa sus verificaciones y haz tu pedido sin intermediarios.',
   keywords: 'marketplace agrícola, cosechas, productores, Perú, palta, café, cacao, arándano',
@@ -16,6 +18,8 @@ export const metadata: Metadata = {
     title: 'AgroSignal',
     description: 'Cosechas peruanas, directo de quien las cultiva.',
     type: 'website',
+    siteName: 'AgroSignal',
+    locale: 'es_PE',
   }
 }
 

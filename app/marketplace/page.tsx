@@ -11,7 +11,7 @@ import { getProfile } from '@/lib/supabase/auth'
 import { filtrosEfectivos, getCatalog, type Filters } from '@/lib/marketplace/data'
 import { CALIFICACION_MINIMA, ORDENES, REGIONES, SELLOS, photoUrl } from '@/lib/marketplace/types'
 
-export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo, encuentra ofertas y filtra por región, precio, destino, verificación y calificación.' }
+export const metadata: Metadata = { title: 'Productos | AgroSignal', description: 'Todos los lotes agrícolas publicados por productores peruanos. Busca por cultivo, encuentra ofertas y filtra por región, precio, destino, verificación y calificación.', alternates: { canonical: '/marketplace' } }
 const caja = 'app-container px-4 sm:px-6 lg:px-8'
 const campoTexto = 'w-full min-h-11 rounded-xl border border-[#e2dbc9] bg-white px-3 py-2 text-sm text-gray-900 focus:border-petroleo focus:outline-2 focus:outline-petroleo/20'
 const vidrio = 'bg-white/15 ring-1 ring-white/30 backdrop-blur-xl'

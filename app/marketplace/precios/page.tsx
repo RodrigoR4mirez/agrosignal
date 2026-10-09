@@ -7,7 +7,7 @@ import { getCultivosConPrecios, getHistorialPrecios } from '@/lib/comunidad/data
 import { getProfile } from '@/lib/supabase/auth'
 import { Metrica } from '@/components/ui/Card'
 
-export const metadata: Metadata = { title: 'Precios por cultivo | AgroSignal', description: 'Evolución mensual del precio publicado y de venta de cada cultivo en AgroSignal, por kilo.' }
+export const metadata: Metadata = { title: 'Precios por cultivo | AgroSignal', description: 'Evolución mensual del precio publicado y de venta de cada cultivo en AgroSignal, por kilo.', alternates: { canonical: '/marketplace/precios' } }
 const caja = 'app-container px-4 sm:px-6 lg:px-8'
 const soles = (v: number) => `S/\u00a0${v.toFixed(2)}`
 const MES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'setiembre', 'octubre', 'noviembre', 'diciembre']

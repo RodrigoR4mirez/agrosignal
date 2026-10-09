@@ -1,9 +1,12 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import { redirect } from 'next/navigation'
 import { AuthCard } from '@/components/auth/AuthCard'
 import { LoginForm } from '@/components/auth/LoginForm'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME, safeNext } from '@/lib/supabase/types'
+
+export const metadata: Metadata = { title: 'Ingresar | AgroSignal' }
 
 const notices: Record<string, string> = {
   sesion: 'Inicia sesión para continuar.', perfil: 'No pudimos cargar tu perfil. Intenta ingresar otra vez.',

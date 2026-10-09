@@ -6,7 +6,7 @@ import { FormularioContacto } from '@/components/contacto/FormularioContacto'
 import { CurvasNivel } from '@/components/landing/Iconos'
 import { CONTACTO } from '@/lib/contacto/types'
 
-export const metadata: Metadata = { title: 'Contáctanos | AgroSignal', description: 'Escríbenos para vender tu cosecha, comprar directo del campo, verificar tus lotes o resolver dudas sobre tu cuenta.' }
+export const metadata: Metadata = { title: 'Contáctanos | AgroSignal', description: 'Escríbenos para vender tu cosecha, comprar directo del campo, verificar tus lotes o resolver dudas sobre tu cuenta.', alternates: { canonical: '/contacto' } }
 
 const icono = 'size-5 shrink-0'
 const DATOS: [React.ReactNode, string, React.ReactNode][] = [

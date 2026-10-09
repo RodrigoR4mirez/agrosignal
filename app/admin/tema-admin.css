@@ -17,6 +17,7 @@
   --adm-vidrio: rgba(250, 252, 246, 0.40);
   --adm-vidrio-fuerte: rgba(250, 252, 246, 0.58);
   --adm-vidrio-opaco: rgba(250, 252, 246, 0.94);
+  --adm-resalte: rgba(253, 249, 240, 0.62); /* elemento destacado dentro del vidrio (aviso sin leer) */
   --adm-brillo: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
   --adm-borde: rgba(255, 255, 255, 0.55);
   --adm-sombra: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.2), 0 10px 30px rgba(19, 53, 53, 0.10);
@@ -73,6 +74,12 @@
 /* Variante más opaca: tablas densas, formularios largos, paneles laterales */
 .tema-admin .adm-vidrio-fuerte {
   background: var(--adm-brillo), var(--adm-vidrio-fuerte);
+}
+
+/* Avisos sin leer de Notifications (components/transacciones/Notifications.tsx, sin editar ese
+   archivo): su bg-crema opaco tapaba el vidrio. Crema translúcido; se distingue igual de los leídos. */
+.tema-admin .card-surface li.bg-crema {
+  background-color: var(--adm-resalte);
 }
 
 /* Menú lateral del admin (components/admin/AdminNav.tsx): vidrio solo desde lg,

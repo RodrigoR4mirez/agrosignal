@@ -49,7 +49,7 @@ export function TableroVista({ t, error }: { t: Tablero | null; error: boolean }
       ] as const).map(([titulo, filas, enlace]) => <section key={titulo} className={tarjeta}><h2 className="mb-4 text-lg font-normal text-petroleo">{titulo} por valor</h2><Ranking filas={[...filas]} enlace={enlace} /></section>)}</div>
 
       {/* Trazabilidad */}
-      <section aria-labelledby="tabla" className={tarjeta}>
+      <section aria-labelledby="tabla" className={`adm-vidrio-fuerte ${tarjeta}`}>
         <div className="flex flex-wrap items-baseline justify-between gap-2"><h2 id="tabla" className="text-xl font-normal text-petroleo">Últimas transacciones</h2><p className="text-xs text-gray-500">Las 50 más recientes del periodo · el CSV incluye todas</p></div>
         {t.transacciones.length ? <div className="mt-4 overflow-x-auto"><table className="w-full min-w-[56rem] text-sm">
           <thead><tr className="border-b border-linea text-left text-xs text-gray-500"><th className="py-2 font-medium">Pedido</th><th className="py-2 font-medium">Fecha</th><th className="py-2 font-medium">Cultivo</th><th className="py-2 font-medium">Comprador → Productor</th><th className="py-2 pr-6 text-right font-medium">Total</th><th className="py-2 font-medium">Estado</th><th className="py-2 font-medium">Comprobante</th><th className="py-2" /></tr></thead>

@@ -43,7 +43,7 @@ fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al
    `components/auth/FormFields.tsx`, `components/ActionFeedback.tsx`, `components/transacciones/*`,
    `components/sello/*`, `components/calificaciones/*`, `components/contacto/*`, `app/globals.css`,
    `app/layout.tsx`. Su aspecto dentro del admin se ajusta solo desde `tema-admin.css` con selectores
-   `.tema-admin …` (ya incluido: `.card-surface`, `header.sticky`).
+   `.tema-admin …` (ya incluido: `.card-surface`, `header.sticky` y los avisos sin leer de `Notifications`, `li.bg-crema`).
 4. **Tokens solo en `tema-admin.css`.** No escribir colores, desenfoques ni sombras del tema sueltos en
    los componentes. Si hace falta un valor nuevo, se agrega como variable `--adm-*` en esa hoja.
 5. **Lo que no cambia en el admin:** fuente Plus Jakarta Sans, escala de títulos (`tituloPagina`,
@@ -87,6 +87,7 @@ fuera del panel no tiene ningún efecto, aunque el navegador conserve la hoja al
 | `--adm-vidrio` | `rgba(250,252,246,.40)` | tarjetas, filtros, menú, mensajes de carga y error |
 | `--adm-vidrio-fuerte` | `rgba(250,252,246,.58)` | tablas densas, formularios largos, paneles laterales (clase `adm-vidrio-fuerte`) |
 | `--adm-vidrio-opaco` | `rgba(250,252,246,.94)` | respaldo sin `backdrop-filter` o con transparencia reducida |
+| `--adm-resalte` | `rgba(253,249,240,.62)` | elemento destacado dentro del vidrio: avisos sin leer de `Notifications` (en vez de su `bg-crema` opaco) |
 | `--adm-brillo` | `linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06))` | capa sobre el vidrio |
 | `--adm-borde` | `rgba(255,255,255,.55)` | color del borde existente (no se agregan bordes nuevos) |
 | `--adm-sombra` | `inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.2), 0 10px 30px rgba(19,53,53,.10)` | relieve del vidrio |
@@ -136,6 +137,7 @@ return <div className="tema-admin"><FondoFollaje /><AppShell profile={profile}>�
 | `app/admin/pedidos/page.tsx` | `<form>` de búsqueda | `adm-vidrio` |
 | `app/admin/transacciones/page.tsx` | `<form>` de periodo | `adm-vidrio` |
 | `components/admin/tablero/TableroVista.tsx` | constante `tarjeta` | `adm-vidrio` |
+| `components/admin/tablero/TableroVista.tsx` | sección "Últimas transacciones" (tabla densa) | `adm-vidrio-fuerte` |
 
 Todo lo que usa `Card` o `Metrica` (usuarios, vendedores, certificados, drones, tests, mensajes,
 pedidos, `QueueEmpty`, notificaciones) toma el vidrio automáticamente vía `.card-surface`: no se edita.

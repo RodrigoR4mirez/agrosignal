@@ -2,6 +2,9 @@ import type { Metadata } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 import { SitePie } from '@/components/SitePie'
+import { JsonLd } from '@/components/JsonLd'
+import { CONTACTO } from '@/lib/contacto/types'
+import { SITE_URL } from '@/lib/seo'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME } from '@/lib/supabase/types'
 import { MenuLanding } from '@/components/landing/MenuLanding'
@@ -26,11 +29,22 @@ const titulo = 'font-sans font-normal tracking-tight text-petroleo'
 // Línea trigo bajo los títulos: crece al entrar en pantalla.
 const Linea = ({ centro = false }: { centro?: boolean }) => <span data-revelar="linea" aria-hidden="true" className={`mt-7 block h-[3px] w-24 rounded-full bg-trigo ${centro ? 'mx-auto' : ''}`} />
 
+// Quién es AgroSignal para los buscadores. Sin dirección: ciudad y horario aún son provisionales.
+const ORGANIZACION = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    { '@type': 'Organization', '@id': `${SITE_URL}/#organizacion`, name: 'AgroSignal', url: SITE_URL, email: CONTACTO.correo, areaServed: { '@type': 'Country', name: 'Perú' },
+      description: 'Marketplace agrícola del Perú: productores publican lotes de cosecha con Verificación AgroSignal y compradores hacen pedidos directos.' },
+    { '@type': 'WebSite', '@id': `${SITE_URL}/#sitio`, name: 'AgroSignal', url: SITE_URL, inLanguage: 'es-PE', publisher: { '@id': `${SITE_URL}/#organizacion` } },
+  ],
+}
+
 export default async function Landing() {
   const profile = await getProfile()
   const panel = profile ? (profile.suspendido ? '/cuenta-suspendida' : ROLE_HOME[profile.rol]) : null
   const vender = !profile ? '/registro?rol=productor' : profile.rol === 'productor' ? '/panel-productor/publicar' : '/marketplace'
   return <div className="overflow-x-clip bg-white font-sans text-[#2b2118]">
+    <JsonLd datos={ORGANIZACION} />
     <AnimacionesScroll />
     <a href="#contenido" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Saltar al contenido</a>
 

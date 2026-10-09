@@ -16,7 +16,8 @@ import { Avatar } from '@/components/perfil/Avatar'
 import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
 import { GraficoPrecios } from '@/components/comunidad/GraficoPrecios'
 import { getHistorialPrecios, getSiguiendo } from '@/lib/comunidad/data'
-import { resumen } from '@/lib/seo'
+import { SITE_URL, resumen } from '@/lib/seo'
+import { JsonLd } from '@/components/JsonLd'
 
 // Metadatos y página leen el mismo lote una sola vez por solicitud.
 const loteCacheado = cache(getPublicLot)
@@ -68,7 +69,27 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
     : !profile ? <div className="space-y-2"><Link href={`/login?next=${encodeURIComponent(`/panel-comprador/comprar/${id}`)}`} className="flex min-h-12 w-full items-center justify-center rounded-full bg-naranja px-6 text-[15px] font-semibold text-petroleo hover:bg-[#f29a5e]">Ingresar para comprar</Link><p className="text-center text-xs text-gray-500">Necesitas una cuenta de comprador para enviar tu pedido.</p></div>
     : null
 
+  // Producto con oferta y ruta para buscadores. No lleva aggregateRating: las estrellas califican
+  // al productor, no al lote, y Google exige que la reseña sea del producto. Los ejemplos no llevan nada.
+  const url = `${SITE_URL}/marketplace/${id}`
+  const datosEstructurados = ejemplo ? null : {
+    '@context': 'https://schema.org',
+    '@graph': [
+      { '@type': 'Product', name: lot.cultivo, url, ...(photos.length > 0 && { image: photos }), description: resumen(descripcion || `${lot.cultivo} de ${lot.distrito}, ${lot.provincia}, ${lot.region}.`, 500),
+        offers: { '@type': 'Offer', url, price: Number(lot.precio_unidad).toFixed(2), priceCurrency: 'PEN',
+          priceSpecification: { '@type': 'UnitPriceSpecification', price: Number(lot.precio_unidad).toFixed(2), priceCurrency: 'PEN', unitCode: lot.unidad === 'ton' ? 'TNE' : 'KGM' },
+          availability: lot.estado_cosecha === 'proxima' ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock',
+          itemCondition: 'https://schema.org/NewCondition',
+          seller: { '@type': 'Person', name: lot.productor_nombre, url: `${SITE_URL}/marketplace/productor/${lot.productor_id}` } } },
+      { '@type': 'BreadcrumbList', itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Productos', item: `${SITE_URL}/marketplace` },
+        { '@type': 'ListItem', position: 2, name: lot.cultivo, item: url },
+      ] },
+    ],
+  }
+
   return <AppShell profile={profile}>
+    {datosEstructurados && <JsonLd datos={datosEstructurados} />}
     <nav aria-label="Ruta" className="mb-6 flex flex-wrap items-center gap-2 text-sm text-gray-600"><Link href="/marketplace" className="font-semibold text-petroleo underline-offset-4 hover:underline">Productos</Link><span aria-hidden="true">/</span><span className="wrap-anywhere">{lot.cultivo}</span></nav>
     <div className="grid gap-8 lg:grid-cols-[minmax(0,1.25fr)_minmax(0,1fr)] lg:gap-12">
       <div className="min-w-0">

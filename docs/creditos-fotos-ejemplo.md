@@ -59,6 +59,9 @@ atribución obligatoria). Original de 4671×6229 px, reducida a 2999×4000. La
 página de Pexels bloquea la consulta automática, así que el nombre del fotógrafo
 queda por confirmar en el enlace.
 
+La imagen para compartir el sitio (`app/opengraph-image.jpg`, 1200×630) es un
+recorte de esta misma foto con una franja petróleo y el titular de la landing.
+
 ## Catálogo (`public/catalogo/`)
 
 Fotos propias del catálogo (`/marketplace`), distintas de las de la landing. Todas

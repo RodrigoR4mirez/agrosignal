@@ -79,7 +79,11 @@ catálogo de productos (búsqueda, filtros y estrellas).
   lotes y productores reales, se regenera cada hora; los de ejemplo quedan fuera). `metadataBase` y
   `SITE_URL` en `lib/seo.ts`; cada página pública declara su `alternates.canonical`. Ficha del lote y
   perfil del productor generan título, descripción y `og:image` propios, con `noindex` si son de
-  ejemplo; las páginas de `(auth)` llevan `noindex`
+  ejemplo; las páginas de `(auth)` llevan `noindex`. Imagen al compartir por defecto en
+  `app/opengraph-image.jpg`. Datos estructurados con `components/JsonLd.tsx`: `Organization` y
+  `WebSite` en la landing; `Product`/`Offer` y `BreadcrumbList` en lotes reales (sin
+  `aggregateRating`: las estrellas son del productor, no del lote). Google verificado en Search
+  Console con `public/google80267b2f3c2a9b66.html` (no borrar)
 - `components/calificaciones/` — estrellas, resumen de reputación y formulario de calificación
 - `components/ui/Card.tsx` — Card/CardHeader/CardTitle/CardDescription
 - `lib/marketplace`, `lib/transacciones`, `lib/sello`, `lib/admin`, `lib/supabase`

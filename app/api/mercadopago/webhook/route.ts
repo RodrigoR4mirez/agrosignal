@@ -12,6 +12,10 @@ export async function POST(request: NextRequest) {
   const tipo = q.get('type') ?? q.get('topic') ?? cuerpo.type
   const pagoId = String(q.get('data.id') ?? q.get('id') ?? cuerpo.data?.id ?? '')
   const pedido = q.get('pedido') ?? ''
+  if (!cfg.webhookSecret && process.env.NODE_ENV === 'production') {
+    console.error('Webhook de Mercado Pago: falta MP_WEBHOOK_SECRET; se rechaza el aviso.')
+    return NextResponse.json({ ok: false }, { status: 503 }) // el pago se confirma igual al volver (retorno)
+  }
   if (cfg.webhookSecret && !firmaValida(request.headers.get('x-signature'), request.headers.get('x-request-id'), q.get('data.id'), cfg.webhookSecret)) {
     return NextResponse.json({ ok: false }, { status: 401 })
   }

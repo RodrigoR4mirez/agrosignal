@@ -1,15 +1,16 @@
 import Link from 'next/link'
 import { SeccionCalificacion } from '@/components/calificaciones/SeccionCalificacion'
+import { buttonSecondaryClass } from '@/components/ui/estilos'
 import { money, quantity } from '@/lib/marketplace/types'
 import type { EstadoCalificacion } from '@/lib/calificaciones/types'
 import type { DocumentosPedido } from '@/lib/transacciones/data'
 import { faseActual, siguientePaso } from '@/lib/transacciones/fases'
 import { COMPROBANTES, FORMAS_PAGO, METODOS_PAGO, type EventoPedido, type Pedido } from '@/lib/transacciones/types'
-import { EtiquetaPedido } from './EtiquetaPedido'
+import { EtiquetaPedido, TONOS } from './EtiquetaPedido'
 import { LineaFases } from './LineaFases'
 import { PasoPedido } from './PasoPedido'
 
-const tarjeta = 'rounded-[22px] border border-[#ebe4d4] bg-white p-6 sm:p-7'
+const tarjeta = 'rounded-[22px] border border-linea bg-white p-6 sm:p-7'
 const fechaHora = (v: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'medium', timeStyle: 'short', timeZone: 'America/Lima' }).format(new Date(v))
 const fecha = (v: string) => new Intl.DateTimeFormat('es-PE', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${v}T12:00:00Z`))
 const EVENTOS: Record<string, string> = {
@@ -19,11 +20,11 @@ const EVENTOS: Record<string, string> = {
   comprobante: 'Comprobante registrado',
 }
 const AVISOS_PAGO: Record<string, [string, string]> = {
-  aprobado: ['bg-musgo/10 text-bosque', 'Mercado Pago aprobó tu pago. El productor ya recibió el aviso para despachar.'],
-  pendiente: ['bg-trigo/20 text-cacao', 'Tu pago está en proceso en Mercado Pago. Lo confirmaremos aquí apenas se acredite.'],
-  rechazado: ['bg-red-50 text-red-900', 'Mercado Pago no aprobó el pago. Puedes intentarlo de nuevo con otro medio.'],
-  cancelado: ['bg-gray-100 text-gray-700', 'No se completó el pago. Puedes intentarlo de nuevo cuando quieras.'],
-  invalido: ['bg-red-50 text-red-900', 'No pudimos verificar ese pago. Si se descontó dinero, escríbenos desde Contáctanos.'],
+  aprobado: [TONOS.ok, 'Mercado Pago aprobó tu pago. El productor ya recibió el aviso para despachar.'],
+  pendiente: [TONOS.espera, 'Tu pago está en proceso en Mercado Pago. Lo confirmaremos aquí apenas se acredite.'],
+  rechazado: [TONOS.alerta, 'Mercado Pago no aprobó el pago. Puedes intentarlo de nuevo con otro medio.'],
+  cancelado: [TONOS.neutro, 'No se completó el pago. Puedes intentarlo de nuevo cuando quieras.'],
+  invalido: [TONOS.alerta, 'No pudimos verificar ese pago. Si se descontó dinero, escríbenos desde Contáctanos.'],
 }
 function Dato({ t, children }: { t: string; children: React.ReactNode }) {
   return <div><dt className="text-xs text-gray-500">{t}</dt><dd className="mt-1 text-sm font-semibold text-gray-900 wrap-anywhere">{children}</dd></div>
@@ -50,12 +51,12 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
         <h1 className="mt-1 text-3xl font-normal text-balance text-petroleo sm:text-4xl wrap-anywhere">{order.cultivo}</h1>
         <p className="mt-1 text-sm text-gray-600">{quantity(order.cantidad)} {order.unidad} · <strong className="text-petroleo">{money(order.total)}</strong></p>
       </div>
-      <div className="flex flex-wrap items-center gap-3"><EtiquetaPedido order={order} grande />{acordado && <Link href={`/pedidos/${order.id}/orden`} className="inline-flex min-h-10 items-center rounded-full px-4 text-sm font-semibold text-petroleo ring-1 ring-petroleo/25 hover:bg-crema">Orden de compra</Link>}</div>
+      <div className="flex flex-wrap items-center gap-3"><EtiquetaPedido order={order} grande />{acordado && <Link href={`/pedidos/${order.id}/orden`} className={buttonSecondaryClass}>Orden de compra</Link>}</div>
     </header>
 
     {/* En celular: acción, fases y detalle. En escritorio: fases en la columna izquierda y el resto a la derecha */}
     <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:grid-rows-[auto_1fr] lg:items-start">
-      <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 lg:col-start-2 lg:row-start-1 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-[#ebe4d4] bg-crema'}`}>
+      <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 lg:col-start-2 lg:row-start-1 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-linea bg-crema'}`}>
         <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
         <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
         <div className="mt-5 empty:hidden"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} /></div>
@@ -65,7 +66,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
       <div className="space-y-6 lg:col-start-2 lg:row-start-2">
         {order.propuesta_en && <section className={`${tarjeta} ring-2 ring-trigo`} aria-labelledby="propuesta">
           <h2 id="propuesta" className="text-xl font-normal text-petroleo">Propuesta del productor</h2>
-          <div className="mt-4"><table className="w-full table-fixed text-sm"><thead><tr className="text-left text-xs text-gray-500"><th className="w-[26%] pb-2 font-medium">Condición</th><th className="pb-2 font-medium">Solicitud</th><th className="pb-2 font-medium">Propuesta</th></tr></thead><tbody className="divide-y divide-[#f0ebdf]">
+          <div className="mt-4"><table className="w-full table-fixed text-sm"><thead><tr className="text-left text-xs text-gray-500"><th className="w-[26%] pb-2 font-medium">Condición</th><th className="pb-2 font-medium">Solicitud</th><th className="pb-2 font-medium">Propuesta</th></tr></thead><tbody className="divide-y divide-linea-suave">
             {[['Precio', `${money(order.precio_unidad)} / ${order.unidad}`, `${money(Number(order.propuesta_precio))} / ${order.unidad}`],
               ['Cantidad', `${quantity(order.cantidad)} ${order.unidad}`, `${quantity(Number(order.propuesta_cantidad))} ${order.unidad}`],
               ['Total', money(order.total), money(Math.round(Number(order.propuesta_cantidad) * Number(order.propuesta_precio) * 100) / 100)],
@@ -85,7 +86,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
               <Dato t="Forma de pago">{FORMAS_PAGO[order.forma_pago ?? 'antes_envio'][0]}</Dato>
               <Dato t="Entrega">{order.entrega === 'recojo' ? 'Recojo en chacra' : 'Envío'}{order.fecha_entrega ? ` · ${fecha(order.fecha_entrega)}` : ''}</Dato>
               <div className="col-span-2"><Dato t="Dirección">{order.direccion_entrega}</Dato></div>
-              <div className="col-span-2 border-t border-[#f0ebdf] pt-4"><dt className="text-xs text-gray-500">Total</dt><dd className="mt-1 text-3xl font-bold tabular-nums text-petroleo">{money(order.total)}</dd></div>
+              <div className="col-span-2 border-t border-linea-suave pt-4"><dt className="text-xs text-gray-500">Total</dt><dd className="mt-1 text-3xl font-semibold tabular-nums text-petroleo">{money(order.total)}</dd></div>
             </dl>
             {order.mensaje && <p className="mt-5 rounded-xl bg-crema px-4 py-3 text-sm text-cacao"><span className="block text-xs font-semibold text-tierra">Mensaje del comprador</span>{order.mensaje}</p>}
           </section>
@@ -112,7 +113,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
           </div>
         </div>
 
-        {order.observacion && <section className={`${tarjeta} border-amber-200 bg-amber-50/60`}><h2 className="text-lg font-semibold text-cacao">Problema reportado</h2><p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-cacao wrap-anywhere">{order.observacion}</p><p className="mt-2 text-xs text-gray-600">La administración de AgroSignal lo revisa con ambas partes.</p></section>}
+        {order.observacion && <section className={`rounded-[22px] p-6 sm:p-7 ${TONOS.alerta}`}><h2 className="text-lg font-semibold">Problema reportado</h2><p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.observacion}</p><p className="mt-2 text-xs opacity-80">La administración de AgroSignal lo revisa con ambas partes.</p></section>}
         {order.motivo && <section className={tarjeta}><h2 className="text-lg font-semibold">Motivo de {order.estado === 'rechazado' ? 'rechazo' : 'cancelación'}</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.motivo}</p></section>}
         {order.resolucion && <section className={tarjeta}><h2 className="text-lg font-semibold">Resolución de la administración</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.resolucion}</p></section>}
         {recibido && <SeccionCalificacion pedidoId={order.id} estado={calificacion} contraparte={role === 'productor' ? order.comprador_nombre : order.productor_nombre} yo={role === 'productor' ? order.productor_nombre : order.comprador_nombre} amplio />}
@@ -120,7 +121,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
         <section className={tarjeta} aria-labelledby="historial">
           <h2 id="historial" className="text-xl font-normal text-petroleo">Historial</h2>
           <ol className="mt-5 space-y-0">{eventos.map((e, i) => <li key={e.id} className="relative flex gap-4 pb-5 last:pb-0">
-            {i < eventos.length - 1 && <span aria-hidden="true" className="absolute left-[5px] top-4 h-full w-px bg-[#ebe4d4]" />}
+            {i < eventos.length - 1 && <span aria-hidden="true" className="absolute left-[5px] top-4 h-full w-px bg-linea" />}
             <span aria-hidden="true" className={`relative mt-1.5 size-[11px] shrink-0 rounded-full ${['rechazado', 'cancelado', 'observacion'].includes(e.tipo) ? 'bg-tierra' : 'bg-musgo'}`} />
             <div className="min-w-0"><p className="text-sm font-semibold text-gray-900">{EVENTOS[e.tipo] ?? e.tipo}</p>{e.detalle && <p className="mt-0.5 text-sm text-gray-600 wrap-anywhere">{e.detalle}</p>}<p className="mt-0.5 text-xs text-gray-500">{fechaHora(e.creado_en)}</p></div>
           </li>)}</ol>

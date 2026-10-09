@@ -20,9 +20,9 @@
   --adm-vidrio-opaco: rgba(250, 252, 246, 0.94);
   --adm-resalte: rgba(253, 249, 240, 0.62); /* elemento destacado dentro del vidrio (aviso sin leer) */
   --adm-brillo: linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.06));
-  --adm-borde: rgba(255, 255, 255, 0.55);
-  --adm-sombra: inset 0 1px 0 rgba(255, 255, 255, 0.9), inset 0 -1px 0 rgba(255, 255, 255, 0.2), 0 10px 30px rgba(19, 53, 53, 0.10);
-  --adm-sombra-hover: inset 0 1px 0 rgba(255, 255, 255, 0.9), 0 22px 40px -24px rgba(19, 53, 53, 0.40);
+  --adm-borde: transparent; /* sin marco: el vidrio se separa del fondo solo por tono y sombra */
+  --adm-sombra: 0 10px 30px rgba(19, 53, 53, 0.10);
+  --adm-sombra-hover: 0 22px 40px -24px rgba(19, 53, 53, 0.40);
   --adm-desenfoque: blur(28px) saturate(140%);
 
   position: relative;

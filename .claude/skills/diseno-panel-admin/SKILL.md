@@ -102,9 +102,9 @@ ningún efecto, aunque el navegador conserve la hoja al navegar.
 | `--adm-vidrio-opaco` | `rgba(250,252,246,.94)` | respaldo sin `backdrop-filter` o con transparencia reducida |
 | `--adm-resalte` | `rgba(253,249,240,.62)` | elemento destacado dentro del vidrio: avisos sin leer de `Notifications` y elementos con `adm-crema bg-crema` (en vez del `bg-crema` opaco) |
 | `--adm-brillo` | `linear-gradient(135deg, rgba(255,255,255,.22), rgba(255,255,255,.06))` | capa sobre el vidrio |
-| `--adm-borde` | `rgba(255,255,255,.55)` | color del borde existente (no se agregan bordes nuevos) |
-| `--adm-sombra` | `inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(255,255,255,.2), 0 10px 30px rgba(19,53,53,.10)` | relieve del vidrio |
-| `--adm-sombra-hover` | `inset 0 1px 0 rgba(255,255,255,.9), 0 22px 40px -24px rgba(19,53,53,.40)` | tarjetas con `card-surface-hover` |
+| `--adm-borde` | `transparent` | color del borde existente: sin marco visible, estilo minimalista (9 oct 2026; antes blanco al 55 %) |
+| `--adm-sombra` | `0 10px 30px rgba(19,53,53,.10)` | relieve del vidrio, sin líneas blancas interiores |
+| `--adm-sombra-hover` | `0 22px 40px -24px rgba(19,53,53,.40)` | tarjetas con `card-surface-hover` |
 | `--adm-desenfoque` | `blur(28px) saturate(140%)` | `backdrop-filter` |
 
 Encabezado del sitio dentro del admin: `rgba(250,252,246,.55)` con el mismo desenfoque; franja
@@ -114,7 +114,10 @@ Radios: no cambian (cada elemento conserva su `rounded-*`; `Card` sigue en 22 px
 
 Anillos: `adm-vidrio` conserva el anillo de Tailwind (`ring-*` también es `box-shadow`). Un `ring-2`
 de énfasis (p. ej. el recuadro "Te toca" del pedido, `ring-petroleo`) mantiene su color; un `ring-1`
-fino toma `--adm-borde`.
+fino toma `--adm-borde` (queda invisible).
+
+Sin marco blanco: el dueño pidió un vidrio minimalista, sin contorno ni líneas de brillo en los
+bordes. No volver a poner bordes o `inset` blancos en las superficies.
 
 ### 4.3 Contraste (obligatorio)
 Sobre vidrio, `text-gray-500` y `text-gray-600` no alcanzan AA. Dentro de `.tema-admin` se oscurecen

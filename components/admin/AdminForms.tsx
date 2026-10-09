@@ -1,7 +1,7 @@
 'use client'
 
 import { useActionState, useState } from 'react'
-import { moderarUsuarioAction, resolverDisputaAction } from '@/app/admin/actions'
+import { moderarUsuarioAction, resolverDisputaAction, revisarDevolucionAction } from '@/app/admin/actions'
 import { FormMessage, inputClass } from '@/components/auth/FormFields'
 import type { EstadoPedido } from '@/lib/transacciones/types'
 import type { AdminActionState } from '@/lib/admin/types'
@@ -48,5 +48,24 @@ export function DisputeForm({ id, status, requestId }: { id: string; status: Est
       <p className="text-sm leading-relaxed text-gray-600">Se notificará al comprador y al productor. La resolución quedará registrada y no podrá modificarse. {canCancel ? 'Al cancelar un pedido confirmado, su cantidad se devuelve al stock.' : 'Este pedido ya no admite cancelación desde la plataforma.'}</p>
     </> : <><input type="hidden" name="accion" value={decision} /><input type="hidden" name="resolucion" value={resolution} /><div className={`space-y-3 rounded-xl p-4 ${decision === 'cancelar' ? 'bg-red-50 text-red-950' : 'bg-crema text-petroleo'}`}><p className="text-sm font-semibold">{decision === 'cancelar' ? 'Cancelar pedido y registrar resolución' : 'Registrar acuerdo sin cambiar el estado'}</p><p className="whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{resolution}</p></div><label className="flex items-start gap-3 text-sm leading-relaxed"><input type="checkbox" required className="mt-1" /><span>Confirmo que revisé este caso con las partes y que la resolución es correcta.</span></label></>}</fieldset>
     <div className="flex flex-wrap gap-3">{step === 1 && <button type="button" disabled={pending} onClick={() => setStep(0)} className={buttonSecondaryClass}>Anterior</button>}<button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : step === 0 ? 'Revisar resolución' : 'Confirmar resolución'}</button></div>
+  </form>
+}
+
+export function ReturnReviewForm({ id }: { id: string }) {
+  const notify = useActionFeedback()
+  const [state, action, pending] = useActionState(async (previous: AdminActionState, form: FormData) => {
+    const result = await revisarDevolucionAction(previous, form)
+    if (result.success) notify(result.success)
+    return result
+  }, {})
+  if (state.success) return <FormMessage state={state} />
+  return <form action={action} className="space-y-5"><FormMessage state={state} />
+    <input type="hidden" name="pedido_id" value={id} />
+    <fieldset disabled={pending} className="space-y-5">
+      <label htmlFor="decision-devolucion" className="block space-y-2 text-sm font-semibold"><span>Decisión</span><select id="decision-devolucion" name="decision" className={inputClass} defaultValue="aceptar"><option value="aceptar">Aprobar la devolución</option><option value="rechazar">Confirmar el rechazo del productor</option></select></label>
+      <label htmlFor="nota-devolucion" className="block space-y-2 text-sm font-semibold"><span>Explicación para ambas partes</span><textarea id="nota-devolucion" name="nota" required minLength={10} maxLength={1000} rows={4} className={inputClass} /></label>
+      <p className="text-sm leading-relaxed text-gray-600">Se notificará al comprador y al productor. La revisión se registra una sola vez.</p>
+    </fieldset>
+    <button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Registrar decisión'}</button>
   </form>
 }

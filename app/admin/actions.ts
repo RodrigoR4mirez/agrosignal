@@ -41,6 +41,20 @@ export async function moderarUsuarioAction(_previous: AdminActionState, form: Fo
   return { success: suspendido === 'true' ? 'Cuenta suspendida. El motivo quedó registrado y sus lotes ya no aparecen en el marketplace.' : 'Cuenta reactivada. Se registró el motivo y se notificó al usuario.' }
 }
 
+export async function revisarDevolucionAction(_previous: AdminActionState, form: FormData): Promise<AdminActionState> {
+  await requireRole('admin')
+  const pedidoId = text(form, 'pedido_id'), decision = text(form, 'decision'), nota = text(form, 'nota')
+  if (!uuidPattern.test(pedidoId) || !['aceptar', 'rechazar'].includes(decision)) return { error: 'La solicitud no es válida. Actualiza el pedido para continuar.' }
+  if (nota.length < 10 || nota.length > 1000) return { error: 'Explica la decisión con entre 10 y 1000 caracteres.' }
+  try {
+    const db = await createClient()
+    const { error } = await db.rpc('resolver_devolucion', { p_pedido_id: pedidoId, p_aceptar: decision === 'aceptar', p_nota: nota })
+    if (error) return { error: friendlyError(error) }
+  } catch { return { error: 'No pudimos conectar. Reintenta con este mismo formulario; la decisión no se duplicará.' } }
+  refreshAdmin(pedidoId)
+  return { success: decision === 'aceptar' ? 'Devolución aprobada. El productor debe coordinar el retiro y el reembolso.' : 'Rechazo confirmado. Ambas partes recibieron una notificación.' }
+}
+
 export async function resolverDisputaAction(_previous: AdminActionState, form: FormData): Promise<AdminActionState> {
   await requireRole('admin')
   const pedidoId = text(form, 'pedido_id'), idempotencia = text(form, 'idempotencia')

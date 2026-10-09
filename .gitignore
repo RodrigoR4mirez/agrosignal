@@ -43,3 +43,6 @@ svgs/
 .env*
 !.env.example
 .qa-artifacts/
+
+# Claude Code: ajustes personales de cada desarrollador
+.claude/settings.local.json

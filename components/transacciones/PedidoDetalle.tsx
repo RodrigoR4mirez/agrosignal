@@ -5,7 +5,7 @@ import { money, quantity } from '@/lib/marketplace/types'
 import type { EstadoCalificacion } from '@/lib/calificaciones/types'
 import type { DocumentosPedido } from '@/lib/transacciones/data'
 import { faseActual, siguientePaso } from '@/lib/transacciones/fases'
-import { COMPROBANTES, FORMAS_PAGO, METODOS_PAGO, type EventoPedido, type Pedido } from '@/lib/transacciones/types'
+import { COMPROBANTES, ESTADOS_DEVOLUCION, FORMAS_PAGO, METODOS_PAGO, MOTIVOS_DEVOLUCION, cierreDevolucion, type EventoPedido, type Pedido } from '@/lib/transacciones/types'
 import { EtiquetaPedido, TONOS } from './EtiquetaPedido'
 import { LineaFases } from './LineaFases'
 import { PasoPedido } from './PasoPedido'
@@ -17,8 +17,12 @@ const EVENTOS: Record<string, string> = {
   solicitud: 'Solicitud enviada', propuesta: 'El productor propuso nuevas condiciones', propuesta_rechazada: 'El comprador rechazó la propuesta',
   acuerdo: 'Acuerdo confirmado', rechazado: 'Solicitud rechazada', cancelado: 'Pedido cancelado', pago_informado: 'Pago informado por el comprador',
   pago_confirmado: 'Pago confirmado por el productor', enviado: 'Cosecha despachada', recibido: 'Recepción confirmada', observacion: 'Problema reportado',
-  comprobante: 'Comprobante registrado',
+  comprobante: 'Comprobante registrado', devolucion_solicitada: 'Devolución solicitada', devolucion_aceptada: 'Devolución aceptada',
+  devolucion_rechazada: 'Devolución rechazada', devolucion_completada: 'Devolución completada',
 }
+const ALERTAS = ['rechazado', 'cancelado', 'observacion', 'devolucion_solicitada', 'devolucion_rechazada']
+// El plazo de devolución se evalúa al pedir la página; la base de datos lo vuelve a validar.
+const plazoVigente = (p: Pedido) => { const cierre = cierreDevolucion(p); return cierre !== null && Date.now() <= cierre.getTime() }
 const AVISOS_PAGO: Record<string, [string, string]> = {
   aprobado: [TONOS.ok, 'Mercado Pago aprobó tu pago. El productor ya recibió el aviso para despachar.'],
   pendiente: [TONOS.espera, 'Tu pago está en proceso en Mercado Pago. Lo confirmaremos aquí apenas se acredite.'],
@@ -39,6 +43,8 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
   const telefono = role === 'productor' ? order.comprador_telefono : order.productor_telefono
   const recibido = order.estado === 'recibido' || order.estado === 'calificado'
   const volver = role === 'productor' ? '/panel-productor' : '/panel-comprador'
+  const puedeDevolver = recibido && plazoVigente(order)
+  const cierre = cierreDevolucion(order)
 
   return <div className="space-y-6">
     <Link href={volver} className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline underline-offset-4">← {role === 'productor' ? 'Mis ventas' : 'Mis compras'}</Link>
@@ -59,7 +65,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
       <section aria-labelledby="siguiente" className={`rounded-[22px] p-6 sm:p-7 lg:col-start-2 lg:row-start-1 ${paso.quien === 'yo' ? 'bg-white ring-2 ring-petroleo shadow-[0_20px_40px_-30px_rgba(19,53,53,0.5)]' : 'border border-linea bg-crema'}`}>
         <p id="siguiente" className={`text-xs font-semibold uppercase tracking-[0.14em] ${paso.quien === 'yo' ? 'inline-flex rounded-full bg-naranja px-3 py-1 text-petroleo' : 'text-tierra'}`}>{paso.quien === 'yo' ? 'Te toca' : paso.quien === 'otro' ? 'En espera' : actual === 'completado' ? 'Completado' : 'Estado final'}</p>
         <p className="mt-2 text-lg leading-snug text-petroleo">{paso.texto}</p>
-        <div className="mt-5 empty:hidden"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} /></div>
+        <div className="mt-5 empty:hidden"><PasoPedido order={order} role={role} pagoEnLinea={pagoEnLinea} puedeDevolver={puedeDevolver} /></div>
       </section>
       <div className="lg:col-start-1 lg:row-span-2 lg:row-start-1"><LineaFases order={order} role={role} /></div>
 
@@ -113,6 +119,19 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
           </div>
         </div>
 
+        {order.devolucion_estado && <section aria-labelledby="devolucion" className={`rounded-[22px] p-6 sm:p-7 ${order.devolucion_estado === 'completada' ? TONOS.ok : order.devolucion_estado === 'aceptada' ? TONOS.avance : TONOS.alerta}`}>
+          <h2 id="devolucion" className="text-lg font-semibold">{ESTADOS_DEVOLUCION[order.devolucion_estado]}</h2>
+          <dl className="mt-4 grid gap-4 sm:grid-cols-3">
+            <Dato t="Motivo">{MOTIVOS_DEVOLUCION[order.devolucion_motivo!][0]}</Dato>
+            <Dato t="Cantidad">{quantity(Number(order.devolucion_cantidad))} {order.unidad}</Dato>
+            <Dato t="Reembolso">{Number(order.devolucion_monto) > 0 ? money(Number(order.devolucion_monto)) : 'Sin reembolso (el pago no estaba confirmado)'}</Dato>
+          </dl>
+          <p className="mt-4 whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.devolucion_detalle}</p>
+          {order.devolucion_respuesta && <p className="mt-3 text-sm wrap-anywhere"><strong>Respuesta del productor:</strong> {order.devolucion_respuesta}</p>}
+          {order.devolucion_revision && <p className="mt-3 text-sm wrap-anywhere"><strong>Revisión de la administración:</strong> {order.devolucion_revision}</p>}
+          <p className="mt-3 text-xs opacity-80">{order.devolucion_motivo === 'defecto' ? 'Por defecto, el flete de la devolución lo paga el productor.' : 'Por cambio de opinión, el flete de la devolución lo paga el comprador.'} El reembolso se hace directo entre las partes.</p>
+        </section>}
+        {!order.devolucion_estado && recibido && cierre && role === 'comprador' && <p className="text-xs text-gray-500">{puedeDevolver ? `Puedes pedir una devolución hasta el ${fechaHora(cierre.toISOString())}.` : 'El plazo para pedir una devolución ya venció.'} <Link href="/ayuda#devoluciones" className="underline underline-offset-4">Política de devoluciones</Link></p>}
         {order.observacion && <section className={`rounded-[22px] p-6 sm:p-7 ${TONOS.alerta}`}><h2 className="text-lg font-semibold">Problema reportado</h2><p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed wrap-anywhere">{order.observacion}</p><p className="mt-2 text-xs opacity-80">La administración de AgroSignal lo revisa con ambas partes.</p></section>}
         {order.motivo && <section className={tarjeta}><h2 className="text-lg font-semibold">Motivo de {order.estado === 'rechazado' ? 'rechazo' : 'cancelación'}</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.motivo}</p></section>}
         {order.resolucion && <section className={tarjeta}><h2 className="text-lg font-semibold">Resolución de la administración</h2><p className="mt-2 whitespace-pre-wrap text-sm wrap-anywhere">{order.resolucion}</p></section>}
@@ -122,7 +141,7 @@ export function PedidoDetalle({ order, role, eventos, documentos, calificacion, 
           <h2 id="historial" className="text-xl font-normal text-petroleo">Historial</h2>
           <ol className="mt-5 space-y-0">{eventos.map((e, i) => <li key={e.id} className="relative flex gap-4 pb-5 last:pb-0">
             {i < eventos.length - 1 && <span aria-hidden="true" className="absolute left-[5px] top-4 h-full w-px bg-linea" />}
-            <span aria-hidden="true" className={`relative mt-1.5 size-[11px] shrink-0 rounded-full ${['rechazado', 'cancelado', 'observacion'].includes(e.tipo) ? 'bg-tierra' : 'bg-musgo'}`} />
+            <span aria-hidden="true" className={`relative mt-1.5 size-[11px] shrink-0 rounded-full ${ALERTAS.includes(e.tipo) ? 'bg-tierra' : 'bg-musgo'}`} />
             <div className="min-w-0"><p className="text-sm font-semibold text-gray-900">{EVENTOS[e.tipo] ?? e.tipo}</p>{e.detalle && <p className="mt-0.5 text-sm text-gray-600 wrap-anywhere">{e.detalle}</p>}<p className="mt-0.5 text-xs text-gray-500">{fechaHora(e.creado_en)}</p></div>
           </li>)}</ol>
         </section>

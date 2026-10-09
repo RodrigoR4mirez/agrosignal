@@ -51,6 +51,17 @@ export type Pedido = {
   comprobante_numero?: string | null
   comprobante_archivo?: string | null
   comprobante_en?: string | null
+  devolucion_estado?: EstadoDevolucion | null
+  devolucion_motivo?: MotivoDevolucion | null
+  devolucion_detalle?: string | null
+  devolucion_cantidad?: number | null
+  devolucion_monto?: number | null
+  devolucion_respuesta?: string | null
+  devolucion_solicitada_en?: string | null
+  devolucion_respondida_en?: string | null
+  devolucion_completada_en?: string | null
+  devolucion_revision?: string | null
+  devolucion_revisada_en?: string | null
 }
 export type FormaPago = 'antes_envio' | 'contra_entrega'
 export type MetodoPago = 'transferencia' | 'yape_plin' | 'efectivo' | 'mercado_pago'
@@ -61,6 +72,19 @@ export const FORMAS_PAGO: Record<FormaPago, [string, string]> = {
   contra_entrega: ['Pago contra entrega', 'Pagas al recibir la cosecha conforme.'],
 }
 export const METODOS_PAGO: Record<MetodoPago, string> = { transferencia: 'Transferencia bancaria', yape_plin: 'Yape o Plin', efectivo: 'Efectivo', mercado_pago: 'Mercado Pago' }
+// Devoluciones: plazo desde la recepción (debe coincidir con private.cierre_devolucion).
+export const PLAZO_DEVOLUCION_DIAS = 7
+export type EstadoDevolucion = 'solicitada' | 'aceptada' | 'rechazada' | 'completada'
+export type MotivoDevolucion = 'defecto' | 'arrepentimiento'
+export const MOTIVOS_DEVOLUCION: Record<MotivoDevolucion, [string, string]> = {
+  defecto: ['Llegó con defecto', 'Dañada, en mal estado o distinta a lo acordado. El productor paga el flete de la devolución.'],
+  arrepentimiento: ['Ya no la necesito', 'La cosecha llegó conforme. Tú pagas el flete de la devolución.'],
+}
+export const ESTADOS_DEVOLUCION: Record<EstadoDevolucion, string> = { solicitada: 'Devolución solicitada', aceptada: 'Devolución aceptada', rechazada: 'Devolución rechazada', completada: 'Devolución completada' }
+/** Fecha límite para pedir la devolución, o null si el pedido aún no se recibe. */
+export function cierreDevolucion(p: Pick<Pedido, 'recibido_en'>) {
+  return p.recibido_en ? new Date(new Date(p.recibido_en).getTime() + PLAZO_DEVOLUCION_DIAS * 86_400_000) : null
+}
 export const COMPROBANTES: Record<TipoComprobante, string> = { factura: 'Factura electrónica', boleta: 'Boleta de venta', liquidacion_compra: 'Liquidación de compra' }
 
 export type Notificacion = {

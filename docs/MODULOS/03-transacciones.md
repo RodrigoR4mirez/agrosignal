@@ -352,3 +352,31 @@ cuenta (panel del productor → Cobros con Mercado Pago) y las variables `MP_*` 
 pago el comprador ve "Pagar con Mercado Pago" (Checkout Pro, split 1:1: el dinero va al productor y
 AgroSignal puede cobrar `marketplace_fee`). El pago se confirma solo, sin voucher; el pago directo
 sigue disponible como alternativa. Configuración en `docs/VARIABLES-DE-ENTORNO.md`.
+
+## Devoluciones (9 oct 2026)
+
+Migración `20261009000100_devoluciones.sql`, prueba `supabase/tests/devoluciones.test.mjs`. Política pública en
+`/ayuda#devoluciones` y en los datos estructurados (`POLITICA_DEVOLUCION` en `lib/seo.ts`).
+
+- **Plazo:** 7 días desde `recibido_en` (`private.cierre_devolucion`; en la interfaz, `PLAZO_DEVOLUCION_DIAS`).
+  Solo pedidos `flujo = 2` en `recibido`/`calificado`. Devolución total o parcial (`devolucion_cantidad ≤ cantidad`).
+- **Flete:** `defecto` lo paga el productor; `arrepentimiento`, el comprador.
+- **Reembolso:** directo entre las partes, como el pago. `devolucion_monto` = cantidad × precio si el pago ya estaba
+  confirmado; 0 si no. AgroSignal no reembolsa ni retiene dinero (tampoco en pagos de Mercado Pago).
+- **Estados** (`devolucion_estado`, el `estado` del pedido no cambia):
+
+| Paso | Quién | Función | Resultado |
+|---|---|---|---|
+| Solicitud | Comprador | `solicitar_devolucion` | `solicitada`; aviso al productor |
+| Respuesta | Productor | `responder_devolucion` | `aceptada`, o `rechazada` con motivo (aviso a los admin) |
+| Revisión | Admin | `resolver_devolucion` (una sola vez) | Fuerza `aceptada` o confirma el rechazo |
+| Cierre | Productor | `completar_devolucion` | `completada`: recibió la cosecha y reembolsó |
+
+- La cosecha devuelta **no vuelve al stock** del lote (es perecible).
+- Cada paso queda en `pedido_eventos` (`devolucion_*`) y notifica a la otra parte. Todas las RPC son idempotentes.
+- Interfaz: `PasoPedido.tsx` (botón "Solicitar devolución" mientras dura el plazo; con una devolución pendiente el
+  productor solo ve esa decisión), bloque "Devolución" en `PedidoDetalle.tsx`, etiqueta en `etiquetaPedido`.
+  Admin: `ReturnReviewForm` en `/admin/pedidos/[id]`.
+- QA (9 oct 2026): flujo completo en el navegador con comprador, productor y admin sobre un pedido temporal entre
+  cuentas de ejemplo (solicitar 4 kg → rechazo → aprobación del admin → completada), 1440 y 390 px, sin scroll
+  horizontal; stock sin reponer. El pedido, sus avisos y su historial de precios se borraron al terminar.

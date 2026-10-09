@@ -61,6 +61,8 @@ catálogo de productos (búsqueda, filtros y estrellas).
 - Compra en 6 fases (solicitud → acuerdo/contrapropuesta → pago directo con voucher → despacho con guía →
   recepción u observación → comprobante): `components/transacciones/PedidoDetalle.tsx`, `PasoPedido.tsx`,
   `lib/transacciones/fases.ts`, orden de compra en `/pedidos/[id]/orden`. Detalle en `docs/MODULOS/03-transacciones.md`
+- Devoluciones en 7 días desde la recepción (migración `20261009000100`): solicitar → aceptar/rechazar → revisión
+  admin → completar; el reembolso es directo y la cosecha no vuelve al stock. Política en `/ayuda#devoluciones`
 - Pago en línea opcional con Mercado Pago marketplace (`lib/pagos/`, `app/api/mercadopago/*`): visible solo con
   las variables `MP_*` en Vercel y el productor conectado. Ver `docs/VARIABLES-DE-ENTORNO.md`
 - `app/ayuda/page.tsx` — buscador en vivo (`components/ayuda/BuscadorAyuda.tsx`), temas fijos a un lado y preguntas desplegables en una columna; `/ayuda#id` abre la pregunta

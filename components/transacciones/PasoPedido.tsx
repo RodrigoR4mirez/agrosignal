@@ -5,9 +5,9 @@ import { cambiarEstadoPedidoAction, pasoPedidoAction } from '@/app/transacciones
 import { FormMessage, inputClass } from '@/components/auth/FormFields'
 import { buttonPrimaryClass, buttonSecondaryClass, buttonDangerClass } from '@/components/ui/estilos'
 import { createClient } from '@/lib/supabase/client'
-import { money } from '@/lib/marketplace/types'
+import { money, quantity } from '@/lib/marketplace/types'
 import { faseActual } from '@/lib/transacciones/fases'
-import { FORMAS_PAGO, METODOS_PAGO, type Pedido } from '@/lib/transacciones/types'
+import { FORMAS_PAGO, METODOS_PAGO, MOTIVOS_DEVOLUCION, PLAZO_DEVOLUCION_DIAS, type Pedido } from '@/lib/transacciones/types'
 import { PagarMercadoPago } from '@/components/pagos/PagarMercadoPago'
 
 const secundario = buttonSecondaryClass
@@ -16,7 +16,7 @@ const etiqueta = 'mb-1.5 block text-sm font-semibold text-petroleo'
 const hoy = () => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date())
 
 // Acciones del paso en curso, según la fase del pedido y el rol de quien lo mira.
-export function PasoPedido({ order, role, pagoEnLinea = false }: { order: Pedido; role: 'comprador' | 'productor'; pagoEnLinea?: boolean }) {
+export function PasoPedido({ order, role, pagoEnLinea = false, puedeDevolver = false }: { order: Pedido; role: 'comprador' | 'productor'; pagoEnLinea?: boolean; puedeDevolver?: boolean }) {
   const [paso, pasoAction, pasoPending] = useActionState(pasoPedidoAction, {})
   const [estado, estadoAction, estadoPending] = useActionState(cambiarEstadoPedidoAction, {})
   const [abierto, setAbierto] = useState<string | null>(null)
@@ -101,6 +101,33 @@ export function PasoPedido({ order, role, pagoEnLinea = false }: { order: Pedido
     </form>
   }
 
+  // Devolución: va antes que el resto porque tiene plazo.
+  const devolucion: React.ReactNode[] = []
+  if (role === 'comprador' && puedeDevolver && !order.devolucion_estado) {
+    devolucion.push(<button key="dv" type="button" onClick={() => setAbierto('devolucion')} className={secundario}>Solicitar devolución</button>)
+    if (abierto === 'devolucion') formulario = <FormDevolucion order={order} action={pasoAction} pending={pending} onVolver={() => setAbierto(null)} />
+  } else if (role === 'productor' && order.devolucion_estado === 'solicitada') {
+    devolucion.push(accionBoton('da', 'devolucion_responder', 'Aceptar devolución', { aceptar: '1' }),
+      <button key="dr" type="button" onClick={() => setAbierto('devolucion_rechazo')} className={peligro}>Rechazar devolución</button>)
+    if (abierto === 'devolucion_rechazo') formulario = <form action={pasoAction} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+      {oculto}<input type="hidden" name="accion" value="devolucion_responder" /><input type="hidden" name="aceptar" value="0" />
+      <div><label htmlFor="respuesta" className={etiqueta}>¿Por qué la rechazas?</label><textarea id="respuesta" name="respuesta" required minLength={5} maxLength={1000} rows={3} className={inputClass} /></div>
+      <p className="text-xs text-gray-600">El comprador verá tu motivo y la administración de AgroSignal revisará el caso.</p>
+      <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonDangerClass}>{pending ? 'Guardando…' : 'Sí, rechazar'}</button><button type="button" onClick={() => setAbierto(null)} className={secundario}>Volver</button></div>
+    </form>
+  } else if (role === 'productor' && order.devolucion_estado === 'aceptada') {
+    devolucion.push(abierto === 'devolucion_fin'
+      ? <form key="df" action={pasoAction} className="w-full space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+        {oculto}<input type="hidden" name="accion" value="devolucion_completar" />
+        <p className="text-sm leading-relaxed text-gray-700">Confirma que recibiste {quantity(Number(order.devolucion_cantidad))} {order.unidad} de vuelta{Number(order.devolucion_monto) > 0 ? <> y que reembolsaste <strong className="text-petroleo">{money(Number(order.devolucion_monto))}</strong> al comprador</> : ''}.</p>
+        <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Sí, confirmar'}</button><button type="button" onClick={() => setAbierto(null)} className={secundario}>Volver</button></div>
+      </form>
+      : <button key="df" type="button" onClick={() => setAbierto('devolucion_fin')} className={buttonPrimaryClass}>Confirmar devolución y reembolso</button>)
+  }
+  // Con una devolución pendiente, el productor solo ve esa decisión (un botón principal por bloque).
+  if (role === 'productor' && devolucion.length) botones.splice(0, botones.length, ...devolucion)
+  else botones.unshift(...devolucion)
+
   if (!botones.length && !formulario) return mensajes
   return <div className="space-y-4">
     {mensajes}
@@ -152,5 +179,20 @@ function FormComprobante({ order, tipos, action, pending, onVolver }: { order: P
     </div>
     <SubirDocumento pedidoId={order.id} name="archivo" label="Archivo del comprobante" requerido />
     <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Guardando…' : 'Registrar comprobante'}</button><button type="button" onClick={onVolver} className={secundario}>Volver</button></div>
+  </form>
+}
+
+function FormDevolucion({ order, action, pending, onVolver }: { order: Pedido; action: (f: FormData) => void; pending: boolean; onVolver: () => void }) {
+  const [motivo, setMotivo] = useState<'defecto' | 'arrepentimiento'>('defecto')
+  return <form action={action} className="space-y-4 rounded-2xl bg-white p-5 ring-1 ring-linea">
+    <input type="hidden" name="pedido_id" value={order.id} /><input type="hidden" name="accion" value="devolucion_solicitar" />
+    <p className="text-sm leading-relaxed text-gray-700">Tienes {PLAZO_DEVOLUCION_DIAS} días desde que confirmaste la recepción. Si el productor la acepta, coordinan el retiro y te reembolsa directamente lo que pagaste por esa cantidad.</p>
+    <fieldset><legend className={etiqueta}>Motivo</legend><div className="grid gap-2 sm:grid-cols-2">{Object.entries(MOTIVOS_DEVOLUCION).map(([v, [t, d]]) => <label key={v} className="cursor-pointer rounded-2xl p-4 text-sm ring-1 ring-linea-fuerte has-checked:ring-2 has-checked:ring-petroleo">
+      <input type="radio" name="motivo" value={v} checked={motivo === v} onChange={() => setMotivo(v as typeof motivo)} className="sr-only" />
+      <span className="block font-semibold text-petroleo">{t}</span><span className="mt-1 block text-gray-600">{d}</span>
+    </label>)}</div></fieldset>
+    <div><label htmlFor="dev-cantidad" className={etiqueta}>Cantidad a devolver ({order.unidad})</label><input id="dev-cantidad" name="cantidad" type="number" step="0.001" min="0.001" max={order.cantidad} required defaultValue={order.cantidad} className={inputClass} /></div>
+    <div><label htmlFor="dev-detalle" className={etiqueta}>¿Qué pasó?</label><textarea id="dev-detalle" name="detalle" required minLength={10} maxLength={1000} rows={3} className={inputClass} placeholder={motivo === 'defecto' ? 'Por ejemplo: 10 jabas llegaron con fruta golpeada.' : 'Por ejemplo: el cliente final canceló su pedido.'} /></div>
+    <div className="flex flex-wrap gap-3"><button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Enviando…' : 'Enviar solicitud'}</button><button type="button" onClick={onVolver} className={secundario}>Volver</button></div>
   </form>
 }

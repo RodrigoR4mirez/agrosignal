@@ -168,6 +168,19 @@ export async function pasoPedidoAction(_previous: PedidoActionState, form: FormD
     if (!permitido) return { error: 'No te corresponde registrar este comprobante.' }
     if (!/^[A-Z0-9]{1,4}-\d{1,8}$/.test(numero) || !rutaDocumento(pedidoId, archivo)) return { error: 'Indica la serie y el número (por ejemplo F001-245) y adjunta el comprobante.' }
     rpc = 'registrar_comprobante'; args = { p_tipo: tipo, p_numero: numero, p_archivo: archivo }; exito = 'Comprobante registrado.'
+  } else if (accion === 'devolucion_solicitar' && soloPara('comprador')) {
+    const motivo = text(form, 'motivo'), cantidad = text(form, 'cantidad'), detalle = text(form, 'detalle')
+    if (motivo !== 'defecto' && motivo !== 'arrepentimiento') return { error: 'Elige el motivo de la devolución.' }
+    if (!/^\d{1,11}(\.\d{1,3})?$/.test(cantidad) || Number(cantidad) <= 0) return { error: 'Indica una cantidad mayor que cero, con hasta 3 decimales.' }
+    if (detalle.length < 10 || detalle.length > 1000) return { error: 'Describe el motivo en 10 a 1000 caracteres.' }
+    rpc = 'solicitar_devolucion'; args = { p_motivo: motivo, p_cantidad: cantidad, p_detalle: detalle }; exito = 'Solicitud de devolución enviada. El productor recibió un aviso.'
+  } else if (accion === 'devolucion_responder' && soloPara('productor')) {
+    const aceptar = text(form, 'aceptar') === '1', respuesta = text(form, 'respuesta')
+    if (respuesta.length > 1000 || (!aceptar && respuesta.length < 5)) return { error: 'Explica el motivo del rechazo en 5 a 1000 caracteres.' }
+    rpc = 'responder_devolucion'; args = { p_aceptar: aceptar, p_respuesta: respuesta || null }
+    exito = aceptar ? 'Devolución aceptada. Coordina el retiro con el comprador.' : 'Devolución rechazada. La administración la revisará.'
+  } else if (accion === 'devolucion_completar' && soloPara('productor')) {
+    rpc = 'completar_devolucion'; args = {}; exito = 'Devolución completada.'
   } else return { error: 'No tienes permiso para realizar este cambio.' }
   try {
     const db = await createClient()

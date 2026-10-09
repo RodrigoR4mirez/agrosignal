@@ -1,4 +1,4 @@
-import type { Pedido } from './types'
+import { ESTADOS_DEVOLUCION, type Pedido } from './types'
 
 // Seis fases del flujo de compra. Con pago contra entrega, el pago va después de la recepción.
 export type Fase = 'solicitud' | 'acuerdo' | 'pago' | 'despacho' | 'recepcion' | 'cierre'
@@ -25,6 +25,7 @@ export function etiquetaPedido(p: Pedido): { texto: string; tono: 'espera' | 'av
   if (p.flujo !== 2) return { texto: { pendiente: 'Pendiente', confirmado: 'Confirmado', enviado: 'Enviado', recibido: 'Recibido', calificado: 'Recibido', rechazado: 'Rechazado', cancelado: 'Cancelado' }[p.estado], tono: p.estado === 'rechazado' || p.estado === 'cancelado' ? 'neutro' : 'avance' }
   if (p.estado === 'rechazado') return { texto: 'Rechazada', tono: 'neutro' }
   if (p.estado === 'cancelado') return { texto: 'Cancelado', tono: 'neutro' }
+  if (p.devolucion_estado) return { texto: ESTADOS_DEVOLUCION[p.devolucion_estado], tono: p.devolucion_estado === 'completada' ? 'ok' : p.devolucion_estado === 'aceptada' ? 'avance' : 'alerta' }
   if (p.observacion_en && !p.comprobante_en) return { texto: 'Con observación', tono: 'alerta' }
   if (p.estado === 'pendiente') return p.propuesta_en ? { texto: 'Contrapropuesta', tono: 'espera' } : { texto: 'Solicitud enviada', tono: 'espera' }
   if (p.estado === 'confirmado') return p.pago_confirmado_en ? { texto: 'Pago confirmado', tono: 'avance' } : p.pago_informado_en ? { texto: 'Pago informado', tono: 'espera' } : { texto: 'Acuerdo confirmado', tono: 'avance' }
@@ -38,6 +39,10 @@ export function siguientePaso(p: Pedido, rol: 'comprador' | 'productor'): { quie
   const f = faseActual(p)
   const yo = (r: 'comprador' | 'productor', mio: string, otro: string) => rol === r ? { quien: 'yo' as const, texto: mio } : { quien: 'otro' as const, texto: otro }
   if (f === 'terminado') return { quien: 'nadie', texto: p.estado === 'rechazado' ? 'El productor no aceptó esta solicitud.' : 'Este pedido fue cancelado.' }
+  // Una devolución en curso tiene prioridad sobre el cierre del pedido.
+  if (p.devolucion_estado === 'solicitada') return yo('productor', 'El comprador pidió una devolución. Acéptala o recházala con un motivo.', 'Esperando que el productor responda tu solicitud de devolución.')
+  if (p.devolucion_estado === 'aceptada') return yo('productor', 'Coordina el retiro de la cosecha y, cuando la recibas y reembolses, confirma la devolución.', 'Devolución aceptada. Coordina con el productor el retiro y el reembolso.')
+  if (p.devolucion_estado === 'rechazada' && !p.devolucion_revisada_en) return { quien: 'otro', texto: 'La administración está revisando la devolución rechazada.' }
   if (f === 'completado') return { quien: 'nadie', texto: 'Compra concluida: pago confirmado, cosecha entregada y comprobante registrado.' }
   if (f === 'solicitud') return yo('productor', 'Revisa la solicitud: acéptala, propón otras condiciones o recházala.', 'Esperando la respuesta del productor.')
   if (f === 'acuerdo') return yo('comprador', 'El productor propuso nuevas condiciones. Acéptalas para cerrar el acuerdo o recházalas.', 'Esperando que el comprador responda a tu propuesta.')

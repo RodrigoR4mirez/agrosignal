@@ -42,12 +42,12 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
         </nav>}
       </div>
     </section>
-    <div className="bg-crema">
+    <div className="adm-sin-fondo bg-crema">
       <div className={`${caja} py-10 lg:py-12`}>
-        {error ? <p role="alert" className="rounded-[22px] bg-white p-8 text-sm text-red-800">No pudimos cargar los precios. Intenta nuevamente en unos momentos.</p>
-          : !elegido || !serie.length ? <p className="rounded-[22px] bg-white p-8 text-sm text-gray-600">Aún no hay suficientes publicaciones para mostrar precios.</p>
+        {error ? <p role="alert" className="adm-vidrio rounded-[22px] bg-white p-8 text-sm text-red-800">No pudimos cargar los precios. Intenta nuevamente en unos momentos.</p>
+          : !elegido || !serie.length ? <p className="adm-vidrio rounded-[22px] bg-white p-8 text-sm text-gray-600">Aún no hay suficientes publicaciones para mostrar precios.</p>
           : <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
-            <section aria-labelledby="grafico" className="min-w-0 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
+            <section aria-labelledby="grafico" className="adm-vidrio min-w-0 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
               <div className="mb-5 flex flex-wrap items-end justify-between gap-3"><h2 id="grafico" className="text-2xl font-normal text-petroleo">{elegido.nombre}: precio por kilo</h2><Link href={`/marketplace?q=${encodeURIComponent(elegido.nombre)}`} className="text-sm font-semibold text-petroleo underline underline-offset-4">Ver lotes de {elegido.nombre.toLowerCase()}</Link></div>
               <div className="-mx-5 overflow-x-auto px-5 sm:mx-0 sm:px-0"><div className="min-w-[36rem] sm:min-w-0"><GraficoPrecios serie={serie} titulo={`Precio mensual de ${elegido.nombre.toLowerCase()} por kilo`} /></div></div>
             </section>
@@ -55,7 +55,7 @@ export default async function PreciosPage({ searchParams }: { searchParams: Prom
               <div className="grid grid-cols-2 gap-4 lg:grid-cols-1">{cifras.map(([k, v]) => <Metrica key={k} etiqueta={k} valor={v} compacta className="p-4 sm:p-5" />)}</div>
               <p className="text-xs leading-relaxed text-gray-500">Precios en soles por kilo (las toneladas se convierten a kilos). El publicado es el promedio de los lotes publicados o con precio cambiado ese mes; el de venta, el de los pedidos recibidos. {ejemplo && 'Incluye datos de ejemplo de la demostración.'}</p>
             </aside>
-            <section aria-labelledby="tabla" className="min-w-0 overflow-x-auto rounded-[22px] border border-linea bg-white p-5 sm:p-8 lg:col-span-2">
+            <section aria-labelledby="tabla" className="adm-vidrio adm-vidrio-fuerte min-w-0 overflow-x-auto rounded-[22px] border border-linea bg-white p-5 sm:p-8 lg:col-span-2">
               <h2 id="tabla" className="mb-4 text-xl font-normal text-petroleo">Mes a mes</h2>
               <table className="w-full min-w-[34rem] text-left text-sm">
                 <thead><tr className="border-b border-linea text-xs text-gray-500"><th className="py-2 font-semibold">Mes</th><th className="py-2 font-semibold">Publicado</th><th className="py-2 font-semibold">Vendido</th><th className="py-2 font-semibold">Mín. – máx.</th><th className="py-2 font-semibold">Registros</th></tr></thead>

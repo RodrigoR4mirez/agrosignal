@@ -1,6 +1,6 @@
 ---
 name: diseno-panel-admin
-description: Diseño visual "Planta tras el vidrio" de las zonas de gestión de AgroSignal — panel de administración (/admin) y paneles de productor y comprador (/panel-productor, /panel-comprador, /verificaciones, /compradores), con sus archivos app/admin/*, components/admin/* y los componentes que solo se muestran ahí. Úsala SIEMPRE antes de crear o modificar cualquier vista, componente o estilo de esas zonas. No aplica a la landing (/), el marketplace, auth, /ayuda, /contacto ni la orden de compra imprimible.
+description: Diseño visual "Planta tras el vidrio" de las zonas de gestión de AgroSignal — panel de administración (/admin) y paneles de productor y comprador (/panel-productor, /panel-comprador, /verificaciones, /compradores) y la página /marketplace/precios, con sus archivos app/admin/*, components/admin/* y los componentes que solo se muestran ahí. Úsala SIEMPRE antes de crear o modificar cualquier vista, componente o estilo de esas zonas. No aplica a la landing (/), el resto del marketplace, auth, /ayuda, /contacto ni la orden de compra imprimible.
 ---
 
 # Diseño de los paneles — "Planta tras el vidrio"
@@ -28,11 +28,13 @@ Referencias en `references/`:
 | `/panel-productor/*` (inicio, mis lotes, publicar, editar, ventas) | `/(auth)/*` (login, registro, recuperación y `/mi-cuenta`) |
 | `/panel-comprador/*` (inicio, comprar, pedidos) | `/ayuda`, `/contacto`, `/cuenta-suspendida` |
 | `/verificaciones/[id]`, `/compradores/[id]` | `/pedidos/[id]/orden` (documento imprimible con su propio fondo de papel) |
+| `/marketplace/precios` (solo esa página: su banda petróleo de cabecera se mantiene) | |
 
 Se activa **solo** donde un layout envuelve la página con `TemaVidrio`
 (`components/admin/TemaVidrio.tsx`: pone `<div className="tema-admin">`, `<FondoFollaje />` e importa
 `app/admin/tema-admin.css`). Layouts que lo usan: `app/admin/layout.tsx`, `app/panel-productor/layout.tsx`,
-`app/panel-comprador/layout.tsx`, `app/verificaciones/layout.tsx`, `app/compradores/layout.tsx`.
+`app/panel-comprador/layout.tsx`, `app/verificaciones/layout.tsx`, `app/compradores/layout.tsx`,
+`app/marketplace/precios/layout.tsx`.
 Todo selector de `tema-admin.css` empieza por `.tema-admin`, así que fuera de esas rutas no tiene
 ningún efecto, aunque el navegador conserve la hoja al navegar.
 
@@ -161,7 +163,9 @@ pedidos, `QueueEmpty`, notificaciones) toma el vidrio automáticamente vía `.ca
 `adm-vidrio` delante de: `tarjeta` de `PedidoDetalle` y su sección "siguiente" ("Te toca"/"En espera"),
 las dos capas de `LineaFases`, el resumen y el formulario de `PurchaseForm`, el formulario de
 `OrderActions` y `tarjeta` de `app/compradores/[id]/page.tsx`; `adm-vidrio adm-vidrio-fuerte` en los
-formularios de `PasoPedido`; `adm-crema` en los pasos del asistente de `LotWizard`. El resto
+formularios de `PasoPedido`; `adm-crema` en los pasos del asistente de `LotWizard`. En `/marketplace/precios`: `adm-sin-fondo` en su
+franja `bg-crema` (queda transparente y se ve la planta), `adm-vidrio` en el gráfico y los avisos, y
+`adm-vidrio adm-vidrio-fuerte` en la tabla "Mes a mes". El resto
 (`Card`, `Metrica`, `LotWizard`, `PerfilFincaForm`, verificación) toma el vidrio vía `.card-surface`.
 
 **No se tocan en Fase 1:** chips de estado (`bg-crema`, `bg-red-50`, `bg-amber-50`, `bg-gray-100`,

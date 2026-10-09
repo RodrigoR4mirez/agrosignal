@@ -90,6 +90,12 @@
   background-color: var(--adm-resalte);
 }
 
+/* Franja de fondo propia de una página (p. ej. bg-crema en /marketplace/precios): transparente para
+   que se vea la planta detrás de las tarjetas de vidrio. */
+.tema-admin .adm-sin-fondo {
+  background-color: transparent;
+}
+
 /* Menú lateral del admin (components/admin/AdminNav.tsx): vidrio solo desde lg,
    igual que hoy solo desde lg tiene fondo blanco. En el celular no cambia. */
 @media (min-width: 64rem) {

@@ -16,7 +16,7 @@ import { Avatar } from '@/components/perfil/Avatar'
 import { BotonSeguir } from '@/components/comunidad/BotonSeguir'
 import { GraficoPrecios } from '@/components/comunidad/GraficoPrecios'
 import { getHistorialPrecios, getSiguiendo } from '@/lib/comunidad/data'
-import { SITE_URL, resumen } from '@/lib/seo'
+import { POLITICA_DEVOLUCION, SITE_URL, resumen } from '@/lib/seo'
 import { JsonLd } from '@/components/JsonLd'
 
 // Metadatos y página leen el mismo lote una sola vez por solicitud.
@@ -80,6 +80,7 @@ export default async function LotDetail({ params }: { params: Promise<{ id: stri
           priceSpecification: { '@type': 'UnitPriceSpecification', price: Number(lot.precio_unidad).toFixed(2), priceCurrency: 'PEN', unitCode: lot.unidad === 'ton' ? 'TNE' : 'KGM' },
           availability: lot.estado_cosecha === 'proxima' ? 'https://schema.org/PreOrder' : 'https://schema.org/InStock',
           itemCondition: 'https://schema.org/NewCondition',
+          hasMerchantReturnPolicy: POLITICA_DEVOLUCION,
           seller: { '@type': 'Person', name: lot.productor_nombre, url: `${SITE_URL}/marketplace/productor/${lot.productor_id}` } } },
       { '@type': 'BreadcrumbList', itemListElement: [
         { '@type': 'ListItem', position: 1, name: 'Productos', item: `${SITE_URL}/marketplace` },

@@ -14,3 +14,16 @@ export function resumen(texto: string, maximo = 160) {
   if (limpio.length <= maximo) return limpio
   return `${limpio.slice(0, maximo - 1).replace(/\s+\S*$/, '')}…`
 }
+
+// Política de devoluciones para datos estructurados (schema.org). Debe coincidir con /ayuda#devoluciones
+// y con private.cierre_devolucion: 7 días; defecto sin costo, arrepentimiento con flete del comprador.
+export const POLITICA_DEVOLUCION = {
+  '@type': 'MerchantReturnPolicy',
+  applicableCountry: 'PE',
+  returnPolicyCategory: 'https://schema.org/MerchantReturnFiniteReturnWindow',
+  merchantReturnDays: 7,
+  returnMethod: 'https://schema.org/ReturnByMail',
+  itemDefectReturnFees: 'https://schema.org/FreeReturn',
+  customerRemorseReturnFees: 'https://schema.org/ReturnShippingFees',
+  merchantReturnLink: `${SITE_URL}/ayuda#devoluciones`,
+}

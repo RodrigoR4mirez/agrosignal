@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { SitePie } from '@/components/SitePie'
 import { JsonLd } from '@/components/JsonLd'
 import { CONTACTO } from '@/lib/contacto/types'
-import { SITE_URL } from '@/lib/seo'
+import { POLITICA_DEVOLUCION, SITE_URL } from '@/lib/seo'
 import { getProfile } from '@/lib/supabase/auth'
 import { ROLE_HOME } from '@/lib/supabase/types'
 import { MenuLanding } from '@/components/landing/MenuLanding'
@@ -33,7 +33,7 @@ const Linea = ({ centro = false }: { centro?: boolean }) => <span data-revelar="
 const ORGANIZACION = {
   '@context': 'https://schema.org',
   '@graph': [
-    { '@type': 'Organization', '@id': `${SITE_URL}/#organizacion`, name: 'AgroSignal', url: SITE_URL, email: CONTACTO.correo, areaServed: { '@type': 'Country', name: 'Perú' },
+    { '@type': 'Organization', '@id': `${SITE_URL}/#organizacion`, name: 'AgroSignal', url: SITE_URL, email: CONTACTO.correo, areaServed: { '@type': 'Country', name: 'Perú' }, hasMerchantReturnPolicy: POLITICA_DEVOLUCION,
       description: 'Marketplace agrícola del Perú: productores publican lotes de cosecha con Verificación AgroSignal y compradores hacen pedidos directos.' },
     { '@type': 'WebSite', '@id': `${SITE_URL}/#sitio`, name: 'AgroSignal', url: SITE_URL, inLanguage: 'es-PE', publisher: { '@id': `${SITE_URL}/#organizacion` } },
   ],

@@ -4,11 +4,12 @@ import Link from 'next/link'
 import { useActionState, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { solicitarCompraAction } from '@/app/transacciones/actions'
-import { Field, FormMessage, buttonClass, inputClass } from '@/components/auth/FormFields'
+import { Field, FormMessage, inputClass } from '@/components/auth/FormFields'
+import { buttonPrimaryClass, buttonSecondaryClass } from '@/components/ui/estilos'
 import { money, quantity } from '@/lib/marketplace/types'
 import { FORMAS_PAGO, type FormaPago } from '@/lib/transacciones/types'
 
-const opcion = 'relative flex cursor-pointer flex-col rounded-2xl p-4 ring-1 ring-[#e2dbc9] transition hover:ring-petroleo/40 has-checked:bg-crema has-checked:ring-2 has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo'
+const opcion = 'relative flex cursor-pointer flex-col rounded-2xl p-4 ring-1 ring-linea-fuerte transition hover:ring-petroleo/40 has-checked:bg-crema has-checked:ring-2 has-checked:ring-petroleo has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-petroleo'
 const PASOS = ['El productor acepta tu solicitud o te propone otras condiciones.', 'Con el acuerdo, ves su teléfono y pagas directo al productor según lo pactado.', 'Él despacha, tú confirmas la recepción y se registra el comprobante.']
 
 // Solicitud de compra de un lote: cantidad, entrega, fecha, forma de pago y mensaje; luego revisión.
@@ -27,15 +28,15 @@ export function PurchaseForm({ lotId, crop, unit, price, stock, requestId }: {
   const router = useRouter()
   const hoy = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Lima' }).format(new Date())
 
-  if (state.pedidoId) return <div className="space-y-5 rounded-[22px] border border-[#e2dbc9] bg-white p-6 sm:p-8">
+  if (state.pedidoId) return <div className="space-y-5 rounded-[22px] border border-linea-fuerte bg-white p-6 sm:p-8">
     <h2 className="text-2xl font-normal text-petroleo">Solicitud enviada</h2>
     <p className="text-sm leading-relaxed text-gray-600">El productor recibió un aviso y te responderá en el pedido. No se hizo ningún cobro: el pago se acuerda con él y se hace directamente.</p>
-    <div className="flex flex-wrap gap-3"><Link href={`/panel-comprador/pedidos/${state.pedidoId}?creado=1`} className={buttonClass}>Ver mi pedido</Link><Link href="/marketplace" className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline">Seguir explorando</Link></div>
+    <div className="flex flex-wrap gap-3"><Link href={`/panel-comprador/pedidos/${state.pedidoId}?creado=1`} className={buttonPrimaryClass}>Ver mi pedido</Link><Link href="/marketplace" className="inline-flex min-h-11 items-center text-sm font-semibold text-petroleo underline">Seguir explorando</Link></div>
   </div>
 
-  return <form action={step === 1 ? action : undefined} onSubmit={event => { if (step === 0) { event.preventDefault(); setStep(1) } }} className="space-y-7 rounded-[22px] border border-[#ebe4d4] bg-white p-5 sm:p-8">
+  return <form action={step === 1 ? action : undefined} onSubmit={event => { if (step === 0) { event.preventDefault(); setStep(1) } }} className="space-y-7 rounded-[22px] border border-linea bg-white p-5 sm:p-8">
     <ol className="flex flex-wrap gap-4 text-sm font-semibold" aria-label="Pasos de la solicitud">
-      {['Tu solicitud', 'Revisar y enviar'].map((t, i) => <li key={t} aria-current={step === i ? 'step' : undefined} className={step === i ? 'text-petroleo' : 'text-gray-400'}>{i + 1}. {t}</li>)}
+      {['Tu solicitud', 'Revisar y enviar'].map((t, i) => <li key={t} aria-current={step === i ? 'step' : undefined} className={step === i ? 'text-petroleo' : 'text-gray-500'}>{i + 1}. {t}</li>)}
     </ol>
     <FormMessage state={state} />
     <input type="hidden" name="lote_id" value={lotId} /><input type="hidden" name="idempotencia" value={idempotency} /><input type="hidden" name="precio_esperado" value={price} />
@@ -59,15 +60,15 @@ export function PurchaseForm({ lotId, crop, unit, price, stock, requestId }: {
           <div><dt className="text-gray-600">Cantidad y precio</dt><dd className="font-semibold">{quantity(Number(amount))} {unit} × {money(price)}</dd></div>
           <div><dt className="text-gray-600">Entrega</dt><dd className="font-semibold">{entrega === 'recojo' ? 'Recojo en chacra' : address}{fecha ? ` · ${new Intl.DateTimeFormat('es-PE', { dateStyle: 'long', timeZone: 'UTC' }).format(new Date(`${fecha}T12:00:00Z`))}` : ''}</dd></div>
           <div><dt className="text-gray-600">Pago</dt><dd className="font-semibold">{FORMAS_PAGO[forma][0]}</dd></div>
-          <div className="border-t border-[#e2dbc9] pt-4 sm:col-span-2"><dt className="font-semibold">Total estimado</dt><dd className="text-3xl font-bold tabular-nums text-petroleo">{money(Number(amount) * price)}</dd></div>
+          <div className="border-t border-linea-fuerte pt-4 sm:col-span-2"><dt className="font-semibold">Total estimado</dt><dd className="text-3xl font-semibold tabular-nums text-petroleo">{money(Number(amount) * price)}</dd></div>
         </dl>
         <div><p className="text-sm font-semibold text-petroleo">Qué pasa después</p><ol className="mt-3 space-y-2">{PASOS.map((t, i) => <li key={t} className="flex gap-3 text-sm text-gray-700"><span className="grid size-6 shrink-0 place-items-center rounded-full bg-petroleo text-xs font-semibold text-white">{i + 1}</span>{t}</li>)}</ol></div>
         <p className="text-xs leading-relaxed text-gray-500">Enviar la solicitud no reserva stock ni hace un cobro. AgroSignal no cobra ni retiene dinero: registra cada paso y los documentos, y ayuda si hay un problema.</p>
       </>}
     </fieldset>
     <div className="flex flex-wrap items-center gap-3">
-      {step === 1 && <button type="button" disabled={pending} onClick={() => setStep(0)} className="min-h-11 rounded-full border border-petroleo/25 px-5 text-sm font-semibold text-petroleo">Anterior</button>}
-      <button disabled={pending} className={buttonClass}>{pending ? 'Enviando…' : step === 0 ? 'Revisar solicitud' : 'Enviar solicitud'}</button>
+      {step === 1 && <button type="button" disabled={pending} onClick={() => setStep(0)} className={buttonSecondaryClass}>Anterior</button>}
+      <button disabled={pending} className={buttonPrimaryClass}>{pending ? 'Enviando…' : step === 0 ? 'Revisar solicitud' : 'Enviar solicitud'}</button>
       {state.error && <button type="button" disabled={pending} onClick={() => router.refresh()} className="min-h-11 text-sm font-semibold text-petroleo underline">Actualizar disponibilidad</button>}
     </div>
   </form>

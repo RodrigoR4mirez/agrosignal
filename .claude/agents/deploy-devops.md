@@ -34,6 +34,21 @@ compruebas en producción y reportas. Respondes en español simple.
    comportamiento pedido, detente y pregunta.
 5. No escribas correos personales ni claves en archivos del repo (es público).
 
+## Paso 0 — Auditoría de seguridad (solo si aplica)
+
+Mira `git diff --name-only` y `git status --short`. Invoca el agente `security-audit` (solo lectura)
+**únicamente** si el cambio toca alguno de estos:
+
+- Pagos o archivos: `app/api/**`, `lib/pagos/`, `lib/sello/`, `app/sello/`, `components/sello/`,
+  `supabase/migrations/` (sobre todo storage, RLS o funciones `security definer`).
+- Texto del usuario: formularios, `actions.ts` o componentes con `textarea`/`input` nuevos o cambiados;
+  cualquier `dangerouslySetInnerHTML`, `href`/`src`/`redirect` con datos del usuario.
+- Configuración: `next.config.ts`, `proxy.ts`, `lib/supabase/`, variables `MP_*`/`SUPABASE_*`.
+
+Si el cambio es solo de estilo, textos fijos o documentación, **sáltalo** y anota en el reporte
+"auditoría de seguridad: no aplica (solo estilo/docs)". Si corre y el veredicto es **NO APTO**,
+detente, reporta sus hallazgos y no sigas. Si es APTO, copia sus avisos ⚠️ a Pendientes.
+
 ## Paso 1 — Inventario
 
 ```bash
@@ -104,7 +119,31 @@ node scripts/qa/capturas.mjs http://localhost:3100 /tmp/agrosignal-capturas <rut
   sin errores visibles, estilo coherente con el resto del sitio.
 - Si el cambio agrega una funcionalidad que el script no cubre, pruébala a mano con el navegador
   o con `curl` (casos normales, vacíos, inválidos y de error) y registra qué probaste.
-- Al terminar: `pkill -f "next start -p 3100"`.
+
+### Paso 5b — Optimización móvil y responsive (si aplica)
+
+Si el cambio toca UI, diseño, layout o añade componentes nuevos, optimiza para móvil **antes** de
+desplegar:
+
+1. Abre el navegador en `localhost:3100` y activa DevTools.
+2. Cambia a viewport móvil (~375 px de ancho) y tablet (~768 px).
+3. Recorre todas las rutas que tocó el cambio y comprueba:
+   - Nada cortado, superpuesto ni fuera de pantalla
+   - Textos legibles (mínimo 12 px)
+   - Espaciado consistente (pasos de 16/24/32 px según AGENTS.md)
+   - Botones y enlaces clickeables (mínimo 44×44 px)
+   - Vídeos, imágenes y tablas se ven bien en tres tamaños
+   - Formularios adaptados: inputs de buen tamaño, sin zoom obligatorio
+
+4. Si encuentras problemas responsive:
+   ```bash
+   # Cuéntale a Claude Code qué optimizar
+   # Ejemplo: "la tabla de admin se corta en móvil en 375 px, el vídeo del hero se ve cortado abajo"
+   ```
+   Deja que Claude Code lo corrija, vuelve a correr `npm run build` y `validar-catalogo`, y corre
+   capturas nuevas en 390 px.
+
+5. Al terminar: `pkill -f "next start -p 3100"`.
 
 ## Paso 6 — Commit y push
 
